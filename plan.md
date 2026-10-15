@@ -336,6 +336,8 @@ Status markers: `[x]` complete, `[~]` in progress/partial, `[ ]` not started, `[
 - [x] Add synthetic end-to-end smoke test.
 - [x] Add automated tests and clean notebook execution.
 - [x] Add five-seed command orchestration and prediction evaluation.
+- [x] Add editable architecture and temporal-split figures plus a claim-to-test matrix.
+- [x] Document environment setup, smoke checks, pilot ingestion, seeded runs, evaluation, notebooks, and LaTeX compilation.
 - [x] Compile and visually inspect the current paper and supplement.
 
 **Gate:** Passed for the software/protocol scaffold only. This gate does not establish scientific readiness.
@@ -432,8 +434,10 @@ Status markers: `[x]` complete, `[~]` in progress/partial, `[ ]` not started, `[
 - ClaimReview ingestion and open-archive discovery entry points.
 - Prediction evaluator and five-seed command runner.
 - Four analysis/presentation notebooks.
-- Synthetic end-to-end output generation and manuscript-table generation.
+- Synthetic end-to-end output generation.
 - Current test suite, Python compilation, notebook execution, LaTeX compilation, and PDF visual inspection.
+- Editable TikZ diagrams for the system pipeline and temporal split, with a manuscript claim-to-test table.
+- Verified command guide for environment setup, diagnostic checks, pilot ingestion, seeded execution, evaluation, notebooks, and manuscript builds.
 
 ### Measured scientific evidence
 
@@ -491,6 +495,9 @@ For final real-data evaluation, pass five separate prediction files to `evaluate
 | 2026-10-15 | Decision | Treat current manuscript as a preregistered protocol/pre-results draft. | Real-data experiments are not complete. | Abstract, results, discussion, PDF. | Replace status boxes and placeholders only after checked evidence exists. |
 | 2026-10-15 | Implementation | Added project scaffold, tests, notebook execution, synthetic diagnostic, five-seed runner, and prediction evaluator. | Establish an executable base before data collection. | Repository and current PDFs. | Begin M2 feasibility pilot. |
 | 2026-10-15 | Organization | Reserved `paper/` for LaTeX sources and manuscript-supporting assets; moved experiments, research records, the living plan, and the repository README to the study root. | Separate the manuscript build from the wider research workspace. | Paths, generated-table destination, execution commands, and audit locations. | Keep future non-manuscript artifacts outside `paper/`. |
+| 2026-10-15 | Manuscript style | Removed draft-status boxes and synthetic diagnostic results from the paper and supplement; revised the prose with the Humanizer skill while preserving the protocol, citations, notation, and evidence limits. | Keep implementation diagnostics out of the scholarly narrative and improve readability. | Main manuscript, supplement, smoke-test generator, and manuscript table assets. | Add results only from preserved real-data experiment artifacts. |
+| 2026-10-15 | Manuscript design | Added editable vector diagrams for the end-to-end system and temporal split, plus a claim-to-test matrix; converted the author block to IEEE journal style. | Make the study logic and leakage controls readable at a glance without adding unmeasured results. | Main manuscript, figure sources, table source, compiled PDF, and Overleaf package. | Replace or extend only with evidence-derived plots after real experiments. |
+| 2026-10-15 | Reproducibility | Expanded the experiment guide with tested setup, diagnostic, pilot ingestion, seeded-run, evaluation, notebook, and LaTeX commands. | Give an executable path while keeping unimplemented real-training components explicit. | `experiments/README.md` and repository quick start. | Add the frozen real trainer command after M5 implementation. |
 
 ## 12. Immediate next actions
 

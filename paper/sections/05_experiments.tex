@@ -2,7 +2,7 @@
 
 \subsection{Baselines}
 
-Controlled baselines include majority prediction, text-only classification, image--text fusion without retrieval, an open multimodal language model under zero- and few-shot prompting, vanilla multimodal RAG, time-filtered RAG without provenance, provenance-aware RAG without time filtering, RED-DOT where protocol compatibility permits, and the complete model. Every controlled method uses the same splits, candidate corpus, evaluation code, and 20-trial validation budget.
+The controlled comparison includes majority prediction, text-only classification, image--text fusion without retrieval, and an open multimodal language model under zero- and few-shot prompting. Retrieval baselines cover vanilla multimodal RAG, time-filtered RAG without provenance, provenance-aware RAG without time filtering, and RED-DOT where its implementation is compatible with the protocol. Every method uses the same splits, candidate corpus, evaluation code, and 20-trial validation budget.
 
 \subsection{Metrics and Statistical Analysis}
 
@@ -10,9 +10,13 @@ The primary metric is macro-F1 on the 2025--2026 event-disjoint test set. Second
 
 \subsection{Ablation and Stress Tests}
 
-The preregistered ablations remove temporal filtering, dependency clustering, temporal edge features, graph aggregation, text evidence, visual evidence, the sufficiency gate, and evidence-dropout training. Robustness tests inject syndicated copies, add post-cutoff verdict-bearing documents, remove the earliest observed source, introduce dependent and independent conflicts, swap captions, and reuse historical images.
+The ablations remove temporal filtering, dependency clustering, temporal edge features, graph aggregation, text evidence, visual evidence, the sufficiency gate, and evidence-dropout training one at a time. The stress tests add syndicated copies and post-cutoff documents that reveal the verdict. They also remove the earliest observed source, introduce conflicts between dependent and independent evidence, swap captions, and reuse historical images.
 
 \subsection{Selection and Falsification Rules}
 
-Hyperparameters and the abstention threshold are selected on validation data only. The provenance-performance claim is removed if the component improves neither natural future-event performance nor duplicate-injection robustness. The abstention claim is removed if selective risk fails to improve at matched coverage. Any advantage arising from post-cutoff evidence is labeled leakage rather than superiority.
+We select hyperparameters and the abstention threshold using validation data only. Evidence-source provenance must improve either future-event performance or resistance to duplicate injection to support a performance claim. Calibrated abstention must reduce selective risk at matched coverage. Gains that depend on post-cutoff documents count as leakage.
+
+Table~\ref{tab:evaluation-matrix} links each intended claim to a controlled comparison and an explicit rejection condition. This keeps the interpretation tied to tests that can fail rather than to a favorable result chosen after evaluation.
+
+\input{tables/evaluation_matrix}
 

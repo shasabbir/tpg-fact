@@ -9,7 +9,7 @@ substantive study work.
 ## Current evidence status
 
 - **Implemented:** project structure, LaTeX manuscript, record schemas, explicit rating normalization, temporal filtering, event-disjoint split checks, lexical retrieval, reciprocal-rank fusion, duplicate/source clustering, calibration and abstention utilities, evaluation metrics, a reference ledger, notebooks, and automated tests.
-- **Checked:** the included synthetic smoke test runs end to end and generates machine-readable results plus a LaTeX table.
+- **Checked:** the included synthetic smoke test runs end to end and generates machine-readable diagnostic outputs.
 - **Not yet measured:** the real ClaimReview/GDELT/Common Crawl corpus, multi-GPU training, external benchmark results, and five-seed comparisons.
 - **Not claimed:** benchmark scale, superiority over prior work, journal quartile, or any empirical result not produced by the included code.
 
@@ -24,7 +24,9 @@ substantive study work.
 
 ## Quick start
 
-From `experiments`, expose `src` and run the dependency-light smoke test:
+The complete Windows setup, pilot-data, five-seed, evaluation, notebook, and LaTeX commands are documented in [`experiments/README.md`](experiments/README.md).
+
+For an already configured environment, run the dependency-light smoke test from `experiments`:
 
 ```powershell
 $env:PYTHONPATH = "$PWD\src"

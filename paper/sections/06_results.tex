@@ -1,10 +1,8 @@
-\section{Results}
+\section{Evaluation Questions}
 
-\statusnote{Real-data collection, model training, and comparative evaluation have not been executed. This section therefore contains no scientific performance claims.}
+The first analysis tests whether excluding post-cutoff documents changes retrieval quality and future-event classification. The full method is compared with vanilla multimodal RAG and with provenance-aware RAG that does not enforce a time cutoff. Event-level paired bootstrap intervals quantify the differences.
 
-The repository includes a synthetic smoke test that exercises schema validation, temporal filtering, retrieval, provenance clustering, hierarchical decision output, and metric generation. Its values are software diagnostics and are not comparable with published benchmarks.
+The second analysis measures how source dependence affects a verdict. It compares cluster-level aggregation with document-level aggregation before and after injecting one, five, and ten syndicated copies of the same source. Changes in macro-F1, confidence, Brier score, and selective risk show whether repeated evidence is being counted as independent corroboration.
 
-\IfFileExists{tables/smoke_test_results.tex}{\input{tables/smoke_test_results.tex}}{No generated smoke-test table was present at compile time.}
-
-The final results section will present, in order, corpus statistics, evidence-retrieval results, the controlled main comparison, calibration and selective-risk findings, ablations, temporal and duplicate-source stress tests, and external-dataset checks. Every populated table will be generated from preserved raw predictions.
+The third analysis examines the sufficiency gate and calibrated abstention. A flat three-class classifier and an uncalibrated confidence threshold provide matched controls. The comparison uses insufficient-evidence F1, area under the risk--coverage curve, and risk at 80\% coverage.
 

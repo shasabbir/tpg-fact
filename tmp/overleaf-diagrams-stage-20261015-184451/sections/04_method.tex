@@ -1,0 +1,34 @@
+\section{Temporal-Provenance Method}
+
+\subsection{Framework Overview}
+
+Figure~\ref{fig:pipeline} follows one claim from retrieval to a traceable decision. The cutoff controls which evidence may enter the graph, while source clustering controls how that evidence is counted. These constraints act before the hierarchical classifier and therefore cannot be repaired by calibration after an invalid or duplicated evidence set has already been aggregated.
+
+For claim $c$ and evidence pool $E$, the retained set is
+\begin{equation}
+E_{\leq\tau}^{(k)}=\operatorname{TopK}_{k}\{r(c,e):e\in E,\ t(e)\leq\tau\},
+\label{eq:time-filter}
+\end{equation}
+where $r(c,e)$ is the fused retrieval score, $t(e)$ is the best available publication timestamp, and $k=20$. The provenance stage maps this set to dependency clusters $C(E_{\leq\tau}^{(k)})$ before graph encoding.
+
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{\input{figures/tpgfact_pipeline}}
+\caption{End-to-end \systemname{} pipeline. The temporal guard removes unavailable evidence, provenance clustering prevents copies from being treated as independent corroboration, and the final record preserves the evidence trail. Selective deferral is applied to the calibrated three-class prediction and is not a fourth task label.}
+\label{fig:pipeline}
+\end{figure*}
+
+\subsection{Time-Constrained Multimodal Retrieval}
+
+For each claim, retrieval begins with named entities, temporal expressions, OCR text, and an image caption. BM25 and BGE-M3 retrieve text candidates, while SigLIP2 embeddings and perceptual hashes retrieve images. Reciprocal-rank fusion merges the lexical, dense, and visual rankings. A reranker processes the top 100 candidates, and the system keeps the 20 highest-ranked items that satisfy the publication-time cutoff.
+
+\subsection{Evidence-Source Provenance Graph}
+
+The graph contains nodes for claims, images, documents, publishers, entities, and events. Typed edges record retrieval relevance, image containment, near-duplicate content, hyperlinks, publisher membership, entity or event mentions, and temporal order. We estimate document clusters from exact hashes, MinHash-style lexical similarity, semantic similarity, perceptual image distance, hyperlinks, and publication order. The earliest observed document is an origin candidate because the available records may not reveal the original author.
+
+Let $C(E)$ denote the partition of evidence documents into dependency clusters. The model first aggregates documents within a cluster and then combines information across clusters. As a result, repeated copies of one report do not receive the same weight as several independent sources.
+
+\subsection{Hierarchical Decision and Abstention}
+
+A heterogeneous graph transformer encodes the temporal-provenance graph for the claim. The sufficiency head estimates $p(s=1\mid x,E_{\leq\tau})$. Sufficient evidence passes to a veracity head that predicts supported or refuted; the remaining cases receive the insufficient-evidence label. We fit temperature scaling to validation predictions and choose an abstention threshold on the same split to target 80\% answer coverage. Each prediction records class probabilities, evidence identifiers, source clusters, and the enforced cutoff.
+

@@ -2,19 +2,28 @@
 
 \subsection{Task Definition}
 
-Each instance consists of claim text $x_t$, an associated image $x_v$, a decision cutoff $\tau$, and an evidence collection $E_{\leq\tau}$. The output label is $y \in \{\text{supported},\text{refuted},\text{insufficient}\}$. Evidence published after $\tau$ is unavailable by definition. The independent unit for splitting and uncertainty analysis is the event, not the individual post or document.
+Each instance contains claim text $x_t$, an image $x_v$, a decision cutoff $\tau$, and an evidence collection $E_{\leq\tau}$. The output is $y \in \{\text{supported},\text{refuted},\text{insufficient}\}$. Documents published after $\tau$ are unavailable to the model. The event is the independent unit for data splitting and uncertainty analysis.
 
 \subsection{Candidate Acquisition}
 
-The proposed corpus uses English ClaimReview records concerning United States events from 2020--2026. GDELT supplies reproducible discovery metadata and Common Crawl supplies archived page observations. The collection retains cases with an identifiable claim time, recoverable image or archive, unambiguous professional rating, and sufficient timestamp metadata. Fact-check domains and documents containing the final verdict are excluded from the retrieval pool.
+Corpus construction starts with English ClaimReview records about United States events from 2020--2026. GDELT provides discovery metadata, and Common Crawl provides archived page observations. We retain cases with an identifiable claim time, a recoverable image or archive, an unambiguous professional rating, and enough timestamp information to enforce the cutoff. The retrieval pool excludes fact-check domains and documents that contain the final verdict.
 
 \subsection{Label Policy}
 
-Only explicit site ratings are normalized. True or correct maps to supported; false, fake, or miscaptioned maps to refuted; and unproven, unsubstantiated, or no evidence maps to insufficient evidence. Mixed, partially true, satire, opinion, and ambiguous ratings are excluded. The project does not introduce new human labels. Automatically extracted evidence links are treated as silver evidence.
+We normalize only explicit site ratings. True or correct maps to supported. False, fake, or miscaptioned maps to refuted. Unproven, unsubstantiated, or no evidence maps to insufficient evidence. We exclude mixed, partially true, satire, opinion, and ambiguous ratings. The labels come from professional fact-checkers; automatically extracted evidence links are treated as silver evidence.
 
 \subsection{Temporal Partitioning and Release}
 
-Training covers 2020--2023, validation uses 2024, and final testing uses 2025--2026. Event identifiers, near-duplicate claims, and identical perceptual image hashes are group constraints. The proposed release contains URLs, cryptographic and perceptual hashes, timestamps, normalized labels, graph annotations, queries, and split manifests without redistributing copyrighted content.
+Training covers 2020--2023, validation uses 2024, and final testing uses 2025--2026. Events, near-duplicate claims, and images with matching perceptual hashes remain in one partition. The release package contains URLs, cryptographic and perceptual hashes, timestamps, normalized labels, graph annotations, retrieval queries, and split manifests. It does not redistribute copyrighted articles or images.
 
-Before treating \datasetname{} as a benchmark contribution, the filtered corpus must contain at least 2,000 cases, 300 per label, 50 test events, and two independent evidence clusters for at least 70\% of retained claims. Otherwise, it will be reported only as a stress-test collection.
+Figure~\ref{fig:temporal-protocol} shows the order of operations. Group identities are fixed before the year-based allocation. Training data are used to fit model parameters and preprocessing; validation data are reserved for model selection, calibration, and abstention thresholds; the final period is not used for any of those choices.
+
+\begin{figure}[t]
+\centering
+\resizebox{\columnwidth}{!}{\input{figures/temporal_protocol}}
+\caption{Primary temporal split and leakage controls. A locked event, near-duplicate claim, or reused image cannot cross partitions.}
+\label{fig:temporal-protocol}
+\end{figure}
+
+We treat \datasetname{} as a benchmark only if the filtered corpus contains at least 2,000 cases, 300 cases per label, 50 test events, and two independent evidence clusters for at least 70\% of retained claims. If the collection misses any threshold, we use it as a temporal and provenance stress test instead.
 

@@ -1,0 +1,10 @@
+\section{Introduction}
+
+An authentic photograph can still mislead when it is paired with the wrong caption, date, place, or event. Models that focus on manipulation artifacts or surface-level image--text compatibility may miss this kind of false context. External evidence can help, but it creates its own problems. Some documents appear only after the decision deadline, search results may repeat one syndicated report, and a model can sound certain even when the available evidence is weak.
+
+Several multimodal systems address parts of this problem. KAMP learns from text, images, and background knowledge graphs \cite{zhang2025kamp}. RED-DOT reranks retrieved multimodal evidence by relevance \cite{papadopoulos2025reddot}, while COVE recovers an image's original context before judging its caption \cite{tonglet2025cove}. Other systems use multimodal retrieval-augmented generation to reason over web sources \cite{khaliq2024ragar,kangur2025multireflect}. None of these operations alone establishes that a document existed at decision time or that a list of results represents independent sources.
+
+We ask whether time-valid evidence from independent sources improves future-event misinformation detection and reduces overconfident decisions relative to ordinary multimodal RAG. Each case is an English image--text claim about a United States event. The system returns supported, refuted, or insufficient evidence, together with the evidence identifiers and cutoff used for the decision.
+
+The study design has four parts. \datasetname{} provides a temporal benchmark built from professional fact-check metadata and open archives. A provenance graph records publication order, duplication, hyperlinks, publishers, entities, events, and shared media. The detector evaluates evidence sufficiency before it predicts veracity. The evaluation then measures future-event performance, temporal leakage, sensitivity to copied sources, calibration, and selective risk.
+

@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: tpg-fact
+Version: 0.1.0
+Summary: Temporal and evidence-source provenance-aware multimodal misinformation research scaffold
+Requires-Python: >=3.10
+Requires-Dist: numpy>=1.24
+Requires-Dist: PyYAML>=6.0
+Provides-Extra: analysis
+Requires-Dist: jupyter>=1.0; extra == "analysis"
+Requires-Dist: nbclient>=0.8; extra == "analysis"
+Requires-Dist: nbformat>=5.9; extra == "analysis"
+Requires-Dist: matplotlib>=3.7; extra == "analysis"
+Requires-Dist: pandas>=2.0; extra == "analysis"
+Provides-Extra: ml
+Requires-Dist: torch>=2.1; extra == "ml"
+Provides-Extra: test
+Requires-Dist: pytest>=7.4; extra == "test"

@@ -5,34 +5,38 @@
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{graphicx}
-\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+\usepackage{microtype}
 \usepackage[hidelinks]{hyperref}
 \usepackage{url}
 
 \newcommand{\systemname}{TPG-Fact}
 \newcommand{\datasetname}{US-TPMFC}
-\newcommand{\statusnote}[1]{\par\noindent\fcolorbox{black!25}{gray!8}{\parbox{0.95\columnwidth}{\textbf{Research status:} #1}}\par}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\definecolor{tpgblue}{HTML}{1F5A94}
+\definecolor{tpgteal}{HTML}{167D75}
+\definecolor{tpgviolet}{HTML}{6A4C93}
+\definecolor{tpgorange}{HTML}{B65C20}
+\definecolor{tpggray}{HTML}{4B5563}
 
 \title{Temporal and Evidence-Source Provenance-Aware Multimodal Misinformation Detection with Calibrated Abstention}
 
-\author{Sabbir Hossain\\
-Department of Computer Science\\
-American International University-Bangladesh\\
-Dhaka, Bangladesh\\
-\href{mailto:26-94030-1@student.aiub.edu}{26-94030-1@student.aiub.edu}}
+\author{Sabbir Hossain%
+\thanks{S. Hossain is with the Department of Computer Science, American International University-Bangladesh, Dhaka, Bangladesh (e-mail: \href{mailto:26-94030-1@student.aiub.edu}{26-94030-1@student.aiub.edu}).}}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Multimodal misinformation detectors can retrieve convincing but temporally invalid, duplicated, or mutually dependent evidence. This paper specifies \systemname{}, a temporal and evidence-source provenance-aware framework for image--text claim verification. The framework retrieves only evidence available before a declared decision cutoff, groups copied and syndicated material into dependency clusters, represents cross-document and cross-modal relationships in a heterogeneous graph, and separates evidence sufficiency from veracity prediction. The intended output is supported, refuted, or insufficient evidence, with validation-fitted calibration and selective abstention. We also define \datasetname{}, a proposed temporally partitioned benchmark of United States events derived from professional fact-check metadata and open web archives. The evaluation protocol uses future-event splits, retrieval-quality measures, event-level uncertainty, temporal-leakage tests, and controlled duplicate-source interventions. This document describes the preregistered design and executable research scaffold; real-corpus results are intentionally withheld until the planned data audit and experiments are completed.
+Web evidence can mislead a multimodal fact-checker when it was published too late, copied across several sites, or taken from sources that depend on one another. \systemname{} addresses these problems by enforcing a decision-time cutoff and grouping syndicated documents before aggregation. It represents claims, documents, images, publishers, links, and publication order in a heterogeneous graph. A hierarchical classifier first estimates whether the retrieved material is sufficient. When it is, a second head predicts whether the claim is supported or refuted; otherwise, the system returns insufficient evidence. Temperature scaling and a validation-selected threshold support selective abstention. The accompanying \datasetname{} benchmark uses United States ClaimReview cases and evidence recovered from open web archives. Training covers 2020--2023, validation uses 2024, and testing uses 2025--2026, with related events, near-duplicate claims, and reused images kept within one partition. The evaluation compares the method with matched multimodal retrieval baselines and tests temporal leakage, syndicated evidence, calibration, and selective risk.
 \end{abstract}
 
 \begin{IEEEkeywords}
 multimodal misinformation, automated fact-checking, evidence provenance, temporal retrieval, selective prediction, calibrated abstention
 \end{IEEEkeywords}
-
-\statusnote{The method and evaluation protocol are implemented as a reproducible scaffold. No real-corpus or comparative findings are claimed in this version.}
 
 \input{sections/01_introduction}
 \input{sections/02_related_work}
