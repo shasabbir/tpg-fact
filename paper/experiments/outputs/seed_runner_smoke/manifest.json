@@ -1,0 +1,83 @@
+{
+  "command_template": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-c",
+    "import sys; print(sys.argv[1])",
+    "{seed}"
+  ],
+  "config": "D:\\1.msc\\ET2\\paper\\experiments\\configs\\base.yaml",
+  "runs": [
+    {
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-c",
+        "import sys; print(sys.argv[1])",
+        "11"
+      ],
+      "elapsed_seconds": 0.02770280000004277,
+      "log": "D:\\1.msc\\ET2\\paper\\experiments\\outputs\\seed_runner_smoke\\seed_11\\run.log",
+      "return_code": 0,
+      "run_directory": "D:\\1.msc\\ET2\\paper\\experiments\\outputs\\seed_runner_smoke\\seed_11",
+      "seed": 11
+    },
+    {
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-c",
+        "import sys; print(sys.argv[1])",
+        "23"
+      ],
+      "elapsed_seconds": 0.02688550000129908,
+      "log": "D:\\1.msc\\ET2\\paper\\experiments\\outputs\\seed_runner_smoke\\seed_23\\run.log",
+      "return_code": 0,
+      "run_directory": "D:\\1.msc\\ET2\\paper\\experiments\\outputs\\seed_runner_smoke\\seed_23",
+      "seed": 23
+    },
+    {
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-c",
+        "import sys; print(sys.argv[1])",
+        "37"
+      ],
+      "elapsed_seconds": 0.02619810000032885,
+      "log": "D:\\1.msc\\ET2\\paper\\experiments\\outputs\\seed_runner_smoke\\seed_37\\run.log",
+      "return_code": 0,
+      "run_directory": "D:\\1.msc\\ET2\\paper\\experiments\\outputs\\seed_runner_smoke\\seed_37",
+      "seed": 37
+    },
+    {
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-c",
+        "import sys; print(sys.argv[1])",
+        "53"
+      ],
+      "elapsed_seconds": 0.026732099999208003,
+      "log": "D:\\1.msc\\ET2\\paper\\experiments\\outputs\\seed_runner_smoke\\seed_53\\run.log",
+      "return_code": 0,
+      "run_directory": "D:\\1.msc\\ET2\\paper\\experiments\\outputs\\seed_runner_smoke\\seed_53",
+      "seed": 53
+    },
+    {
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-c",
+        "import sys; print(sys.argv[1])",
+        "71"
+      ],
+      "elapsed_seconds": 0.026516300000366755,
+      "log": "D:\\1.msc\\ET2\\paper\\experiments\\outputs\\seed_runner_smoke\\seed_71\\run.log",
+      "return_code": 0,
+      "run_directory": "D:\\1.msc\\ET2\\paper\\experiments\\outputs\\seed_runner_smoke\\seed_71",
+      "seed": 71
+    }
+  ],
+  "seeds": [
+    11,
+    23,
+    37,
+    53,
+    71
+  ]
+}

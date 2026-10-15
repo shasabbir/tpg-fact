@@ -1,0 +1,60 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+
+\title{Supplementary Protocol: Temporal and Evidence-Source Provenance-Aware Multimodal Misinformation Detection}
+\author{Sabbir Hossain\\American International University-Bangladesh\\\href{mailto:26-94030-1@student.aiub.edu}{26-94030-1@student.aiub.edu}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Purpose and Evidence Status}
+This supplement records the operational protocol before real-data experiments. It distinguishes proposed analyses from measured findings. The included smoke-test outputs validate software flow only and must not be cited as scientific results.
+
+\section{Eligibility and Rating Mapping}
+Eligible records are English image--text claims concerning United States events from 2020--2026. A record requires an identifiable claim time, an archived or recoverable image, an explicit professional rating, and enough metadata for temporal filtering. Only unequivocal ratings---true or correct; false, fake, or miscaptioned; and unproven, unsubstantiated, or no evidence---are mapped. Mixed, partially true, satire, opinion, and ambiguous ratings are excluded.
+
+\section{Temporal and Group Splits}
+Training uses 2020--2023 records, validation uses 2024, and the final test uses 2025--2026. The same event, near-duplicate claim, and perceptually identical image must not cross partitions. All preprocessing and thresholds are fitted using training or validation data only.
+
+\Needspace{0.42\textheight}
+\section{Planned Configuration}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{p{0.29\textwidth}X}
+\toprule
+Component & Planned setting \\
+\midrule
+Evidence discovery & ClaimReview, GDELT, and Common Crawl metadata \\
+Text retrieval & BM25 and BGE-M3 \\
+Visual retrieval & SigLIP2 and perceptual hashing \\
+Fusion & Reciprocal-rank fusion followed by reranking \\
+Candidate limits & Rerank 100; retain 20 time-valid items \\
+Graph & Heterogeneous temporal-provenance graph \\
+Decision & Sufficiency gate followed by binary veracity head \\
+Calibration & Validation-fitted temperature scaling \\
+Abstention & Validation threshold targeting 80\% coverage \\
+Repetitions & Five seeds after model selection \\
+Uncertainty & 10,000 paired event-level bootstrap replicates \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Ablations and Stress Tests}
+The preregistered ablations remove temporal filtering, dependency clustering, temporal graph features, graph aggregation, textual evidence, visual evidence, the sufficiency gate, and evidence-dropout training. Stress tests inject syndicated copies, add post-cutoff verdict-bearing documents, remove the earliest source, introduce evidence conflicts, swap captions, and reuse historical images.
+
+\section{Dataset Release Policy}
+The intended release contains code, URL and hash metadata, derived graph annotations, retrieval logs, and split manifests. Copyrighted article text and images are not redistributed without explicit permission. Fact-check verdicts remain inherited labels, and automatically extracted evidence links are treated as silver evidence.
+
+\section{Reporting Checklist}
+The final submission must report the data snapshot, model and tokenizer revisions, prompts, hardware, precision, search budget, seeds, failures, selection rule, calibration data, decision threshold, elapsed time, and raw prediction locations. Every table must be reproducible from preserved result artifacts.
+
+\end{document}
+

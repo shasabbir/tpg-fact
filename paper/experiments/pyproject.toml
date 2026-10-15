@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tpg-fact"
+version = "0.1.0"
+description = "Temporal and evidence-source provenance-aware multimodal misinformation research scaffold"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.24",
+  "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+analysis = [
+  "jupyter>=1.0",
+  "nbclient>=0.8",
+  "nbformat>=5.9",
+  "matplotlib>=3.7",
+  "pandas>=2.0",
+]
+ml = [
+  "torch>=2.1",
+]
+test = [
+  "pytest>=7.4",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+

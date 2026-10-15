@@ -1,0 +1,319 @@
+1
+
+Temporal and Evidence-Source Provenance-Aware
+Multimodal Misinformation Detection with
+Calibrated Abstention
+Sabbir Hossain
+Department of Computer Science
+American International University-Bangladesh
+Dhaka, Bangladesh
+26-94030-1@student.aiub.edu
+
+Abstract—Multimodal misinformation detectors can
+retrieve convincing but temporally invalid, duplicated, or mutually dependent evidence. This paper
+specifies TPG-Fact, a temporal and evidence-source
+provenance-aware framework for image–text claim verification. The framework retrieves only evidence available before a declared decision cutoff, groups copied
+and syndicated material into dependency clusters,
+represents cross-document and cross-modal relationships in a heterogeneous graph, and separates evidence sufficiency from veracity prediction. The intended output is supported, refuted, or insufficient evidence, with validation-fitted calibration and selective
+abstention. We also define US-TPMFC, a proposed
+temporally partitioned benchmark of United States
+events derived from professional fact-check metadata
+and open web archives. The evaluation protocol uses
+future-event splits, retrieval-quality measures, eventlevel uncertainty, temporal-leakage tests, and controlled duplicate-source interventions. This document
+describes the preregistered design and executable research scaffold; real-corpus results are intentionally
+withheld until the planned data audit and experiments
+are completed.
+Index Terms—multimodal misinformation, automated fact-checking, evidence provenance, temporal
+retrieval, selective prediction, calibrated abstention
+
+Research status: The method and evaluation protocol
+are implemented as a reproducible scaffold. No realcorpus or comparative findings are claimed in this
+version.
+I. Introduction
+Images are frequently reused with misleading captions,
+dates, locations, or event descriptions. Because the pixels
+may be authentic, detectors that emphasize manipulation
+artifacts or surface-level image–text compatibility can miss
+the misinformation mechanism. Automated fact-checking
+therefore increasingly uses external evidence, but retrieved
+documents create new failure modes: evidence may have
+been published after the required decision time, multiple
+results may copy the same origin, and a fluent model may
+issue a confident verdict when the retrieved material is
+insufficient.
+Knowledge-aware and evidence-grounded multimodal
+systems address parts of this problem. KAMP learns from
+
+text, images, and background knowledge graphs [1]; REDDOT explicitly reranks relevant multimodal evidence [2];
+COVE predicts an image’s original context before caption
+veracity [3]; and multimodal RAG systems retrieve web
+information for claim reasoning [4], [5]. These advances do
+not by themselves guarantee that evidence was available
+at decision time or that apparently diverse results are
+independent.
+We study the following question: Does reasoning over
+time-valid, independently sourced evidence improve futureevent multimodal misinformation detection and reduce
+overconfident decisions compared with ordinary multimodal
+RAG? The intended operating unit is an English image–
+text claim about a United States event. The system
+returns supported, refuted, or insufficient evidence and
+records the evidence and cutoff used for that decision.
+This work makes four planned contributions. First,
+it defines US-TPMFC, a temporally partitioned benchmark constructed from professional fact-check metadata
+and open archives. Second, it introduces a temporalprovenance graph that represents publication order, duplication, hyperlinks, publishers, entities, events, and shared
+media. Third, it proposes a hierarchical detector that
+assesses evidence sufficiency before veracity. Fourth, it
+preregisters future-event, leakage, duplicate-source, calibration, and selective-risk evaluations. These contributions remain proposed until the corresponding real-data
+experiments pass the stated checks.
+II. Related Work
+A. Multimodal Misinformation Detection
+NewsCLIPpings established a large benchmark of authentic but deliberately mismatched news images and
+captions [6]. VERITE subsequently controlled unimodal
+bias and topic imbalance in real-world multimodal misinformation evaluation [7]. KAMP introduced knowledgeaware multimodal pretraining using single-modality, crossmodal, and knowledge-content objectives [1]. Synthetic
+multimodal examples have also been used to improve
+transfer to real misinformation cases [8]. Event-Radar
+models visual manipulation, textual emotion, and eventlevel inconsistency through an event graph [9]. These
+
+2
+
+content-focused approaches motivate strong no-retrieval
+and event-aware baselines.
+B. Evidence-Grounded Fact-Checking
+MOCHEG formulates multimodal fact-checking as evidence retrieval, claim verification, and explanation generation [10]. MetaSumPerceiver summarizes evidence across
+multiple multimodal documents [11]. RED-DOT challenges the assumption that all web evidence is relevant
+and introduces relevance-aware reranking [2]. RAGAR and
+MultiReflect combine multimodal large language models
+with retrieval and iterative reasoning [4], [5]. SNIFFER
+uses external retrieval for out-of-context detection [12].
+Consequently, retrieval itself is not the novelty claimed
+here; the proposed distinction is the joint enforcement of
+temporal validity and source-dependency-aware aggregation.
+
+maps to insufficient evidence. Mixed, partially true, satire,
+opinion, and ambiguous ratings are excluded. The project
+does not introduce new human labels. Automatically extracted evidence links are treated as silver evidence.
+D. Temporal Partitioning and Release
+Training covers 2020–2023, validation uses 2024, and
+final testing uses 2025–2026. Event identifiers, nearduplicate claims, and identical perceptual image hashes
+are group constraints. The proposed release contains
+URLs, cryptographic and perceptual hashes, timestamps,
+normalized labels, graph annotations, queries, and split
+manifests without redistributing copyrighted content.
+Before treating US-TPMFC as a benchmark contribution, the filtered corpus must contain at least 2,000 cases,
+300 per label, 50 test events, and two independent evidence
+clusters for at least 70% of retained claims. Otherwise, it
+will be reported only as a stress-test collection.
+
+C. Image Context, Time, and Evidence Dependence
+The 5Pils work recovers original image meta-context
+from web evidence [13], while COVE predicts image context before assessing a caption [3]. Temporal evaluation is
+essential because multimodal misinformation models lose
+performance under chronological distribution shift [14].
+ChronoFact demonstrates structured timeline reasoning
+for complex temporal claims [15]. Research on conflicting
+evidence further shows that source information affects
+RAG-based fact verification [16]. The present study connects these concerns by representing time and content
+dependence within the same evidence graph.
+III. Task and Benchmark Construction
+A. Task Definition
+Each instance consists of claim text xt , an associated image xv , a decision cutoff τ , and an evidence collection E≤τ .
+The output label is y ∈ {supported, refuted, insufficient}.
+Evidence published after τ is unavailable by definition.
+The independent unit for splitting and uncertainty analysis is the event, not the individual post or document.
+B. Candidate Acquisition
+The proposed corpus uses English ClaimReview records
+concerning United States events from 2020–2026. GDELT
+supplies reproducible discovery metadata and Common
+Crawl supplies archived page observations. The collection
+retains cases with an identifiable claim time, recoverable
+image or archive, unambiguous professional rating, and
+sufficient timestamp metadata. Fact-check domains and
+documents containing the final verdict are excluded from
+the retrieval pool.
+C. Label Policy
+Only explicit site ratings are normalized. True or correct
+maps to supported; false, fake, or miscaptioned maps to
+refuted; and unproven, unsubstantiated, or no evidence
+
+IV. Temporal-Provenance Method
+A. Time-Constrained Multimodal Retrieval
+The claim representation combines named entities, temporal expressions, OCR text, and an image caption. Text
+candidates are retrieved using BM25 and BGE-M3; visual candidates use SigLIP2 embeddings and perceptual
+hashes. Reciprocal-rank fusion combines lexical, dense,
+and visual rankings. The top 100 candidates are reranked,
+after which the top 20 satisfying the publication-time
+cutoff are retained.
+B. Evidence-Source Provenance Graph
+The graph contains claim, image, document, publisher,
+entity, and event nodes. Typed edges represent retrieval
+relevance, image containment, near-duplicate text or images, hyperlinks, publisher membership, entity or event
+mentions, and temporal precedence. Document clusters
+are estimated using exact hashes, MinHash-style lexical
+similarity, semantic similarity, perceptual image distance,
+hyperlinks, and publication order. Because true authorship may be unknowable, the earliest observed record is
+described only as an origin candidate.
+Let C(E) denote the partition of evidence documents
+into dependency clusters. Instead of summing documentlevel support, the model first aggregates within each cluster and then combines clusters. This prevents repeated
+copies of one source from receiving the same weight as
+multiple independent sources.
+C. Hierarchical Decision and Abstention
+A heterogeneous graph transformer encodes the
+temporal-provenance graph conditioned on the claim. A
+sufficiency head estimates p(s = 1 | x, E≤τ ). If evidence
+is sufficient, a veracity head estimates supported versus
+refuted. Otherwise, the system returns insufficient evidence. Temperature scaling is fitted on validation predictions, and a validation-selected threshold targets 80%
+
+3
+
+answer coverage. The final prediction record includes class
+probabilities, evidence identifiers, source clusters, and the
+enforced cutoff.
+V. Experimental Protocol
+A. Baselines
+Controlled baselines include majority prediction, textonly classification, image–text fusion without retrieval, an
+open multimodal language model under zero- and few-shot
+prompting, vanilla multimodal RAG, time-filtered RAG
+without provenance, provenance-aware RAG without time
+filtering, RED-DOT where protocol compatibility permits,
+and the complete model. Every controlled method uses the
+same splits, candidate corpus, evaluation code, and 20-trial
+validation budget.
+B. Metrics and Statistical Analysis
+The primary metric is macro-F1 on the 2025–2026
+event-disjoint test set. Secondary metrics are per-class F1,
+balanced accuracy, macro one-versus-rest AUROC, Brier
+score, negative log-likelihood, expected calibration error,
+area under the risk–coverage curve, risk at 80% coverage, Recall@10, nDCG@10, latency, GPU memory, and
+retrieved-document count. Final configurations are evaluated with five seeds. Differences use 10,000 paired eventlevel bootstrap replicates, with Holm correction across the
+primary comparison family.
+C. Ablation and Stress Tests
+The preregistered ablations remove temporal filtering,
+dependency clustering, temporal edge features, graph aggregation, text evidence, visual evidence, the sufficiency
+gate, and evidence-dropout training. Robustness tests
+inject syndicated copies, add post-cutoff verdict-bearing
+documents, remove the earliest observed source, introduce
+dependent and independent conflicts, swap captions, and
+reuse historical images.
+D. Selection and Falsification Rules
+Hyperparameters and the abstention threshold are
+selected on validation data only. The provenanceperformance claim is removed if the component improves
+neither natural future-event performance nor duplicateinjection robustness. The abstention claim is removed if
+selective risk fails to improve at matched coverage. Any
+advantage arising from post-cutoff evidence is labeled
+leakage rather than superiority.
+VI. Results
+Research status: Real-data collection, model training, and comparative evaluation have not been executed. This section therefore contains no scientific
+performance claims.
+The repository includes a synthetic smoke test that
+exercises schema validation, temporal filtering, retrieval,
+provenance clustering, hierarchical decision output, and
+
+TABLE I
+Synthetic software smoke-test diagnostics. These values
+are not scientific results.
+Diagnostic
+
+Value
+
+Records
+Macro-F1
+Balanced accuracy
+Brier score
+ECE
+
+6
+1.000
+1.000
+0.060
+0.200
+
+metric generation. Its values are software diagnostics and
+are not comparable with published benchmarks.
+The final results section will present, in order, corpus
+statistics, evidence-retrieval results, the controlled main
+comparison, calibration and selective-risk findings, ablations, temporal and duplicate-source stress tests, and
+external-dataset checks. Every populated table will be
+generated from preserved raw predictions.
+VII. Discussion, Ethics, and Limitations
+The principal methodological risk is mistaking accessible web redundancy for independent corroboration. The
+proposed dependency clusters are estimates based on observable content and links; they do not prove journalistic
+independence or original authorship. Similarly, archived
+timestamps indicate observed availability and may differ
+from the true first publication time.
+The corpus inherits professional fact-check labels and
+their editorial definitions. Restriction to explicit rating
+mappings reduces ambiguity but can create selection bias
+and class imbalance. United States events and English
+sources limit geographic and linguistic generalization.
+Common Crawl and GDELT coverage is incomplete, and
+removed or blocked content may be systematically different from recoverable content.
+No copyrighted full text or images will be redistributed
+without permission. The release will emphasize URLs,
+hashes, derived metadata, split manifests, and collection
+code. The system is intended to support research and
+human review, not to serve as an autonomous censorship
+or content-removal mechanism. A prediction of insufficient
+evidence should trigger further investigation rather than
+imply that a claim is false.
+VIII. Conclusion
+This paper defines a reproducible study of temporal and
+evidence-source provenance in multimodal misinformation
+detection. The central design combines time-constrained
+retrieval, dependency-aware graph aggregation, evidencesufficiency prediction, and calibrated abstention. Its evaluation prioritizes future-event generalization, temporal
+leakage, duplicate-source robustness, and selective risk.
+The current artifact establishes the protocol and executable scaffold without presenting unmeasured findings.
+Completion requires freezing the real corpus, running
+controlled baselines and five-seed experiments, auditing all
+outputs, and narrowing the final claims to the observed
+evidence.
+
+4
+
+References
+[1] L. Zhang, X. Zhang, Z. Zhou, X. Zhang, P. S. Yu, and C. Li,
+“Knowledge-aware multimodal pre-training for fake news detection,” Information Fusion, vol. 114, p. 102715, 2025.
+[2] S.-I. Papadopoulos, C. Koutlis, S. Papadopoulos, and P. C.
+Petrantonakis, “RED-DOT: Multimodal fact-checking via relevant evidence detection,” IEEE Transactions on Computational
+Social Systems, vol. 12, no. 6, pp. 4231–4240, 2025.
+[3] J. Tonglet, G. Thiem, and I. Gurevych, “COVE: Context and
+veracity prediction for out-of-context images,” in Proceedings of
+NAACL-HLT, 2025, pp. 2029–2049.
+[4] M. A. Khaliq, P. Y.-C. Chang, M. Ma, B. Pflugfelder, and
+F. Miletić, “RAGAR, your falsehood radar: RAG-augmented
+reasoning for political fact-checking using multimodal large
+language models,” in Proceedings of the Seventh Fact Extraction
+and VERification Workshop, 2024, pp. 280–296.
+[5] U. Kangur, K. Agrawal, Y. Singh, A. Sabir, and R. Sharma,
+“MultiReflect: Multimodal self-reflective RAG-based automated
+fact-checking,” in Proceedings of MAGMaR, 2025, pp. 1–17.
+[6] G. Luo, T. Darrell, and A. Rohrbach, “NewsCLIPpings: Automatic generation of out-of-context multimodal media,” in
+Proceedings of EMNLP, 2021, pp. 6801–6817.
+[7] S.-I. Papadopoulos, C. Koutlis, S. Papadopoulos, and P. C.
+Petrantonakis, “VERITE: A robust benchmark for multimodal
+misinformation detection accounting for unimodal bias,” International Journal of Multimedia Information Retrieval, vol. 13,
+p. 4, 2024.
+[8] F. Zeng, W. Li, W. Gao, and Y. Pang, “Multimodal misinformation detection by learning from synthetic data with multimodal
+LLMs,” in Findings of EMNLP, 2024, pp. 10 467–10 484.
+[9] Z. Ma, M. Luo, H. Guo, Z. Zeng, Y. Hao, and X. Zhao, “Eventradar: Event-driven multi-view learning for multimodal fake
+news detection,” in Proceedings of ACL, 2024, pp. 5809–5821.
+[10] B. M. Yao, A. Shah, L. Sun, J.-H. Cho, and L. Huang, “Endto-end multimodal fact-checking and explanation generation:
+A challenging dataset and models,” in Proceedings of the 46th
+International ACM SIGIR Conference on Research and Development in Information Retrieval, 2023, pp. 2733–2743.
+[11] T.-C. Chen, C.-W. Tang, and C. Thomas, “MetaSumPerceiver:
+Multimodal multi-document evidence summarization for factchecking,” in Proceedings of ACL, 2024, pp. 8742–8757.
+[12] P. Qi, Z. Yan, W. Hsu, and M. L. Lee, “SNIFFER: Multimodal
+large language model for explainable out-of-context misinformation detection,” in Proceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition, 2024, pp. 13 052–
+13 062.
+[13] J. Tonglet, M.-F. Moens, and I. Gurevych, ““image, tell me your
+story!” predicting the original meta-context of visual misinformation,” in Proceedings of EMNLP, 2024, pp. 7845–7864.
+[14] N. Stepanova and B. Ross, “Temporal generalizability in multimodal misinformation detection,” in Proceedings of the 1st GenBench Workshop on (Benchmarking) Generalisation in NLP,
+2023, pp. 76–88.
+[15] A. M. Barik, W. Hsu, and M. L. Lee, “ChronoFact: Timelinebased temporal fact verification,” in Proceedings of IJCAI, 2025,
+pp. 8031–8039.
+[16] Z. Ge, Y. Wu, D. W. K. Chin, R. K.-W. Lee, and R. Cao,
+“Resolving conflicting evidence in automated fact-checking: A
+study on retrieval-augmented LLMs,” in Proceedings of IJCAI,
+2025, pp. 9656–9664.
+
+

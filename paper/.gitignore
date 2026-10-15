@@ -1,0 +1,15 @@
+experiments/.venv/
+experiments/outputs/executed_notebooks/
+experiments/**/__pycache__/
+experiments/.pytest_cache/
+tmp/pdfs/
+tmp/pdf-renders/
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+

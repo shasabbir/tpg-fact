@@ -1,0 +1,54 @@
+project:
+  name: TPG-Fact
+  dataset: US-TPMFC
+  seed: 2026
+
+data:
+  start_year: 2020
+  train_end_year: 2023
+  validation_year: 2024
+  test_start_year: 2025
+  test_end_year: 2026
+  allowed_languages: [en]
+  country_scope: US
+  minimum_total_cases: 2000
+  minimum_per_label: 300
+  minimum_test_events: 50
+  minimum_independent_cluster_fraction: 0.70
+  audit_sample_size: 200
+
+retrieval:
+  candidate_limit: 100
+  retained_limit: 20
+  rrf_k: 60
+  lexical_model: bm25
+  dense_text_model: BAAI/bge-m3
+  visual_model: google/siglip2-so400m-patch14-384
+  sources: [claimreview, gdelt, commoncrawl]
+  exclude_fact_check_domains: true
+  enforce_publication_cutoff: true
+
+provenance:
+  title_jaccard_threshold: 0.80
+  image_phash_hamming_threshold: 6
+  cluster_same_domain_only: false
+
+model:
+  comparison_mllm: Qwen/Qwen2.5-VL-7B-Instruct
+  hidden_dimension: 256
+  graph_layers: 2
+  dropout: 0.20
+  target_answer_coverage: 0.80
+
+training:
+  seeds: [11, 23, 37, 53, 71]
+  tuning_trials: 20
+  bootstrap_replicates: 10000
+  primary_metric: macro_f1
+  selection_split: validation
+
+outputs:
+  directory: outputs
+  smoke_directory: outputs/smoke
+  manuscript_table: ../tables/smoke_test_results.tex
+

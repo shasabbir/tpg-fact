@@ -1,0 +1,16 @@
+\section{Temporal-Provenance Method}
+
+\subsection{Time-Constrained Multimodal Retrieval}
+
+The claim representation combines named entities, temporal expressions, OCR text, and an image caption. Text candidates are retrieved using BM25 and BGE-M3; visual candidates use SigLIP2 embeddings and perceptual hashes. Reciprocal-rank fusion combines lexical, dense, and visual rankings. The top 100 candidates are reranked, after which the top 20 satisfying the publication-time cutoff are retained.
+
+\subsection{Evidence-Source Provenance Graph}
+
+The graph contains claim, image, document, publisher, entity, and event nodes. Typed edges represent retrieval relevance, image containment, near-duplicate text or images, hyperlinks, publisher membership, entity or event mentions, and temporal precedence. Document clusters are estimated using exact hashes, MinHash-style lexical similarity, semantic similarity, perceptual image distance, hyperlinks, and publication order. Because true authorship may be unknowable, the earliest observed record is described only as an origin candidate.
+
+Let $C(E)$ denote the partition of evidence documents into dependency clusters. Instead of summing document-level support, the model first aggregates within each cluster and then combines clusters. This prevents repeated copies of one source from receiving the same weight as multiple independent sources.
+
+\subsection{Hierarchical Decision and Abstention}
+
+A heterogeneous graph transformer encodes the temporal-provenance graph conditioned on the claim. A sufficiency head estimates $p(s=1\mid x,E_{\leq\tau})$. If evidence is sufficient, a veracity head estimates supported versus refuted. Otherwise, the system returns insufficient evidence. Temperature scaling is fitted on validation predictions, and a validation-selected threshold targets 80\% answer coverage. The final prediction record includes class probabilities, evidence identifiers, source clusters, and the enforced cutoff.
+

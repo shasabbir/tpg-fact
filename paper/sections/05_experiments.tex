@@ -1,0 +1,18 @@
+\section{Experimental Protocol}
+
+\subsection{Baselines}
+
+Controlled baselines include majority prediction, text-only classification, image--text fusion without retrieval, an open multimodal language model under zero- and few-shot prompting, vanilla multimodal RAG, time-filtered RAG without provenance, provenance-aware RAG without time filtering, RED-DOT where protocol compatibility permits, and the complete model. Every controlled method uses the same splits, candidate corpus, evaluation code, and 20-trial validation budget.
+
+\subsection{Metrics and Statistical Analysis}
+
+The primary metric is macro-F1 on the 2025--2026 event-disjoint test set. Secondary metrics are per-class F1, balanced accuracy, macro one-versus-rest AUROC, Brier score, negative log-likelihood, expected calibration error, area under the risk--coverage curve, risk at 80\% coverage, Recall@10, nDCG@10, latency, GPU memory, and retrieved-document count. Final configurations are evaluated with five seeds. Differences use 10,000 paired event-level bootstrap replicates, with Holm correction across the primary comparison family.
+
+\subsection{Ablation and Stress Tests}
+
+The preregistered ablations remove temporal filtering, dependency clustering, temporal edge features, graph aggregation, text evidence, visual evidence, the sufficiency gate, and evidence-dropout training. Robustness tests inject syndicated copies, add post-cutoff verdict-bearing documents, remove the earliest observed source, introduce dependent and independent conflicts, swap captions, and reuse historical images.
+
+\subsection{Selection and Falsification Rules}
+
+Hyperparameters and the abstention threshold are selected on validation data only. The provenance-performance claim is removed if the component improves neither natural future-event performance nor duplicate-injection robustness. The abstention claim is removed if selective risk fails to improve at matched coverage. Any advantage arising from post-cutoff evidence is labeled leakage rather than superiority.
+

@@ -1,0 +1,14 @@
+\section{Related Work}
+
+\subsection{Multimodal Misinformation Detection}
+
+NewsCLIPpings established a large benchmark of authentic but deliberately mismatched news images and captions \cite{luo2021newsclippings}. VERITE subsequently controlled unimodal bias and topic imbalance in real-world multimodal misinformation evaluation \cite{papadopoulos2024verite}. KAMP introduced knowledge-aware multimodal pretraining using single-modality, cross-modal, and knowledge-content objectives \cite{zhang2025kamp}. Synthetic multimodal examples have also been used to improve transfer to real misinformation cases \cite{zeng2024synthetic}. Event-Radar models visual manipulation, textual emotion, and event-level inconsistency through an event graph \cite{ma2024eventradar}. These content-focused approaches motivate strong no-retrieval and event-aware baselines.
+
+\subsection{Evidence-Grounded Fact-Checking}
+
+MOCHEG formulates multimodal fact-checking as evidence retrieval, claim verification, and explanation generation \cite{yao2023mocheg}. MetaSumPerceiver summarizes evidence across multiple multimodal documents \cite{chen2024metasum}. RED-DOT challenges the assumption that all web evidence is relevant and introduces relevance-aware reranking \cite{papadopoulos2025reddot}. RAGAR and MultiReflect combine multimodal large language models with retrieval and iterative reasoning \cite{khaliq2024ragar,kangur2025multireflect}. SNIFFER uses external retrieval for out-of-context detection \cite{qi2024sniffer}. Consequently, retrieval itself is not the novelty claimed here; the proposed distinction is the joint enforcement of temporal validity and source-dependency-aware aggregation.
+
+\subsection{Image Context, Time, and Evidence Dependence}
+
+The 5Pils work recovers original image meta-context from web evidence \cite{tonglet2024image}, while COVE predicts image context before assessing a caption \cite{tonglet2025cove}. Temporal evaluation is essential because multimodal misinformation models lose performance under chronological distribution shift \cite{stepanova2023temporal}. ChronoFact demonstrates structured timeline reasoning for complex temporal claims \cite{barik2025chronofact}. Research on conflicting evidence further shows that source information affects RAG-based fact verification \cite{ge2025conflicting}. The present study connects these concerns by representing time and content dependence within the same evidence graph.
+
