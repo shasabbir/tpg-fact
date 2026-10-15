@@ -50,5 +50,5 @@ training:
 outputs:
   directory: outputs
   smoke_directory: outputs/smoke
-  manuscript_table: ../tables/smoke_test_results.tex
+  manuscript_table: ../paper/tables/smoke_test_results.tex
 

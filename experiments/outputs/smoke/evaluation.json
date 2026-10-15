@@ -37,7 +37,7 @@
       "sample_std": 0.0
     }
   },
-  "claim_manifest": "D:\\1.msc\\ET2\\paper\\experiments\\outputs\\smoke\\claims.jsonl",
+  "claim_manifest": "D:\\1.msc\\ET2\\experiments\\outputs\\smoke\\claims.jsonl",
   "runs": [
     {
       "accuracy": 1.0,
@@ -70,7 +70,7 @@
           "recall": 1.0
         }
       },
-      "prediction_file": "D:\\1.msc\\ET2\\paper\\experiments\\outputs\\smoke\\predictions.jsonl",
+      "prediction_file": "D:\\1.msc\\ET2\\experiments\\outputs\\smoke\\predictions.jsonl",
       "risk_at_target_coverage": 0.0,
       "sample_count": 6,
       "target_coverage": 0.8

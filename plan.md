@@ -58,25 +58,12 @@ The central test compares the full temporal-provenance system with a matched van
 
 ## 2. Project structure and formats
 
-All project work belongs under `D:\1.msc\ET2\paper`.
+All project work belongs under `D:\1.msc\ET2`. The `paper` directory is reserved for the manuscript and files directly supporting its compilation.
 
 ```text
-paper/
+ET2/
 ├── plan.md
-├── paper.tex
-├── supplement.tex
-├── references.bib
-├── sections/
-│   ├── 01_introduction.tex
-│   ├── 02_related_work.tex
-│   ├── 03_dataset.tex
-│   ├── 04_method.tex
-│   ├── 05_experiments.tex
-│   ├── 06_results.tex
-│   ├── 07_discussion.tex
-│   └── 08_conclusion.tex
-├── figures/
-├── tables/
+├── README.md
 ├── research/
 │   ├── literature_matrix.csv
 │   ├── reference_ledger.csv
@@ -100,9 +87,23 @@ paper/
 │   ├── outputs/
 │   ├── pyproject.toml
 │   └── README.md
-├── output/
-│   └── pdf/
-└── README.md
+└── paper/
+    ├── paper.tex
+    ├── supplement.tex
+    ├── references.bib
+    ├── sections/
+    │   ├── 01_introduction.tex
+    │   ├── 02_related_work.tex
+    │   ├── 03_dataset.tex
+    │   ├── 04_method.tex
+    │   ├── 05_experiments.tex
+    │   ├── 06_results.tex
+    │   ├── 07_discussion.tex
+    │   └── 08_conclusion.tex
+    ├── figures/
+    ├── tables/
+    └── output/
+        └── pdf/
 ```
 
 ### LaTeX policy
@@ -466,7 +467,7 @@ Status markers: `[x]` complete, `[~]` in progress/partial, `[ ]` not started, `[
 
 ## 10. Standard execution checks
 
-From `paper\experiments` with the project environment active:
+From `experiments` with the project environment active:
 
 ```powershell
 $env:PYTHONPATH = "$PWD\src"
@@ -489,6 +490,7 @@ For final real-data evaluation, pass five separate prediction files to `evaluate
 | 2026-10-15 | Decision | Use Python modules for core logic and notebooks only for analysis/presentation. | Required for testing, repeated runs, and multi-GPU reproducibility. | Entire experiment package. | Keep notebook-only scientific logic prohibited. |
 | 2026-10-15 | Decision | Treat current manuscript as a preregistered protocol/pre-results draft. | Real-data experiments are not complete. | Abstract, results, discussion, PDF. | Replace status boxes and placeholders only after checked evidence exists. |
 | 2026-10-15 | Implementation | Added project scaffold, tests, notebook execution, synthetic diagnostic, five-seed runner, and prediction evaluator. | Establish an executable base before data collection. | Repository and current PDFs. | Begin M2 feasibility pilot. |
+| 2026-10-15 | Organization | Reserved `paper/` for LaTeX sources and manuscript-supporting assets; moved experiments, research records, the living plan, and the repository README to the study root. | Separate the manuscript build from the wider research workspace. | Paths, generated-table destination, execution commands, and audit locations. | Keep future non-manuscript artifacts outside `paper/`. |
 
 ## 12. Immediate next actions
 

@@ -1,6 +1,6 @@
 # Temporal and Evidence-Source Provenance-Aware Multimodal Misinformation Detection
 
-This directory contains the editable IEEE TCSS-style manuscript and a reproducible experiment package for the proposed US-TPMFC study.
+This repository contains the editable IEEE TCSS-style manuscript and a reproducible experiment package for the proposed US-TPMFC study.
 
 The living source of truth for scope, milestones, gates, decisions, deviations,
 and next actions is [`plan.md`](plan.md). Read and update it before and after
@@ -15,16 +15,16 @@ substantive study work.
 
 ## Layout
 
-- `paper.tex` and `supplement.tex`: main LaTeX entry points.
-- `sections/`: manuscript prose organized by section.
-- `references.bib`: peer-reviewed 2020+ references with DOI records.
+- `paper/paper.tex` and `paper/supplement.tex`: main LaTeX entry points.
+- `paper/sections/`: manuscript prose organized by section.
+- `paper/references.bib`: peer-reviewed 2020+ references with DOI records.
+- `paper/figures/`, `paper/tables/`, and `paper/output/pdf/`: manuscript assets and compiled deliverables.
 - `research/`: literature, reference-integrity, and claim-evidence registers.
 - `experiments/`: reusable Python modules, configurations, notebooks, tests, and generated outputs.
-- `output/pdf/`: compiled deliverables.
 
 ## Quick start
 
-From `paper/experiments`, expose `src` and run the dependency-light smoke test:
+From `experiments`, expose `src` and run the dependency-light smoke test:
 
 ```powershell
 $env:PYTHONPATH = "$PWD\src"
