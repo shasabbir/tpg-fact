@@ -6,11 +6,11 @@ Each instance contains claim text $x_t$, an image $x_v$, a decision cutoff $\tau
 
 \subsection{Candidate Acquisition}
 
-Corpus construction starts with English ClaimReview records about United States events from 2020--2026. GDELT provides discovery metadata, and Common Crawl provides archived page observations. We retain cases with an identifiable claim time, a recoverable image or archive, an unambiguous professional rating, and enough timestamp information to enforce the cutoff. The retrieval pool excludes fact-check domains and documents that contain the final verdict.
+Corpus construction starts with English ClaimReview records about United States events from 2020--2026. GDELT provides discovery metadata, and Common Crawl provides archived page observations. The corpus retains cases with an identifiable claim time, a recoverable image or archive, an unambiguous professional rating, and enough timestamp information to enforce the cutoff. The retrieval pool excludes fact-check domains and documents that contain the final verdict.
 
 \subsection{Label Policy}
 
-We normalize only explicit site ratings. True or correct maps to supported. False, fake, or miscaptioned maps to refuted. Unproven, unsubstantiated, or no evidence maps to insufficient evidence. We exclude mixed, partially true, satire, opinion, and ambiguous ratings. The labels come from professional fact-checkers; automatically extracted evidence links are treated as silver evidence.
+Only explicit site ratings are normalized. True or correct maps to supported. False, fake, or miscaptioned maps to refuted. Unproven, unsubstantiated, or no evidence maps to insufficient evidence. Mixed, partially true, satire, opinion, and ambiguous ratings are excluded. The labels come from professional fact-checkers; automatically extracted evidence links are treated as silver evidence.
 
 \subsection{Temporal Partitioning and Release}
 
@@ -25,5 +25,5 @@ Figure~\ref{fig:temporal-protocol} shows the order of operations. Group identiti
 \label{fig:temporal-protocol}
 \end{figure}
 
-We treat \datasetname{} as a benchmark only if the filtered corpus contains at least 2,000 cases, 300 cases per label, 50 test events, and two independent evidence clusters for at least 70\% of retained claims. If the collection misses any threshold, we use it as a temporal and provenance stress test instead.
+This study treats \datasetname{} as a benchmark only if the filtered corpus contains at least 2,000 cases, 300 cases per label, 50 test events, and two independent evidence clusters for at least 70\% of retained claims. If the collection misses any threshold, it is used as a temporal and provenance stress test instead.
 

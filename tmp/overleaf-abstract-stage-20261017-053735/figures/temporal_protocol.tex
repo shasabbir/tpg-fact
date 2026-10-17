@@ -1,0 +1,28 @@
+\begin{tikzpicture}[
+  font=\sffamily\footnotesize,
+  phase/.style={draw, very thick, rounded corners=1.5pt, minimum height=11mm, align=center},
+  guard/.style={draw=tpggray, rounded corners=1.5pt, fill=black!3, align=center, inner sep=2.2mm}
+]
+  \node[phase, draw=tpgblue, fill=tpgblue!9, text width=32mm] (train) {
+    \textbf{Train}\\2020--2023
+  };
+  \node[phase, draw=tpgteal, fill=tpgteal!9, text width=20mm, right=1.5mm of train] (val) {
+    \textbf{Validate}\\2024
+  };
+  \node[phase, draw=tpgorange, fill=tpgorange!9, text width=27mm, right=1.5mm of val] (test) {
+    \textbf{Final test}\\2025--2026
+  };
+
+  \draw[-{Stealth[length=2mm]}, very thick, draw=tpggray]
+    ([yshift=8mm]train.west) -- ([yshift=8mm]test.east)
+    node[midway, above=0.7mm, font=\sffamily\scriptsize] {chronological allocation};
+
+  \node[guard, text width=84mm, below=4mm of val] (lock) {
+    \textbf{Group lock before allocation:}
+    event identity $\mid$ near-duplicate claim $\mid$ perceptually identical image
+  };
+  \draw[-{Stealth[length=1.8mm]}, semithick, draw=tpggray] (lock.north -| train) -- (train.south);
+  \draw[-{Stealth[length=1.8mm]}, semithick, draw=tpggray] (lock.north -| val) -- (val.south);
+  \draw[-{Stealth[length=1.8mm]}, semithick, draw=tpggray] (lock.north -| test) -- (test.south);
+
+\end{tikzpicture}

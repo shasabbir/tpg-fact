@@ -1,0 +1,54 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+
+\newcommand{\systemname}{TPG-Fact}
+\newcommand{\datasetname}{US-TPMFC}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\definecolor{tpgblue}{HTML}{1F5A94}
+\definecolor{tpgteal}{HTML}{167D75}
+\definecolor{tpgviolet}{HTML}{6A4C93}
+\definecolor{tpgorange}{HTML}{B65C20}
+\definecolor{tpggray}{HTML}{4B5563}
+
+\title{Temporal and Evidence-Source Provenance-Aware Multimodal Misinformation Detection with Calibrated Abstention}
+
+\author{Sabbir Hossain%
+\thanks{S. Hossain is with the Department of Computer Science, American International University-Bangladesh, Dhaka, Bangladesh (e-mail: \href{mailto:26-94030-1@student.aiub.edu}{26-94030-1@student.aiub.edu}).}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+An authentic photograph can still spread misinformation when it is paired with the wrong event, place, or time. Multimodal fact-checkers often retrieve web evidence to identify such false context, but retrieval introduces three risks: the model may use documents published after the decision cutoff, mistake syndicated copies for independent corroboration, or issue a confident verdict when the available evidence is inadequate. This study proposes \systemname{}, a temporal and evidence-source provenance-aware framework for classifying image--text claims as supported, refuted, or insufficient evidence. The framework combines lexical, dense, and visual retrieval; removes post-cutoff items; organizes claims, documents, images, publishers, hyperlinks, and publication order in a heterogeneous graph; and aggregates evidence by source-dependency cluster. A hierarchical classifier estimates evidence sufficiency before veracity, while temperature scaling and a validation-selected threshold enable selective abstention. The study also specifies \datasetname{}, a temporally partitioned benchmark design built from United States ClaimReview cases and open web archives. Training spans 2020--2023, validation uses 2024, and testing uses 2025--2026, with events, near-duplicate claims, and reused images kept within a single partition. The evaluation compares matched multimodal retrieval baselines and tests temporal leakage, duplicate-source sensitivity, calibration, and selective risk. Together, this protocol tests whether time-valid, independently sourced evidence improves future-event decisions and reduces overconfidence.
+\end{abstract}
+
+\begin{IEEEkeywords}
+multimodal misinformation, automated fact-checking, evidence provenance, temporal retrieval, selective prediction, calibrated abstention
+\end{IEEEkeywords}
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_dataset}
+\input{sections/04_method}
+\input{sections/05_experiments}
+\input{sections/06_results}
+\input{sections/07_discussion}
+\input{sections/08_conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
+

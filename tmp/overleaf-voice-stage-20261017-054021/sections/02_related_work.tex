@@ -1,0 +1,14 @@
+\section{Related Work}
+
+\subsection{Multimodal Misinformation Detection}
+
+NewsCLIPpings introduced a large benchmark of authentic news images paired with deliberately mismatched captions \cite{luo2021newsclippings}. VERITE later addressed unimodal bias and topic imbalance in real-world evaluation \cite{papadopoulos2024verite}. KAMP uses single-modality, cross-modal, and knowledge-content objectives during multimodal pretraining \cite{zhang2025kamp}. Other work uses synthetic examples to improve transfer to real misinformation cases \cite{zeng2024synthetic}. Event-Radar represents visual manipulation, textual emotion, and event-level inconsistency in an event graph \cite{ma2024eventradar}. These methods provide the main no-retrieval and event-aware baselines for our study.
+
+\subsection{Evidence-Grounded Fact-Checking}
+
+MOCHEG treats multimodal fact-checking as a sequence of evidence retrieval, claim verification, and explanation generation \cite{yao2023mocheg}. MetaSumPerceiver summarizes evidence drawn from several multimodal documents \cite{chen2024metasum}. RED-DOT accounts for irrelevant web evidence through relevance-aware reranking \cite{papadopoulos2025reddot}. RAGAR and MultiReflect combine multimodal language models with retrieval and iterative reasoning \cite{khaliq2024ragar,kangur2025multireflect}, and SNIFFER retrieves external material for out-of-context detection \cite{qi2024sniffer}. Our method builds on this retrieval setting while enforcing publication-time cutoffs and aggregating evidence by source dependency.
+
+\subsection{Image Context, Time, and Evidence Dependence}
+
+The 5Pils system recovers an image's original context from web evidence \cite{tonglet2024image}, and COVE predicts that context before assessing a caption \cite{tonglet2025cove}. Chronological distribution shift can reduce the accuracy of multimodal misinformation models \cite{stepanova2023temporal}. ChronoFact handles complex temporal claims with structured timeline reasoning \cite{barik2025chronofact}. Source information also affects how RAG-based fact verification resolves conflicting evidence \cite{ge2025conflicting}. This study represents publication time and source dependence in the same evidence graph.
+
