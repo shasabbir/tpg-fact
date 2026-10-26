@@ -1,0 +1,14 @@
+key,year,venue,problem,method,data,main_metric,closest_overlap,decision
+luu_mrav,2026,Information Processing and Management,"multimodal zero-shot fact verification","retrieve-verbalize-rank-verify","MOCHEG; FACTIFY; Fin-Fact",macro-F1,"base paper; relevance and verbalization",required baseline
+zhang_mever,2026,EACL,"retrieval verification and explanation","two-layer multimodal graph plus FiD","AIChartClaim; ChartCheck; MOCHEG; MR2","MAP; macro-F1; ROUGE-L","base paper; graph and explanations",required baseline
+wang_sciver,2025,ACL,"scientific multimodal verification benchmark","expert evidence and rationale annotation",SciVer,accuracy,"primary public data",core dataset
+xing_attribution,2025,NAACL,"evidence attribution in fact-checking explanations","citation masking and recovery",text fact-checking data,recovery accuracy,"attribution evaluation",extend to multimodal training
+wang_musciclaims,2025,AACL-IJCNLP,"scientific figure claim verification","benchmark and diagnostics",MuSciClaims,F1,"external scientific data",core transfer set
+schlichtkrull_averitec,2024,NeurIPS,"real-world web evidence verification","static knowledge store benchmark",AVeriTeC,"verdict and evidence metrics","realistic evidence evaluation",related work
+braun_defame,2025,ICML,"open-domain multimodal fact checking","dynamic tool-using multimodal experts","MOCHEG; VERITE; ClaimReview2024+",accuracy,"dynamic retrieval and reports",strong external baseline
+zhou_m2tabfact,2025,ACL Findings,"multi-document multimodal tabular verification","generated multi-source claims",M2-TabFact,accuracy,"multi-evidence structured reasoning",related dataset if access verified
+wan_murgat,2026,arXiv,"multimodal fact-level attribution","citation benchmark and evaluator",multimodal long-form data,attribution score,"citation grounding",novelty boundary
+ni_safemr,2026,arXiv,"selective multimodal rumor detection","sufficiency head and interventions","NewsCLIPpings; VERITE; XFacta","macro-F1; AURC","interventions and sufficiency",do not claim abstention novelty
+luo_utility,2026,ACL,"visual evidence utility for multimodal RAG","information-gain selection",MRAG-Bench; Visual-RAG,retrieval quality,"evidence utility",do not claim utility novelty
+jung_amufc,2026,arXiv,"adaptive visual evidence use","analyzer and verifier agents","three fact-checking datasets",verification performance,"modality necessity",do not claim adaptive-image novelty
+xu_rwpost,2026,CVPR Workshops,"auditable real-world multimodal fact checking","RW-Post and AgentFact",RW-Post,"accuracy; faithfulness","evidence grounding",compare discussion

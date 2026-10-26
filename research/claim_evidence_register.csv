@@ -1,0 +1,7 @@
+claim_id,manuscript_section,claim_text,evidence_source,status,notes
+C001,introduction,"Correct verdicts and fluent explanations do not by themselves establish evidence attribution.",xing_attribution_2025,supported,"Use the NAACL paper and base-paper metric designs."
+C002,introduction,"M-RAV's relevance component is neutral or harmful in some reported ablations.",luu_mrav_2026,supported,"Use exact table values from the supplied PDF."
+C003,introduction,"MEVER aligns explanations with predicted labels rather than explicit cited evidence.",zhang_mever_2026,supported,"Derived from the consistency regularizer and output format."
+C004,datasets,"SciVer contains 3000 expert-annotated examples from 1113 papers.",wang_sciver_2025,supported,"Official ACL paper and dataset card."
+C005,results,"TRACE-SCV improves citation macro-F1.",pending_experiment,pending,"Do not state as a fact before main results."
+C006,results,"TRACE-SCV preserves verdict macro-F1 within one point.",pending_experiment,pending,"Go/no-go criterion, not a result."

@@ -1,0 +1,48 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,fit,positioning}
+
+\newcommand{\method}{TRACE-SCV}
+\newcommand{\todoresult}{\textcolor{red}{[RESULT PENDING]}}
+
+\title{Evidence-Traceable Multimodal Claim Verification with Counterfactual Citation Grounding}
+
+\author{Sabbir Hossain\\
+Department of Computer Science\\
+American International University-Bangladesh\\
+Dhaka, Bangladesh\\
+26-94030-1@student.aiub.edu}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Multimodal claim-verification systems are usually evaluated by verdict accuracy and the surface quality of generated explanations. These measurements do not establish that a system used the evidence named in its explanation. We propose \method, a framework in which verdict prediction and explanation generation share a sparse evidence bottleneck over text, tables, figures, and images. The framework emits evidence identifiers with each explanatory statement and is trained with counterfactual interventions that delete decisive evidence, add irrelevant evidence, duplicate an item, or swap one modality. The study uses only publicly released datasets and evaluates verdict quality together with evidence attribution, sufficiency, comprehensiveness, robustness, and computation. This pre-results manuscript defines the method and frozen evaluation protocol; empirical claims will be added only from audited experiment artifacts.
+\end{abstract}
+
+\begin{IEEEkeywords}
+automated fact-checking, multimodal reasoning, evidence attribution, scientific claim verification, grounded explanation
+\end{IEEEkeywords}
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_problem_and_data}
+\input{sections/04_method}
+\input{sections/05_experimental_setup}
+\input{sections/06_results}
+\input{sections/07_discussion}
+\input{sections/08_limitations_ethics}
+\input{sections/09_conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

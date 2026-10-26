@@ -1,0 +1,18 @@
+\section{Introduction}
+
+Automated claim verification increasingly depends on evidence distributed across text, tables, figures, and images. Recent systems retrieve multimodal evidence, fuse it for verdict prediction, and generate natural-language explanations. M-RAV verbalizes image--text alignment before asking a large language model to verify a claim \cite{luu2027mrav}. MEVER learns a multimodal evidence graph and jointly addresses retrieval, verification, and explanation generation \cite{zhang2026mever}. These systems substantially advance end-to-end verification, but their evaluation does not answer a basic question: did the cited or described evidence actually support the model's decision?
+
+A correct verdict is not sufficient evidence of correct reasoning. A model may exploit claim wording, dataset artifacts, or an uncited item. Likewise, a fluent explanation can agree with the predicted label while attributing the conclusion to the wrong source. Text-only work has shown that generated fact-checking explanations still contain attribution errors and introduced citation masking and recovery as an evaluation protocol \cite{xing2025attribution}. Multimodal scientific benchmarks further show that even strong foundation models struggle to locate and combine evidence in figures, tables, and text \cite{wang2025sciver,wang2025musciclaims}.
+
+We study evidence attribution as part of the verification model rather than as a post-hoc presentation layer. \method{} builds a heterogeneous graph over document-local evidence and selects a sparse evidence set shared by the verdict head and explanation decoder. Explanations use constrained evidence identifiers. Counterfactual training requires sensitivity to decisive-evidence deletion and stability to irrelevant additions and duplicates; modality swaps test whether visual or textual evidence is genuinely necessary.
+
+The study makes the following planned contributions:
+
+\begin{itemize}
+    \item a fact-checking formulation that jointly evaluates verdict quality and multimodal evidence citation;
+    \item a sparse, shared evidence bottleneck with constrained citation generation;
+    \item counterfactual training and evaluation for decisive deletion, irrelevant addition, duplication, and modality swaps; and
+    \item a reproducible public-data protocol spanning expert-annotated scientific verification and general-domain transfer.
+\end{itemize}
+
+The empirical contribution is conditional on the preregistered tests in Section~\ref{sec:experiments}. No performance claim is made before those experiments are complete.

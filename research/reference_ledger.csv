@@ -1,0 +1,10 @@
+key,title,year,venue,doi_or_url,source_type,verification_status
+luu_mrav,"M-RAV: Multimodal retrieve-augment-verify framework for boosting zero-shot fact verification system with large language models",2026,"Information Processing and Management",10.1016/j.ipm.2026.104988,version of record,verified from supplied PDF
+zhang_mever,"MEVER: Multi-Modal and Explainable Claim Verification with Graph-based Evidence Retrieval",2026,EACL,10.18653/v1/2026.eacl-long.242,proceedings,verified from supplied PDF and ACL Anthology
+wang_sciver,"SciVer: Evaluating Foundation Models for Multimodal Scientific Claim Verification",2025,ACL,10.18653/v1/2025.acl-long.420,proceedings,verified
+xing_attribution,"Evaluating Evidence Attribution in Generated Fact Checking Explanations",2025,NAACL,10.18653/v1/2025.naacl-long.282,proceedings,verified
+wang_musciclaims,"MuSciClaims: Multimodal Scientific Claim Verification",2025,AACL-IJCNLP,10.18653/v1/2025.ijcnlp-long.175,proceedings,verified
+braun_defame,"DEFAME: Dynamic Evidence-based FAct-checking with Multimodal Experts",2025,ICML,https://proceedings.mlr.press/v267/braun25b.html,proceedings,verified
+zhou_m2tabfact,"M2-TabFact: Multi-Document Multi-Modal Fact Verification with Visual and Textual Representations of Tabular Data",2025,"Findings of ACL",10.18653/v1/2025.findings-acl.1345,proceedings,verified
+luo_utility,"Utility-Oriented Visual Evidence Selection for Multimodal Retrieval-Augmented Generation",2026,ACL,10.18653/v1/2026.acl-long.1620,proceedings,verified
+tsoneva_selective,"Selective Multimodal Retrieval for Automated Verification of Image-Text Claims",2026,FEVER,10.18653/v1/2026.fever-1.10,proceedings,verified

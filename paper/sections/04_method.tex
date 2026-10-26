@@ -1,0 +1,48 @@
+\section{Method}
+\label{sec:method}
+
+Figure~\ref{fig:architecture} summarizes \method. The central design choice is that verdict prediction and explanation generation share the same selected evidence set.
+
+\begin{figure*}[t]
+\centering
+\input{figures/architecture}
+\caption{TRACE-SCV. A heterogeneous graph represents document-local multimodal evidence. A sparse selector produces auditable evidence identifiers shared by the verdict and citation-constrained explanation heads. Paired evidence interventions supervise sensitivity to decisive evidence and invariance to irrelevant or duplicated evidence.}
+\label{fig:architecture}
+\end{figure*}
+
+\subsection{Multimodal Evidence Graph}
+
+The graph contains a claim node and evidence nodes for text blocks, tables, figures, images, and captions. Typed edges encode document co-membership, caption relations, textual references, adjacency, and retrieval links. Frozen encoders produce initial node features. A compact relation-aware message-passing module yields contextual node representations $\mathbf{h}_i$ without merging their identifiers.
+
+\subsection{Sparse Citation Bottleneck}
+
+For each evidence node, a claim-conditioned selector predicts
+\begin{equation}
+s_i=f_{\theta}([\mathbf{h}_c;\mathbf{h}_i;\mathbf{h}_c\odot\mathbf{h}_i]).
+\end{equation}
+A straight-through top-$k$ or hard-concrete gate produces $z_i\in\{0,1\}$. The selected set is $S=\{e_i:z_i=1\}$. Both downstream heads receive only representations with $z_i=1$. A sparsity term discourages citing every item.
+
+\subsection{Verdict Prediction}
+
+Selected evidence is aggregated with claim-conditioned attention. The verdict head predicts
+\begin{equation}
+p(y\mid c,S)=\operatorname{softmax}(W_y[\mathbf{h}_c;\mathbf{h}_S]+b_y).
+\end{equation}
+Datasets retain their official label spaces. Shared-label cross-dataset transfer is reported separately from within-dataset training.
+
+\subsection{Citation-Constrained Explanation}
+
+The decoder receives the claim and selected evidence with stable identifiers. Its output vocabulary is augmented with the identifiers in $S$ only. Each explanatory sentence must terminate with at least one identifier token. This constraint prevents invented citations but does not by itself prove that a valid identifier supports the sentence; support is evaluated separately.
+
+\subsection{Counterfactual Citation Grounding}
+
+For clean packet $E$, decisive-deletion packet $E^{-}$, irrelevant-addition packet $E^{+}$, duplicate packet $E^{d}$, and modality-swap packet $E^{s}$, the objective is
+\begin{align}
+\mathcal{L}={}&\mathcal{L}_{\mathrm{ver}}+\lambda_e\mathcal{L}_{\mathrm{sel}}
++\lambda_r\mathcal{L}_{\mathrm{exp}}+\lambda_0\|\mathbf{z}\|_0 \nonumber\\
+&+\lambda_-\mathcal{L}_{\mathrm{delete}}
++\lambda_+\mathcal{L}_{\mathrm{irrelevant}}
++\lambda_d\mathcal{L}_{\mathrm{duplicate}}
++\lambda_s\mathcal{L}_{\mathrm{swap}}.
+\end{align}
+Deletion applies a margin loss so removal of all decisive evidence lowers the correct-label score. Irrelevant and duplicate terms penalize divergence from the clean verdict distribution and citation set. Swap targets depend on whether the replaced modality belongs to the gold evidence set. Training interventions are generated only from training packets; independently generated counterparts are used for evaluation.

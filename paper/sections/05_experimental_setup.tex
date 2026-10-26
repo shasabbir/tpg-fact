@@ -1,0 +1,24 @@
+\section{Experimental Setup}
+\label{sec:experiments}
+
+\subsection{Baselines}
+
+The experiment includes majority, claim-only, single-modality, frozen-backbone, relevance-ranked RAG, unconstrained explanation, and label-consistency baselines. M-RAV and MEVER are reproduced from author code when hardware and data versions permit. Published numbers that cannot be reproduced are shown in a separate context table and excluded from paired significance tests.
+
+\subsection{Metrics}
+
+The co-primary endpoints are verdict macro-F1 and evidence-item citation macro-F1. Secondary verdict metrics are accuracy, balanced accuracy, and per-class F1. Retrieval uses MAP, Recall@$k$, and nDCG@$k$. Explanation metrics include ROUGE-L, METEOR, BERTScore, citation coverage, and citation masking-and-recovery accuracy.
+
+Counterfactual comprehensiveness is the mean decrease in gold-label probability after cited evidence is removed. Sufficiency is verdict performance with cited evidence only. Robustness reports distributional change after irrelevant additions and duplicates and task-appropriate sensitivity under modality swaps. Latency, peak memory, input tokens, and selected evidence count measure cost.
+
+\subsection{Protocol}
+
+Hyperparameters are selected on validation data and frozen. Formal trained comparisons use five seeds. Confidence intervals use 10,000 paired bootstrap samples, grouped by source paper when claims share a paper. Holm correction is applied separately to verdict, attribution, and robustness comparison families. The superiority claim requires a citation-F1 improvement without a verdict macro-F1 loss greater than one absolute point.
+
+\subsection{Ablations}
+
+We remove the citation bottleneck, graph relations, each intervention loss, the sparsity term, constrained citation tokens, textual evidence, and visual/table evidence. Every ablation uses the same data, backbone, tuning budget, and seed set as the full model.
+
+\subsection{Reproducibility}
+
+Dataset revisions, split manifests, configuration files, predictions, and environment metadata are stored with each formal run. All tables and figures are generated from saved outputs. Notebooks call reusable Python modules and must execute from top to bottom in a clean environment.

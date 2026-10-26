@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trace-scv"
+version = "0.1.0"
+description = "Evidence-traceable multimodal claim verification research code"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = []
+
+[project.optional-dependencies]
+data = [
+  "datasets>=3.0,<5",
+  "huggingface-hub>=0.26,<2",
+  "pillow>=10,<13",
+]
+ml = [
+  "numpy>=1.26,<3",
+  "scikit-learn>=1.4,<2",
+  "torch>=2.3,<3",
+  "transformers>=4.46,<5",
+  "accelerate>=1.0,<2",
+  "peft>=0.13,<1",
+]
+analysis = [
+  "pandas>=2.2,<4",
+  "matplotlib>=3.8,<4",
+  "seaborn>=0.13,<1",
+  "jupyter>=1.1,<2",
+  "nbconvert>=7.16,<8",
+]
+dev = [
+  "pytest>=8,<10",
+]
+all = [
+  "trace-scv[data,ml,analysis,dev]",
+]
+
+[project.scripts]
+trace-scv-smoke = "trace_scv.cli:smoke_main"
+trace-scv-preflight = "trace_scv.cli:preflight_main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]

@@ -1,0 +1,5 @@
+dataset,role,official_release,public,gated,license_or_terms,size,labels,evidence_types,explanations,status
+SciVer,primary,https://huggingface.co/datasets/chengyewang/SciVer,yes,no,CC-BY-4.0,"3000 claims; 1113 papers",entailed/refuted,"text; tables; figures",expert rationales,approved for preflight
+MuSciClaims,external scientific,https://huggingface.co/datasets/StonyBrookNLP/MuSciClaims,yes,no,license field not declared in HF card,verify during preflight,entailed/refuted,"figures; captions; text",diagnostic annotations,conditional on terms audit
+MOCHEG,external general,https://github.com/PLUM-Lab/Mocheg,yes,author download form,"repository Apache-2.0; dataset terms to verify","15601 claims in original paper",support/refute/NEI,"text; images",ruling statements,conditional on download and terms audit
+AIChartClaim,auxiliary,https://github.com/cezhang01/mever,yes,Google Drive link,license not stated,"1200 claims; 300 charts",support/refute,"charts; captions",yes,optional only

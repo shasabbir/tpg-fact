@@ -1,0 +1,17 @@
+\section{Related Work}
+
+\subsection{Multimodal Claim Verification}
+
+MOCHEG introduced an end-to-end benchmark for multimodal evidence retrieval, verdict prediction, and explanation generation \cite{yao2023mocheg}. Later systems improved cross-modal representation, relevant-evidence filtering, or tool-assisted verification. DEFAME dynamically calls multimodal experts and retrieves web evidence in a zero-shot pipeline \cite{braun2025defame}. M-RAV combines dense retrieval, image--text consistency verbalization, relevance scoring, and LLM verification \cite{luu2027mrav}. MEVER learns a two-layer text--image graph and uses token- and evidence-level fusion for verification \cite{zhang2026mever}. Our work does not propose another fusion module as its main novelty. It tests whether a model's explicit evidence citations are supported by its behavior under intervention.
+
+\subsection{Scientific Multimodal Verification}
+
+SciVer contains expert-annotated claims, evidence, and rationales drawn from complete scientific papers and separates direct, parallel, sequential, and analytical reasoning \cite{wang2025sciver}. MuSciClaims provides figure-grounded claims and controlled perturbations that diagnose multimodal reasoning failures \cite{wang2025musciclaims}. M$^2$-TabFact studies multi-document reasoning over visual and textual forms of tabular data \cite{zhou2025m2tabfact}. These datasets expose evidence-location and cross-modal aggregation errors that are difficult to study in claim-only misinformation detection.
+
+\subsection{Evidence Attribution and Faithful Explanations}
+
+Most explanation metrics reward lexical overlap or model-judged quality. Citation masking and recovery directly tests whether an explanation attributes a statement to the correct evidence and correlates automatic assessment with human judgments in text fact checking \cite{xing2025attribution}. Generic multimodal attribution benchmarks ask models to attach facts to temporal or modal evidence \cite{wan2026murgat}. \method{} differs in using attribution as a shared bottleneck for verdict prediction and explanation generation and in testing attribution with fact-checking-specific counterfactual evidence interventions.
+
+\subsection{Evidence Selection and Sufficiency}
+
+Recent work distinguishes semantic relevance from downstream evidence utility \cite{luo2026utility} and selectively controls whether visual retrieval is required \cite{tsoneva2026selective}. SAFE-MR separates evidence sufficiency from veracity and studies selective prediction under evidence interventions \cite{ni2026safemr}. These studies define important novelty boundaries: our primary endpoint is evidence citation accuracy and causal dependence, not abstention, source provenance, or utility ranking alone.

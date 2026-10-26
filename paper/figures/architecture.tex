@@ -1,0 +1,23 @@
+\begin{tikzpicture}[
+  font=\footnotesize,
+  node distance=7mm and 8mm,
+  box/.style={draw, rounded corners, align=center, minimum height=9mm, minimum width=24mm, fill=blue!5},
+  head/.style={draw, rounded corners, align=center, minimum height=9mm, minimum width=25mm, fill=green!8},
+  intervention/.style={draw, rounded corners, align=center, minimum height=10mm, text width=49mm, fill=orange!10},
+  arrow/.style={-{Latex[length=2mm]}, thick}
+]
+\node[box] (claim) {Claim};
+\node[box, below=of claim] (evidence) {Text, tables,\\figures, images};
+\node[box, right=of claim, yshift=-5mm] (graph) {Heterogeneous\\evidence graph};
+\node[box, right=of graph] (selector) {Sparse citation\\bottleneck};
+\node[head, above right=4mm and 11mm of selector] (verdict) {Verdict head};
+\node[head, below right=4mm and 11mm of selector] (explanation) {Citation-constrained\\explanation};
+\node[intervention, below=13mm of selector, xshift=-12mm] (interventions) {Delete decisive $\mid$ add irrelevant\\Duplicate $\mid$ swap modality};
+\draw[arrow] (claim) -- (graph);
+\draw[arrow] (evidence) -- (graph);
+\draw[arrow] (graph) -- (selector);
+\draw[arrow] (selector) -- node[above, sloped]{selected IDs} (verdict);
+\draw[arrow] (selector) -- node[below, sloped]{same IDs} (explanation);
+\draw[arrow] (interventions.north east) -- node[left]{paired training} (selector.south);
+\node[draw, dashed, rounded corners, fit=(verdict)(explanation), inner sep=4mm, label=above:{Shared evidence path}] {};
+\end{tikzpicture}

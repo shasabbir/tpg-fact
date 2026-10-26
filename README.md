@@ -1,49 +1,40 @@
-# Decision-Time Provenance for Multimodal Fact-Checking
+# TRACE-SCV
 
-This repository contains the editable IEEE TCSS-style manuscript and a reproducible experiment package for the proposed US-TPMFC study. The central test concerns decision-time-valid evidence and independent corroboration, not graph architecture by itself.
+This repository develops **Evidence-Traceable Multimodal Claim Verification with Counterfactual Citation Grounding**. It is a complete reset of the former private-data temporal-provenance project.
 
-The living source of truth for scope, milestones, gates, decisions, deviations,
-and next actions is [`plan.md`](plan.md). Read and update it before and after
-substantive study work.
+The study asks whether a verifier's cited text, table, figure, or image actually supports its verdict. It uses public datasets only and evaluates verdict quality, citation attribution, counterfactual faithfulness, robustness, and compute cost.
 
-## Current evidence status
-
-- **Implemented:** the data/audit pipeline plus dataset and feature freezing, fused BM25/BGE-M3/SigLIP2 retrieval with pinned BGE reranking, reusable graph and matched feature models, validation-only hyperparameter selection, five-seed baseline/ablation execution, calibration and abstention, paired event bootstrap, Holm adjustment, generated LaTeX tables, and a resumable final-run orchestrator.
-- **Prepared data:** the redesigned evidence-first pilot contains 200 frozen image--text claims and 682 time-valid evidence records. All 200 claims have evidence, 141 have at least two source-domain clusters, and the 50/39/111 temporal splits pass exact event-ID and pHash leakage checks. It remains an AI-assisted pilot, not the final benchmark.
-- **Checked:** 44 unit/integration tests, Python compilation, the frozen pilot, a tiny CPU training/checkpoint/calibration cycle, synthetic smoke workflow, the pilot validation notebook, and page-by-page manuscript PDF inspection pass.
-- **Not yet measured:** dense real-pilot features, CUDA pilot training, the final 2,000-case corpus or fallback benchmark, robustness effects, and final five-seed comparisons.
-- **Not claimed:** benchmark scale, superiority over prior work, journal quartile, or any empirical result not produced by the included code.
+The living source of truth is [`plan.md`](plan.md). It records the scope, novelty boundary, dataset gates, hypotheses, stop rules, milestones, and next action.
 
 ## Layout
 
-- `paper/paper.tex` and `paper/supplement.tex`: main LaTeX entry points.
-- `paper/sections/`: manuscript prose organized by section.
-- `paper/references.bib`: peer-reviewed 2020+ references with DOI records.
-- `paper/figures/`, `paper/tables/`, and `paper/output/pdf/`: manuscript assets and compiled deliverables; `paper/output/overleaf-main-2026-10-24-v9.zip` is the clean-tested main-paper upload package.
-- `research/`: literature, reference-integrity, and claim-evidence registers.
-- `research/reference_paper_dossiers.md`: detailed audit of all 17 supplied papers and its consequences for novelty, baselines, and evaluation.
-- `experiments/`: reusable Python modules, configurations, notebooks, tests, and generated outputs.
+- `Base papers/`: the two supplied anchor papers (M-RAV and MEVER).
+- `Reference_good_papers/`: the earlier PDF archive, retained as source material.
+- `research/`: base-paper dossier, novelty audit, dataset registry, literature matrix, and search log.
+- `experiments/`: reusable Python package, tests, scripts, configurations, and analysis notebooks.
+- `kaggle/`: the Kaggle entry notebook and short run instructions.
+- `paper/`: IEEE-style LaTeX manuscript and direct supporting files only.
 
-## Quick start
+## Local smoke test
 
-The complete Windows setup, pilot-data, five-seed, evaluation, notebook, and LaTeX commands are documented in [`experiments/README.md`](experiments/README.md).
-
-For an already configured environment, run the dependency-light checks from `experiments`:
+From `D:\1.msc\ET2\experiments`:
 
 ```powershell
-$env:PYTHONPATH = "$PWD\src"
-python scripts/run_smoke_test.py --config configs/base.yaml
-python scripts/audit_feasibility.py --claims outputs/smoke/claims.jsonl --evidence outputs/smoke/evidence.jsonl --output outputs/smoke/feasibility.json
+python -m pip install -e ".[dev]"
+python scripts/run_smoke.py --output outputs/smoke
 python -m pytest -q
 ```
 
-The smoke test and tiny CPU training test use synthetic records. They are software checks, not scientific evidence. The exact frozen-data and resumable Kaggle commands are in [`experiments/README.md`](experiments/README.md).
+The smoke run uses synthetic evidence packets and validates software behavior only. It is not a scientific result.
 
-For the simplest current Kaggle path, upload [`dtp_fact_background_2026-10-25_v4.zip`](kaggle/output/dtp_fact_background_2026-10-25_v4.zip) and [`dtp_fact_pilot_ready_2026-10-25.zip`](kaggle/output/dtp_fact_pilot_ready_2026-10-25.zip) as private datasets, import [`01_run_pilot_experiments.ipynb`](kaggle/notebooks/01_run_pilot_experiments.ipynb), enable GPU and Internet, and run all cells. This produces pilot-only outputs; the full final-study notebooks remain gated on the final corpus. Full instructions are in [`kaggle/README.md`](kaggle/README.md).
+## Public-data preflight
 
-Compile the LaTeX sources with the Codex built-in compiler or an installed IEEE-compatible LaTeX distribution. BibTeX is required for the final bibliography.
+```powershell
+python scripts/check_public_datasets.py --output outputs/data_preflight.json
+```
 
-## Reproducibility rule
+For Kaggle, upload this repository or clone it in the notebook, enable Internet for the first run, and execute [`kaggle/01_public_data_preflight.ipynb`](kaggle/01_public_data_preflight.ipynb). The notebook installs the package non-editably to avoid Kaggle read-only dataset errors.
 
-Notebooks may inspect outputs but must import scientific logic from `experiments/src`. Main tables and figures must be generated from preserved outputs rather than copied manually into the manuscript.
+## Evidence policy
 
+Result claims may enter the manuscript only after they are linked to a saved output, frozen configuration, dataset revision, and audit row. Published baseline values and locally reproduced values are never merged into the same statistical comparison.

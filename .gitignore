@@ -1,14 +1,33 @@
-experiments/.venv/
-experiments/.secrets/
-experiments/.env.local
-experiments/data/raw/
-experiments/data/interim/
-experiments/data/private/
-experiments/outputs/executed_notebooks/
-experiments/**/__pycache__/
-experiments/.pytest_cache/
-tmp/pdfs/
-tmp/pdf-renders/
+# Python and environments
+.venv/
+**/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+*.egg-info/
+
+# Secrets
+.env
+.env.*
+!.env.example
+**/.secrets/
+
+# Public datasets are downloaded from official releases, not committed
+experiments/data/
+experiments/cache/
+experiments/checkpoints/
+experiments/outputs/*
+!experiments/outputs/.gitkeep
+/outputs/
+
+# Notebook execution products
+experiments/notebooks/.ipynb_checkpoints/
+kaggle/.ipynb_checkpoints/
+
+# LaTeX build products
 *.aux
 *.bbl
 *.blg
@@ -17,4 +36,10 @@ tmp/pdf-renders/
 *.log
 *.out
 *.synctex.gz
+*.toc
+paper/build/
+paper/paper.pdf
 
+# Local temporary files
+tmp/
+*.zip
