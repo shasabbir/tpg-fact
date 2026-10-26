@@ -1,8 +1,0 @@
-\section{Evaluation Questions}
-
-The first analysis tests whether excluding post-cutoff documents changes retrieval quality and future-event classification. The full method is compared with vanilla multimodal RAG and with provenance-aware RAG that does not enforce a time cutoff. Event-level paired bootstrap intervals quantify the differences.
-
-The second analysis measures how source dependence affects a verdict. It compares cluster-level aggregation with document-level aggregation before and after injecting one, five, and ten syndicated copies of the same source. Changes in macro-F1, confidence, Brier score, and selective risk show whether repeated evidence is being counted as independent corroboration.
-
-The third analysis examines the sufficiency gate and calibrated abstention. A flat three-class classifier and an uncalibrated confidence threshold provide matched controls. The comparison uses insufficient-evidence F1, area under the risk--coverage curve, and risk at 80\% coverage.
-
