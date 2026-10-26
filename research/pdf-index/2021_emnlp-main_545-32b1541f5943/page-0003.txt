@@ -1,0 +1,88 @@
+6803
+examples of fake news, our focus is on exploring
+an automated threat scenario, where an image is
+automatically retrieved to match a given caption.
+3 The NewsCLIPpings Dataset
+The objective of this work is to explore tech-
+niques for creating challenging, non-random image-
+caption matches that require ﬁne-grained semantic
+and entity knowledge. As seen in Figure 2 5, mis-
+information in the wild is often extremely subtle
+and much more difﬁcult than the random matches
+provided in prior synthetic datasets. In fact, gen-
+eral models that were not speciﬁcally trained or
+ﬁnetuned on the news domain can “solve” ran-
+dom news matches. We found that CLIP was able
+to achieve 97.39% Top-1 accuracy on a caption-
+image retrieval task with news images6. For com-
+parison, a recent method TRIP (Thomas and Ko-
+vashka, 2020) reports a Top-1 accuracy of 73.78%
+on a similar task. As a result, we construct several
+splits that model speciﬁc threat scenarios seen in
+the real world, and we use CLIP ViT-B/32off-the-
+shelf to ﬁlter out the less challenging samples.
+In the following, we assume we have a pristine
+query pair (img1, cap1) and retrieve another pair
+(img2, cap2) to form a falsiﬁed pair (img2, cap1).
+Preprocessing Our dataset is derived from Visual-
+News (Liu et al., 2020), a large-scale corpus which
+contains image-caption pairs from four news agen-
+cies (The Guardian, BBC, USA Today, and The
+Washington Post). We use spaCy NER (Honnibal
+and Montani, 2017) to label named entities in cap-
+tions and the Radboud Entity Linker (REL) (van
+Hulst et al., 2020) to link them to their Wikipedia
+2019 entries. We compute text embeddings using
+SBERT-WK (Wang and Kuo, 2020) and CLIP (Rad-
+ford et al., 2021). We compute image embeddings
+with Faster R-CNN (Ren et al., 2015) and CLIP. We
+use a ResNet50 classiﬁer trained on the Places365
+dataset (Zhou et al., 2017) to get scene embeddings
+from images. We ensure that all matched samples
+are at least 30 days apart and that(cap1, cap2) have
+no overlapping named entities identiﬁed by spaCy
+and REL to prevent true matches, with the excep-
+tion of the Person split, where we expect at least
+one “PERSON” entity to match.
+5Examples found on https://www.snopes.com and
+https://www.politifact.com.
+6We ran this on a random 40k subset of VisualNews and
+counted how often CLIP selected the true image vs. four
+random negative images.
+Figure 2: We are motivated by the real-world examples
+of images used out-of-context. Here we include real
+misinformation examples found online 5 which closely
+resemble the four threat scenarios in our dataset.
+Query for Semantics Our ﬁrst split models a threat
+scenario that queries for speciﬁc semantic content,
+with the intent to portray the subjects of the im-
+age as certain other named entities, see Figure 2 (i,
+ii). We consider two ways of getting the matches.
+(a) CLIP Text-Image: We rely on the state-of-the-
+art CLIP representation to retrieve samples with
+the highest CLIP text-image similarity between
+(img2, cap1). (b) CLIP Text-Text : We match
+samples with the highest CLIP text-text similarity
+between (cap1, cap2) and retrieve the correspond-
+ing img2. See examples (a) and (b) in Figure 1.
+Query for Person This split models a threat sce-
+nario that queries for a speciﬁc person, with the
+intent to portray them in a false context, as in Fig-
+ure 2 (iii). We ensure that the person of interest is
+pictured: all considered samples must have “PER-
+SON” entities in their captions and a person related
+Faster-RCNN bounding box detected in the image.
+To avoid cases where the query person is mentioned
+but unlikely to be pictured, we ﬁlter captions where
+the person is in the possessive form, the object of
+the sentence, or modify a noun as determined by
+spaCy’s dependency parser. We ensure that the
+context is distinct: the Places365 ResNet similar-
+ity must be less than 0.9. Finally, we found that
+there were a number of unsolvable falsiﬁed sam-
+ples where the caption could be plausibly matched
+with any image of the person of interest. We min-
+imize the number of such “generic” captions: we
+ﬁnetune a BERT (Devlin et al., 2019) model on
+a small labelled subset of our training data to ﬁl-
+ter these captions from our matching process. (c)

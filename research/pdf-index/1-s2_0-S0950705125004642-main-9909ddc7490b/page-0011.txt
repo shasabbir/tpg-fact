@@ -1,0 +1,123 @@
+H. Lv et al.
+Table 4
+Comparison of trainable parameters and computational speed. FLOPs: amount of 
+floating point arithmetics.
+ MDF-FND EANN SpotFake CAFE  
+ Params 30.9M 143.70M 124.37M 0.68M 
+ FLOPs 18.82G 19.63G 30.42G 0.01G 
+(a) Among the unimodal methods, especially on textual modalities, 
+the PLMs represented by BERT demonstrate irreplaceable captur-
+ing ability. On the Twitter dataset, it outperforms the traditional 
+support vector machine (SVM) by almost 9.3%. This reflects the 
+effectiveness of employing textual unimodality for fake news 
+detection, as visual fakery is usually not easily captured.
+(b) Multimodal fake news detection methods (e.g., MVAE [11] and 
+EANN [9]) usually have more sensitive insights than unimodal 
+text detection methods because they usually take into account 
+the inconsistent semantic information of both modalities, text 
+and image, in their models. However, these methods fail to 
+address the incidental uncertainty arising from the noise often 
+found in multimodal news.
+On two public datasets, Twitter and Weibo, our proposed MDF-
+FND consistently outperforms the latest baseline methods. The 4% im-
+provement in accuracy over the optimal baseline model was achieved. 
+Correspondingly, the F1 Score increases by 6%. In this paper, the data 
+uncertainty problem caused by the noise in multimodal posts circulat-
+ing in social networks is elaborated, while the uncertainty modeling 
+mechanism is introduced in our model, which is able to capture the 
+unimodal features in complex heterogeneous multimodal post data. In 
+addition, the heterogeneous GAT shifts the goal to modeling the inter-
+modal uncertainty, and the mapped features have stronger robustness; 
+thus the performance is effectively improved. However, because the 
+two datasets originate from distinct linguistic environments, tweets 
+on the Twitter platform are typically brief, while Weibo posts often 
+include trending topic tags and a broader range of content expressions. 
+Consequently, there are substantial differences between the results.
+The MDF-FND framework exhibits poor performance on the Poli-
+tiFact dataset, and our analysis reveals two primary reasons for this. 
+First, the PolitiFact dataset relies on factual verification, where external 
+knowledge is crucial for guiding detection. Thus, relying solely on 
+semantic information is inadequate to accurately identify fake news. 
+Second, the dataset contains numerous posts without accompanying 
+images, and the MDF-FND framework struggles to process these posts 
+effectively. If a multimodal post lacks information from one modality, 
+the dynamic fusion approach is divided into traditional unimodal fake 
+detection tasks, which presents a considerable challenge for the model. 
+In the following experiments, the overall performance of the MDF-FND 
+framework is mainly evaluated on the two public datasets, Twitter and 
+Weibo.
+In summary, the advantage of the MDF-FND framework lies in 
+its ability to model both intra-modal and inter-modal uncertainty by 
+utilizing the strengths of the attention mechanism, thus improving the 
+robustness of the detection model. However, its limitation is that, in the 
+context of fact-checking news, it cannot incorporate additional consid-
+erations, particularly clues relevant to fact verification. This represents 
+a promising direction for future research.
+4.5. Computational complexity
+The computational complexity of the MDF-FND framework is a 
+crucial aspect to address, particularly in the context of large-scale 
+datasets and real-time applications. In this section, we will analyze the 
+computational complexity associated with the various components of 
+the method we proposed.
+In the feature extraction phase, the frozen parameters of the pre-
+trained bert-base-uncased and ResNet-50 are employed to extract se-
+mantic information from text and images, respectively. The compu-
+tational complexity of BERT encoding and attention calculation for 
+news posts is 𝑂(𝑛2 ⋅ 𝑑), where 𝑛 denotes the number of tokens in each 
+news, and 𝑑 represents the embedding dimension. For image feature 
+extraction, the key factor is the number of 𝑅𝑂𝐼𝑠 (Regions of Interest). 
+Let the number of ROIs extracted from the image be denoted as 𝑙, with 
+each 𝑅𝑂𝐼 feature represented as 𝑒𝑣𝑖 ∈ R𝑑𝑣 , where 𝑑𝑣 is the dimension 
+of each 𝑅𝑂𝐼 . Assume that the feature extraction time for each 𝑅𝑂𝐼
+is at a constant level, 𝑂(1), the total extraction complexity is 𝑂(𝑙). The 
+complexity of the convolution operation is expressed as 𝑂(𝐻 ⋅𝑊 ⋅𝐶 ⋅𝐾 2), 
+where 𝐻 and 𝑊  are the height and width of the input image, 𝐶 is 
+the number of input channels, and 𝐾 is the size of the convolution 
+kernel. The computational complexity of the average pooling operation 
+is 𝑂(𝐶 ⋅ 𝐿), where 𝐶 denotes the number of channels and 𝐿 denotes the 
+length of the input sequence.
+In the uncertainty modeling phase, the multi-head self-attention 
+module is primarily employed for operations. Assume there are 𝑘
+attention heads, and the input representation of each attention head 
+is 𝐻 (𝑖) ∈ R𝑇 ×𝐷∕2𝑘, where the total complexity is 𝑂(𝑘 ⋅ 𝑇 2 ⋅ 𝐷), with 
+𝑇 representing the length of the feature sequence and 𝐷 the size 
+of the hidden layer. The complexity analysis for the two unimodal 
+graph structures and one multimodal graph structure includes both 
+the attention weight calculation and the update of node features. The 
+overall complexity is 𝑂(𝐸 ⋅ 𝐹 ), where 𝐸 is the number of edges in 
+the graph, which is determined by the length of the feature vectors of 
+the two modalities. 𝐹 represents the dimensionality of the features of 
+nodes.
+Since sampling is non-differentiable, it affects the gradient propa-
+gation of the training process. However, the complexity of sampling 
+from a Gaussian distribution  (𝜇, 𝜎2) is the constant level, marked 
+𝑂(1), therefore does not significantly increase the overall complexity. 
+The same is true for the complexity of the evidence fusion module.
+The final classification module uses MLP to discriminate the two-
+dimensional robust features with a complexity of 𝑂(𝐻 × 𝑊 × 𝐿), where 
+𝐻 is the number of hidden units in the MLP hidden layer, 𝑊  is the 
+width of the input feature vector, and 𝐿 is the length of the input 
+sequence.
+It costs around 10 h to train MDF-FND for 40 epochs on a single 
+NVIDIA A40 GPU. The computational complexity analysis in Table 
+4 indicates that MDF-FND requires fewer trainable parameters and 
+achieves significantly faster computational speed compared to EANN 
+and SpotFake. CAFE requires amazingly low computational complexity 
+by using simple auto-encoders and MLPs, but the performance is not 
+good enough. In conclusion, the MDF-FND framework is well-suited for 
+fake news detection tasks that require real-time processing.
+4.6. Ablation studies
+To verify the effectiveness of the proposed fusion strategy, the abla-
+tion analyses are conducted to evaluate the impact of each component 
+on the performance of the MDF-FND framework. In each experiment, a 
+specific component, either the UEM or DFN, is systematically removed 
+and the model is retrained. The following variants of MDF-FND are 
+implemented:
+1. MDF-FND w/o UEM-Text. The uncertainty module used to model 
+unimodal text is removed. The UEM module features are fed with 
+captured visual uncertainty information and features extracted 
+after BERT [46] into the dynamic fusion module, and Gaussian 
+modeling for text features is not removed to better represent the 
+modeling capabilities of DFN.
+Knowledge-Based Systems 317 (2025) 113417 
+11 

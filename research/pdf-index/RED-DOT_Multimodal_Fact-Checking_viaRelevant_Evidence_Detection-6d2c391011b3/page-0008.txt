@@ -1,0 +1,76 @@
+4238 IEEE TRANSACTIONS ON COMPUTATIONAL SOCIAL SYSTEMS, VOL. 12, NO. 6, DECEMBER 2025
+Fig. 4. Inference by RED-DOT variants: DSL and DSL +GA (w/ CLIP ViT B/32) on samples taken from New sCLIPpings+. We report the attention scores
+of each method. “Relevance ground truth” is set to [0, 0, 1, 1] for simplicity, regarding [ Te−, Ie−, Te+, Ie+], respectively.
+where performance drops on VERITE despite high performance
+on NewsCLIPpings+. This discrepancy can be attributed to
+differing correlation patterns between features extracted by var-
+ious backbone encoders on NewsCLIPpings+ and VERITE. As
+seen in Table IV, while image–image and image–text correla-
+tions are strong, and statistically signiﬁcant, on both datasets
+with CLIP L/14, correlations between textual and visual ev-
+idence are weaker on VERITE, thus, training with external
+evidence enhances performance on NewsCLIPpings+, but not
+VERITE. Importantly, integrating RED improves performance
+on VERITE with all backbone encoders, and RED-DOT-SSL
+using CLIP ViT L/14 achieves the best balance on both datasets.
+These ﬁndings s upport our hypothesis t hat multitask learning
+with “verdict prediction” and “relevant evidence detection”
+improves detection accuracy. Finally, we retrained RED-DOT-
+SSL and RED-DOT-Baseline using CLIP ViT L/14 across 10
+random seeds, achieving mean accuracies of 76.26% (±1.0) and
+74.92% (±0.8) on VERITE, respectively, which correspond to
+a p-value of 0.02 based on the Mann-Whitney U-test, demon-
+strating statistical signiﬁcance at a 0.05 p-level.
+F . Qualitative Analysis
+Fig. 4 shows the inference process on NewsCLIPpings+ test
+set samples for two RED-DOT variants, DSL and DSL +GA.
+Both models correctly predict the overall verdict and evidence
+relevance. However, DSL+GA assigns higher attention scores
+to relevant items. For example, in the “truthful” pair, the evi-
+dence retrieval and reranking module retrieves the same image
+Ie+ as Iv+, and DSL+GA correctly assigns higher attention
+scores to Ie+ (0.182), followed by Te+ (0.109), and lower
+scores to irrelevant evidence (0.100). In contrast, DSL shows
+lower attention on Ie+ (0.081) and Te+ (0.078), with higher
+scores on irrelevant evidence (0.111). In the “misinformation”
+pair, DSL+GA assigns higher attention scores to the relevant
+evidence, while DSL assigns equal scores to irrelevant items,
+including Ie+.D S L+GA’s higher attention on relevant texts
+and images can potentially enhance interpretability.
+VI. C ONCLUSION
+In this study we address the challenge of evidence-based
+MFC and incorporate RED as part of the process, where the
+model, ﬁrst has to determine which pieces of evidence are
+relevant to support or refute the claim under veriﬁcation and
+then proceed to assess its veracity. We conduct extensive ab-
+lation and comparative experiments to show that the proposed
+RED-DOT is capable of outperforming its counterparts that are
+not optimized for RED on VERITE. Moreover, it outperforms
+the state-of-the-art on NewsCLIPpings+ without requiring nu-
+merous evidence, multiple or ﬁne-tuned backbone encoders or
+additional features.
+Despite notable improvements in the ﬁeld of MFC, it is
+essential to discuss certain limitations of our research and the
+ﬁeld more broadly. Following previous studies [23], [24], [25]
+we focused on NewsCLIPpings+, which, despite being the only
+publicly available multimodal dataset with external, nonleaked
+evidence, it comes with certain constraints. Firstly, the dataset
+consists of a mere 85 000 samples which may not encompass the
+full spectrum of diversity concerning historical events, promi-
+nent ﬁgures, and other crucial contextual elements pertinent
+to misinformation. Furthermore, NewsCLIPpings+ exclusively
+focuses on “repurposed images” or “out-of-context misinfor-
+mation”, omitting categories s uch as “miscaptioned images”
+[29] and only provides short textual evidence -article titles and
+captions- that may offer limited information in comparison to
+complete articles. Therefore, subsequent research endeavors
+should aim at the collection of more extensive and diverse
+datasets, that also include full texts as candidate evidence and
+encompass various forms of m ultimodal misinformation.
+Finally, one should acknowledge that the external informa-
+tion used as “evidence” is retrieved from search engines, which
+may introduce irrelevant or noisydata, limiting the full potential
+of MFC methods. Future research should explore improved
+strategies for gathering, ﬁltering, and evaluating external evi-
+dence. Our work takes a ﬁrst step in this direction by introduc-
+ing a robust framework for ﬁltering relevant external evidence,

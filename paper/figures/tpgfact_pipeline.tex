@@ -25,19 +25,20 @@
   };
 
   \node[stage, draw=tpgteal, fill=tpgteal!8, text width=38mm, right=5mm of claim] (retrieve) {
-    \textbf{2. Retrieve and time-filter}\\[1mm]
+    \textbf{2. Retrieve and verify time}\\[1mm]
     entities, dates, OCR, caption\\
     BM25 + BGE-M3\\
     SigLIP2 + pHash\\
-    RRF $\rightarrow$ rerank $\rightarrow$ top 20
+    RRF $\rightarrow$ rerank\\
+    publication + observation $\leq\tau$
   };
 
   \node[stage, draw=tpgviolet, fill=tpgviolet!8, text width=39mm, right=5mm of retrieve] (graph) {
     \textbf{3. Model provenance}\\[1mm]
     document--image--publisher graph\\
     links + publication order\\
-    dependency clustering\\
-    aggregate source clusters
+    dependence signals\\
+    bounded cluster aggregation
   };
 
   \node[stage, draw=tpgorange, fill=tpgorange!9, text width=39mm, right=5mm of graph] (decision) {
@@ -53,10 +54,10 @@
   \draw[flow] (graph) -- (decision);
 
   \node[note, below=3mm of retrieve, text width=38mm] (cutoff) {
-    \textbf{Eligibility guard:} exclude fact-check pages and evidence published after $\tau$
+    \textbf{Eligibility guard:} require a pre-cutoff observation; exclude fact-check pages
   };
   \node[note, below=3mm of graph, text width=39mm] (independence) {
-    \textbf{Independence guard:} syndicated copies contribute through one source cluster
+    \textbf{Independence guard:} copies share one bounded source cluster
   };
   \node[note, below=3mm of decision, text width=39mm] (output) {
     \textbf{Traceable output:} label or defer, probabilities, evidence IDs, cluster IDs, cutoff

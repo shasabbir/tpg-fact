@@ -1,0 +1,110 @@
+ment models struggle to accurately deal with NEI
+claim labels.
+Table 4 highlights the superiority of our model
+compared to MOCHEG. In the case of MOCHEG,
+truthfulness labels are predicted by averaging a
+stance representation derived from both textual and
+image evidence. Furthermore, MOCHEG’s classi-
+fier relies on fixed thresholds, which may not be op-
+timal for every situation. In contrast, our approach
+involves generating summaries for fact-checking
+via reinforcement learning with fixed entailment
+models and LM critic. Although a difference re-
+mains in the result of human vs system prediction
+performance, our model surpasses the prior state-
+of-the-art system by 4.6% F-score.
+Table 4: Performance of claim verification in MOCHEG.
+DeBERTaV3 and Llama 2 represent the fixed entailment
+models. "Gold Evidence" denotes ground truth text and
+image evidence, while "System Evidence" refers to au-
+tomatically retrieved text and image evidence. "Human"
+indicates human evaluation.
+Setting F-score (%)
+MSP(Entail. critic) w/ Text Evidence → DeBERTA V3 42.7
+MSP(Entail. critic) w/ Text + Img Evidence → DeBERTA V3 45.1
+MSP(Entail. critic) w/ Text Evidence → Llama 2 43.9
+MSP(Entail. critic) w/ Text + Img Evidence → Llama 2 48.2
+MSP(Entail., LM critics) w/ Text Evidence → DeBERTA V3 44.1
+MSP(Entail., LM critics) w/ Text + Img Evidence → DeBERTA V3 46.1
+MSP(Entail., LM critics) w/ Text Evidence → Llama 2 44.6
+MSP(Entail., LM critics) w/ Text + Img Evidence → Llama 2 48.6
+MOCHEG w/ Text Evidence 42.7
+MOCHEG w/ Image Evidence 40.9
+MOCHEG w/ Text and Image Evidence 44.0
+Human w/o Evidence 20.0
+Human w/ System Evidence 62.0
+Human w/ Gold Evidence 70.0
+5.2 Ablations
+Additionally, we conducted ablation experiments
+for claim verification on our Multi-News-Fact-
+Checking dataset. A comparative analysis of our
+method with Llama 2 and other offline summariza-
+tion models, PRIMERA (Xiao et al., 2022), PEGA-
+SUS (Zhang et al., 2020) and T5 large (Raffel et al.,
+2020), is presented in Tables 5 and 6.
+Similar to our results in MOCHEG, Tables 5
+and 6 show that our approach, when employing
+the Llama 2 surrogate entailment model, achieves
+the best performance. Furthermore, we achieve bal-
+anced accuracy in both precision and recall, under-
+scoring our method’s ability to clearly differentiate
+between truthful and untruthful labels without bias
+in predictions. The results highlight the inability
+of other summarization models to generate sum-
+maries useful for fact-checking, which causes the
+surrogate model difficulty in accurately assessing
+the truthfulness labels. Furthermore, it is evident
+that the LM critic significantly aids the entailment
+model in verifying claim labels effectively. The
+LM critic ensures that the summary is more con-
+cise and clear while retaining the essential meaning
+in the summary.
+In addition, to assess the degree to which our
+summaries are merely extractive of the source ar-
+ticles, we employed ROUGE to evaluate our sum-
+maries alongside the provided articles. Our sum-
+maries received a ROUGE score of 0.53, whereas
+the human-written summaries in the Multi-news
+dataset scored 0.62. Upon comparison, we believe
+our summaries do not simply rephrase the source
+articles.
+Moreover, to determine the fidelity and informa-
+tiveness of the generated summaries, we conducted
+a human evaluation using a scale from 1 to 5, with
+1 indicating low fidelity/informativeness and 5 in-
+dicating high fidelity/informativeness. We tested
+60 generated summaries and obtained an average
+score of 3.77 for fidelity and informativeness. Com-
+paratively, the PRIMERA summaries scored 3.35.
+To ensure impartiality, we blinded the annotators
+and asked them to rate the generated summaries
+alongside their respective articles.
+Table 5: Performance of claim verification in Multi-
+News-Fact-Checking dataset. DeBERTA V3 and Llama
+2 serve as the fixed entailment models. "Gold Evidence"
+denotes ground truth text and image evidence, while
+"System Evidence" refers to automatically retrieved text
+and image evidence. "Human" indicates human evalua-
+tion.
+Setting F-score (%)
+PEGASUS → DeBERTA V3 25.4
+PEGASUS → Llama 2 30.8
+T5 large → DeBERTA V3 28.5
+T5 large → Llama 2 32.7
+PRIMERA → DeBERTA V3 38.2
+PRIMERA → Llama 2 38.3
+MSP(Entail., LM critics) → DeBERTA V3 40.1
+MSP(Entail. critic) → Llama 2 41.8
+MSP(Entail., LM critics) → Llama 2 43.7
+Human w/o Evidence 23.0
+Human w/ System Evidence 65.0
+Human w/ Gold Evidence 76.0
+We also removed the image component from our
+model and tested it on the FEVER testing dataset.
+Using Llama2, our zero-shot entailment prediction
+accuracy was 62%. Using PRIMERA’s summaries,
+the most competitive baseline for multidocument
+summarization, we obtained 42% on FEVER. Thus,
+we continue to outperform on this benchmark. No-
+tably, we did not fine-tune the downstream clas-
+8748

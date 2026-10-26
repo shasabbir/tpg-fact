@@ -1,0 +1,137 @@
+ZHANG et al.: EARL Y DETECTION OF MULTIMODAL FAKE NEWS VIA REINFORCED PROPAGA TION PA TH GENERA TION 623
+the early detection of fake news has become a crucial research
+focus within the ﬁeld of fake news detection [13], [64], [65].
+Y ang et al.[66] endeavor to utilize convolutional neural networks
+for extracting linguistic and user features from news content
+and employ these features for the early detection of fake news.
+Nguyen et al. [67] employ deep neural networks to capture
+features at a posterior level, achieving superior performance in
+fake news early detection. Liu et al. [68] propose a novel deep
+neural network that integrates crowd response features and user
+reactions. Y uan et al. [14] propose to combine news content,
+publishing, and reposting relations for early detection. Huang
+et al. [13] design a social bot-aware graph neural network for
+early detection.
+VI. C ONCLUSION
+This paper introduces the innovative RPPG-Fake model. The
+model simulates the propagation process using the contents
+of news and integrates the generated propagation paths into
+a temporal-aware detection module. The effectiveness of the
+proposed model is thoroughly assessed across three popular
+datasets. The experimental results demonstrate the enhanced
+performance of our proposal. While the model shows promise,
+future work could explore more sophisticated propagation path
+generation techniques that account for additional social dy-
+namics, incorporate adaptive learning for better generalization
+across domains, and focus on optimizing real-time detection
+and scalability for large-scale social networks. Addressing these
+areas will be essential to maximizing the model’s impact and
+applicability across diverse contexts.
+REFERENCES
+[1] D. Khattar, J. S. Goud, M. Gupta, and V . V arma, “MV AE: Multimodal
+variational autoencoder for fake news detection,” in Proc. World Wide
+Web Conf., 2019, pp. 2915–2921.
+[2] J. Ma, W. Gao, and K.-F. Wong, “Detect rumors on Twitter by promoting
+information campaigns with generative adversarial learning,” in Proc.
+World Wide Web Conf., 2019, pp. 3049–3055.
+[3] S. Qian, J. Wang, J. Hu, Q. Fang, and C. Xu, “Hierarchical multi-modal
+contextual attention network for fake news detection,” in Proc. 44th Int.
+ACM SIGIR Conf. Res. Develop. Inf. Retrieval , 2021, pp. 153–162.
+[4] Y . Chen et al., “Cross-modal ambiguity learning for multimodal fake news
+detection,” in Proc. ACM Web Conf., 2022, pp. 2897–2905.
+[5] K. Shu, L. Cui, S. Wang, D. Lee, and H. Liu, “dEFEND: Explainable fake
+news detection,” in Proc. 25th ACM SIGKDD Int. Conf. Knowl. Discov.
+Data Mining, 2019, pp. 395–405.
+[6] L. Hu et al., “Compare to the knowledge: Graph neural fake news de-
+tection with external knowledge,” in Proc. 59th Annu. Meeting Assoc.
+Comput. Linguistics 11th Int. Joint Conf. Natural Lang. Process. , 2021,
+pp. 754–763.
+[7] X. Su, J. Y ang, J. Wu, and Y . Zhang, “Mining user-aware multi-relations
+for fake news detection in large scale online social networks,” in Proc.
+16th ACM Int. Conf. Web Search Data Mining , 2023, pp. 51–59.
+[8] R. Y ang, X. Wang, Y . Jin, C. Li, J. Lian, and X. Xie, “Reinforcement
+subgraph reasoning for fake news detection,” inProc. 28th ACM SIGKDD
+Conf. Knowl. Discov. Data Mining , 2022, pp. 2253–2262.
+[9] Y . Liu and Y .-F. Wu, “Early detection of fake news on social
+media through propagation path classiﬁcation with recurrent and
+convolutional networks,” in Proc. AAAI Conf. Artif. Intell. , 2018,
+pp. 354–361.
+[10] K. Shu, D. Mahudeswaran, S. Wang, and H. Liu, “Hierarchical propagation
+networks for fake news detection: Investigation and exploitation,” inProc.
+Int. AAAI Conf. Web Social Media , 2020, pp. 626–637.
+[11] L. Zhang et al., “Mitigating social hazards: Early detection of fake news
+via diffusion-guided propagation path generation,” inProc. 32nd ACM Int.
+Conf. Multimedia, 2024, pp. 2842–2851.
+[12] K. Shu et al., “Leveraging multi-source weak social supervision for early
+detection of fake news,” 2020, arXiv: 2004.01732.
+[13] Z. Huang, Z. Lv, X. Han, B. Li, M. Lu, and D. Li, “Social bot-aware graph
+neural network for early rumor detection,” inProc. 29th Int. Conf. Comput.
+Linguistics, 2022, pp. 6680–6690.
+[14] C. Y uan, Q. Ma, W. Zhou, J. Han, and S. Hu, “Early detection of fake news
+by utilizing the credibility of news, publishers, and users based on weakly
+supervised learning,” 2020, arXiv: 2012.04233.
+[15] Q. Nan et al., “Exploiting user comments for early detection of fake news
+prior to users’ commenting,” 2023, arXiv:2310.10429.
+[16] T. Bian et al., “Rumor detection on social media with bi-directional
+graph convolutional networks,” in Proc. AAAI Conf. Artif. Intell. , 2020,
+pp. 549–556.
+[17] J. Zheng, X. Zhang, S. Guo, Q. Wang, W. Zang, and Y . Zhang, “MFAN:
+Multi-modal feature-enhanced attention networks for rumor detection,” in
+Proc. Int. Joint Conf. Artif. Intell. , 2022, pp. 2413–2419.
+[18] A. Madry, A. Makelov, L. Schmidt, D. Tsipras, and A. Vladu, “To-
+wards deep learning models resistant to adversarial attacks,” 2017, arXiv:
+1706.06083.
+[19] S. Wu et al., “Generative retrieval as multi-vector dense retrieval,” in
+Proc. 47th Int. ACM SIGIR Conf. Res. Develop. Inf. Retrieval , 2024,
+pp. 1828–1838.
+[20] P . V eliˇckovi´c, G. Cucurull, A. Casanova, A. Romero, P . Liò, and Y . Bengio,
+“Graph attention networks,” 2017, arXiv:1710.10903.
+[21] P . Ren et al., “Melora: Mini-ensemble low-rank adapters for parameter-
+efﬁcient ﬁne-tuning,” in Proc. 62nd Annu. Meeting Assoc. Comput. Lin-
+guistics, 2024, pp. 3052–3064.
+[22] Y . Qian, Y . Zhang, Q. Wen, Y . Y e, and C. Zhang, “Rep2V ec: Repository
+embedding via heterogeneous graph adversarial contrastive learning,” in
+Proc. 28th ACM SIGKDD Conf. Knowl. Discov. Data Mining , 2022,
+pp. 1390–1400.
+[23] L. Zhang, X. Zhang, Z. Zhou, F. Huang, and C. Li, “Reinforced adaptive
+knowledge learning for multimodal fake news detection,” in Proc. AAAI
+Conf. Artif. Intell., 2024, pp. 16777–16785.
+[24] J. Jiang, C. Dun, T. Huang, and Z. Lu, “Graph convolutional reinforcement
+learning,” 2018, arXiv:1810.09202.
+[25] R. S. Sutton, “Learning to predict by the methods of temporal differences,”
+Mach. Learn., vol. 3, pp. 9–44, 1988.
+[26] R. Bellman, Dynamic Programming , vol. 707. New Y ork, NY , USA:
+Courier Corporation, 2013.
+[27] R. S. Sutton, D. McAllester, S. Singh, and Y . Mansour, “Policy gradient
+method for reinforcement learning with function approximation,” in Proc.
+Adv. Neural Inf. Process. Syst., 2000, pp. 1057–1063.
+[28] L. Zhang, X. Zhang, and J. Pan, “Hierarchical cross-modality semantic
+correlation learning model for multimodal summarization,” in Proc. AAAI
+Conf. Artif. Intell., 2022, pp. 11676–11684.
+[29] P . Qi, J. Cao, T. Y ang, J. Guo, and J. Li, “Exploiting multi-domain visual
+information for fake news detection,” in Proc. IEEE Int. Conf. Data
+Mining, 2019, pp. 518–527.
+[30] K. Shu, D. Mahudeswaran, S. Wang, D. Lee, and H. Liu, “FakenewsNet:
+A data repository with news content, social context, and spatiotemporal
+information for studying fake news on social media,” Big Data ,v o l .8 ,
+no. 3, pp. 171–188, 2020.
+[31] J. Devlin, M.-W. Chang, K. Lee, and K. Toutanova, “BERT: Pre-training of
+deep bidirectional transformers for language understanding,” 2018,arXiv:
+1810.04805.
+[32] Y . Wang et al., “EANN: Event adversarial neural networks for multi-modal
+fake news detection,” in Proc. 24th Acm Sigkdd Int. Conf. Knowl. Discov.
+Data Mining, 2018, pp. 849–857.
+[33] N. Ruchansky, S. Seo, and Y . Liu, “CSI: A hybrid deep model for
+fake news detection,” in Proc. ACM Conf. Inf. Knowl. Manage. , 2017,
+pp. 797–806.
+[34] Y . Dou, K. Shu, C. Xia, P . S. Y u, and L. Sun, “User preference-aware fake
+news detection,” in Proc. 44th Int. ACM SIGIR Conf. Res. Develop. Inf.
+Retrieval, 2021, pp. 2051–2055.
+[35] I. Loshchilov and F. Hutter, “Decoupled weight decay regularization,”
+2017, arXiv: 1711.05101.
+[36] H. Touvron et al., “Llama 2: Open foundation and ﬁne-tuned chat models,”
+2023, arXiv:2307.09288.
+[37] M. G. Buchholz, “Assessing the effectiveness of GPT-3 in detect-
+ing false political statements: A case study on the liar dataset,”
+2023, arXiv:2306.08190.
+Authorized licensed use limited to: American International University Bangladesh. Downloaded on October 20,2026 at 19:57:35 UTC from IEEE Xplore.  Restrictions apply. 

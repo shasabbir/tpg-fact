@@ -1,0 +1,106 @@
+8 Ethics Statement
+The VERITE dataset used in this study is publicly
+available and specifically designed for benchmark-
+ing multimodal fact-checking systems. All annota-
+tion work was done by the study authors without
+crowd-sourcing. VERITE consists of fact-checked
+articles from Snopes and Reuters, curated by ex-
+perts. Our pipeline retrieves only publicly available
+evidence using official APIs of search engines that
+comply with the Robots Exclusion Protocol.
+Acknowledgment
+This work has received funding from the EU H2020
+program under the SoBigData++ project (grant
+agreement No. 871042), by the CHIST-ERA grant
+No. CHIST-ERA-19-XAI-010, (ETAg grant No.
+SLTAT21096), and partially funded by HAMISON
+project.
+References
+Sahar Abdelnabi, Rakibul Hasan, and Mario Fritz.
+2022. Open-domain, content-based, multi-modal
+fact-checking of out-of-context images via online
+resources. Preprint, arXiv:2112.00061.
+Mubashara Akhtar, Oana Cocarascu, and Elena
+Simperl. 2023a. Reading and reasoning over
+chart images for evidence-based automated fact-
+checking. In Findings of the Association for
+Computational Linguistics: EACL 2023, pages 399–
+414, Dubrovnik, Croatia. Association for Computa-
+tional Linguistics.
+Mubashara Akhtar, Michael Schlichtkrull, Zhijiang
+Guo, Oana Cocarascu, Elena Simperl, and An-
+dreas Vlachos. 2023b. Multimodal automated fact-
+checking: A survey. In Findings of the Association
+for Computational Linguistics: EMNLP 2023, pages
+5430–5448, Singapore. Association for Computa-
+tional Linguistics.
+Sabrine Amri, Dorsaf Sallami, and Esma Aïmeur. 2022.
+Exmulf: An explainable multimodal content-based
+fake news detection system. In Foundations and
+Practice of Security, pages 177–187, Cham. Springer
+International Publishing.
+Shivangi Aneja, Chris Bregler, and Matthias Nießner.
+2021. Cosmos: Catching out-of-context misin-
+formation with self-supervised learning. Preprint,
+arXiv:2101.06278.
+Anthropic. 2024. The claude 3 model family: Opus,
+sonnet, haiku.
+Akari Asai, Zeqiu Wu, Yizhong Wang, Avirup Sil, and
+Hannaneh Hajishirzi. 2023. Self-rag: Learning to
+retrieve, generate, and critique through self-reflection.
+Preprint, arXiv:2310.11511.
+Giscard Biamby, Grace Luo, Trevor Darrell, and Anna
+Rohrbach. 2022. Twitter-COMMs: Detecting cli-
+mate, COVID, and military multimodal misinfor-
+mation. In Proceedings of the 2022 Conference
+of the North American Chapter of the Association
+for Computational Linguistics: Human Language
+Technologies, pages 1530–1549, Seattle, United
+States. Association for Computational Linguistics.
+Wenhu Chen, Hexiang Hu, Xi Chen, Pat Verga,
+and William W. Cohen. 2022. Murag: Multi-
+modal retrieval-augmented generator for open ques-
+tion answering over images and text. Preprint,
+arXiv:2210.02928.
+Google Cloud. 2024. Detect web entities and pages -
+cloud vision api.
+Community Notes. 2024. Introduction.
+Eurostat. 2022. Consumption of online news rises in
+popularity. Accessed: 2024-04-13.
+Yunfan Gao, Yun Xiong, Xinyu Gao, Kangxiang Jia,
+Jinliu Pan, Yuxi Bi, Yi Dai, Jiawei Sun, Meng Wang,
+and Haofen Wang. 2024. Retrieval-augmented gener-
+ation for large language models: A survey. Preprint,
+arXiv:2312.10997.
+Google. 2024. Programmable search engine - google
+for developers.
+Zhijiang Guo, Michael Schlichtkrull, and Andreas Vla-
+chos. 2022. A survey on automated fact-checking.
+Transactions of the Association for Computational
+Linguistics, 10:178–206.
+Hicham Hammouchi and Mounir Ghogho. 2022.
+Evidence-aware multilingual fake news detection.
+IEEE Access, 10:116808–116818.
+Uku Kangur, Roshni Chakraborty, and Rajesh Sharma.
+2024. Who checks the checkers? exploring source
+credibility in twitter’s community notes. Preprint,
+arXiv:2406.12444.
+Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio
+Petroni, Vladimir Karpukhin, Naman Goyal, Hein-
+rich Küttler, Mike Lewis, Wen tau Yih, Tim Rock-
+täschel, Sebastian Riedel, and Douwe Kiela. 2021.
+Retrieval-augmented generation for knowledge-
+intensive nlp tasks. Preprint, arXiv:2005.11401.
+Junnan Li, Dongxu Li, Silvio Savarese, and Steven Hoi.
+2023. Blip-2: Bootstrapping language-image pre-
+training with frozen image encoders and large lan-
+guage models. Preprint, arXiv:2301.12597.
+Yingji Li, Mengnan Du, Rui Song, Xin Wang, and Ying
+Wang. 2024. A survey on fairness in large language
+models. Preprint, arXiv:2308.10149.
+Xuannan Liu, Peipei Li, Huaibo Huang, Zekun Li,
+Xing Cui, Jiahao Liang, Lixiong Qin, Weihong Deng,
+and Zhaofeng He. 2024. Fakenewsgpt4: Advancing
+multimodal fake news detection through knowledge-
+augmented lvlms. Preprint, arXiv:2403.01988.
+9

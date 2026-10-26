@@ -1,0 +1,69 @@
+\begin{tikzpicture}[
+  font=\sffamily\scriptsize,
+  stage/.style={
+    draw,
+    very thick,
+    rounded corners=2pt,
+    align=center,
+    minimum height=25mm,
+    inner sep=3.5mm
+  },
+  flow/.style={-{Stealth[length=2.4mm,width=1.8mm]}, very thick, draw=tpggray},
+  note/.style={
+    draw=tpggray,
+    rounded corners=1.5pt,
+    fill=black!3,
+    align=center,
+    inner sep=2mm,
+    font=\sffamily\scriptsize
+  }
+]
+  \node[stage, draw=tpgblue, fill=tpgblue!8, text width=27mm] (claim) {
+    \textbf{1. Claim package}\\[1mm]
+    claim text + image\\
+    decision cutoff $\tau$
+  };
+
+  \node[stage, draw=tpgteal, fill=tpgteal!8, text width=38mm, right=5mm of claim] (retrieve) {
+    \textbf{2. Retrieve and verify time}\\[1mm]
+    entities, dates, OCR, caption\\
+    BM25 + BGE-M3\\
+    SigLIP2 + pHash\\
+    RRF $\rightarrow$ rerank\\
+    publication + observation $\leq\tau$
+  };
+
+  \node[stage, draw=tpgviolet, fill=tpgviolet!8, text width=39mm, right=5mm of retrieve] (graph) {
+    \textbf{3. Model provenance}\\[1mm]
+    document--image--publisher graph\\
+    links + publication order\\
+    dependence signals\\
+    bounded cluster aggregation
+  };
+
+  \node[stage, draw=tpgorange, fill=tpgorange!9, text width=39mm, right=5mm of graph] (decision) {
+    \textbf{4. Decide selectively}\\[1mm]
+    heterogeneous graph encoder\\
+    sufficiency $\rightarrow$ veracity\\
+    temperature scaling\\
+    validation-fitted abstention
+  };
+
+  \draw[flow] (claim) -- (retrieve);
+  \draw[flow] (retrieve) -- (graph);
+  \draw[flow] (graph) -- (decision);
+
+  \node[note, below=3mm of retrieve, text width=38mm] (cutoff) {
+    \textbf{Eligibility guard:} require a pre-cutoff observation; exclude fact-check pages
+  };
+  \node[note, below=3mm of graph, text width=39mm] (independence) {
+    \textbf{Independence guard:} copies share one bounded source cluster
+  };
+  \node[note, below=3mm of decision, text width=39mm] (output) {
+    \textbf{Traceable output:} label or defer, probabilities, evidence IDs, cluster IDs, cutoff
+  };
+
+  \draw[-{Stealth[length=1.8mm]}, semithick, dashed, draw=tpgteal] (retrieve) -- (cutoff);
+  \draw[-{Stealth[length=1.8mm]}, semithick, dashed, draw=tpgviolet] (graph) -- (independence);
+  \draw[-{Stealth[length=1.8mm]}, semithick, dashed, draw=tpgorange] (decision) -- (output);
+\end{tikzpicture}

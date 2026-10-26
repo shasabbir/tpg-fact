@@ -1,0 +1,78 @@
+Source Date Location Motivation
+k RougeL Meteor EM ∆ RougeL Meteor HL ∆ CO∆ RougeL Meteor BertS
+1 6.5±0.2 4.2±0.2 2.1±0.6 42.7±0.2 27.3±0.2 20.0±0.2 33.0±0.6 39.9±0.4 6.2±0.4 3.2±0.4 68.7±0.2
+3 4.5 ±0.2 2.4±0.2 4.1±0.3 42.9±0.7 28.7±0.3 20.9±0.3 33.7±0.4 40.5±0.5 6.7±0.3 3.4±0.3 68.4±0.1
+5 5.3 ±0.2 3.3±0.2 2.4±0.3 42.7±0.2 28.9±0.9 21.6±0.9 35.6±0.3 42.6±0.2 6.6±0.6 3.3±0.6 68.4±0.5
+10 5.9 ±0.5 3.9±0.5 4.6±0.3 42.1±0.7 26.1±0.4 19.6±0.4 31.6±0.3 38.8±0.3 7.7±0.0 3.7±0.0 69.5±0.0
+Table 5: Multimodal zero-shot Llava results on the validation set for different values of k, the number of text
+evidence provided in the prompt (%). Reported results are averages over 3 iterations with standard deviations. The
+best scores are marked in bold.
+Figure 19: Few-shot prompt template for GPT4 with
+multimodal input.
+countries have few or no claims about them, but
+their images are nevertheless frequently used out-
+of-context. This includes China, Syria, Iraq, and
+Spain. In a second analysis, we study the disper-
+sion of real locations. To do this, we looked at one
+specific world event where the claimed locations
+are concentrated in a limited geographic area. We
+plotted all verified images claiming to be associ-
+ated with the war in Tigray, a conflict between 2020
+and 2022 in the Tigray region of Ethiopia, close
+to Eritrea. The resulting map is shown in Figure
+18. While the claimed locations are concentrated
+in Northern Ethiopia and Eritrea, as expected, only
+a part of the real locations are located there, too,
+while the rest is spread out over the globe. Im-
+ages can be found as far away as the United States.
+Those are mainly images of drones and aircraft
+training exercises. This large geographical disper-
+sion illustrates the challenge and importance of
+predicting the Location pillar.
+J Few-shot prompt template
+Figure 19 shows the few-shot prompt template pro-
+vided to GPT4 for multimodal answer generation.
+Demonstration and evidence are numbered. The
+zero-shot prompt follows the same structure, ex-
+cept that the demonstrations are removed. Different
+instructions are provided when the input modality
+is the image (“You are given an image. Your task
+is to answer a question about the image.”) or the
+text evidence (“You are given online articles that
+used a certain image. Your task is to answer a ques-
+tion about the image.”). Adjustments are made to
+the prompts for Llama2 and Llava to include the
+special tokens expected by those LLMs. For Llava,
+every prompt starts with “USER: ” and “Answer: ”
+at the end of the GPT4 prompt is replaced by “AS-
+SISTANT: ”. For Llama2, every prompt starts with
+“<s>[INST] «SYS» You are given [...] Your task
+is to answer a question about the image. «/SYS»”,
+and ends with “[/INST]”.
+K Implementation details
+Manipulation detection The ViT model is
+fine-tuned for 10 epochs on the train set with a
+learning rate of 2e-4.11 It achieves an F1 score of
+51% on the validation set, and 40% on the test set.
+Evidence retrieval We set the maximum number
+of URLs to return by the Google RIS engine to 50.
+We scrape the following fields of the web-pages
+using Trafilatura: the title, description, author,
+hostname, sitename, and publication date . We
+also retrieve the image and its caption if available
+using a custom script. In total, we retrieved and
+scraped 2284 web-pages for the test set. 64.1% of
+the evidence is written in English.
+Evidence ranking Embeddings are computed with
+a pre-trained multilingual CLIP model (Radford
+et al., 2021; Carlsson et al., 2022).12 Due to budget
+constraints regarding the use of GPT4, we fixed
+the maximum number of evidence to use in the
+prompt k to 3. We report in Table 5 the results
+obtained on the validation set for different values
+of k with zero-shot multimodal Llava. The results
+suggest that increasing k does not always improve
+the performance, as shown by the Location scores
+11huggingface.co/google/vit-base-patch16-224
+12huggingface.co/M-CLIP/XLM-Roberta-Large-Vit-L-14
+7862

@@ -1,0 +1,93 @@
+Proceedings of the 1st GenBench Workshop on (Benchmarking) Generalisation in NLP , pages 76–88
+December 6, 2023 ©2023 Association for Computational Linguistics
+Temporal Generalizability in Multimodal Misinformation Detection
+Nataliya Stepanova
+University of Edinburgh
+npstepanova@gmail.com
+Björn Ross
+University of Edinburgh
+b.ross@ed.ac.uk
+Abstract
+Misinformation detection models degrade in
+performance over time, but the precise causes
+of this remain under-researched, in particular
+for multimodal models. We present experi-
+ments investigating the impact of temporal shift
+on performance of multimodal automatic mis-
+information detection classifiers. Working with
+the r/Fakeddit dataset, we found that evaluating
+models on temporally out-of-domain data (i.e.
+data from time stretches unseen in training) re-
+sults in a non-linear, 7-8% drop in macro F1
+as compared to traditional evaluation strategies
+(which do not control for the effect of content
+change over time). Focusing on two factors
+that make temporal generalizability in misin-
+formation detection difficult, content shift and
+class distribution shift, we found that content
+shift has a stronger effect on recall. Within the
+context of coarse-grained vs. fine-grained mis-
+information detection with r/Fakeddit, we find
+that certain misinformation classes seem to be
+more stable with respect to content shift (e.g.
+Manipulated and Misleading Content). Our re-
+sults indicate that future research efforts need
+to explicitly account for the temporal nature
+of misinformation to ensure that experiments
+reflect expected real-world performance.
+1 Introduction
+Misinformation proliferation in sectors from pub-
+lic health to politics has shaped public attitudes,
+undermining trust in reputable organizations and
+science as a whole. The threat of misinformation is
+so severe that Lin (2019) qualifies “cyber-enabled
+information warfare” as an existential risk that can
+undermine the structure of public discourse, with
+its potential harm to civilization on par with climate
+change and nuclear warfare. Although misinfor-
+mation is not a novel phenomenon, its impact on
+society has been exacerbated by the advent of so-
+cial media, which has increased the rate and ease
+of misinformation spread (Murayama, 2021). As
+such, automated misinformation detection models
+are vital in mitigating misinformation’s destabiliz-
+ing effects on society.
+In the case of multimodal data, such as an image
+with a text caption, we must also consider the in-
+teraction between modalities (e.g. does the caption
+contradict the image?), which makes multimodal
+misinformation detection a harder task (Abdali,
+2022). Nevertheless, accounting for multimodal-
+ity is vital for real-world applications, since a large
+portion of information shared online is multimodal.
+While some Machine Learning (ML) methods
+can be comparable to human annotators in labelling
+fake news (Pérez-Rosas et al., 2017), building a
+multimodal model that is generalizable, explain-
+able and scalable remains a challenge. In the cur-
+rent work, we explore model performance on fu-
+ture, unseen data (temporal generalizability). Un-
+doubtedly, the topics most subject to misinforma-
+tion change rapidly with time, as does the misinfor-
+mation itself. As such, a real-world model trained
+for optimal performance at a specific time point
+will likely continue to degrade in performance over
+time. However, most surveyed literature did not
+directly account for this expected drop in perfor-
+mance, testing models on data collected from the
+same time period as training data. This practice
+inflates expected model performance for future ap-
+plications, referred to by Murayama (2021) as an
+issue with the model’s “velocity”.
+Thus, we undertook experiments to quantify tem-
+poral generalizability of multimodal misinforma-
+tion detection models. Our goals are twofold:
+GOAL 1: Quantify the expected drop in perfor-
+mance when a multimodal classifier trained
+on the r/Fakeddit dataset is tested on out-of-
+temporal-domain content.
+GOAL 2: Isolate the effect of content shift on
+the expected performance drop, specifically
+disentangling trends with reference to the
+r/Fakeddit misinformation classes.
+76

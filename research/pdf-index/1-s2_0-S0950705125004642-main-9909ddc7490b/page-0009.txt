@@ -1,0 +1,122 @@
+H. Lv et al.
+where 𝑑 denotes the feature dimension.
+For the final fake news detector, the Softmax function is used to 
+convert logistic values into category probabilities. Let ̂𝑃 = [ ̂𝑃 0𝑛 , ̂𝑃 1𝑛 ]
+be the final output probability vector and 𝑌𝑛 be the ground-truth 
+labeled value for 𝑛th news sample, where ̂𝑃 0𝑛  and ̂𝑃 1𝑛  denote the 𝑛th 
+sample’s true and false predicted probabilities, respectively. The MDF-
+FND framework minimizes the cross-entropy loss defined in Eq. (13) 
+to train the model for enhanced detection of fake news in end-to-
+end manner. Previous studies have employed a penalty term with the 
+standard normal distribution [48]. In subsection, we compare their 
+performance against that of MDF-FND, which employ the entropy of 
+the Gaussian distribution alone as the optimization function 4.7.3.
+4. Experiments
+In this section, we first present the public dataset used in the 
+experiments and the basic setup of the experiments. Common baseline 
+models used for fake news detection are also listed. In addition, the 
+performance of the proposed dynamic fusion framework for fake news 
+detection is experimentally evaluated. The superior performance of 
+the MDF-FND framework is well demonstrated in relevant ablation 
+experiments. Finally, we further explore the effective selection of each 
+module and loss function by means of qualitative and quantitative 
+analyses and analyze the impact of hyperparameters on the model.
+4.1. Datasets
+To demonstrate the effectiveness of the proposed model, we con-
+ducted experiments using three public datasets: Twitter, Weibo, and 
+PolitiFact. These datasets originate from different language environ-
+ments and provide valuable reference points for evaluating the gen-
+eralization performance of the MDF-FND framework.
+Twitter dataset. This dataset was collected and published by the 
+MediaEval Benchmarking Initiative (Boididou et al. [23]) to evaluate 
+the performance of multimodal models. The fake news in the datasets 
+was sourced from news websites that were manually assessed to have 
+low credibility, while the real news was crawled from well-known 
+authoritative news sites such as the New York Times. Specifically, the 
+dataset contains a large amount of social tweet content consisting of 
+text and images, and its training set consists of 6000 fake news posts 
+and 5000 real posts. The test set contains different types of breaking 
+news, with up to 2000 posts. Posts containing only images or text are 
+forcibly removed and not allowed to participate in the testing process of 
+the model. Given its extensive data samples and diverse content types, 
+this dataset closely resembles real news environments. Moreover, many 
+posts in the Twitter dataset contain noise, which can significantly affect 
+the final classification outcomes. Therefore, it is crucial to conduct 
+experiments using uncertainty estimation and dynamic fusion strategies 
+on this dataset.
+Weibo dataset. To validate the robustness of the MDF-FND frame-
+work, the Weibo dataset is included, which belongs to a different 
+linguistic environment than Twitter. This Chinese dataset has been 
+widely used in recent studies to verify the superior performance of 
+their fake news detectors. This dataset was first collected and publicly 
+released by Jin et al. [4] and contains only Chinese posts and com-
+ment information. Weibo actively encourages users to report suspicious 
+accounts, malicious hype, and comments related to trending events. 
+The generation of fake posts involves two major steps: first, ordinary 
+users report suspected fake news on the Weibo platform, but this alone 
+cannot serve as the final judgment. Subsequently, a committee of well-
+known users conducts a further review to verify the authenticity of 
+these reports. For non-rumor posts, those verified by the authoritative 
+Chinese news agency Xinhua are used. Low-quality images and posts 
+were kept in our experiments to further demonstrate the robustness of 
+our classification model. The training set constitutes 70% of the entire 
+dataset and the rest is divided into validation and test sets in a 1:2 
+Table 2
+Statistics of three real-world multimodal news datasets.
+ Dataset Label Number Total  
+ Twitter Fake 7021 12 995  Real 5974  
+ Weibo Fake 4749 9528   Real 4779  
+ PolitiFact Fake 367 801   Real 434  
+ratio. In contrast to the Twitter dataset, the Weibo dataset features 
+more general and universal content. Tweets often encompass trending 
+topics and hashtags, while images frequently contain watermarked 
+information. This type of content can introduce misleading signals that 
+affect model decision-making during feature extraction. Furthermore, 
+to assess the generalization ability of the MDF-FND framework across 
+different languages, we included the Weibo dataset in our experiments.
+PolitiFact dataset. The PolitiFact dataset consists of information 
+collected from the fact-checking website PolitiFact [27]. At PolitiFact, 
+journalists and subject matter experts review political news and con-
+duct fact-checking assessments to determine the authenticity of news 
+articles. This dataset is well-balanced, primarily containing 434 pieces 
+of real news and 367 pieces of fake news, most of which are related 
+to U.S. politics. The PolitiFact dataset is introduced because it allows 
+detection based on factual consistency checks, whereas the MDF-FND 
+model is primarily designed for semantic detection. To explore the 
+model’s performance in the realm of fact-checking, we included this 
+dataset in our comparative experiments.
+Table  2 lists the statistical information of these three publicly-
+available datasets.
+4.2. Experimental setup
+Parameter settings. We adopt a common approach used in many 
+previous studies [11,12,48]. The text embeddings are initialized us-
+ing bert-base-chinese and bert-base-uncased sentence- and word-level 
+annotations for the Weibo and Twitter datasets, respectively, with 
+the obtained feature dimensions of 𝑑𝑡 equal to 768. To avoid the 
+catastrophic forgetting of previous generalized knowledge [52], the 
+parameters of the BERT model [46] were frozen during model training. 
+For the image data, we standardized the image size to 224 × 224 × 3 
+and fed it into the pre-trained ResNet-50 network [47], extracting 
+features with a dimension of 𝑑𝑣 = 2048. In the UEM module, which 
+models intra-modal uncertainty, a linear network was employed to 
+obtain the query, key, and value vectors for each modality. Prior to this, 
+the layer normalization is applied. To prevent the risk of overfitting, 
+dropout = 0.1 was considered for the attention linear layer, and each 
+linear layer was followed by a nonlinear transformation using the GELU 
+activation function, employing 12 heads. Experiments showed that a 
+threshold 𝛾 of 0.4 in Algorithm 1 performs excellently on the Twitter 
+dataset. Similarly, for the Weibo dataset, the threshold 𝛾 is set to 0.35. 
+The reparameterized sample size was set to 5. The dropout of the GAT 
+layer was set to 0.4, while the ELU activation function was employed. 
+After we embedded the fake news detector into the GAT structure, it 
+consisted of 2 linear layers and employed a dropout value of 0.4 and 
+ReLU activation function for nonlinear mapping. The model was trained 
+on a batch size of 128 over 40 epochs, with the learning rate initialized 
+to 1e−4. For the PolitiFact dataset, the same setup as for the Twitter 
+dataset is used.
+Evaluation Metrics. We followed a previous study [4] and used the 
+F1 score as the final assessment. Specifically, F1 score was calculated 
+using the following formula: 
+𝐹 1 = 2 × 𝑃 × 𝑅𝑃 + 𝑅 (18)
+Knowledge-Based Systems 317 (2025) 113417 
+9 

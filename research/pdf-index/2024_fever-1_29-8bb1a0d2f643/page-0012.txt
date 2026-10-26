@@ -1,0 +1,105 @@
+A.3 Discussing Multimodal RAG
+We utilize reverse image search to extract captions of matching images from the web. We showcase the
+Image QA pairs for the examples in Table 2. The first example regarding Mike Pompeo showcases how
+GPT-4V is unable to identify the Afghan dignitary and the image context is unable to provide a name
+that could help fact-check the claim. However, using the image captions retrieved from the internet and
+prompting the evidence retrieval along with the image caption, GPT-4V is able to identify the Afghan
+dignitary as Mullah Abdul Ghani Baradar. The fact-check then continues to verify if Mullah Abdul Ghani
+Baradar was indeed ever the Afghan President or not. Similarly, in the third example with Joe Biden
+kneeling, the image captions extracted by reverse image search are able to add the additional information
+that Joe Biden was kneeling down to pose with dancers in Haiti. This information is crucial for the
+particular fact-check since it contextualizes the reason why Joe Biden was kneeling as well as detailing
+the event where the described act occurred.
+Table 2: Example table with claims, images, and QA.
+Claim Image Generated Image Con-
+text
+Image QA
+The man next to Mike
+Pompeo in a November
+2020 photo is the guy the
+Trump administration
+helped get out of jail in
+2018 and who is now the
+’president’ of
+Afghanistan.
+The image shows Mike Pompeo stand-
+ing next to a man wearing traditional
+Afghan attire and a face mask. The set-
+ting appears to be a formal meeting room
+with a painting on the wall, two gold-
+colored chairs, and a table with water bot-
+tles. Both individuals are standing apart,
+likely adhering to social distancing guide-
+lines prevalent during the COVID-19 pan-
+demic. The background and attire suggest
+the meeting is official in nature and likely
+related to diplomatic or governmental af-
+fairs. Claim stated in 2021.
+Q. Who is the man standing next to
+Mike Pompeo in the November 2020
+photo?
+A. Mullah Abdul Ghani Baradar
+Says Joe Biden took a
+knee during the national
+anthem.
+The image shows Joe Biden taking a knee,
+but it does not provide evidence that this
+act occurred during the national anthem.
+Without additional context, the claim can-
+not be confirmed solely based on this
+image. The time frame of the claim is
+’Claim stated in 2020’.
+Is there a specific date and location
+associated with the image of Joe
+Biden taking a knee?
+A. FILE - In this Monday, Oct. 5,
+2020 file photo, Democratic presi-
+dential candidate former Vice Pres-
+ident Joe Biden and his wife Jill
+Biden pose for a photo with dancers
+as they visit Little Haiti Cultural
+Complex in Miami.
+The Trump
+administration worked to
+free 5,000 Taliban
+prisoners.
+The image shows individuals, presumed
+to be Taliban prisoners, inside a bus with
+a guard standing nearby, which poten-
+tially correlates to the release of Taliban
+prisoners. The context suggests this may
+represent a prisoner release process.
+Q. Were the individuals shown in the
+provided image actually Taliban pris-
+oners being released as part of the
+agreement?
+A.’Taliban prisoners are released
+from Pul-e-Charkhi jail in Kabul,
+Afghanistan, Thursday, Aug. 13,
+2020
+These were not chemical
+irritants’ used to clear a
+crowd. Pepper balls are
+’not a chemical irritant.
+The image shows law enforcement in pro-
+tective gear amidst a haze that is consis-
+tent with the use of some form of crowd
+control substance, such as a chemical ir-
+ritant. Visible smoke and the dispers-
+ing crowd strongly suggest the use of
+a substance to clear the area, counter to
+the claim that no chemical irritants were
+used. The presence of pepper balls would
+depend on identifying specific items or
+equipment in the scene that are known to
+dispense pepper balls.
+Can we identify the specific equip-
+ment or methods used by law en-
+forcement in the image to determine
+if pepper balls or another substance
+was deployed?
+A. ... The caption snippets sug-
+gest that teargas was used to clear
+Lafayette Park for a photo opportu-
+nity...
+291

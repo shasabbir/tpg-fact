@@ -1,0 +1,94 @@
+4 Page 6 of 15 International Journal of Multimedia Information Retrieval (2024) 13 :4
+Query: "collapsed railway
+bridge"
+Fact-checked articles
+ Identification
+"The photograph dates to June
+2020 and was published by the
+emergency services in
+Murmansk, Russia ..."
+Refinement
+It
+"Image shows a damaged
+railway bridge collapsed into
+a body of water in 2022
+during the Russia-Ukraine
+war."
+"Image shows a damaged
+railway bridge collapsed into a
+body of water in June 2020 in
+Murmansk, Russia."
+"Image of a damaged railway
+bridge collapsed into a body of
+water was not taken in 2022
+during the Russia-Ukraine..."
+OOC Retrieval
+Cf
+"True"
+IxCt
+"MC"
+"OOC"
+Inclusion Criteria
+Fig. 2 Data collection, ﬁltering and reﬁnement process for creating VERITE
+• Ensure that Cti and I xi share a discernible and mean-
+ingful connection (identical or similar origin, content,
+context or depicted entities) and their alignment is
+deceptive.
+To illustrate the aforementioned process in practice, let us
+consider the example shown in Fig. 2. Starting with a fact-
+checked article,9 we collect I ti showing a damaged railway
+that has collapsed into a body of water and C fi falsely
+claiming that the event occurred in “2022 during the Russia-
+Ukraine war”. We also collect the truthful Cti which is
+provided by professional fact-checkers. Cti clariﬁes that the
+event took place in “June 2020 in Murmanask, Russian” and
+thus is unrelated to the 2022 Russia–Ukraine war. After-
+wards, we extract keywords from Cti and use Q =“collapsed
+railway bridge” as the query and retrieve I xi from Google
+Images. Similar to I ti , I xi also depicts a collapsed railway
+bridge but it was captured in Chile, not Russia, thus mis-
+aligning the “location” entity.
+We collected 260 articles from Snopes and 78 from
+Reuters that met our criteria, which translates to 338(I ti , Cti ),
+338 (I ti , C fi ) and 324 (I xi , Cti ) pairs for True, MC, and OOC,
+respectively. The collected Snopes articles date as far back
+as January 2001 up to January 2023, whereas Reuters—only
+allowing searches up to two years in the past—date from Jan-
+uary 2021 to January 2023. The collected data cover a wide
+and diverse array of topics and cases including world news
+(29.04%), politics (27.94%), culture and arts (8.82%), enter-
+tainment (7.72%), sports (3.67%), the environment (3.66%),
+religion (2.94%), travel (2.57%), business (2.20%), science
+9 https://www.reuters.com/article/factcheck-destroyed-bridge-
+idUSL2N2WU1CM.
+and technology (2.19%), health and wellness (1.46%) and
+others.10
+We introduce the term “modality balancing” to denote that
+I ti and Cti are included twice in the dataset: once with the
+truthful label and once within the misleading label, as seen
+in Fig. 2. More speciﬁcally, each image is present once in its
+truthful pair and once in the MC pair, while each caption is
+present once in its truthful pair and once in the OOC pair.
+This approach ensures that the model will have to focus on
+both modalities to consistently discern between factual and
+misleading I-C pairs.
+3.3 Crossmodal hard synthetic misalignment
+Previous studies on synthetic training data for MMD have
+primarily relied on OOC pairs or NEI. These methods cre-
+ate formulaic manipulations, either by re-sampling existing
+pairs or substituting named entities, and therefore lack the
+imaginative or expressive characteristic of human produced
+misinformation such as emotions or irony. Conversely, large
+weakly annotated datasets may contain noisy labels and high
+rates of Asymmetric-MM.
+To address these issues, we propose a new method for
+generating MM termed Crossmodal HArd Synthetic Mis-
+Alignment (CHASMA). Given a truthful ( I ti , Cti ) pair and
+their VI ti , TCti visual and textual embeddings extracted from
+CLIP , retrieve the most plausible misleading captionC fj from
+a collection of misleading captions CF with TCF textual
+embeddings, in order to produce a miscaptioned ( I ti , C fj )
+10 To extract and estimate the frequency distribution of news cat-
+egories, we used https://huggingface.co/Y ueh-Huan/news-category-
+classiﬁcation-distilbert.
+123

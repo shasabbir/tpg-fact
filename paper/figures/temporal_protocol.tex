@@ -10,7 +10,7 @@
     \textbf{Validate}\\2024
   };
   \node[phase, draw=tpgorange, fill=tpgorange!9, text width=27mm, right=1.5mm of val] (test) {
-    \textbf{Final test}\\2025--2026
+    \textbf{Final test}\\2025 + partial 2026
   };
 
   \draw[-{Stealth[length=2mm]}, very thick, draw=tpggray]
@@ -21,6 +21,7 @@
     \textbf{Group lock before allocation:}
     event identity $\mid$ near-duplicate claim $\mid$ perceptually identical image
   };
+  \node[font=\sffamily\scriptsize, text=tpgorange, above=0.8mm of test] {snapshot: 2026-10-24};
   \draw[-{Stealth[length=1.8mm]}, semithick, draw=tpggray] (lock.north -| train) -- (train.south);
   \draw[-{Stealth[length=1.8mm]}, semithick, draw=tpggray] (lock.north -| val) -- (val.south);
   \draw[-{Stealth[length=1.8mm]}, semithick, draw=tpggray] (lock.north -| test) -- (test.south);

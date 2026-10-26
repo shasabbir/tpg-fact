@@ -1,0 +1,78 @@
+Query
+Active model
+Reference model
+MSP
+Reward model
+Entailment critic
+LM critic
+Log-probs
+KL-div
+Reward -
+PPO
+Log-probs
+Figure 3: The Proximal Policy Optimization (PPO) process starts with the summarizer generating a response based
+on the input query. The reward model then assesses this query-response pair, producing a single reward score.
+Simultaneously, the process calculates the KL-divergence by comparing the likelihood of token sequences in the
+response with both the currently fine-tuned active model and a pre-trained reference model. The KL-divergence
+acts as a measure of reward, ensuring that responses from the active model align with those from the reference
+model. Additionally, we input the summary into Mistral LM to evaluate whether the summary is concise or not. In
+conclusion, PPO updates the parameters of the active model based on the reward model’s output, Mistral LM, and
+the value of the KL-divergence.
+fact-checking claims, we adopt the concept of train-
+ing a language model using feedback with rein-
+forcement learning. After pretraining the perceiver
+and summarization models, we employ reinforce-
+ment learning with an entailment model serving as
+a surrogate for a human fact-checker as feedback.
+We first exclusively apply reinforcement learning
+to the perceiver. Subsequently, we unfreeze the
+summarizer and continue training end-to-end with
+both the perceiver and summarizer. We illustrate
+our fine-tuning process in Figure 3.
+4.3.1 Reward Model For Fact-Checking
+Contrary to the approach in reinforcement learn-
+ing from human feedback, which necessitates a
+human arbitrator to score the model’s outputs,
+in this study, we train a reward model to act
+like a human fact-checker to guide the summa-
+rizer in producing summaries for fact-checking
+instead. We utilized a comprehensive dataset con-
+sisted with MultiNLI (Williams et al., 2018), Fever-
+NLI (Thorne et al., 2018), and Adversarial-NLI
+(ANLI) (Nie et al., 2020), encompassing a total
+of 763,193 premise-claim pairs. Leveraging this
+dataset, we fine-tuned DeBERTA V3 (He et al.,
+2023) for the task of entailment classification using
+cross-entropy loss. Serving as an entailment classi-
+fier, this model achieves accuracy rates of 90.3%,
+77.7%, and 57.9% in the MultiNLI, Fever-NLI, and
+ANLI evaluation datasets, respectively.
+4.3.2 Proximal Policy Optimization
+We define the score from the reward model as the
+probability of the ground-truth label given both
+the claim (as the hypothesis) and the generated
+summary for fact-checking (as the premise). The
+formulation for the score from the reward model
+can be formulated as:
+r(xC, ˆyt) = P (ygt|xC, ˆyt)−
+0.5 ∗ Σygt̸=ypred P (ypred|xC, ˆyt),
+(4)
+where xC, ˆyt, ygt and ypred denote the claim,
+the generated summary, the groud-truth label of the
+claim, and the predicted label of the claim, respec-
+tively. The value of P (y{gt,pred}|xC, ˆyt) is derived
+from the trained entailment classifier. The primary
+objective behind this reward function is to maxi-
+mize the likelihood that the generated summary for
+fact-checking contains the facts necessary for the
+model to predict the claim’s ground truth label.
+In this paper, we employ PPO as our policy gra-
+dient method for reinforcement learning. PPO adds
+an additional term to the reward function, which im-
+poses a penalty determined by the Kullback-Leibler
+(KL) divergence between the trained RL policy
+summarizer, πP P Oϕ , and the initial supervised sum-
+marizer πSF T.
+Moreover, we incorporate an extra reward
+rquality, LM critic, to evaluate the quality of the
+8746

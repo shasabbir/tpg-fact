@@ -1,4 +1,9 @@
 experiments/.venv/
+experiments/.secrets/
+experiments/.env.local
+experiments/data/raw/
+experiments/data/interim/
+experiments/data/private/
 experiments/outputs/executed_notebooks/
 experiments/**/__pycache__/
 experiments/.pytest_cache/

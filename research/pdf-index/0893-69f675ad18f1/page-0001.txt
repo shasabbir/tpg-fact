@@ -1,0 +1,67 @@
+ChronoFact: Timeline-based Temporal Fact V erification
+Anab Maulana Barik1 , Wynne Hsu1,2 and Mong Li Lee1,3
+1School of Computing, National University of Singapore, Singapore
+2Institute of Data Science, National University of Singapore, Singapore
+3Centre for Trusted Internet and Community, National University of Singapore, Singapore
+anabmaulana@u.nus.edu, {whsu,leeml}@comp.nus.edu.sg
+Abstract
+Temporal claims, often riddled with inaccuracies,
+are a significant challenge in the digital misinfor-
+mation landscape. Fact-checking systems that can
+accurately verify such claims are crucial for com-
+bating misinformation. Current systems struggle
+with the complexities of evaluating the accuracy of
+these claims, especially when they include multi-
+ple, overlapping, or recurring events. We introduce
+a novel timeline-based fact verification framework
+that identify events from both claim and evidence
+and organize them into their respective chronolog-
+ical timelines. The framework systematically ex-
+amines the relationships between the events in both
+claim and evidence to predict the veracity of each
+claim event and their chronological accuracy. This
+allows us to accurately determine the overall verac-
+ity of the claim. We also introduce a new dataset of
+complex temporal claims involving timeline-based
+reasoning for the training and evaluation of our
+proposed framework. Experimental results demon-
+strate the effectiveness of our approach in handling
+the intricacies of temporal claim verification.
+1 Introduction
+The spread of false information has reached alarming levels,
+undermining social trust significantly. One prominent cat-
+egory of false information involves temporal claims, which
+are statements that include time-specific elements, either ex-
+plicitly (e.g., ”in 1953”) or implicitly (e.g., ”before [another
+event]”). The complexity of verifying these claims escalates
+with the number of events mentioned. Effective verification
+must assess not only the veracity of each event within its tem-
+poral context but also understand the relationships between
+these events, especially their chronological order.
+Existing research has largely focused on verifying the
+veracity of individual events within claims, and overlook
+the chronological order of these events [Barik et al., 2024;
+Qudus et al., 2023]. This oversight can undermine the effec-
+tiveness of fact-checking systems, particularly when dealing
+with complex narratives where the sequence of events is cru-
+cial for determining the truth. Understanding the chronolog-
+ical order of events is hindered by the absence of the explicit
+(a) Claim with multiple events
+(b) Claim with recurring event
+Figure 1: Illustration of complex temporal claim verification.
+temporal cues. The complexity increases when events over-
+lap or recur, complicating the task of establishing a clear and
+accurate timeline for the verification process.
+Example 1. Figure 1(a) shows a claim involving four events,
+with evidence relevant to each event indicated by matching
+color boxes. While each event appears to be supported by
+some evidence when analyzed independently, closer scrutiny
+of the timeline reveals discrepancies. For instance, evidence
+indicates that negotiations between Ukraine and Russia took
+place in Feb 2022, before the bombardments in March 2023.
+Therefore, the claim event ”Russia and Ukraine participated
+in a series of ceasefire negotiations”, suggested by the tempo-
+ral cues to have occurred in March 2023, is not actually sup-
+ported by the evidence. Existing works that analyze individ-
+Proceedings of the Thirty-Fourth International Joint Conference on Artiﬁcial Intelligence (IJCAI-25)
+8031

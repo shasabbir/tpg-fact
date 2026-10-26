@@ -55,25 +55,67 @@ class TemporalProvenanceVerdictModel(nn.Module):
         input_dim: int,
         hidden_dim: int = 256,
         relation_count: int = 8,
+        node_type_count: int = 5,
         graph_layers: int = 2,
         dropout: float = 0.2,
+        hierarchical: bool = True,
     ) -> None:
         super().__init__()
         self.project = nn.Linear(input_dim, hidden_dim)
+        self.node_type_embedding = nn.Embedding(node_type_count, hidden_dim)
         self.layers = nn.ModuleList(
             RelationAwareGraphLayer(hidden_dim, relation_count, dropout)
             for _ in range(graph_layers)
         )
-        self.sufficiency_head = nn.Linear(hidden_dim, 1)
-        self.veracity_head = nn.Linear(hidden_dim, 2)
+        self.hierarchical = hierarchical
+        if hierarchical:
+            self.sufficiency_head = nn.Linear(hidden_dim, 1)
+            self.veracity_head = nn.Linear(hidden_dim, 2)
+        else:
+            self.direct_head = nn.Linear(hidden_dim, 3)
 
-    def forward(self, node_features, edge_index, edge_type, claim_node_index):
+    def forward(
+        self,
+        node_features,
+        edge_index,
+        edge_type,
+        claim_node_index,
+        node_type=None,
+    ):
         state = self.project(node_features)
+        if node_type is not None:
+            state = state + self.node_type_embedding(node_type)
         for layer in self.layers:
             state = layer(state, edge_index, edge_type)
         claim_state = state[claim_node_index]
+        if self.hierarchical:
+            return {
+                "sufficiency_logit": self.sufficiency_head(claim_state).squeeze(-1),
+                "veracity_logits": self.veracity_head(claim_state),
+            }
+        return {"direct_logits": self.direct_head(claim_state)}
+
+
+class HierarchicalFeatureModel(nn.Module):
+    """Matched non-graph encoder used by controlled feature baselines."""
+
+    def __init__(self, input_dim: int, hidden_dim: int = 256, dropout: float = 0.2) -> None:
+        super().__init__()
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.GELU(),
+            nn.Dropout(dropout),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.GELU(),
+            nn.Dropout(dropout),
+        )
+        self.sufficiency_head = nn.Linear(hidden_dim, 1)
+        self.veracity_head = nn.Linear(hidden_dim, 2)
+
+    def forward(self, features):
+        state = self.encoder(features)
         return {
-            "sufficiency_logit": self.sufficiency_head(claim_state).squeeze(-1),
-            "veracity_logits": self.veracity_head(claim_state),
+            "sufficiency_logit": self.sufficiency_head(state).squeeze(-1),
+            "veracity_logits": self.veracity_head(state),
         }
 

@@ -1,0 +1,84 @@
+6814
+Figure 7: Semantics/CLIP Text-Image, Scene/ResNet Place, Merged/Balanced ROC Curve
+Table 8: Comparing different ﬁnetuning strategies for
+CLIP, classiﬁcation performance (test set).
+Split Model All Pristine Falsiﬁed
+(a) Sem/CLIP T-I RN50-af 0.6372 0.6677 0.6068
+RN50-lf 0.6500 0.6840 0.6163
+RN50 0.6824 0.7461 0.6188
+(b) Sem/CLIP T-T RN50-af 0.6860 0.7167 0.6554
+RN50-lf 0.7005 0.7211 0.6800
+RN50 0.7182 0.7486 0.6878
+(c) Per/SB-WK T-T RN50-af 0.6669 0.6641 0.6696
+RN50-lf 0.6547 0.6575 0.6520
+RN50 0.6123 0.7357 0.4890
+(d) Scene/RN Place RN50-af 0.6945 0.7543 0.6346
+RN50-lf 0.7028 0.7646 0.6411
+RN50 0.7004 0.7765 0.6244
+Merged/Balanced RN50-af 0.6732 0.6726 0.6737
+RN50-lf 0.6657 0.6952 0.6363
+RN50 0.6162 0.6836 0.5487
+Ensembling Performance Next, we compare the
+predictions made by our best VisualBERT and best
+CLIP-based model (Table 9). Speciﬁcally, we
+ask whether these very different models exhibit
+distinct behavior and have complementary skill
+sets. First, we assess how often both models are
+correct (Overlap) or at least one of them is cor-
+rect (Union). As we see, the overlap tends to be
+near 40%, while the “optimistic” union boosts ac-
+curacy to over 80%. This clearly shows that the
+two models indeed have complementary strengths.
+We build a simple ensemble of VisualBERT and
+CLIP, in which we average the normalized logits of
+each model and classify accordingly (Avg). This
+scheme only gives a 1-2% boost, which possibly in-
+dicates that CLIP is more “opinionated” and yields
+more disparate logits per class, forcing the ensem-
+ble to perform similarly to CLIP. This shows that
+leveraging both models may be promising but is
+non-trivial and should be explored by future work.
+Results on the Validation Set We include the re-
+sults that correspond to Tables 3, 4, 5 of the main
+paper but evaluated on the validation set, see Ta-
+bles 10, 11, 12. Note, that the validation and test
+sets of our dataset were generated using identical
+Table 9: Exploring complementarity of VisualBERT-
+VN and CLIP-RN101, reported overall classiﬁcation
+performance (test set).
+Split VB-VN CLIP-RN101 Avg Overlap Union
+(a) Sem/CLIP T-I 0.5774 0.6765 0.6747 0.4341 0.8197
+(b) Sem/CLIP T-T 0.5949 0.7244 0.7234 0.4663 0.8530
+(c) Per/SB-WK T-T 0.6333 0.6393 0.6553 0.4576 0.8150
+(d) Scene/RN Place 0.6112 0.7137 0.7230 0.4723 0.8527
+Merged/Balanced 0.5863 0.6597 0.6662 0.4145 0.8315
+techniques and should be comparable in composi-
+tion. As a result, these tables demonstrate the same
+overall trends as reported in our main paper.
+A.3 Additional Dataset Details
+Next, we report the amount of overlap across splits
+of our dataset (see Table 13) and ﬁnd that they are
+relatively distinct, with a maximum of 11% overlap
+in falsiﬁed matches for the two Semantics splits.
+Figures 8 and 9 depict randomly selected sam-
+ples from the train/val/test set of each respective
+split. Note how matches are highly plausible in
+our Semantics splits (a,b) but can be solved if the
+identity of a person is known or even with subtle
+semantic cues (e.g. an American ﬂag when the
+caption describes a European person in the top left
+or that the image shows a letter when the caption
+describes a banner on the bottom left for Seman-
+tics/CLIP Text-Image). Also note, how in the Se-
+mantics/CLIP Text-Text, textual concepts from a
+query may impact the resulting retrieved image
+based on its own caption, e.g., “ﬂood” in the top-
+right example. Note the challenging examples from
+our Person split (c), including some rather ambigu-
+ous ones such as top-right with Hillary Clinton,
+that require recognizing the context in which the
+person appears. Finally, in our Scene split (d) we
+show that the events in captions may be plausibly
+“illustrated” by purely leveraging visual scene simi-
+larity. Note again, that these are randomly selected
+samples from our dataset.

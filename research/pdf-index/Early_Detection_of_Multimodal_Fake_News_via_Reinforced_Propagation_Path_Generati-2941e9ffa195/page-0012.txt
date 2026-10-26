@@ -1,0 +1,136 @@
+624 IEEE TRANSACTIONS ON KNOWLEDGE AND DATA ENGINEERING, VOL. 37, NO. 2, FEBRUARY 2025
+[38] C. Castillo, M. Mendoza, and B. Poblete, “Information credibil-
+ity on twitter,” in Proc. 20th Int. Conf. World Wide Web , 2011,
+pp. 675–684.
+[39] A. Gupta, H. Lamba, P . Kumaraguru, and A. Joshi, “Faking sandy: Char-
+acterizing and identifying fake images on twitter during hurricane sandy,”
+in Proc. 22nd Int. Conf. World Wide Web, 2013, pp. 729–736.
+[40] J. Ma et al., “Detecting rumors from microblogs with recurrent neu-
+ral networks,” in Proc. 25th Int. Joint Conf. Artif. Intell. , 2016,
+pp. 3818–3824.
+[41] Z. Jin, J. Cao, Y . Zhang, J. Zhou, and Q. Tian, “Novel visual and statistical
+image features for microblogs news veriﬁcation,”IEEE Trans. Multimedia,
+vol. 19, no. 3, pp. 598–608, Mar. 2017.
+[42] L. Zhang, X. Zhang, Z. Zhou, X. Zhang, P . S. Y u, and C. Li, “Knowledge-
+aware multimodal pre-training for fake news detection,” Inf. Fusion ,
+vol. 114, 2025, Art. no. 102715.
+[43] A. Wawer, R. Nielek, and A. Wierzbicki, “Predicting webpage credibility
+using linguistic features,” in Proc. 23 rd Int. Conf. World Wide Web, 2014,
+pp. 1135–1140.
+[44] R. M. A. V aibhav and E. Hovy, “Do sentence interactions matter? lever-
+aging sentence level representations for fake news classiﬁcation,” in Proc.
+Conf. Empir . Methods Natural Lang. Joint Conf. Natural Lang. Process. ,
+2019, Art. no. 134.
+[45] Z. Jin, J. Cao, H. Guo, Y . Zhang, and J. Luo, “Multimodal fusion with
+recurrent neural networks for rumor detection on microblogs,” in Proc.
+25th ACM Int. Conf. Multimedia , 2017, pp. 795–816.
+[46] Z. Wei, H. Pan, L. Qiao, X. Niu, P . Dong, and D. Li, “Cross-modal
+knowledge distillation in multi-modal fake news detection,” inProc. IEEE
+Int. Conf. Acoust., Speech Signal Process. , 2022, pp. 4733–4737.
+[47] S. Singhal, A. Kabra, M. Sharma, R. R. Shah, T. Chakraborty, and P .
+Kumaraguru, “Spotfake: A multimodal framework for fake news detection
+via transfer learning (student abstract),” in Proc. AAAI Conf. Artif. Intell.,
+2020, pp. 13915–13916.
+[48] X. Zhou, J. Wu, and R. Zafarani, “SAFE: Similarity-aware multi-modal
+fake news detection,” in Proc. Paciﬁc-Asia Conf. Knowl. Discov. Data
+Mining, Springer, 2020, pp. 354–367.
+[49] Y . Wu, P . Zhan, Y . Zhang, L. Wang, and Z. Xu, “Multimodal fusion with
+co-attention networks for fake news detection,” in Proc. Findings Assoc.
+Comput. Linguistics, 2021, pp. 2560–2569.
+[50] K. M. Caramancion, “Harnessing the power of chatgpt to decimate
+mis/disinformation: Using chatgpt for fake news detection,” inProc. IEEE
+World AI IoT Congr ., 2023, pp. 0042–0046.
+[51] Y . Huang and L. Sun, “Harnessing the power of chatgpt in fake
+news: An in-depth exploration in generation, detection and explanation,”
+2023, arXiv:2310.05046.
+[52] C. Chen and K. Shu, “Can llm-generated misinformation be detected?,”
+2023, arXiv:2309.13788.
+[53] L. Pan et al., “Fact-checking complex claims with program-guided rea-
+soning,” 2023, arXiv:2305.12744.
+[54] G. Wu, W. Wu, X. Liu, K. Xu, T. Wan, and W. Wang, “Cheap-fake detection
+with LLM using prompt engineering,” inProc. IEEE Int. Conf. Multimedia
+Expo Workshops, 2023, pp. 105–109.
+[55] X. Zhou and R. Zafarani, “Network-based fake news detection: A pattern-
+driven approach,” ACM SIGKDD Explorations Newslett. , vol. 21, no. 2,
+pp. 48–60, 2019.
+[56] K. Wu, S. Y ang, and K. Q. Zhu, “False rumors detection on Sina Weibo
+by propagation structures,” in Proc. IEEE 31st Int. Conf. Data Eng., 2015,
+pp. 651–662.
+[57] J. Ma, W. Gao, and K.-F. Wong, “Detect rumors in microblog posts using
+propagation structure via Kernel learning,” in Proc. 55th Annu. Meeting
+Assoc. Comput. Linguistics , R. Barzilay and M.-Y . Kan, Eds. V ancouver,
+Canada, Jul. 2017, pp. 708–717.
+[58] N. Rosenfeld, A. Szanto, and D. C. Parkes, “A kernel of truth: Determining
+rumor veracity on twitter by diffusion pattern alone,” in Proc. Web Conf.,
+2020, pp. 1018–1028.
+[59] F. Jin, E. Dougherty, P . Saraf, Y . Cao, and N. Ramakrishnan, “Epidemio-
+logical modeling of news and rumors on Twitter,” in Proc. 7th Workshop
+Social Netw. Mining Anal., 2013, pp. 1–9.
+[60] J. Ma, W. Gao, and K.-F. Wong, “Rumor detection on Twitter with
+tree-structured recursive neural networks,” in Proc. 56th Annu. Meeting
+Assoc. Comput. Linguistics , I. Gurevych and Y . Miyao, Eds. Melbourne,
+Australia, Jul. 2018, pp. 1980–1989.
+[61] J. Zhang, B. Dong, and S. Y . Philip, “Fakedetector: Effective fake news
+detection with deep diffusive neural network,” in Proc. IEEE 36th Int.
+Conf. Data Eng., 2020, pp. 1826–1829.
+[62] L. Wei, D. Hu, W. Zhou, and S. Hu, “Transferring structure knowledge: A
+new task to fake news detection towards cold-start propagation,” in Proc.
+IEEE Int. Conf. Acoust., Speech Signal Process. , 2024, pp. 8045–8049.
+[63] B. Lakzaei, M. H. Chehreghani, and A. Bagheri, “LOSS-GA T: Label
+propagation and one-class semi-supervised graph attention network for
+fake news detection,” 2024, arXiv:2402.08401.
+[64] Z. Zhao, P . Resnick, and Q. Mei, “Enquiring minds: Early detection of
+rumors in social media from enquiry posts,” in Proc. 24th Int. Conf. World
+Wide Web, 2015, pp. 1395–1405.
+[65] C. Song, C. Y ang, H. Chen, C. Tu, Z. Liu, and M. Sun, “CED: Credible
+early detection of social media rumors,” IEEE Trans. Knowl. Data Eng. ,
+vol. 33, no. 8, pp. 3035–3047, Aug. 2019.
+[66] Y . Y ang, L. Zheng, J. Zhang, Q. Cui, Z. Li, and P . S. Y u, “TI-CNN:
+Convolutional neural networks for fake news detection,” 2018, arXiv:
+1806.00749.
+[67] T. N. Nguyen, C. Li, and C. Niederée, “On early-stage debunking rumors
+on Twitter: Leveraging the wisdom of weak learners,” in Proc. Social
+Inform.: 9th Int. Conf. , Oxford, U.K., Springer, 2017, pp. 141–158.
+[68] Y . Liu and Y .-F. B. Wu, “FNED: A deep network for fake news early
+detection on social media,” ACM Trans. Inf. Syst., vol. 38, no. 3, pp. 1–33,
+2020.
+Litian Zhang received the BSc degree in soft-
+ware engineering from Beijing Jiaotong University,
+Beijing, China, in 2020. He is currently working
+toward the PhD degree with the School of Cyber Sci-
+ence and Technology, Beihang University, Beijing,
+China. His research interests include social media
+analysis, multimodal data analysis, and data mining.
+Xiaoming Zhang received the BSc and MSc degrees
+in computer science and technology from the National
+University of Defence Technology, Changsha, China,
+in 2003 and 2007, respectively, and the PhD degree in
+computer science from Beihang University, Beijing,
+China, in 2012. He is currently with the School of
+Cyber Science and Technology, Beihang University,
+where he has been an Associate Professor since 2012.
+He has published more than 50 papers, such as IEEE
+Transactions on Multimedia , IEEE Transactions on
+Cybernetics, ACM Transactions on Information Sys-
+tems, IEEE Transactions on Image Processing , Neurocomputing, World Wide
+Web Journal, Signal Processing , AAAI, ACM MM, CIKM, EMNLP , IJCAI,
+ICMR, and ACL. His current research interests include social media analysis,
+image tagging, and text mining.
+Ziyi Zhou received the BSc degree in the School
+of Cyber Science and Technology, Beihang Univer-
+sity, Beijing, China, in 2022. He is currently work-
+ing toward the PhD degree with the the School of
+Cyber Science and Technology, Beihang University,
+Beijing, China. His research interests include social
+media analysis, multimodal data analysis, and data
+mining.
+Xi Zhang (Member, IEEE) received the PhD degree
+in computer science from Tsinghua University. He is
+a professor with the Beijing University of Posts and
+Telecommunications, and is also the vice director of
+the Key Laboratory of Trustworthy Distributed Com-
+puting and Service, Ministry of Education, China. He
+was a visiting scholar with the University of Illinois,
+Chicago. His research interests include data mining
+and computer architecture.
+Authorized licensed use limited to: American International University Bangladesh. Downloaded on October 20,2026 at 19:57:35 UTC from IEEE Xplore.  Restrictions apply. 

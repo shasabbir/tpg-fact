@@ -1,0 +1,111 @@
+fact-checking. Finally, Section 4.3 presents strategies for in-
+corporating media source background information at various
+stages of the RAG pipeline.
+4.1 Problem Definition
+Given a claim verification question Q with its relevant N
+retrieved documents {Dn}Nn=1 from CONFACT, a retrieval-
+augmented LLM is expected to generate an answer A to the
+question that reflects the veracity of the original claim against
+available evidence. The system is evaluated on its accuracy
+in correctly predicting the veracity of claims (i.e., whether A
+exactly matches the ground-truth label ˆA for the converted
+question for claim verification). In addition, we report the
+Macro-F1 score as an auxiliary metric to assess performance
+across classes, particularly given the imbalanced nature of the
+dataset.
+A typical retrieval-augmented fact-checking workflow
+consists of three main stages: retrieval, ranking, and answer
+generation [Wang et al., 2024b; Gao et al., 2023 ], as illus-
+trated in Figure 2(a).
+• Retrieval: Given a claim verification question Q, a RAG
+model retrieves relevant documents from an external
+knowledge base, represented as {Dn}Nn=1. Retrieved
+documents were provided on CONFACT to ensure re-
+producibility, as retrieval is time-varying.
+• Ranking: Retrieved documents are chunked into short
+passages, and a ranking function selects the top-K most
+relevant paragraphs {Pk}Kk=1 for fact-checking.
+• Answer Generation: The selected paragraphs {Pk}Kk=1
+are passed to an LLM to generate the final answer A.
+4.2 Baseline Retrieval-Augmented LLMs
+Baseline retrieval-augmented LLMs adhere to the standard
+workflow illustrated in Figure 2(a). In this process, the most
+relevant set of paragraphs {Pk}Kk=1 are extracted and used as
+input for answer generation. We evaluate multiple prompting
+strategies for leveraging these augmented contexts:
+• Direct Answer (DirA.): The K selected paragraphs are
+provided to the LLM along with the claim verification
+question, and the model directly generates an answer.
+• Majority V ote(MajV .): The model first predicts answer
+candidates Ak for each paragraph Pk. A majority vote
+is then conducted to select the final answer.
+• Discern and Answer (DisA.): Inspired by [Hong et al.,
+2024], an explicit instruction is added to filter out mis-
+leading passages before generating an answer.
+• Chain-of-Thought (CoT): This strategy prompts the
+LLM to generate a rationale before predicting the an-
+swer [Wei et al., 2022 ], improving reasoning in multi-
+step verification tasks.
+While these strategies perform well in standard question-
+answering tasks, they struggle when the retrieved evidence
+exhibits conflicting viewpoints. For instance, DirA. may con-
+flate misinformation with factual content, MajV . fails if mis-
+leading sources outnumber reliable ones, and DisA. depends
+1. Retrieval
+question
+2. Ranking
+ 3. Answer Generation
+Credible Score 𝒔𝑐𝑟𝑒𝑑
+Relevance Score 𝒔𝑟𝑒𝑙
+(a)
+(b)
+(c)
+(d)
+Documents
+{𝐷𝑛}𝑛=1𝑁
+Relevant Paragraphs
+{𝑃𝑘}𝑘=1𝐾
+Filtered
+Documents
+Source Background
+LLM
+LLM
+LLM
+LLM
+Figure 2: (a) illustrates a general framework of RAG methods in-
+volving three stages: retrieval, ranking and answer generation. (b-d)
+demonstrate our source-aware retrieval-augmented LLMs, incorpo-
+rating source background information in three stages of the general
+RAG framework.
+on the LLM’s ability to filter unreliable information, which is
+not always effective. These limitations motivate the incorpo-
+ration of media background knowledge.
+4.3 Retrieval-Augmented LLMs with Media
+Source Backgrounds
+To improve fact-checking performance in the presence of
+conflicting evidence, we propose integrating background in-
+formation from the source of the media at different stages of
+the RAG pipeline.
+Media Source Background Provider
+For each retrieved document, we extract background informa-
+tion about its source. The MBFC website serves as our pri-
+mary source background provider (GT-MB), offering expert
+annotations on media bias and factual reliability. If a source
+is available in MBFC, its credibility rating is retrieved. Oth-
+erwise, the background is marked as missing.
+To extend coverage beyond MBFC, we introduce a
+Hybrid-MB provider, combining MBFC annotations with
+an LLM-based background generator [Schlichtkrull, 2024 ].
+The generator first retrieves real-time information about the
+source’s publisher, past credibility ratings, and history of mis-
+information via Google Search APIs10. It then processes this
+information using an in-context learning approach with a set
+of pre-defined prompts, generating a credibility summary (de-
+noted as B) that includes factual accuracy, bias, and misinfor-
+mation history (Refer to Appendix for the designed prompts).
+Although the generated source credibility description is
+comprehensive, it may not be directly applicable at all stages
+10https://developers.google.com/custom-search/v1/overview
+Proceedings of the Thirty-Fourth International Joint Conference on Artiﬁcial Intelligence (IJCAI-25)
+Special Track on AI and Social Good
+9659

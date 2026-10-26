@@ -1,0 +1,106 @@
+H. Lv et al.
+Fig. 5. Architecture of the DFN. The DFN integrates evidence from both textual and 
+visual perspectives to make decisions on multimodal posts, utilizing D–S evidence 
+theory. This evidence is derived from the unimodal confidence scores defined in Eqs. 
+(10) and (11). The confidence score is inversely related to uncertainty. Based on the 
+confidence scores of each modality, the DFN selects one of the following strategies 
+for the final decision: multimodal decision strategy, unimodal-text decision strategy, or 
+unimodal-image decision strategy. It then outputs the corresponding decision value.
+After Eq. (5), we output 𝑧 based on the predictive distribution 
+derived from the UEM. This approach effectively separate the computa-
+tion of the mean and standard deviation from the sampling operation, 
+allowing for a decoupling of the original parameters, which transforms 
+them into trainable ones.
+Following the UEM module, we obtain a more robust feature repre-
+sentation for each modality, as it captures the distribution characteriz-
+ing the noise inherent in each modality, in contrast to the traditional 
+point embedding approach. This robust feature representation is partic-
+ularly advantageous for detecting multimodal fake news, as discussed 
+in detail in the subsequent ablation experiments.
+3.3. DFN module based on GAN and D–S evidence theory
+The simple concatenation mechanism has been employed in several 
+previous multimodal fake news detection tasks [10–12], where fixed 
+fusion weights are applied to the text and image unimodalities. How-
+ever, certain posts may exhibit high uncertainty due to various factors. 
+To address this issue, the DFN module is designed to incorporate the 
+confidence of each modality within its internal structure. The architec-
+ture of the DFN is illustrated in Fig.  5. Intuitively, evidence 1 from the 
+textual perspective exhibits lower uncertainty than evidence 2 from the 
+visual perspective. Consequently, the unimodal-text decision strategy 
+is selected for the final output. In this section, we provide a detailed 
+explanation of the rules governing the strategy selection. 
+𝐺𝑚𝑙𝑡 = ∑
+𝑗∈ (𝑖)
+𝛼𝑖,𝑗 𝑊 𝑙𝑡 𝑚𝑙−1𝑗 (6)
+𝐺𝑚𝑙𝑣 = ∑
+𝑗∈ (𝑖)
+𝛼𝑖,𝑗 𝑊 𝑙𝑣 𝑚𝑙−1𝑗 (7)
+In the Eq. (7), 𝑚𝑙 indicates the node embedding update representa-
+tion of the 𝑙th layer. 𝑊 𝑙 indicates the weight parameter of the 𝑙th layer. 
+𝛼𝑖,𝑗 denotes the attention score between nodes 𝑖 and 𝑗 in the unimodal 
+graph. The exact representation is given in Eqs.  (8) and (9): 
+𝑎𝑙𝑖,𝑗 = 𝑆𝑜𝑓 𝑡𝑚𝑎𝑥(𝑒𝑙𝑖,𝑗 ) (8)
+𝑒𝑙𝑖,𝑗 = 𝐿𝑒𝑎𝑘𝑦𝑅𝑒𝐿𝑈 (⃗ 𝛼[𝑊 𝑚𝑖 ∥ 𝑊 𝑚𝑗 ]) (9)
+where ∥ is a splicing operation, and LeakyReLU represents Leaky 
+Rectified Linear Unit.
+To model inter-modal uncertainty, a heterogeneous graph structure 
+𝐺𝑚𝑚 is incorporated following the reconstruction of the unimodal fea-
+tures. For 𝐺𝑚𝑚, the GAT is continued to be used. Furthermore, to choose 
+the appropriate decision strategy, the reconstructed features from the 
+UEM are input into DFN. During the testing phase, this module refrains 
+Fig. 6. Diagram illustrating the impact of binary classification utilizing D–S evidence 
+theory. The light-blue region denotes the confidence score derived from the single text 
+modality, and the light-yellow region represents the confidence score derived from the 
+single image modality. The white region indicates the conflict area between the two 
+decisions. The light-purple area highlights the region where the decision strategies of 
+the two modalities align compatibly.
+from updating its parameters, ensuring that decisions are based solely 
+on the features of the current test sample, without being influenced by 
+any external factors. This design makes it particularly well-suited for 
+real-time fake news detection. However, the traditional D–S fusion ap-
+proach [42] is not compatible with the MDF-FND framework; therefore, 
+we propose a novel fusion method. Specifically, we first calculate the 
+confidence score for each modality based on the normalized coefficient 
+of variation [50], as defined in Eqs.  (10) and (11). In the initialization 
+of the D–S evidence theory, we map the confidence scores described 
+above to the confusion level of each probability assignment function 
+(also called BPA), which is used to represent the uncertainty estimate 
+of each BPA for the final decision. The detailed calculation steps are 
+presented in Algorithm 1. It is worth noting that through multiple 
+experiments, we found that omitting the conflict factor 𝐾 leads to better 
+results. Therefore, the influence of the conflict factor is omitted from 
+the traditional D–S theory fusion in the decision strategy. 
+𝑆𝑐𝑜𝑟𝑒 𝑇 = 𝑠𝑖𝑔𝑚𝑜𝑖𝑑 (
+√𝜎𝑡
+𝜇𝑡
+∗ 𝑠𝑐𝑎𝑙) (10)
+𝑆𝑐𝑜𝑟𝑒 𝑉 = 𝑠𝑖𝑔𝑚𝑜𝑖𝑑 (
+√𝜎𝑣
+𝜇𝑣
+∗ 𝑠𝑐𝑎𝑙) (11)
+In the above equation, 𝜇𝑡 and 𝜇𝑣 denote the reconstructed mean of 
+the text and image, respectively. 𝜎𝑡 and 𝜎𝑣 denote the reconstructed 
+variance of the text and image, respectively. 𝑠𝑐𝑎𝑙 is a scaling factor, 
+and 𝑠𝑖𝑔𝑚𝑜𝑖𝑑 is an activation function that maps the input to [0,1].
+In this manner, the dynamic weights of the two modalities are 
+captured with respect to the final decision value. Subsequently, the con-
+fidence scores (normalized coefficients of variation) of each modality, 
+along with the inherent uncertainty associated with each, are combined 
+to derive the final decision opinion, as shown in Fig.  6. We fully lever-
+age the advantage of D–S evidence-theoretic fusion. Specifically, when 
+both modalities exhibit low confidence levels, the final classification 
+must align with the low-confidence set; in this scenario, the strengths 
+of the multimodal heterogeneous graph are utilized to determine the 
+final decision value. Conversely, when both modalities demonstrate 
+high confidence, the classification result is typically drawn from the 
+high-confidence set, at which point the decision value is randomly 
+selected from one of the modalities. If only one modality has high 
+confidence, the final classification is determined by that modality. In 
+cases of conflicting decisions between the two modalities, the final 
+classification confidence is reduced, and the decision-making capabili-
+ties of the multimodal heterogeneous graph are adopted. To facilitate 
+this, a threshold is established as a measurement criterion, detailed 
+in Algorithm 1. The selection of this threshold is discussed further in 
+Section 4.8.2.
+Knowledge-Based Systems 317 (2025) 113417 
+7 

@@ -1,0 +1,65 @@
+{
+  "claim_count": 200,
+  "claims": "D:\\1.msc\\ET2\\experiments\\data\\private\\pilot_evidence_first_final_2026-10-25\\frozen\\claims.jsonl",
+  "claims_sha256": "accd2beb1c7a9e6011c66f9596920b209613a60e267e2ae876fe92d01d9484b1",
+  "claims_with_evidence": 200,
+  "evidence": "D:\\1.msc\\ET2\\experiments\\data\\private\\pilot_evidence_first_final_2026-10-25\\frozen\\evidence.jsonl",
+  "evidence_count": 682,
+  "evidence_sha256": "10ca251f7e25bcd408d3e2b1d67d79721be475b35a11fd29dbc52f5f68e1424c",
+  "frozen_at": "2026-10-25T13:34:32.010988Z",
+  "group_leakage_checked": [
+    "event_id",
+    "image_phash"
+  ],
+  "independent_source_cluster_fraction": 0.705,
+  "source_claims": "D:\\1.msc\\ET2\\experiments\\data\\private\\pilot_evidence_first_final_2026-10-25\\claims.jsonl",
+  "source_evidence": "D:\\1.msc\\ET2\\experiments\\data\\private\\pilot_evidence_first_final_2026-10-25\\evidence.jsonl",
+  "splits": {
+    "test": {
+      "claims": 111,
+      "events": 111,
+      "labels": {
+        "insufficient_evidence": 17,
+        "refuted": 81,
+        "supported": 13
+      },
+      "path": "D:\\1.msc\\ET2\\experiments\\data\\private\\pilot_evidence_first_final_2026-10-25\\frozen\\test_claims.jsonl",
+      "sha256": "747761e11eb13226fa287fad341a62ab9c1eb6cb01c1d4d9fe929b3a5e6d77ab",
+      "years": {
+        "2025": 55,
+        "2026": 56
+      }
+    },
+    "train": {
+      "claims": 50,
+      "events": 50,
+      "labels": {
+        "insufficient_evidence": 7,
+        "refuted": 37,
+        "supported": 6
+      },
+      "path": "D:\\1.msc\\ET2\\experiments\\data\\private\\pilot_evidence_first_final_2026-10-25\\frozen\\train_claims.jsonl",
+      "sha256": "68e28948e97bf3fc0d50ea3b1c8bf9e36cbb79280bac7679084900884b8f182c",
+      "years": {
+        "2021": 2,
+        "2022": 7,
+        "2023": 41
+      }
+    },
+    "validation": {
+      "claims": 39,
+      "events": 39,
+      "labels": {
+        "insufficient_evidence": 1,
+        "refuted": 28,
+        "supported": 10
+      },
+      "path": "D:\\1.msc\\ET2\\experiments\\data\\private\\pilot_evidence_first_final_2026-10-25\\frozen\\validation_claims.jsonl",
+      "sha256": "372ae0a3ef91d331163992d51cd15d85d11ad32ac71239bbef9f4bd9c4c752fa",
+      "years": {
+        "2024": 39
+      }
+    }
+  },
+  "status": "frozen_dataset"
+}

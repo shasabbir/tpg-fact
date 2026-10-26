@@ -1,0 +1,99 @@
+International Journal of Multimedia Information Retrieval (2024) 13 :4 Page 3 of 15 4
+leading pairs. More speciﬁcally, CHASMA utilizes a large
+pre-trained crossmodal alignment model (CLIP [ 41]) to pair
+legitimate images (from VisualNews [ 30]) with contextu-
+ally relevant but misleading texts (from Fakeddit). CHASMA
+maintains the sophisticated linguistic patterns (e.g. exagger-
+ation, irony, emotions) that are often found in human-written
+texts, unlike methods that rely on Named Entity Inconsis-
+tencies (NEI) for generating MM [ 44]. The inclusion of
+CHASMA in the training process consistently enhances the
+predictive performance on the VERITE benchmark, partic-
+ularly evident in aggregated datasets, resulting in a notable
+9.2% increase in accuracy.
+The main contributions of our work can be summarized
+as follows:
+• Systematically investigate the issue of unimodal bias
+within widely used evaluation MMD benchmarks (VMU-
+Twitter and COSMOS).
+• Create the VERITE benchmark, which effectively miti-
+gates the problem of unimodal bias and provides a more
+robust and reliable evaluation framework for MMD.
+• Develop CHASMA, a novel approach for creating syn-
+thetic training data for MMDthat consistently leads to
+improved detection accuracy on the VERITE benchmark.
+2 Related work
+The automated detection of misinformation is a challenging
+task that has garnered increasing attention from researchers in
+recent years. A range of methods is being explored to identify
+misinformation in text [ 32] and images [ 42]. Consequently,
+multiple datasets have been created for fake news detection
+[48] and manipulated images [18]. These challenges involve
+unimodal settings. However, there is a need for MMD mod-
+els that can handle cases where the combination of an image
+and its caption lead to misinformation. Given the complex-
+ity of this task, large training datasets are required to train
+robust MMD models. In this section, we explore the avail-
+able research on existing datasets, including both annotated
+and synthetically generated as well as available evaluation
+benchmarks for MMD.
+2.1 Annotated multimodal misinformation datasets
+The “image veriﬁcation corpus”, often referred as the “Twit-
+ter” dataset, (“VMU-Twitter” from now on) was used in the
+MediaEval2016 V erifying Multimedia Use (VMU) challenge
+[9] and comprises 16,440 tweets regarding 410 images for
+training and 1,090 tweets regarding 104 images for evalua-
+tion. Since the images are accompanied by tweets, the dataset
+has been widely used for MMD [ 22, 45, 50, 52]. In addition,
+the Fauxtography dataset comprises manually fact-checked
+image-caption pairs sourced from Snopes 2 and Reuters, 3
+with a total of 1,233 pairs, of which 592 are classiﬁed as truth-
+ful and 641 as misleading [ 55]. However, their very limited
+size raises doubts about the effectiveness and generalizability
+of deep neural networks trained on these datasets.
+To address the challenges of collecting and annotating
+large-scale datasets, researchers have also explored weakly
+annotated datasets. The MuMiN dataset, for instance, con-
+sists of 21 million tweets on Twitter, linked to 13,000
+fact-checked claims, with a total of 6,573 images [38]. While
+this dataset provides rich social information such as user
+information, articles, and hashtags, its limited number of
+images may also be insufﬁcient for MMD. The NewsBag
+is another large-scale multimodal dataset that was created by
+scraping the Wall Street Journal and Real News for truthful
+pairs and The Onion 4 and The Poke 5 for misleading pairs
+[20]. However, the latter sites publish humorous and satiri-
+cal articles which may not reﬂect real-world misinformation
+[24].
+Fakeddit is a large weakly labelled dataset consisting of
+1,063,106 instances collected from various subreddits 6 and
+grouped into two, three, or six classes based on their content
+[35]. The instances are classiﬁed as either Truthful or Mis-
+leading and then separated into six classes, including true,
+satire, misleading content, manipulated content, false con-
+nection, or impostor content. Of the total instances, 680,798
+have both an image and a caption, with 413,197 of them
+being Misleading and 267,601 being Truthful. Despite being
+weakly labelled, Fakeddit provides a large-scale resource for
+training machine learning models to detect misleading mul-
+timodal content.
+2.2 Synthetic multimodal misinformation datasets
+Due to the need for large-scale datasets, the labour-intensive
+nature of manual annotation and the potential for weak
+labelling to introduce noise, researchers have also been
+exploring the use of synthetically generated training data for
+MMD. These methods can be categorized into two groups
+based on the type of misinformation they generate, namely
+OOC pairs or NEI.
+OOC-based datasets can be created through random sam-
+pling techniques, such as in the case of the MAIM [ 19]
+and COSMOS [ 4] datasets. However, these methods tend to
+produce easily detectable non-realistic pairs, making them
+unsuitable for training effective misinformation detection
+models [40]. An alternative approach is to use feature-based
+2 https://www.snopes.com/fact-check/category/photos .
+3 https://www.reuters.com/fact-check.
+4 https://www.theonion.com.
+5 https://www.thepoke.co.uk.
+6 https://www.reddit.com.
+123

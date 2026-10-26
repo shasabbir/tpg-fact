@@ -1,0 +1,99 @@
+IEEE TRANSACTIONS ON COMPUTATIONAL SOCIAL SYSTEMS, VOL. 12, NO. 6, DECEMBER 2025 4231
+RED-DOT: Multimodal Fact-Checking via
+Relevant Evidence Detection
+Stefanos-Iordanis Papadopoulos , Christos Koutlis , Symeon Papadopoulos ,
+and Panagiotis C. Petrantonakis , Senior Member, IEEE
+Abstract—Online misinformation is often multimodal in na-
+ture, i.e., caused by misleading associations between texts and
+accompanying images. To support the fact-checking process,
+researchers have been recently developing automatic multimodal
+methods that gather and analyze external information, evidence,
+related to the image–text pairs under examination. However,
+prior works incorrectly assumed that all external information
+collected from the Web is relevant. In this study, we introduce a
+“relevant evidence detection” (RED) module to discern whether
+each piece of evidence is relevant, to support or refute the claim.
+Speciﬁcally, we develop the “relevant evidence detection directed
+transformer” (RED-DOT) and explore multiple architectural
+variants (e.g., single or dual-stage) and mechanisms (e.g., “guided
+attention”). Extensive ablation and comparative experiments
+demonstrate that RED-DOT outperforms the state-of-the-art
+(SotA), achieving up to 33.7% accuracy improvement on the
+VERITE benchmark. Furthermore, our evidence reranking and
+element-wise modality fusion led to RED-DOT surpassing the
+SotA on NewsCLIPpings+ by up to 3% without the need for
+numerous evidence or multiple backbone encoders. We release
+our code at: https://github.com/stevejpapad/relevant-evidence-
+detection.
+Index Terms—Deep learning, misinformation detection, multi-
+modal fact-checking, multimodal learning.
+I. I NTRODUCTION
+T
+HE dissemination of misinformation has greatly intensi-
+ﬁed in the digital age with the advent of the internet and so-
+cial media platforms[1] and entails numerous adverse outcomes
+[2], [3], [4], [5]. Recent advances in generative AI, such as large
+language models and image synthesis models such as stable
+Received 7 March 2024; revised 24 January 2025; accepted 17 March
+2025. Date of publicatio n 3 April 2025; date of current version 3 December
+2025. This work was supported by the project “vera.ai: VERiﬁcation Assisted
+by Artiﬁcial Intelligence” under Grant 101070093. (Corresponding author:
+Stefanos-Iordanis Papadopoulos.)
+Stefanos-Iordanis Papadopoulos is with the Information Technologies Insti-
+tute, Centre for Research & Technology-Hellas, 57001 Thessaloniki, Greece,
+and also afﬁliated with the Departmen t of Electrical & Computer Engineer-
+ing, Aristotle University of Thessal oniki (ECE-AUTh), 54124 Thessaloniki,
+Greece (e-mail: stefpapad@iti.gr).
+Christos Koutlis and Symeon Papadopoulos are with the Information
+Technologies Institute, Centre for Research & Technology-Hellas, 57001
+Thessaloniki, Greece (e-mail: ck outlis@iti.gr; papadop@iti.gr).
+Panagiotis C. Petrantonakis is with the Department of Electrical & Com-
+puter Engineering, Aristotle Univers ity of Thessaloniki (ECE-AUTh), 54124
+Thessaloniki, Greece (e-m ail: ppetrant@ece.auth.gr).
+Digital Object Identiﬁ er 10.1109/TCSS.2025.3553939
+diffusion have made it easier to generate hyper-realistic misin-
+formation [6]. However, decontextualization, where images are
+misused to support false narratives, remains a major challenge
+in multimodal misinformation detection [7], [8]. For instance,
+Fig. 1 provides a real-world example, where a legitimate image
+is used as evidence to promote a false narrative, linking 5G
+technology to the trans mission of COVID-19 when in reality,
+the image captures an antisur veillance protest in Hong Kong. 1
+Recent years have witnessed a surge in research attention
+towards automated multimodal misinformation detection [9]
+and especially out-of-context (OOC) images[7], [8]. Due to the
+scarcity of large-scale annotated datasets for OOC detection, re-
+searchers have increasingly turned to algorithmically generated
+datasets [7], [8], [10] which have facilitated the development
+of numerous OOC detection methods [11], [12], [13], [14],
+[15]. Nevertheless, solely relying on the analysis of an image-
+text pair is not always sufﬁcient for detecting misinformation.
+More often than not, the incorporation and cross-examination
+of external information, i.e., evidence, is necessary [16].T o
+this end, researchers have explored methods for automated and
+evidence-based fact-checking, initially focus ing on text-based
+approaches [17], [18], [19], [20] and, more recently, ventur-
+ing into the realm of mu ltimodal fact-checking (MFC) [21],
+[22], [23].
+MFC methods utilize multiple pretrained and ﬁne-tuned en-
+coders, such as CLIP, ResNet, and BERT, to extract features
+and make use of attention-based networks [23] or coarse- and
+ﬁne-grained attention mechanisms [24] to integrate external
+evidence, or use entity co-occurr ence and semantic clustering
+of external evidence to assess stance toward the claim [25].
+Nevertheless, current methods operated under the assumption
+that all collected external items from the Web were relevant and
+only addressed the task of verdict prediction.
+Motivation: We aim to simulate a more realistic scenario
+where the MFC model has to distinguish between relevant and
+irrelevant information collected from the Web with the goal of
+enhancing verdict prediction accuracy.
+Contributions: We incorporate relevant evidence detection
+(RED), as part of the MFC process. Speciﬁcally, we pro-
+pose the relevant evidence detection directed transformer
+(RED-DOT) which comprises: “evidence reranking”, “modal-
+ity fusion”, “verdict prediction”, and “RED” modules. “Evi-
+dence reranking” is a preprocessing step that ranks evidence
+1https://www.snopes.com/fact-check/5g-tower-torn-down-china-covid
+© 2025 The Authors. This work is licensed under a Creative Commons A ttribution-NonCommercial-NoDerivatives 4.0 License.
+For more information, see https://creati vecommons.org/licenses/by-nc-nd/4.0/

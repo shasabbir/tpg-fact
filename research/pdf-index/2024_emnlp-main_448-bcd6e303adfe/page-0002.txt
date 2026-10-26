@@ -1,0 +1,100 @@
+or debunking efforts.
+Image contextualization is a time-consuming task
+that involves finding several evidence pieces, and
+combining various tools that require expertise (Sil-
+verman, 2013). Despite its crucial position in the
+human FC pipeline, the automation of image con-
+textualization has been ignored in favor of other
+components, predominantly manipulation (Huh
+et al., 2018; Liu et al., 2023b; Shao et al., 2023) and
+image-caption inconsistency detection (Luo et al.,
+2021; Abdelnabi et al., 2022; Papadopoulos et al.,
+2024b; Qi et al., 2024). The output of these tasks
+is a score, indicating whether or not the content
+is misinformation. Fact-checkers have expressed
+skepticism about the real-world performance of
+these scores, with the risk of publishing incorrect
+automated verdicts (Arnold, 2020). In contrast,
+there is a real interest in methods that provide evi-
+dence and additional context (Arnold, 2020; Nakov
+et al., 2021; Schlichtkrull et al., 2023b), which in-
+cludes image contextualization.
+The contributions of this work are as follows: (1)
+We fill the gap by introducing the novel task of
+automated image contextualization. Given an im-
+age, a model must identify its meta-context using
+the image content and evidence from the open web.
+(2) We collect 5Pils, the first dataset with question-
+answer pairs about the image meta-context based
+on the 5 Pillars framework (Urbani, 2020). (3) We
+create the first baseline for image contextualization
+with textual evidence retrieved from the open web.
+Our extensive quantitative and qualitative analy-
+ses reveal that the task is challenging, even for
+SOTA large language models (LLMs). Following
+Schlichtkrull et al. (2023b), Appendix A presents
+the intended uses of this work.
+2 Related work
+Visual misinformation
+Existing work on visual misinformation focuses
+on assigning a veracity score to images. Many
+real-world (Zlatkova et al., 2019; Suryavardan
+et al., 2023; Papadopoulos et al., 2024b) and
+synthetic (Jaiswal et al., 2017; Müller-Budack
+et al., 2020; Luo et al., 2021; Biamby et al., 2022;
+Papadopoulos et al., 2023a) datasets have been
+introduced. Separate methods are used for out-of-
+context images, where a score is assigned based
+on image-caption inconsistencies (Khattar et al.,
+2019; Kou et al., 2020; Huang et al., 2022), and
+manipulated and fake images, where forgeries are
+detected in the image (Huh et al., 2018; Liu et al.,
+2023b; Shao et al., 2023). Some works rely on
+external evidence (Zlatkova et al., 2019; Abdelnabi
+et al., 2022; Pham et al., 2023; Hu et al., 2023a;
+Papadopoulos et al., 2023b; Yuan et al., 2023;
+Zhang et al., 2023; Qi et al., 2024; Papadopoulos
+et al., 2024a), while others use only the image and
+the caption (Nakamura et al., 2020; Luo et al.,
+2021; Aneja et al., 2023; Huang et al., 2022).
+Akhtar et al. (2023) provides a comprehensive
+survey of the field. Unlike these works, we use the
+image and evidence not to provide a veracity score,
+but to ground the image in its original meta-context.
+Question Answering for Fact-Checking
+Representing automated FC (AFC) as a question
+answering (QA) task has attracted recent inter-
+est, especially for text claims that require sev-
+eral reasoning steps (Chen et al., 2022; Ousid-
+houm et al., 2022; Yang et al., 2022; Pan et al.,
+2023; Schlichtkrull et al., 2023a). By decomposing
+the reasoning, the verdict becomes more human-
+interpretable (Yang et al., 2022; Rani et al., 2023).
+Rani et al. (2023) and Chakraborty et al. (2023) in-
+troduce a framework for decomposing a text claim
+in atomic statements, which they call the 5W (who,
+what, when, where, and why). Unlike our work,
+these approaches do not ask questions about im-
+ages, nor do they try to identify the meta-context
+of the image.
+3 The 5 Pillars of Image Verification
+The 5 Pillars of image verification is a framework
+proposed by Urbani (2020), which summarizes
+years of insights on journalistic best practices in
+image verification (Silverman, 2013; Urbani, 2020;
+Mossou and Higgins, 2021; Khan et al., 2023a). It
+divides image contextualization into 5 components,
+as shown in Figure 1: the Provenance, the Source,
+the Date, the Location, and the Motivation.
+Provenance answers the question “Was the image
+used before?” (Khan et al., 2023a). Identifying
+prior uses of the image is essential for answering
+the subsequent questions. Hence, it is considered
+the most important pillar (Urbani, 2020). To an-
+swer this question, fact-checkers rely mainly on
+reverse image search (RIS) engines. These engines
+take images as input and return (partially) matching
+images on the Internet (Urbani, 2020).
+The Source is the person who captured or created
+the image, to be distinguished from the person who
+7846

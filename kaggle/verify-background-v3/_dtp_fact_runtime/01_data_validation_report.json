@@ -1,0 +1,23 @@
+{
+  "candidate_count": 32898,
+  "checks": {
+    "all_rows_pending": true,
+    "api_key_not_recorded": true,
+    "candidate_count_32898": true,
+    "manifest_count_matches": true,
+    "no_secret_directory": true,
+    "queue_balanced": true,
+    "queue_size_1200": true,
+    "raw_pages_440": true
+  },
+  "interpretation": "Automatic suggested labels are not gold labels; do not train the final study on this snapshot.",
+  "raw_response_pages": 440,
+  "scientific_results_validated": false,
+  "screening_queue_rows": 1200,
+  "status": "candidate_snapshot_validated_for_screening_only",
+  "suggested_label_counts": {
+    "insufficient_evidence": 400,
+    "refuted": 400,
+    "supported": 400
+  }
+}

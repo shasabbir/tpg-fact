@@ -1,0 +1,70 @@
+Setting Direct Prompting Real-world Synthetic
+Method Majority LLaV A GPT-4V LLaV AM⇌S LLaV AR LLaV AS LLaV AD
+MediaEval 0.368 0.480 0 .595 0.431 0.568(0.020) 0.687(0.015) 0.611(0.009)
+Snopes 0.335 0.407 0.614 0.511 0.540(0.020) 0.521(0.022) 0.496(0.027)
+Snopes (O+) 0.335 0.399 0 .394 0.548 0.758(0.024) 0.716(0.037) 0.813(0.017)
+Table 1: Results of Majority, direct prompting LLaV A and GPT-4V , full-dataset fine-tuning on the other real-world
+dataset (LLaV AM⇌S), and fine-tuning on a small set of selected synthetic data ( LLaV AR: Random, LLaV AS:
+SemSim, LLaV AD: DisSim). We report the macro-F1 averaged over 3 trials with different random seeds. The best
+results for each dataset are in bold while the second-best results are underlined. The standard deviation is in (.).
+(a)
+ (b)
+Model PA MFL GP
+SemSim 0.781(0.020) 0.356(0.115) 0.323(0.078)
+DisSim 0.822(0.027) 0.333(0.077) 0.375(0.044)
+(c)
+Figure 2: The 2D projection of the multimodal features using PCA. (a) MediaEval and Snopes datasets; (b) Top-10
+events with the most instances in MediaEval. Each colored group represents an event, and three highlighted groups
+are top-3 events; (c) The F1 score of semantic and distributional selection methods on top-3 events with the most
+instances from MediaEval dataset. (.) encloses standard deviation. PA: Paris Attack; MFL: Mt Fuji Lenticular; GP:
+German Protest.
+5.2 Experimental Results
+5.2.1 Main results and analysis
+We present main results in Table 1, and provide an
+in-depth analysis.
+Directly prompt base model. In Table 1, we ob-
+serve that directly prompting the LLaV A model
+does not yield satisfactory performance, indicating
+that merely relying on the inherent knowledge of
+base MLLM is insufficient for MMD, especially
+when the model size is not large enough. We con-
+jecture that task-specific information might be nec-
+essary to induce this capability in the base model.
+Utilize OOD real-world data. However, incor-
+porating task-specific knowledge by training on one
+real-world fact-checking dataset does not consis-
+tently enhance performance on another; it may even
+impede it. As shown in Table 1, training LLaV A
+on the MediaEval dataset enhances its detection
+performance on Snopes and Snopes (O+) with an
+absolute increase of 0.104 and 0.149 respectively,
+but the reverse adversely affects its performance,
+where we observe a decline of 0.09. We examine
+this inconsistency by checking the distributions of
+Snopes and MediaEval datasets.
+Specifically, we employ Principal Component
+Analysis (PCA) (Pearson, 1901) to project the mul-
+timodal features of each instance from both two
+datasets. As depicted in Figure 2a, the MediaE-
+val dataset exhibits a feature distribution character-
+ized by multiple clusters, displaying OOD traits
+when compared across different clusters. This
+is attributed to MediaEval encompassing various
+events, each comprising posts with high internal
+density. This observation is further supported by
+the visualization of the top-10 events with the most
+instances in MediaEval in Figure 2b.
+In contrast, the distribution of the Snopes dataset
+lacks such characteristics, as the instances com-
+prise independent claims from fact-checking web-
+sites. Therefore, training on such diverse yet in-
+sufficient instances might induce catastrophic for-
+getting behaviors, leading to dramatic performance
+degradation. Conversely, when there are more sim-
+ilar instances within each cluster of MediaEval, the
+model can learn the general semantic patterns from
+each group more effectively, thereby enhancing its
+capability in misinformation detection. These find-
+ings suggest that direct training on real-world data
+cannot guarantee robust generalization, particularly
+10472

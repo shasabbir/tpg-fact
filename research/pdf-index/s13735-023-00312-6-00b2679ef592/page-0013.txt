@@ -1,0 +1,103 @@
+International Journal of Multimedia Information Retrieval (2024) 13 :4 Page 13 of 15 4
+and biases towards one modality, which allows unimodal
+methods to outperform their multimodal counterparts in an
+inherently multimodal task. Our systematic investigation
+found that datasets widely used for MMD, namely VMU-
+Twitter and COSMOS, can enable image-side and text-side
+unimodal bias, respectively, raising questions about their reli-
+ability as benchmarks for MMD.
+To address the aforementioned concerns, we introduce
+the VERITE evaluation benchmark, designed to provide a
+comprehensive and robust framework for multimodal misin-
+formation detection. VERITE encompasses a diverse array
+of real-world data, excludes “asymmetric multimodal misin-
+formation” (Asymmetric-MM)—where one modality plays
+a dominant role in propagating misinformation while others
+have little or no inﬂuence—and implements “modality bal-
+ancing”; where each image and caption appear twice in the
+dataset, once within their truthful and once within a mis-
+leading pair. We conduct an extensive comparative study
+with a transformer-based architecture which demonstrates
+that VERITE effectively mitigates and prevents the mani-
+festation of unimodal bias, offering an improved evaluation
+framework for MMD.
+In addition, we introduce CHASMA, a novel method for
+generating synthetic training data that retain crossmodal
+relations between image-caption pairs. CHASMA employs
+a large pre-trained crossmodal alignment model to gener-
+ate hard examples that retain crossmodal relations between
+legitimate images and misleading human-written captions.
+Empirical results show that using CHASMA in the training
+process consistently improves detection accuracy and has
+achieved the highest performance on VERITE.
+The proposed approach achieved 52.1% accuracy for mul-
+ticlass MMD. Nevertheless, we are optimistic that CHASMA
+and VERITE can serve as a foundation for future research,
+leading to further advancements in this area. For instance,
+future works could experiment with improved multimodal
+encoders [ 25, 26], news- or event-aware encoders [ 27],
+advanced modality fusion techniques [ 21, 51, 52], utilize
+external evidence [1] or explore new methods for generating
+training data [11]. As future research unfolds, VERITE could
+be expanded to include additional types of MM (e.g. AI-
+generated content) or additional modalities (e.g. videos), or
+be repurposed for other relevant tasks (e.g. fact-checked arti-
+cle retrieval [36]). Moreover, since MMD is only one part of
+multimedia veriﬁcation [ 33], “claim detection” and “check-
+worthiness” [12] could be employed to distinguish between
+Asymmetric-MM and MM and determine whether to use a
+unimodal detector (e.g. false claim or manipulated image)
+or a multimodal misinformation detector in each scenario.
+Finally, while our focus has been on alleviating unimodal bias
+at the evaluation level, it may be worth exploring methods
+for reducing unimodal bias from an algorithmic perspective
+[10]. In all these endeavours, VERITE can serve as a robust
+evaluation benchmark.
+Acknowledgements The publication of the article in OA mode was
+ﬁnancially supported by HEAL-Link
+Author Contributions S-IP involved in conceptualization, methodol-
+ogy, data curation, investigation, writing—original draft, and visualiza-
+tion.CK involved in conceptualization, writing—review and editing,
+and supervision. SP involved in conceptualization, writing—review
+and editing, supervision, resources, project administration, and funding
+acquisition. PC.P involved in conceptualization, review and editing, and
+supervision.
+Funding Open access funding provided by HEAL-Link Greece. This
+work is partially funded by the Horizon Europe “vera.ai - VERiﬁcation
+Assisted by AI” project under grant agreement no. 101070093.
+Data availability All datasets are publicly available and have been prop-
+erly referenced in the text.
+Code availability Code is publicly available at https://github.com/
+stevejpapad/image-text-veriﬁcation .
+Declarations
+Conﬂict of interest The authors have no competing interests to declare
+that are relevant to the content of this article.
+Ethical approval Not applicable
+Consent to participate Not applicable
+Consent for publication All authors have provided their consent for
+publication.
+Open Access This article is licensed under a Creative Commons
+Attribution 4.0 International License, which permits use, sharing, adap-
+tation, distribution and reproduction in any medium or format, as
+long as you give appropriate credit to the original author(s) and the
+source, provide a link to the Creative Commons licence, and indi-
+cate if changes were made. The images or other third party material
+in this article are included in the article’s Creative Commons licence,
+unless indicated otherwise in a credit line to the material. If material
+is not included in the article’s Creative Commons licence and your
+intended use is not permitted by statutory regulation or exceeds the
+permitted use, you will need to obtain permission directly from the copy-
+right holder. To view a copy of this licence, visit http://creativecomm
+ons.org/licenses/by/4.0/.
+References
+1. Abdelnabi S, Hasan R, Fritz M (2022) Open-domain, content-
+based, multi-modal fact-checking of out-of-context images via
+online resources. In: Proceedings of the IEEE/CVF conference on
+computer vision and pattern recognition, pp 14940–14949
+2. Agrawal A, Batra D, Parikh D, et al (2018) Don’t just assume; look
+and answer: Overcoming priors for visual question answering. In:
+Proceedings of the IEEE conference on computer vision and pattern
+recognition, pp 4971–4980
+3. Alam F, Cresci S, Chakraborty T et al (2022) A survey on mul-
+timodal disinformation detection. In: Proceedings of the 29th
+123

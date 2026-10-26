@@ -1,0 +1,56 @@
+[
+  {
+    "candidate_count": 3,
+    "claim_id": "c-train-1",
+    "ranked_evidence_ids": [
+      "e-c-train-1-1",
+      "e-c-train-1-2"
+    ],
+    "time_valid_count": 2
+  },
+  {
+    "candidate_count": 3,
+    "claim_id": "c-train-2",
+    "ranked_evidence_ids": [
+      "e-c-train-2-1",
+      "e-c-train-2-2"
+    ],
+    "time_valid_count": 2
+  },
+  {
+    "candidate_count": 3,
+    "claim_id": "c-val-1",
+    "ranked_evidence_ids": [
+      "e-c-val-1-1",
+      "e-c-val-1-2"
+    ],
+    "time_valid_count": 2
+  },
+  {
+    "candidate_count": 3,
+    "claim_id": "c-test-1",
+    "ranked_evidence_ids": [
+      "e-c-test-1-1",
+      "e-c-test-1-2"
+    ],
+    "time_valid_count": 2
+  },
+  {
+    "candidate_count": 3,
+    "claim_id": "c-test-2",
+    "ranked_evidence_ids": [
+      "e-c-test-2-1",
+      "e-c-test-2-2"
+    ],
+    "time_valid_count": 2
+  },
+  {
+    "candidate_count": 3,
+    "claim_id": "c-test-3",
+    "ranked_evidence_ids": [
+      "e-c-test-3-1",
+      "e-c-test-3-2"
+    ],
+    "time_valid_count": 2
+  }
+]

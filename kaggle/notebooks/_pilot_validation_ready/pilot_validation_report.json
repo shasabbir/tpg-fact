@@ -1,0 +1,25 @@
+{
+  "checks": {
+    "all_evidence_is_time_valid": true,
+    "all_evidence_references_resolve": true,
+    "all_image_hashes_match": true,
+    "claim_count_200": true,
+    "claim_hash_matches": true,
+    "evidence_count_matches": true,
+    "evidence_hash_matches": true,
+    "image_count_200": true,
+    "pilot_assessment_matches": true,
+    "two_cluster_count_matches": true
+  },
+  "claims_with_evidence": 200,
+  "claims_with_two_clusters": 141,
+  "independent_cluster_fraction": 0.705,
+  "label_counts": {
+    "insufficient_evidence": 25,
+    "refuted": 146,
+    "supported": 29
+  },
+  "next_action": "Proceed to pilot experiments and scale-up preparation; do not report final-study conclusions.",
+  "scientific_results_validated": false,
+  "status": "pilot_integrity_validated_evidence_gate_passed"
+}

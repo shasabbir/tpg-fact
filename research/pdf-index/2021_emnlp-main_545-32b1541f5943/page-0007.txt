@@ -1,0 +1,90 @@
+6807
+Figure 5: Person/SBERT-WK Text-Text ROC Curve
+these curves are consistent with the model rank-
+ings recorded in Table 3, with CLIP outperform-
+ing the other models by a wide margin on Seman-
+tics/CLIP Text-Text in Figure 4 across all false
+alarm rates. For Person/SBERT-WK Text-Text in
+Figure 5, VisualBERT-VN has virtually identical
+performance as CLIP at low false alarm rates. How-
+ever, for systems that can tolerate more false alarms
+VisualBERT-VN shows a small advantage.
+Comparing CLIP Models Recall that we used
+CLIP ViT-B/32 to construct our dataset. Here, we
+investigate whether our dataset could be “solved”
+by an existing CLIP model with a different back-
+bone (ViT-B/32 vs. RN50) or a bigger model
+(RN50 vs. RN101). In Table 4, we observe that
+RN50 performs slightly better than ViT-B/32 across
+the board, with at most 2% performance difference
+between the two. We also see that while RN101
+has more parameters than RN50, it only provides a
+small 1-2% boost on most splits. The split where
+RN101 achieves the largest improvement (4%) is
+the Merged/Balanced split, which aligns with the
+need for a model to capture more complex pat-
+terns to classify samples from multiple generation
+methods. Although we used a speciﬁc CLIP model
+architecture during dataset generation, we see that
+our dataset is still challenging for models with dif-
+ferent architectures and more parameters.
+Evaluating A Single Uniﬁed Model Finally, we
+explore whether it is beneﬁcial to combine various
+splits during training. Unlike Tables 3, 4 which
+evaluate separate models trained on each individ-
+ual split, here we evaluate asingle model trained on
+all the splits jointly, see Table 5. The Total/Sum set
+(introduced in Table 1) combines the samples from
+all the splits, so that it is balanced with respect to
+Table 4: Comparing different CLIP backbones, classiﬁ-
+cation performance (test set).
+Split Model All Pristine Falsiﬁed
+(a) Sem/CLIP T-I ViT-B/32 0.6698 0.7543 0.5853
+RN50 0.6824 0.7461 0.6188
+RN101 0.6765 0.7444 0.6085
+(b) Sem/CLIP T-T ViT-B/32 0.6939 0.7409 0.6469
+RN50 0.7182 0.7486 0.6878
+RN101 0.7244 0.7442 0.7046
+(c) Per/SB-WK T-T ViT-B/32 0.6101 0.6178 0.6024
+RN50 0.6123 0.7357 0.4890
+RN101 0.6393 0.7004 0.5782
+(d) Scene/RN Place ViT-B/32 0.6821 0.7835 0.5807
+RN50 0.7004 0.7765 0.6244
+RN101 0.7137 0.7712 0.6562
+Merged/Balanced ViT-B/32 0.6023 0.7007 0.5039
+RN50 0.6162 0.6836 0.5487
+RN101 0.6597 0.6768 0.6426
+pristine and falsiﬁed labels but has different pro-
+portions of each type, e.g. around 87% of samples
+are from the Semantics splits (a,b).
+Table 5: CLIP (ViT/B-32) test set classiﬁcation perfor-
+mance when training a single model with all the avail-
+able training samples, i.e. Total / Sum in Table 1.
+Split All Pristine Falsiﬁed
+(a) Semantics/CLIP Text-Image 0.6651 0.7582 0.5720
+(b) Semantics/CLIP Text-Text 0.6457 0.7563 0.5351
+(c) Person/SBERT-WK Text-Text 0.6399 0.7434 0.5363
+(d) Scene/ResNet Place 0.6824 0.7778 0.5870
+Merged/Balanced 0.6611 0.7574 0.5647
+Comparing Table 3 (II) with Table 5, we note
+that the Person split experiences a 2% boost in
+performance even though it represents only 1% of
+the training data. Clearly, it beneﬁts from the other
+sample types. We also note the 5% degradation
+in performance for the Semantics/CLIP Text-Text,
+likely due to the challenges in learning to address
+several mismatch types at once8. Finally, we see a
+boost of almost 6% for the Merged/Balanced set,
+showing the beneﬁt of training in a uniﬁed setting
+for this more realistic split. One other trend we
+notice is that the Pristine accuracy seems to overall
+beneﬁt more than the Falsiﬁed accuracy.
+5 Additional Analysis
+In this section, we gain further insights into the
+quality of our dataset via human evaluation and
+saliency map analysis. With the human evaluation,
+8We hypothesize that this may be due to the joint training
+with the Person samples – if a model does not know who the
+pictured individual is, then the mismatches in Semantics/CLIP
+Text-Text may look similar to those in the Person split, as they
+both are matched using only textual information.

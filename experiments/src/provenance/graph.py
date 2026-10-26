@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from data.schema import ClaimRecord, EvidenceRecord
+from data.temporal import is_time_valid
+from provenance.clustering import cluster_normalized_weights
 
 
 @dataclass(frozen=True)
@@ -46,6 +48,7 @@ def build_provenance_graph(
     ]
     publisher_nodes: set[str] = set()
     cluster_nodes: set[str] = set()
+    evidence_weights = cluster_normalized_weights(evidence)
 
     for item in evidence:
         nodes.append(
@@ -55,7 +58,12 @@ def build_provenance_graph(
                 attributes={
                     "title": item.title,
                     "published_at": item.published_at.isoformat(),
+                    "observed_at": item.archived_at.isoformat(),
+                    "timestamp_confidence": item.timestamp_confidence,
+                    "time_valid": is_time_valid(item, claim.decision_cutoff),
                     "media_type": item.media_type,
+                    "cluster_normalized_weight": evidence_weights[item.evidence_id],
+                    "dependency_signals": list(item.dependency_signals),
                 },
             )
         )

@@ -1,0 +1,83 @@
+Table 3: Performance of claim verification in MOCHEG with our method. We separately calculate the precision
+and recall in supported, refuted, and NEI claim labels. We compare our method with published baselines in
+Table 4. The labels "Supported," "NEI," and "Refuted" in fact-checking classification are analogous to truthfulness
+labels. "Supported" aligns with the entailment label, indicating that the hypothesis is similar to the premise. "NEI"
+corresponds to "not enough information" and is comparable to the neutral label, indicating that the hypothesis
+includes both information entailed by the premise and information that lacks clarity or confirmation. "Refuted"
+shares the same classification as contradiction, indicating that the hypothesis is not entailed with the premise.
+Setting Accuracy (%) Precision (%)Supported Precision (%)Refuted Precision (%)NEI Recall (%)Supported Recall (%)Refuted Recall (%)NEI
+MSP (Entail. critic) w/ Text Evidence → DeBERTA V3 43.7 79.2 66.9 33.9 40.5 30.6 25.8
+MSP (Entail. critic) w/ Text + Img Evidence → DeBERTA V3 50.8 83.4 69.3 27.3 42.9 34.2 30.9
+MSP (Entail. critic) w/ Text Evidence → Llama 2 46.7 80.4 68.1 31.5 37.2 35.4 31.5
+MSP (Entail. critic) w/ Text + Img Evidence → Llama 2 53.7 87.3 60.3 32.4 48.3 36.9 34.8
+MSP (Entail., LM critics) w/ Text Evidence → DeBERTA V3 40.2 77.3 63.4 45.9 38.2 35.7 28.4
+MSP (Entail., LM critics) w/ Text + Img Evidence → DeBERTA V3 47.8 78.1 67.5 38.1 39.5 37.5 34.1
+MSP (Entail., LM critics) w/ Text Evidence → Llama 2 49.3 81.5 65.2 37.4 39.7 31.5 35.7
+MSP (Entail., LM critics) w/ Text + Img Evidence → Llama 2 55.6 88.2 57.5 39.6 51.2 32.4 37.2
+summary, specifically focusing on clarity and con-
+ciseness. We utilize Mistral (Jiang et al., 2023)
+along with a detailed quality testing prompt pro-
+vided in the appendix to assess this aspect. The
+assigned reward ranges from 0 to 1. We integrate
+rquality into our model update in conjunction with
+the existing rtotal. The cumulative reward is de-
+scribed as follows:
+rtotal = (rquality + r(xC, ˆyt)−
+ηKL (πP P Oϕ (ˆyt|xD), πSF T(ˆyt|xD)))/2,
+(5)
+where η represents the KL reward coefficient,
+which determines the magnitude of the KL penalty,
+we set it to 0.2 for our model. This coefficient func-
+tions as an entropy boost, enhancing exploration
+throughout the policy domain and urging the model
+to engage in a diverse set of actions rather than the
+one currently considered the best. In addition, it
+inhibits the policy from rapidly committing to a
+singular strategy, and this encourages outputs from
+the RL fine-tuned model to not deviate too far from
+the original model.
+MSP is optimized through PPO based on the
+policy gradient methods that optimize the policy of
+the model using gradient ascent. The update rule
+for the policy gradient is given as:
+θ ← −θ + α∇θJ(θ), (6)
+where α and Jθ denote the learning rate and the
+expected return under policy πθ from the model,
+respectively.
+5 Experiments
+5.1 Claim Verification
+The goal of our method is to generate a summary
+from multiple documents and modalities that is
+useful for fact-checking a claim. In order to assess
+how useful our method is at this task, we com-
+pare the performance of our method on MOCHEG,
+which presents a benchmark and method for multi-
+document multimodal fact-checking. Specifically,
+we employed two fixed entailment models, namely
+DeBERTA V3 (He et al., 2023) and Llama 2 (Tou-
+vron et al., 2023b), as our surrogate “human” fact
+checkers to predict the entailment label of a claim
+given our generated summary. Importantly, we do
+not fine-tune these models with our generated sum-
+maries to avoid biasing the models toward the lin-
+guistic or stylistic patterns of the summaries. This
+ensures that they do not learn spurious features in
+the downstream task.
+As depicted in Tables 3 and 4, our method ex-
+hibits superior performance, achieving a SOTA
+48.6 F-score in the MOCHEG dataset. Further-
+more, according to Table 3, our method demon-
+strates strong precision performance for the ”Sup-
+ported” label. We conduct separate tests with two
+distinct critics. It is noted that the most optimal per-
+formance was achieved when deploying both the
+entailment critic and the LM critic. This outcome
+indicates that our model is proficient in verifying
+claim labels through clear and concise summaries.
+Table 3 reveals that the best results are achieved
+when inputs incorporate both textual and image
+evidence. Perhaps unsurprisingly given its size, the
+zero-shot Llama 2 entailment surrogate model sur-
+passes DeBERTA V3 in performance. Nevertheless,
+a notable issue persists, where the surrogate entail-
+8747

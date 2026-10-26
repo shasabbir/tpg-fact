@@ -1,0 +1,111 @@
+Acknowledgements
+This research/project is supported by the National Research
+Foundation, Singapore under its National Large Language
+Models Funding Initiative (AISG Award No: AISG-NMLP-
+2024-004). Any opinions, findings and conclusions or rec-
+ommendations expressed in this material are those of the
+author(s) and do not reflect the views of National Research
+Foundation, Singapore. This research/project is supported by
+the Ministry of Education, Singapore, under its SUTD-SMU
+Joint Grant Call, if applicable).
+Contribution Statement
+Ziyu Ge and Y uhao Wu contributed equally for the paper.
+References
+[Amplayo et al., 2023] Reinald Kim Amplayo, Kellie Web-
+ster, Michael Collins, Dipanjan Das, and Shashi Narayan.
+Query refinement prompts for closed-book long-form QA.
+In Proceedings of the 61st Annual Meeting of the Associ-
+ation for Computational Linguistics (V olume 1: Long Pa-
+pers), ACL, pages 7997–8012, 2023.
+[Baly et al., 2018] Ramy Baly, Georgi Karadzhov, Dimitar
+Alexandrov, James R. Glass, and Preslav Nakov. Pre-
+dicting factuality of reporting and bias of news media
+sources. In Proceedings of the 2018 Conference on Em-
+pirical Methods in Natural Language Processing, pages
+3528–3539, 2018.
+[Baly et al., 2020] Ramy Baly, Georgi Karadzhov, Jisun An,
+Haewoon Kwak, Y oan Dinkov, Ahmed Ali, James R.
+Glass, and Preslav Nakov. What was written vs. who read
+it: News media profiling using text analysis and social me-
+dia context. In Proceedings of the 58th Annual Meeting of
+the Association for Computational Linguistics, ACL 2020,
+Online, July 5-10, 2020, pages 3364–3374, 2020.
+[Bashlovkina et al., 2023] V asilisa Bashlovkina, Zhaobin
+Kuang, Riley Matthews, Edward Clifford, Y ennie Jun,
+William W. Cohen, and Simon Baumgartner. Trusted
+source alignment in large language models. CoRR,
+abs/2311.06697, 2023.
+[Chen and Shu, 2024] Canyu Chen and Kai Shu. Can llm-
+generated misinformation be detected? In The Twelfth
+International Conference on Learning Representations,
+ICLR, 2024.
+[Chen et al., 2021] Anthony Chen, Pallavi Gudipati, Shayne
+Longpre, Xiao Ling, and Sameer Singh. Evaluating en-
+tity disambiguation and the role of popularity in retrieval-
+based NLP. In Proceedings of the 59th Annual Meeting
+of the Association for Computational Linguistics and the
+11th International Joint Conference on Natural Language
+Processing, ACL/IJCNLP, pages 4472–4485, 2021.
+[Chen et al., 2024] Jifan Chen, Grace Kim, Aniruddh Sri-
+ram, Greg Durrett, and Eunsol Choi. Complex claim ver-
+ification with evidence retrieved in the wild. In Proceed-
+ings of the 2024 Conference of the North American Chap-
+ter of the Association for Computational Linguistics: Hu-
+man Language Technologies (V olume 1: Long Papers),
+NAACL, pages 3569–3587, 2024.
+[Gao et al., 2023] Y unfan Gao, Y un Xiong, Xinyu Gao,
+Kangxiang Jia, Jinliu Pan, Y uxi Bi, Yi Dai, Jiawei Sun,
+Qianyu Guo, Meng Wang, and Haofen Wang. Retrieval-
+augmented generation for large language models: A sur-
+vey. CoRR, abs/2312.10997, 2023.
+[Guo et al., 2022] Zhijiang Guo, Michael Sejr Schlichtkrull,
+and Andreas Vlachos. A survey on automated fact-
+checking. Trans. Assoc. Comput. Linguistics, 10:178–206,
+2022.
+[Guu et al., 2020] Kelvin Guu, Kenton Lee, Zora Tung,
+Panupong Pasupat, and Mingwei Chang. Retrieval aug-
+mented language model pre-training. In International con-
+ference on machine learning, pages 3929–3938. PMLR,
+2020.
+[Hong et al., 2024] Giwon Hong, Jeonghwan Kim, Junmo
+Kang, Sung-Hyon Myaeng, and Joyce Jiyoung Whang.
+Why so gullible? enhancing the robustness of retrieval-
+augmented models against counterfactual noise. In Find-
+ings of the Association for Computational Linguistics:
+NAACL, pages 2474–2495, 2024.
+[Hounsel et al., 2020] Austin Hounsel, Jordan Holland, Ben
+Kaiser, Kevin Borgolte, Nick Feamster, and Jonathan R.
+Mayer. Identifying disinformation websites using infras-
+tructure features. In 10th USENIX Workshop on Free and
+Open Communications on the Internet, FOCI, 2020.
+[Lee et al., 2024] Y oonsang Lee, Xi Y e, and Eunsol Choi.
+Ambigdocs: Reasoning across documents on different en-
+tities under the same name. CoRR, abs/2404.12447, 2024.
+[Lewis et al., 2020] Patrick S. H. Lewis, Ethan Perez, Alek-
+sandra Piktus, Fabio Petroni, Vladimir Karpukhin, Na-
+man Goyal, Heinrich K ¨uttler, Mike Lewis, Wen-tau Yih,
+Tim Rockt ¨aschel, Sebastian Riedel, and Douwe Kiela.
+Retrieval-augmented generation for knowledge-intensive
+NLP tasks. In Advances in Neural Information Process-
+ing Systems 33: Annual Conference on Neural Informa-
+tion Processing Systems 2020, NeurIPS 2020, December
+6-12, 2020, virtual, 2020.
+[Li et al., 2023] Dongfang Li, Zetian Sun, Xinshuo Hu,
+Zhenyu Liu, Ziyang Chen, Baotian Hu, Aiguo Wu, and
+Min Zhang. A survey of large language models attribu-
+tion. CoRR, abs/2311.03731, 2023.
+[Min et al., 2020] Sewon Min, Julian Michael, Hannaneh
+Hajishirzi, and Luke Zettlemoyer. Ambigqa: Answering
+ambiguous open-domain questions. In Proceedings of the
+2020 Conference on Empirical Methods in Natural Lan-
+guage Processing, EMNLP, pages 5783–5797, 2020.
+[Mukherjee and Weikum, 2015] Subhabrata Mukherjee and
+Gerhard Weikum. Leveraging joint interactions for credi-
+bility analysis in news communities. In Proceedings of the
+24th ACM International Conference on Information and
+Knowledge Management, CIKM, pages 353–362, 2015.
+[Nakov et al., 2021] Preslav Nakov, David P . A. Corney,
+Maram Hasanain, Firoj Alam, Tamer Elsayed, Alberto
+Proceedings of the Thirty-Fourth International Joint Conference on Artiﬁcial Intelligence (IJCAI-25)
+Special Track on AI and Social Good
+9663

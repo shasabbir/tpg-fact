@@ -1,0 +1,1776 @@
+{
+  "claims": [
+    {
+      "claimDate": "2020-02-25T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Half True",
+          "title": "Bloomberg adviser slams Sanders’ writings about sex, cancer",
+          "url": "https://politifact.com/factchecks/2020/feb/26/tim-obrien/bloomberg-adviser-slams-bernie-sanders-decades-old/"
+        }
+      ],
+      "claimant": "Tim O'Brien",
+      "text": "Says Bernie Sanders has said “things like women get cancer from having too many orgasms, or toddlers should run around naked and touch each others' genitals to insulate themselves from porn … He's written about women's rape fantasies.\""
+    },
+    {
+      "claimDate": "2019-09-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "Clint Eastwood is still not dead – PolitiFact",
+          "url": "https://politifact.com/factchecks/2019/oct/01/blog-posting/clint-eastwood-still-not-dead/"
+        }
+      ],
+      "claimant": "Bloggers",
+      "text": "Clint Eastwood is dead."
+    },
+    {
+      "claimDate": "2017-10-05T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2017-10-11T19:31:55Z",
+          "textualRating": "Other spending nears $200M",
+          "title": "Counting up how much the NRA spends on campaigns, lobbying",
+          "url": "https://politifact.com/article/2017/oct/11/counting-up-how-much-nra-spends/"
+        }
+      ],
+      "claimant": "Bret Stephens",
+      "text": "“The NRA has donated a paltry $3,533,294 to all current members of Congress since 1998.”"
+    },
+    {
+      "claimDate": "2020-10-23T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Half True",
+          "title": "Viral image of migrant ‘cages’ is from 2019, not Obama years – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/oct/26/viral-image/viral-image-migrant-cages-2019-not-obama-years/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "A photo shows Barack Obama in front of “cages” built during his administration to hold migrants."
+    },
+    {
+      "claimDate": "2021-01-01T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "D.C. hasn’t closed hotels, grocery stores to foil protests",
+          "url": "https://politifact.com/factchecks/2021/jan/05/viral-image/no-dc-hasnt-closed-hotels-grocery-stores-and-more/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "Mayor Muriel Bowser “ordered all hotels, restaurants, grocery stores, gas stations, and convenience stores to close Jan. 4, 5 and 6 to discourage Trump supporters from gathering in D.C.”"
+    },
+    {
+      "claimDate": "2022-01-10T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Steve Jobs didn’t say this about wealth as he was dying",
+          "url": "https://politifact.com/factchecks/2022/jan/12/viral-image/no-steve-jobs-didnt-say-about-wealth-he-was-dying/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "Says Steve Jobs said, “I realize that all my recognition and wealth that I have is meaningless in the face of imminent death.”"
+    },
+    {
+      "claimDate": "2024-07-25T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Kamala Harris’ ‘RuPaul’s Drag Race’ spot was taped before her presidential run – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/jul/31/social-media/kamala-harris-rupauls-drag-race-spot-was-taped-bef/"
+        }
+      ],
+      "claimant": "Social media posts",
+      "text": "\"Kamala just launched her presidential campaign on RuPaul's Drag Race.\""
+    },
+    {
+      "claimDate": "2022-02-24T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Vladimir Putin repeats false claim of genocide in Ukraine",
+          "url": "https://politifact.com/factchecks/2022/feb/25/vladimir-putin/putin-repeats-long-running-claim-genocide-ukraine/"
+        }
+      ],
+      "claimant": "Vladimir Putin",
+      "text": "Ethnic Russians face “genocide perpetrated by the Kyiv regime.”"
+    },
+    {
+      "claimDate": "2023-10-11T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "Altered video appears to show President Joe Biden calling a child “sexy.” He didn’t. – PolitiFact",
+          "url": "https://politifact.com/factchecks/2023/oct/12/instagram-posts/altered-video-appears-to-show-president-joe-biden/"
+        }
+      ],
+      "claimant": "Instagram posts",
+      "text": "Video shows President Joe Biden telling a child, “You’re one sexy kid.”"
+    },
+    {
+      "claimDate": "2019-12-03T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "No, Adam Schiff didn’t pay witnesses to testify against President Trump – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/jan/21/blog-posting/no-adam-schiff-didnt-pay-witnesses-testify-against/"
+        }
+      ],
+      "claimant": "Bloggers",
+      "text": "Adam Schiff Paid Witnesses Over $40 Million To Testify Against Trump"
+    },
+    {
+      "claimDate": "2018-11-20T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2018-11-27T15:10:41Z",
+          "textualRating": "Most cite human rights",
+          "title": "Fact-checking Donald Trump's statement on Saudi Arabia",
+          "url": "https://politifact.com/article/2018/nov/27/fact-checking-donald-trumps-statement-saudi-arabia/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"I understand there are members of Congress who, for political or other reasons, would like to go in a different direction — and they are free to do so.\""
+    },
+    {
+      "claimDate": "2024-09-26T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "North Carolina’s 747,000 voter roll removals are legal, routine voter list maintenance, experts say – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/oct/04/instagram-posts/north-carolinas-747000-voter-roll-removals-are-leg/"
+        }
+      ],
+      "claimant": "Instagram posts",
+      "text": "North Carolina removed 747,00 voters from the voter rolls to try to “steal the election.”"
+    },
+    {
+      "claimDate": "2023-02-22T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Former Clinton White House aide wasn’t murdered – PolitiFact",
+          "url": "https://politifact.com/factchecks/2023/feb/23/facebook-posts/former-clinton-white-house-aide-wasnt-murdered/"
+        }
+      ],
+      "claimant": "Facebook posts",
+      "text": "“Clinton aide found dead, tied to tree in apparent murder.”"
+    },
+    {
+      "claimDate": "2015-09-28T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2016-06-15T20:47:22Z",
+          "textualRating": "Pants on Fire",
+          "title": "Donald Trump’s top 10 most misleading claims – PolitiFact",
+          "url": "https://politifact.com/article/2016/oct/27/donald-trumps-top-10-most-misleading-claims/"
+        },
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2016-06-15T20:47:22Z",
+          "textualRating": "Pants on Fire",
+          "title": "The 10 biggest falsehoods from the year of Trump – PolitiFact",
+          "url": "https://politifact.com/article/2016/jun/16/10-biggest-falsehoods-year-trump/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "The unemployment rate may be as high as \"42 percent.\""
+    },
+    {
+      "claimDate": "2024-06-08T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "The false claim that Trump’s felony conviction bars him from the Texas ballot – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/jun/14/threads-posts/the-false-claim-that-trumps-felony-conviction-bars/"
+        }
+      ],
+      "claimant": "Threads",
+      "text": "\"Trump can’t be on the Texas ballot because of our state constitution.\""
+    },
+    {
+      "claimDate": "2020-03-04T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Half True",
+          "title": "What’s missing in Pence’s statement about insurance coverage for coronavirus testing? – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/mar/06/mike-pence/pences-statement-about-insurance-coverage-coronavi/"
+        }
+      ],
+      "claimant": "Mike Pence",
+      "text": "“With regard to the cost, let me be very clear: HHS has designated the coronavirus test as an essential health benefit. That means, by definition, it's covered in the private health insurance of every American, as well as covered by Medicare and Medicaid.\""
+    },
+    {
+      "claimDate": "2021-03-29T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Mostly False",
+          "title": "Tiffany misses mark with claim that young adults are not susceptible to coronavirus – PolitiFact",
+          "url": "https://politifact.com/factchecks/2021/apr/08/tom-tiffany/tiffany-misses-mark-claim-young-adults-are-not-sus/"
+        }
+      ],
+      "claimant": "Tom Tiffany",
+      "text": "Says it doesn't make sense for young adults to get the vaccine since they \"really are not under that much of a threat as a result of this virus.\""
+    },
+    {
+      "claimDate": "2024-06-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2024-06-28T06:17:31Z",
+          "textualRating": "False",
+          "title": "2024 presidential debate fact-check: How accurate were Joe Biden, Donald Trump? – PolitiFact",
+          "url": "https://politifact.com/article/2024/jun/28/2024-presidential-debate-fact-check-biden-trump/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"We had no terror (attacks) under my administration.\""
+    },
+    {
+      "claimDate": "2019-09-20T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "We don't know identity",
+          "title": "Trump’s Ukraine call, a whistleblower and the Bidens: What we know, what we don’t – PolitiFact",
+          "url": "https://politifact.com/article/2019/sep/23/president-donald-trump-ukraine-biden-whistleblower/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "Says of intelligence community whistleblower who reportedly raised concerns about interactions between Trump and Ukrainian president Volodymyr Zelensky, \"It’s a partisan whistleblower.\""
+    },
+    {
+      "claimDate": "2024-06-12T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Air show footage from Miami in May repackaged as a military flex against Russia on social media – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/jun/14/viral-image/air-show-footage-from-miami-in-may-repackaged-as-a/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "Video shows “U.S. Navy deploys in Miami due to Russian warships 6/12.”"
+    },
+    {
+      "claimDate": "2026-03-09T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2026-03-10T00:00:00Z",
+          "textualRating": "False",
+          "title": "Trump says Iran has Tomahawks, the weapon experts say destroyed an Iranian school. That’s unproven – PolitiFact",
+          "url": "https://politifact.com/factchecks/2026/mar/10/donald-trump/trump-tomahawk-missile-iran-school/"
+        },
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2026-03-10T00:00:00Z",
+          "textualRating": "No Evidence",
+          "title": "Without Providing Evidence, Trump Pins School Bombing on Iran",
+          "url": "https://www.factcheck.org/2026/03/without-providing-evidence-trump-pins-school-bombing-on-iran/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "Iran \"also has some Tomahawks.\""
+    },
+    {
+      "claimDate": "2016-10-05T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2016-10-07T14:47:29Z",
+          "textualRating": "Mostly True",
+          "title": "Oxfam: World’s 62 richest own as much as poorest 3.6 billion – PolitiFact",
+          "url": "https://politifact.com/factchecks/2016/oct/07/oxfam-america/oxfam-worlds-62-richest-own-much-poorest-36-billio/"
+        }
+      ],
+      "claimant": "Oxfam America",
+      "text": "\"The world's 62 richest people own the same wealth as the 3.6 billion poorest.\""
+    },
+    {
+      "claimDate": "2024-10-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Clip from LGBTQ+ FEMA webinar goes viral without context – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/oct/11/tweets/clip-from-lgbtq-fema-webinar-goes-viral-without-co/"
+        }
+      ],
+      "claimant": "X posts",
+      "text": "2023 FEMA webinar shows the agency is prioritizing its relief efforts around LGBTQ+ people"
+    },
+    {
+      "claimDate": "2024-10-15T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Detroit absentee ballot return rate doesn’t signal election fraud – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/oct/17/tweets/detroit-absentee-ballot-return-rate-doesnt-signal/"
+        }
+      ],
+      "claimant": "X post",
+      "text": "Detroit’s Oct.15, 2024, absentee ballot return rate proves election fraud."
+    },
+    {
+      "claimDate": "2016-07-25T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2016-07-26T04:53:55Z",
+          "textualRating": "Half True",
+          "title": "Elizabeth Warren says Donald Trump was excited for 2008 housing crash – PolitiFact",
+          "url": "https://politifact.com/factchecks/2016/jul/26/elizabeth-warren/elizabeth-warren-says-donald-trump-was-excited-200/"
+        }
+      ],
+      "claimant": "Elizabeth Warren",
+      "text": "\"Donald Trump said he was excited for the 2008 housing crash that devastated millions of American families, because he thought it would help him scoop up more real estate on the cheap.\""
+    },
+    {
+      "claimDate": "2017-04-28T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2017-05-18T13:16:52Z",
+          "textualRating": "False",
+          "title": "NY farmers close to dumping milk over Canadian trade dispute",
+          "url": "https://politifact.com/factchecks/2017/may/18/chris-collins/new-york-farmers-close-dumping-milk-over-canadian/"
+        }
+      ],
+      "claimant": "Chris Collins",
+      "text": "Farmers \"are now dumping milk into the ditches\" because of a trade dispute with Canada"
+    },
+    {
+      "claimDate": "2018-10-21T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2018-10-22T02:23:12Z",
+          "textualRating": "Corp tax hike",
+          "title": "Fact-checking the CNN Florida governor’s debate between Ron DeSantis, Andrew Gillum – PolitiFact",
+          "url": "https://politifact.com/article/2018/oct/22/fact-checking-andrew-gillum-ron-desantis-florida-g/"
+        }
+      ],
+      "claimant": "Ron DeSantis",
+      "text": "Says Gillum supports 40% tax hike"
+    },
+    {
+      "claimDate": "2020-03-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Mostly False",
+          "title": "Facebook post cherrypicks Joe Biden’s record on segregation",
+          "url": "https://politifact.com/factchecks/2020/mar/04/facebook-posts/pro-bernie-sanders-facebook-post-cherrypicks-joe-b/"
+        }
+      ],
+      "claimant": "Facebook post",
+      "text": "“Bernie Sanders in 1963 — arrested protesting segregation. Joe Biden in 1975 — passionate speech defending segregation.”"
+    },
+    {
+      "claimDate": "2023-04-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "COVID-19 did not stop mutating when Fauci stepped down from top role – PolitiFact",
+          "url": "https://politifact.com/factchecks/2023/apr/07/instagram-posts/covid-19-did-not-stop-mutating-when-fauci-stepped/"
+        }
+      ],
+      "claimant": "Instagram post",
+      "text": "There have been no new COVID-19 variants since Dr. Anthony Fauci retired."
+    },
+    {
+      "claimDate": "2018-03-03T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2018-03-07T13:39:48Z",
+          "textualRating": "False",
+          "title": "Florida lawmaker mangles Nazi gun control history",
+          "url": "https://politifact.com/factchecks/2018/mar/06/david-simmons/florida-lawmaker-mangles-nazis-gun-control-history/"
+        }
+      ],
+      "claimant": "David Simmons",
+      "text": "\"Adolf Hitler confiscated all the weapons — took all the weapons, had a registry of everybody — and then on the night of June 30, 1934, sent out his secret police and murdered all of his political opponents.\""
+    },
+    {
+      "claimDate": "2024-02-01T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "True",
+          "title": "Yes, Minnesota incarcerates far less people than Wisconsin does – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/feb/14/kelda-helen-roys/yes-minnesota-incarcerates-far-less-people-than-wi/"
+        }
+      ],
+      "claimant": "Kelda Roys",
+      "text": "Minnesota incarcerates “about a third of what Wisconsin does.”"
+    },
+    {
+      "claimDate": "2017-10-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2017-10-03T18:26:09Z",
+          "textualRating": "Many private sales exempt",
+          "title": "Fact-checking Jimmy Kimmel, late-night hosts about Las Vegas",
+          "url": "https://politifact.com/article/2017/oct/03/fact-checking-jimmy-kimmel-late-night-hosts-about/"
+        }
+      ],
+      "claimant": "Jimmy Kimmel",
+      "text": "\"Right now there are loopholes in the law that let people avoid background checks if they buy a gun privately from another party, if they buy a gun online or at a gun show.\""
+    },
+    {
+      "claimDate": "2020-05-26T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "Trump spreads baseless claim that MSNBC host murdered aide",
+          "url": "https://politifact.com/factchecks/2020/may/26/donald-trump/donald-trump-spreads-baseless-claim-msnbc-host-mur/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "There are “many unanswered and obvious questions” about the 2001 death of a staff member of Joe Scarborough."
+    },
+    {
+      "claimDate": "2024-09-18T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Old unfounded claims that Melania Trump was an escort resurface on social media – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/sep/27/threads-posts/old-unfounded-claims-that-melania-trump-was-an-esc/"
+        }
+      ],
+      "claimant": "Threads posts",
+      "text": "Melania Trump “was an escort.”"
+    },
+    {
+      "claimDate": "2022-03-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Social media post claims without evidence Foo Fighters drummer Taylor Hawkins died from COVID-19 – PolitiFact",
+          "url": "https://politifact.com/factchecks/2022/mar/29/facebook-posts/social-media-post-claims-without-evidence-foo-figh/"
+        }
+      ],
+      "claimant": "Facebook posts",
+      "text": "Foo Fighters drummer Taylor Hawkins died from a COVID-19 vaccine."
+    },
+    {
+      "claimDate": "2024-10-31T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "Donald Trump’s Pants on Fire claim that he ‘never mentioned’ ending the Affordable Care Act – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/nov/02/donald-trump/donald-trumps-pants-on-fire-claim-that-he-never-me/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "“I never mentioned” wanting to end the Affordable Care Act."
+    },
+    {
+      "claimDate": "2021-04-28T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2021-04-29T04:50:26Z",
+          "textualRating": "Accurate as to days",
+          "title": "Fact-checking Sen. Tim Scott’s GOP response to President Joe Biden – PolitiFact",
+          "url": "https://politifact.com/article/2021/apr/29/fact-checking-sen-tim-scotts-gop-response-presiden/"
+        }
+      ],
+      "claimant": "Tim Scott",
+      "text": "\"It will be easier to vote early in Georgia than in Democrat-run New York.\""
+    },
+    {
+      "claimDate": "2024-08-23T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "No, Lowe’s CEO did not tell conservatives to ‘take their money to Home Depot’ – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/aug/26/threads-posts/no-lowes-ceo-did-not-tell-conservatives-to-take-th/"
+        }
+      ],
+      "claimant": "Threads post",
+      "text": "Lowe’s CEO Marvin Ellison said on CNBC, “If conservatives do not like our values, they should take their money to Home Depot.”"
+    },
+    {
+      "claimDate": "2023-08-23T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2023-05-25T02:36:45Z",
+          "textualRating": "Not typical K-12 topic",
+          "title": "Fact-checking Ron DeSantis’ 2024 presidential campaign kickoff on Twitter Spaces with Elon Musk – PolitiFact",
+          "url": "https://politifact.com/article/2023/may/25/fact-checking-ron-desantis-2024-presidential-campa/"
+        },
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "The Washington Post",
+            "site": "washingtonpost.com"
+          },
+          "reviewDate": "2023-08-25T18:47:33Z",
+          "textualRating": "False",
+          "title": "Analysis | Fact-checking the first Republican primary debate",
+          "url": "https://www.washingtonpost.com/politics/2023/08/24/fact-checking-first-republican-primary-debate/"
+        }
+      ],
+      "claimant": "Ron DeSantis",
+      "text": "“We eliminated critical race theory from our K through 12 schools.”"
+    },
+    {
+      "claimDate": "2022-11-29T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Jake Flint didn’t die from COVID-19 vaccine",
+          "url": "https://politifact.com/factchecks/2022/nov/30/instagram-posts/no-singer-jake-flint-didnt-die-from-the-covid-19-v/"
+        }
+      ],
+      "claimant": "in",
+      "text": "Country singer Jake Flint died because of the COVID-19 vaccine."
+    },
+    {
+      "claimDate": "2024-02-14T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Needs more context",
+          "title": "Have there been more US mass shootings than days in 2024? Common statistic needs context – PolitiFact",
+          "url": "https://politifact.com/article/2024/feb/16/have-there-been-more-us-mass-shootings-than-days-i/"
+        }
+      ],
+      "claimant": "Joe Biden",
+      "text": "\"We’ve now had more mass shootings in 2024 than there have been days in the year,\""
+    },
+    {
+      "claimDate": "2020-11-20T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "No, Trump’s sister didn’t tweet her support for the president – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/nov/24/viral-image/no-trumps-sister-didnt-tweet-her-support-president/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "Donald Trump’s sister tweeted, “My brother Don won this election and will fight this to the very end.”"
+    },
+    {
+      "claimDate": "2018-10-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2018-11-05T18:59:04Z",
+          "textualRating": "Half True",
+          "title": "Is Claire McCaskill one of America’s most independent senators? – PolitiFact",
+          "url": "https://politifact.com/factchecks/2018/nov/05/claire-mccaskill/sen-claire-mccaskill-one-americas-most-independent/"
+        }
+      ],
+      "claimant": "Claire McCaskill",
+      "text": "\"Nonpartisan experts have consistently ranked Claire one of the most independent senators — right in the middle.\""
+    },
+    {
+      "claimDate": "2018-08-21T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2018-08-22T02:50:53Z",
+          "textualRating": "An inflated figure",
+          "title": "Fact-checking Donald Trump's rally in Charleston, W.Va.",
+          "url": "https://politifact.com/article/2018/aug/22/fact-checking-donald-trumps-rally-charleston-wva/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"The United States is paying close to 90 percent of the costs of protecting Europe.\""
+    },
+    {
+      "claimDate": "2021-09-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Claim about Bidens’ ownership in Chinese firm with soaring stock price is False – PolitiFact",
+          "url": "https://politifact.com/factchecks/2021/sep/10/viral-image/claim-about-bidens-ownership-chinese-firm-soaring/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "“The Bidens own 10% of” a Chinese firm whose stock is up almost 300%” since Joe Biden was elected."
+    },
+    {
+      "claimDate": "2020-07-21T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "No, CNN didn’t doctor these photos – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/aug/03/viral-image/no-cnn-didnt-doctor-these-photos/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "“CNN is at it again. Putting a black guy’s head on a lily white dude to push an agenda.”"
+    },
+    {
+      "claimDate": "2017-11-19T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2017-11-29T16:53:00Z",
+          "textualRating": "Mostly False",
+          "title": "Does Wisconsin have the fastest-shrinking middle class?",
+          "url": "https://politifact.com/factchecks/2017/nov/29/mahlon-mitchell/its-close-wisconsin-doesnt-have-fastest-shrinking/"
+        }
+      ],
+      "claimant": "Mahlon Mitchell",
+      "text": "Wisconsin has \"the fastest-shrinking middle class in the country.\""
+    },
+    {
+      "claimDate": "2023-08-23T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2023-08-24T09:43:08Z",
+          "textualRating": "False",
+          "title": "Fact-check: What Republican candidates got right, wrong in first debate on Fox News – PolitiFact",
+          "url": "https://politifact.com/article/2023/aug/24/fact-checks-first-republican-presidential-debate/"
+        }
+      ],
+      "claimant": "Ron DeSantis",
+      "text": "Democrats are \"trying … to allow abortion all the way up to the moment of birth.\""
+    },
+    {
+      "claimDate": "2017-03-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2017-08-17T17:55:56Z",
+          "textualRating": "It wasn't their deal",
+          "title": "Fact-checking Trump’s tweets about Clinton and Russia",
+          "url": "https://politifact.com/article/2017/mar/28/fact-checking-donald-trumps-tweets-about-hillary-c/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "The Bill and Hillary Clinton deal \"allowed big Uranium to go to Russia.\""
+    },
+    {
+      "claimDate": "2022-09-30T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "No, judge in Trump documents search case didn’t lose license",
+          "url": "https://politifact.com/factchecks/2022/oct/06/facebook-posts/no-trump-documents-case-judge-didnt-lose-her-law-l/"
+        }
+      ],
+      "claimant": "Facebook posts",
+      "text": "Judge Aileen Cannon “loses her license.”"
+    },
+    {
+      "claimDate": "2024-08-05T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Tim Walz didn’t pick Minnesota’s new flag, and its designer said it wasn’t inspired by Somalia’s – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/aug/06/tweets/tim-walz-didnt-pick-minnesotas-new-flag-and-its-de/"
+        }
+      ],
+      "claimant": "X post",
+      "text": "Tim Walz “changed the Minnesota flag so it could resemble the Somalian flag.”"
+    },
+    {
+      "claimDate": "2018-06-15T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2018-06-15T18:22:14Z",
+          "textualRating": "Flynn pled to lying",
+          "title": "Fact-checking Donald Trump's White House lawn interviews",
+          "url": "https://politifact.com/article/2018/jun/15/fact-checking-donald-trumps-unusual-white-house-la/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "“Some people say (Michael Flynn) lied and some people say he didn't lie. I mean, really, it turned out maybe he didn't lie.”"
+    },
+    {
+      "claimDate": "2023-07-18T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "No evidence George Soros ‘going bankrupt,’ as a recent Facebook post claims – PolitiFact",
+          "url": "https://politifact.com/factchecks/2023/jul/20/facebook-posts/no-evidence-george-soros-going-bankrupt-as-a-recen/"
+        }
+      ],
+      "claimant": "Facebook posts",
+      "text": "Video shows that “George Soros is going bankrupt.”"
+    },
+    {
+      "claimDate": "2024-11-18T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2024-11-26T00:00:00Z",
+          "textualRating": "False",
+          "title": "Michael Jordan didn’t turn down Disney deal",
+          "url": "https://politifact.com/factchecks/2024/nov/26/facebook-posts/no-michael-jordan-didnt-turn-down-a-100-million-di/"
+        }
+      ],
+      "claimant": "Facebook posts",
+      "text": "“Michael Jordan turns down $100 million Disney deal, declares he won’t work for wokeness.”"
+    },
+    {
+      "claimDate": "2020-10-22T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2020-10-23T05:51:14Z",
+          "textualRating": "False",
+          "title": "Fact-checking Donald Trump, Joe Biden in the final presidential debate – PolitiFact",
+          "url": "https://politifact.com/article/2020/oct/23/fact-checking-donald-trump-joe-biden-final-preside/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"They spied on my campaign.\""
+    },
+    {
+      "claimDate": "2025-10-23T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2025-10-24T00:00:00Z",
+          "textualRating": "False",
+          "title": "Hakeem Jeffries twists Karoline Leavitt’s words about ballroom as Trump priority – PolitiFact",
+          "url": "https://politifact.com/factchecks/2025/oct/24/hakeem-jeffries/democrats-leavitt-priority-ballroom-white-house/"
+        }
+      ],
+      "claimant": "Hakeem Jeffries",
+      "text": "“The Trump administration just declared that erecting a ballroom is the president’s main priority,” rather than issues such as the cost of living and health care."
+    },
+    {
+      "claimDate": "2023-01-25T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Half True",
+          "title": "(Updated) For now, Florida student-athletes don’t have to share menstrual details. It could change – PolitiFact",
+          "url": "https://politifact.com/factchecks/2023/feb/03/tweets/for-now-florida-student-athletes-dont-have-to-shar/"
+        }
+      ],
+      "claimant": "Tweets",
+      "text": "“Female student athletes in Florida need to provide their schools with detailed information about their periods.”"
+    },
+    {
+      "claimDate": "2023-04-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "No, the FedNow Service is not replacing cash. It’s an instant payment system. – PolitiFact",
+          "url": "https://politifact.com/factchecks/2023/apr/04/facebook-posts/no-the-fednow-service-is-not-replacing-cash-its-an/"
+        }
+      ],
+      "claimant": "Facebook post",
+      "text": "The FedNow program “is going to replace your paper currency.”"
+    },
+    {
+      "claimDate": "2020-04-13T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "Trump’s ridiculous statement about “total” authority neglects Constitution – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/apr/14/donald-trump/trumps-ridiculous-statement-about-total-authority/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "Says as president he has “total” authority to re-open states amid the COVID-19 pandemic."
+    },
+    {
+      "claimDate": "2022-12-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "No, the military didn’t charge Nancy Pelosi with treason and seditious conspiracy – PolitiFact",
+          "url": "https://politifact.com/factchecks/2022/dec/12/viral-image/no-the-military-didnt-charge-nancy-pelosi-with-tre/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "“JAG charges Nancy Pelosi with treason and seditious conspiracy.”"
+    },
+    {
+      "claimDate": "2020-03-13T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Not what experts say",
+          "title": "Fact-checking a Miami Beach Commissioner’s statement about coronavirus and first responders – PolitiFact",
+          "url": "https://politifact.com/article/2020/mar/18/fact-checking-miami-beach-commissioners-statement/"
+        }
+      ],
+      "claimant": "Ricky Arriola",
+      "text": "Suggested that first responders might try to catch coronavirus so that they will develop immunity."
+    },
+    {
+      "claimDate": "2016-08-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2016-08-12T14:15:21Z",
+          "textualRating": "Mostly False",
+          "title": "Has Donald Trump talked about using nukes against America’s Western European allies? – PolitiFact",
+          "url": "https://politifact.com/factchecks/2016/aug/12/hillary-clinton/has-donald-trump-talked-about-using-nukes-against/"
+        }
+      ],
+      "claimant": "Hillary Clinton",
+      "text": "Says Donald Trump \"has been talking about the option of using a nuclear weapon against our Western European allies.\""
+    },
+    {
+      "claimDate": "2024-09-12T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "No, Taylor Swift’s boyfriend Travis Kelce didn’t say he could ‘twist’ Elon Musk ‘into a pretzel’ – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/sep/13/threads-posts/no-taylor-swifts-boyfriend-travis-kelce-didnt-say/"
+        }
+      ],
+      "claimant": "Threads post",
+      "text": "An image shows Travis Kelce responding to Elon Musk X post that followed Taylor Swift’s endorsement of Vice President Kamala Harris."
+    },
+    {
+      "claimDate": "2020-12-09T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Mostly False",
+          "title": "In GA race, Kelly Loeffler distorts Raphael Warnock’s stances on prisons, bail – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/dec/18/kelly-loeffler/ga-race-kelly-loeffler-distorts-raphael-warnocks-s/"
+        }
+      ],
+      "claimant": "Kelly Loeffler",
+      "text": "Says Raphael Warnock has \"said we need to open up the prisons\" and \"eliminate cash bail.\""
+    },
+    {
+      "claimDate": "2019-03-30T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2019-04-02T18:30:36Z",
+          "textualRating": "Pants on Fire",
+          "title": "No, Alexandria Ocasio-Cortez didn’t advocate repealing daylight saving time – PolitiFact",
+          "url": "https://politifact.com/factchecks/2019/apr/02/viral-image/no-alexandria-ocasio-cortez-didnt-advocate-repeali/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "Alexandria Ocasio-Cortez said, \"We need to repeal Daylight Savings Time as a primary measure to decrease the rate of climate change. Less hours of sun shine equal less heat hitting Earth’s surface.\""
+    },
+    {
+      "claimDate": "2017-08-05T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2017-08-08T16:42:10Z",
+          "textualRating": "Pants on Fire",
+          "title": "Fakers falsely say Putin said Pope is 'not a man of God'",
+          "url": "https://politifact.com/factchecks/2017/aug/08/blog-posting/vladimir-putin-said-pope-francis-not-man-god-blogg/"
+        }
+      ],
+      "claimant": "Internet rumors",
+      "text": "Says Russian President Vladimir Putin said Pope Francis \"is not a man of God.\""
+    },
+    {
+      "claimDate": "2017-06-21T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2017-06-22T20:32:16Z",
+          "textualRating": "Nations chose own details",
+          "title": "Fact-checking 9 things Trump overstated, got wrong in his Cedar Rapids speech – PolitiFact",
+          "url": "https://politifact.com/article/2017/jun/22/fact-checking-nine-things-trump-overstated-got-wro/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "“The Paris agreement would’ve cost America millions of lost jobs and billions and billions of lost dollars, and put us at a permanent economic disadvantage. China doesn’t kick in until 2030.”"
+    },
+    {
+      "claimDate": "2015-06-28T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2016-07-15T14:21:36Z",
+          "textualRating": "Half True",
+          "title": "Gingrich: Amazon removed educational board games about the Civil War",
+          "url": "https://politifact.com/factchecks/2015/jun/30/newt-gingrich/gingrich-amazon-removed-educational-board-games-ab/"
+        }
+      ],
+      "claimant": "Newt Gingrich",
+      "text": "Says Amazon has removed \"an educational game about Gettysburg.\""
+    },
+    {
+      "claimDate": "2017-02-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2017-02-08T19:42:57Z",
+          "textualRating": "True",
+          "title": "Yes, ExxonMobil under Tillerson fought oil payment disclosure rule – PolitiFact",
+          "url": "https://politifact.com/factchecks/2017/feb/08/sherrod-brown/yes-exxonmobil-under-tillerson-fought-oil-payment/"
+        }
+      ],
+      "claimant": "Sherrod Brown",
+      "text": "Says ExxonMobil \"fought to kill\" a rule requiring oil and mining companies to disclose payments made to foreign governments."
+    },
+    {
+      "claimDate": "2015-06-14T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2017-09-30T13:38:41Z",
+          "textualRating": "Pants on Fire",
+          "title": "No, a pear was not the original symbol of California",
+          "url": "https://politifact.com/factchecks/2015/jun/18/breitbart/no-pear-was-not-original-symbol-california/"
+        }
+      ],
+      "claimant": "Breitbart",
+      "text": "Says the California flag was supposed to be a pear, not a bear."
+    },
+    {
+      "claimDate": "2022-04-19T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "No, Hunter Biden was not arrested on April 19 – PolitiFact",
+          "url": "https://politifact.com/factchecks/2022/apr/20/facebook-posts/no-hunter-biden-was-not-arrested-april-19/"
+        }
+      ],
+      "claimant": "Facebook posts",
+      "text": "“Hunter Biden arrested this morning.”"
+    },
+    {
+      "claimDate": "2017-02-17T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2017-02-23T14:43:31Z",
+          "textualRating": "False",
+          "title": "David Clarke says Michelle Obama said she was proud of U.S. only after Barack Obama became president – PolitiFact",
+          "url": "https://politifact.com/factchecks/2017/feb/23/david-clarke-jr/david-clarke-says-michelle-obama-said-she-was-prou/"
+        }
+      ],
+      "claimant": "David Clarke",
+      "text": "Says Michelle Obama \"said she was never proud of her country til they elected her husband POTUS.\""
+    },
+    {
+      "claimDate": "2020-04-22T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Mostly True",
+          "title": "Yes, San Francisco residents formed Anti-Mask League during 1918 flu – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/apr/24/facebook-posts/yes-san-francisco-residents-formed-anti-mask-leagu/"
+        }
+      ],
+      "claimant": "Facebook",
+      "text": "During the 1918 flu pandemic, San Francisco residents formed the “Anti-Mask League.” San Francisco “was ultimately one of the cities that suffered the most with a high death rate.”"
+    },
+    {
+      "claimDate": "2016-04-11T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2016-04-14T18:22:18Z",
+          "textualRating": "False",
+          "title": "Donald Trump wrong about 1980 Ronald Reagan race against Jimmy Carter",
+          "url": "https://politifact.com/factchecks/2016/apr/14/donald-trump/donald-trump-wrong-about-1980-ronald-reagan-race-a/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"My numbers are better right now than Ronald Reagan's numbers were with Jimmy Carter.\""
+    },
+    {
+      "claimDate": "2020-07-08T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "Don’t trust this comparison of daily coronavirus deaths with other diseases – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/jul/15/facebook-posts/dont-trust-comparison-daily-coronavirus-deaths-oth/"
+        }
+      ],
+      "claimant": "Facebook posts",
+      "text": "Only 56 coronavirus deaths a day was enough to collapse the world economy, even though thousands of people die daily from tuberculosis, hepatitis B, and other diseases."
+    },
+    {
+      "claimDate": "2020-06-23T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Wearing a mask for COVID doesn’t void concealed-carry permit",
+          "url": "https://politifact.com/factchecks/2020/jun/29/viral-image/no-wearing-mask-doesnt-void-concealed-carry-permit/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "If you are licensed to carry a concealed weapon, wearing a face covering for coronavirus \"removes your conceal carry ability.\""
+    },
+    {
+      "claimDate": "2018-04-26T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2018-04-27T14:57:00Z",
+          "textualRating": "Half True",
+          "title": "Donald Trump: Iran got $150 billion and $1.8 billion in cash",
+          "url": "https://politifact.com/factchecks/2018/apr/27/donald-trump/donald-trump-iran-150-billion-and-18-billion-c/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "The nuclear deal gave Iran \"$150 billion, giving $1.8 billion in cash — in actual cash carried out in barrels and in boxes from airplanes.\""
+    },
+    {
+      "claimDate": "2021-02-25T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "No, Atlanta is not being shut down for the NBA All-Star Game",
+          "url": "https://politifact.com/factchecks/2021/mar/01/facebook-posts/no-atlantas-mayor-not-shutting-down-city-nba-all-s/"
+        }
+      ],
+      "claimant": "Facebook posts",
+      "text": "Says the Atlanta mayor is “shutting the city down for” the NBA All-Star Game weekend."
+    },
+    {
+      "claimDate": "2024-11-29T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "The ship resting at the bottom of the Atlantic is the Titanic, not the Olympic – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/dec/04/facebook-posts/the-ship-resting-at-the-bottom-of-the-atlantic-is/"
+        }
+      ],
+      "claimant": "a Facebook post",
+      "text": "\"The famed ship at the bottom of the North Atlantic is actually not The Titanic. It is her near-identical sister ship The Olympic.\""
+    },
+    {
+      "claimDate": "2019-03-21T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2019-04-11T14:44:58Z",
+          "textualRating": "Mostly True",
+          "title": "Hickenlooper expanded Medicaid, created state-run marketplace to insure nearly all Coloradans – PolitiFact",
+          "url": "https://politifact.com/factchecks/2019/apr/11/john-hickenlooper/hickenlooper-expanded-medicaid-created-state-run-m/"
+        }
+      ],
+      "claimant": "John Hickenlooper",
+      "text": "“We got to almost universal coverage in health care in Colorado.”"
+    },
+    {
+      "claimDate": "2016-11-11T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Promise Broken",
+          "title": "Invest $550 billion in infrastructure and create an infrastructure fund",
+          "url": "https://politifact.com/truth-o-meter/promises/trumpometer/promise/386170/invest-550-billion-infrastructure-and-create-infra/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "Invest $550 billion in infrastructure and create an infrastructure fund."
+    },
+    {
+      "claimDate": "2020-10-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "Trump falsely claims Democrats want to ‘shut your churches down’ – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/oct/08/donald-trump/trump-falsely-claims-democrats-want-shut-your-chur/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"DEMS WANT TO SHUT YOUR CHURCHES DOWN, PERMANENTLY. HOPE YOU SEE WHAT IS HAPPENING.\""
+    },
+    {
+      "claimDate": "2022-04-04T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "The FBI lost Hunter Biden’s laptop? There’s no evidence of that – PolitiFact",
+          "url": "https://politifact.com/factchecks/2022/apr/06/donald-trump-jr/fbi-lost-hunter-bidens-laptop-theres-no-evidence/"
+        }
+      ],
+      "claimant": "Donald Trump Jr.",
+      "text": "The FBI lost Hunter Biden’s laptop."
+    },
+    {
+      "claimDate": "2021-05-25T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "Claim that Georgia decertified its election is Pants on Fire",
+          "url": "https://politifact.com/factchecks/2021/may/27/facebook-posts/claim-georgia-decertified-election-pants-fire-fals/"
+        }
+      ],
+      "claimant": "Facebook",
+      "text": "“Boom! Georgia 1st to decertify election.”"
+    },
+    {
+      "claimDate": "2019-06-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "No, FactCheck.org didn’t “bust” Snopes.com",
+          "url": "https://politifact.com/factchecks/2019/jun/19/viral-image/no-factcheckorg-didnt-bust-snopescom/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "\"FactCheck.org exposed Snopes.com as an extremely liberal propaganda site with an agenda to discredit anything that appears to be conservative.\""
+    },
+    {
+      "claimDate": "2019-08-01T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Half True",
+          "title": "Donald Trump’s flawed comparison of homicide rates in Baltimore, Central America – PolitiFact",
+          "url": "https://politifact.com/factchecks/2019/aug/02/donald-trump/donald-trumps-flawed-comparison-homicide-rates-bal/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"The homicide rate in Baltimore is significantly higher than El Salvador, Honduras, Guatemala. ... I believe it’s higher than Afghanistan.\""
+    },
+    {
+      "claimDate": "2016-01-31T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2016-06-23T18:12:57Z",
+          "textualRating": "False",
+          "title": "Marco Rubio incorrectly says illegal immigrant population is higher than 5 years ago",
+          "url": "https://politifact.com/factchecks/2016/jan/31/marco-rubio/marco-rubio-incorrectly-says-illegal-immigrant-pop/"
+        }
+      ],
+      "claimant": "Marco Rubio",
+      "text": "\"We have more illegal immigrants here\" than we did five years ago."
+    },
+    {
+      "claimDate": "2024-08-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Half True",
+          "title": "Yes, more Minnesotans move to Florida than the reverse. The trend predates Tim Walz’s governorship. – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/aug/08/ron-desantis/more-minnesotans-move-to-florida-than-vice-versa-b/"
+        }
+      ],
+      "claimant": "Ron DeSantis",
+      "text": "“In 2021, Minnesotans were roughly five times more likely to move to Florida than vice versa” because they were “fleeing” the state under Democratic Gov. Tim Walz.\""
+    },
+    {
+      "claimDate": "2017-10-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2017-10-19T13:44:30Z",
+          "textualRating": "Wrong use of word",
+          "title": "The media’s definition of fake news vs. Donald Trump’s – PolitiFact",
+          "url": "https://politifact.com/article/2017/oct/18/deciding-whats-fake-medias-definition-fake-news-vs/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"Look, the media is fake. .. The media is -- really, the word, I think one of the greatest of all terms I've come up with -- is fake.\""
+    },
+    {
+      "claimDate": "2020-05-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Mostly False",
+          "title": "Images of dueling protests are real, but both didn’t happen in Minnesota in May – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/may/29/viral-image/images-dueling-protests-are-real-both-didnt-happen/"
+        }
+      ],
+      "claimant": "Viral Image",
+      "text": "Says an image of armed anti-lockdown protesters and an image of unarmed Minneapolis protesters being tear gassed were taken in the “same state, same month.”"
+    },
+    {
+      "claimDate": "2024-04-15T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "World Economic Forum leader Klaus Schwab in good health",
+          "url": "https://politifact.com/factchecks/2024/apr/17/facebook-posts/world-economic-forum-leader-klaus-schwab-in-good-h/"
+        }
+      ],
+      "claimant": "Facebook post",
+      "text": "World Economic Forum founder and chairman Klaus Schwab hospitalized in critical condition on April 15."
+    },
+    {
+      "claimDate": "2024-09-16T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "CMT isn’t boycotting Taylor Swift, despite old online claims – PolitiFact",
+          "url": "https://politifact.com/factchecks/2024/sep/18/facebook-posts/cmt-isnt-boycotting-taylor-swift-despite-old-onlin/"
+        }
+      ],
+      "claimant": "Facebook posts",
+      "text": "“Country Music Television (CMT) has announced a permanent boycott of Taylor Swift.”"
+    },
+    {
+      "claimDate": "2021-05-11T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Why some gas stations are advertising $9.99 unleaded",
+          "url": "https://politifact.com/factchecks/2021/may/13/viral-image/why-some-gas-stations-are-advertising-999-unleaded/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "Photos show gas costs nearly $10 in the Carolinas."
+    },
+    {
+      "claimDate": "2021-08-31T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "McCarthy wrong on telecom law in Jan. 6 records request",
+          "url": "https://politifact.com/factchecks/2021/sep/02/kevin-mccarthy/house-gop-leader-kevin-mccarthy-wrong-telecom-law/"
+        }
+      ],
+      "claimant": "Kevin McCarthy",
+      "text": "Telecom and social media platforms risk breaking the law, and could see their US business suffer, if they comply with records requests from the Jan. 6 investigation committee."
+    },
+    {
+      "claimDate": "2025-08-17T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2025-08-21T00:00:00Z",
+          "textualRating": "Mostly True",
+          "title": "Fact-checking Newsom’s claim that Republicans voted against national independent redistricting – PolitiFact",
+          "url": "https://politifact.com/factchecks/2025/aug/21/gavin-newsom/california-texas-independent-redistricting/"
+        }
+      ],
+      "claimant": "Gavin Newsom",
+      "text": "“Democrats have voted for national independent redistricting. Republicans have not.”"
+    },
+    {
+      "claimDate": "2016-08-25T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2016-09-08T21:25:23Z",
+          "textualRating": "True",
+          "title": "PAC backing Gary Johnson says Dick Cheney ‘supported gay marriage sooner’ than Hillary Clinton – PolitiFact",
+          "url": "https://politifact.com/factchecks/2016/sep/08/alternativepac/pac-backing-gary-johnson-says-dick-cheney-supporte/"
+        }
+      ],
+      "claimant": "AlternativePAC",
+      "text": "Says Dick Cheney \"supported gay marriage sooner\" than Hillary Clinton."
+    },
+    {
+      "claimDate": "2017-09-19T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "reviewDate": "2017-09-20T20:00:08Z",
+          "textualRating": "Likely",
+          "title": "Fact-checking Jimmy Kimmel's reaction to Graham-Cassidy",
+          "url": "https://politifact.com/article/2017/sep/20/fact-checking-jimmy-kimmels-reaction-graham-cassi/"
+        }
+      ],
+      "claimant": "Jimmy Kimmel",
+      "text": "‘For lots of people, the Graham-Cassidy bill will result in higher premiums’"
+    },
+    {
+      "claimDate": "2020-10-11T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Pence uses outdated numbers to tout Wisconsin job gains and unemployment numbers – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/oct/20/mike-pence/pence-uses-outdated-numbers-tout-wisconsin-job-gai/"
+        }
+      ],
+      "claimant": "Mike Pence",
+      "text": "Says since he and President Trump took office, their policies \"led to an unemployment rate of 3.1% in Wisconsin and 61,000 Wisconsin jobs, including 15,000 manufacturing jobs.\""
+    },
+    {
+      "claimDate": "2023-10-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Donald Trump wrong that US tax dollars went to Iran, Hamas",
+          "url": "https://politifact.com/factchecks/2023/oct/11/donald-trump/donald-trump-wrong-that-us-tax-dollars-went-to-ira/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"Sadly, American taxpayer dollars helped fund these attacks, which many reports are saying came from the Biden administration.”"
+    },
+    {
+      "claimDate": "2023-01-15T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Claims that World Economic Forum is hiring only unvaccinated pilots don’t fly – PolitiFact",
+          "url": "https://politifact.com/factchecks/2023/jan/18/blog-posting/claims-that-world-economic-forum-is-hiring-only-un/"
+        }
+      ],
+      "claimant": "Bloggers",
+      "text": "The World Economic Forum hired “unvaccinated pilots” to fly people into Davos, Switzerland, for its annual meeting for safety reasons."
+    }
+  ],
+  "nextPageToken": "CNg2"
+}

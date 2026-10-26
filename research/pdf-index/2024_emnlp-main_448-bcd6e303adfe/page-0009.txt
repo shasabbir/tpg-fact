@@ -1,0 +1,93 @@
+Figure 7: Open challenges in image contextualization,
+ranked by level of complexity.
+meta-context QA pairs based on the 5 Pillars frame-
+work. We define a first baseline for the task, which
+combines the image with textual evidence retrieved
+from the open web. Despite achieving promising
+performance, several challenges remain. Directions
+for future work include better open web retrievers
+that combine multiple tools, improved answer gen-
+eration based on multi-step reasoning, and better
+methods for removing image manipulations.
+8 Limitations
+The 5Pils dataset has multiple limitations.
+Firstly, we restricted data collection to articles
+written in English. While the 5Pils images are
+spread all over the world, this restriction results in
+the under-representation of certain regions, such
+as Latin America and Oceania. We analyze in
+Appendix N the impact of this under- and over-
+representation by region on performance. On the
+other hand, our dataset contains many images from
+Sub-Saharan Africa, a region underrepresented
+in previous misinformation datasets, compared to
+North America, South Asia, and China (Zlatkova
+et al., 2019; Hu et al., 2023a; Suryavardan et al.,
+2023). In future work, 5Pils can scale to more
+regions and languages by collecting images and
+articles from other IFCN members.
+Secondly, while we implemented a filter to remove
+evidence from FC articles, we cannot ensure a per-
+fect recall. In the 1 st example of Figure 5, one of
+the evidence is a FC article that passed our filter.
+Thirdly, the dataset contains a majority of images
+that have effectively been used for misinformation
+purposes. This is a common limitation when re-
+lying on real-world FC articles (Zlatkova et al.,
+2019; Schlichtkrull et al., 2023a), as human fact-
+checkers invest more time in writing articles about
+false claims than true claims. Nevertheless, our
+analysis in Appendix G reveals that the images of
+5Pils have very diverse origins, ranging from social
+media users to local and global news agencies.
+Lastly, the metrics for Source are slightly pes-
+simistic with regard to the model’s performance.
+If the prediction is more specific than the ground
+truth, no or partial credit is given. On the 4 th ex-
+ample of Figure 5, GPT4 accurately predicts the
+photographer’s name, while the FC article only re-
+ports the website where the image can be found.
+This results in a score of 0, while the prediction is
+actually better than the ground truth.
+Regarding our baseline, we find two limitations.
+Firstly, not all RIS results can be scraped from the
+open web. Evidence from social media platforms
+is typically not accessible. In some cases, image
+contextualization requires access to such social me-
+dia posts. This constitutes an important difference
+with human fact-checkers, who can access social
+media posts from their browser.
+Secondly, our baseline does not assess the reliabil-
+ity of the retrieved evidence. Hence, there is no
+guarantee that the information they provide is accu-
+rate, and different evidence might contradict each
+other. Assessing reliability and using it to filter
+and rank text evidence constitutes an interesting
+direction for future work.
+9 Ethics statement
+Automated image contextualization is designed as a
+new tool to help fact-checkers verify the vast quan-
+tities of visual misinformation circulating on the
+internet. Automated approaches should respect the
+same code of practice as professional fact-checkers,
+which includes respect for online privacy. In partic-
+ular, for the Source pillar, techniques for automated
+profiling on social media should not be used for
+automated image contextualization. Care should
+also be taken when publishing the results, as they
+could put the Source at risk.
+The 5Pils dataset was collected from publicly avail-
+able FC organization websites. Due to the real-
+world nature of the data, events covered include
+wars and conflicts. As a result, some images
+contain graphic, violent content. When collect-
+ing the data, we decided not to filter out images
+with violent content to cover the actual distribution
+of images that our target users, professional fact-
+checkers, would want to provide as input. Given
+the graphic nature of some images, we do not re-
+lease them directly. Instead, we do publicly release
+the URLs of the FC articles and extracted evidence,
+as well as the script that allows to collect and pro-
+cess the images and the evidence text.
+7853

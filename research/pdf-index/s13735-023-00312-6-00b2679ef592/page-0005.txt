@@ -1,0 +1,99 @@
+International Journal of Multimedia Information Retrieval (2024) 13 :4 Page 5 of 15 4
+within the evaluation benchmarks, they have the poten-
+tial to obscure the presence of unimodal biases within the
+results. We hypothesize that one such problematic pattern
+is “asymmetric multimodal misinformation” (Asymmetric-
+MM)—which we contrast against MM—where false claims
+are accompanied by a loosely connected image (associa-
+tive imagery) or manipulated images are accompanied by
+captions that simply reinforce the misleading content of
+the image (reinforcing captions). Examples are provided in
+Fig. 1c and d. Both scenarios create an asymmetry between
+the two modalities, rendering one modality as the dominant
+source of misinformation, while the second modality has lit-
+tle or no inﬂuence. It is important to note that instances of
+MC images (including NEI) may exhibit a certain degree of
+“asymmetry” in that misinformation is primarily propagated
+through the textual modality. Nevertheless, we do not con-
+sider them to be Asymmetric-MM because the text in MC
+pairs remains connected to and misrepresents some aspect of
+the image, such as depicted entities or events.
+Previous studies did not make a distinction between MM
+and Asymmetric-MM while collecting or annotating their
+datasets. Given 200 random samples from COSMOS and
+following the classiﬁcation taxonomy of Snopes 7, we found
+that 48% of COSMOS pairs are “false claims” (41% associa-
+tive imagery and 7% reinforcing captions), while 52% were
+classiﬁed as “miscaptioned”, which we consider to be MM
+because it implies a relationship between the two modalities.
+After de-duplicating the images of the COSMOS benchmark,
+the rates were 41% miscaptioned, 35% associative imagery,
+4% reinforcing captions and 20% duplicates. On Fakeddit—
+given 300 random samples—roughly 45% of pairs were
+considered Asymmetric-MM, with 41% being manipulated
+images and 4% with associative imagery. Moreover, we con-
+sider that roughly 14% of Fakeddit’s samples are MM since
+the remaining 40% were mostly funny memes, visual jokes,
+pareidolia imagery and other content that is not generally
+considered to be misinformation. 8
+3.2 Creating the VERITE evaluation benchmark
+Due to the lack of a robust evaluation benchmark for MMD
+that accounts for unimodal bias, we introduce the “VERiﬁca-
+tion of Image-TExt pairs” (VERITE) benchmark. VERITE
+comprises three classes: True, OOC, and MC pairs. The data
+collection process is illustrated in Fig. 2 and involves the fol-
+lowing steps:
+7 “Fact Checks Rating” in https://www.snopes.com/sitemap.
+8 The assessment of the COSMOS benchmark follows the taxonomy of
+Snopes, which is based on the judgement of professional fact-checkers,
+while the assessment of Fakeddit was conducted by the authors and thus
+should be interpreted as a rough estimate and not deﬁnitive.
+1. Deﬁne inclusion criteria
+• Consider fact-checked articles from Snopes and
+Reuters that are classiﬁed as “MisCaptioned” (MC).
+• Exclude articles classiﬁed as “false claim”, “legend”,
+“satire’, “scam”, “misattributed” and other categories
+that do not adhere to our deﬁnition of MM.
+• Exclude articles regarding video footage or ani-
+mated content and keep image-related cases, unless a
+screenshot of the video is provided that clearly cap-
+tures the content and claim of the caption.
+• Include manipulated images (digital art, AI-generated
+imagery, etc.) only if they are not created with inten-
+tion to misinform, and their initial origin, content,
+context, or meaning has been misrepresented within
+the claim.
+2. Select images and captions
+• Review the article and collect the misleading claim
+C fi .
+• Collect the image I ti that is related to C fi .
+• Extract the truthful claim Cti for I ti from the article.
+• Examine if claim C fi is linked to I ti and mis-
+represents some aspect of it (e.g. origin, content,
+context, depicted entities etc). If not, exclude for
+being Asymmetric-MM.
+3. Reﬁne captions and images
+• Remove “giveaway” words such as “supposedly”,
+“allegedly”, “however” or phrases like “this is not
+the case”, that negate the false claim. Such words
+and phrases, if learned during the training process,
+could be used as “shortcuts” by MMD models.
+• Rephrase C fi to mimic the syntactic and grammatical
+structure of Cti in order to avoid potential linguistic
+biases.
+• Rephrase both Cti and C fi to follow the format: “An
+image shows..” or “Photograph showing..” in order
+to create a direct link between the two modalities.
+• Examine both Cti and C fi for spelling and grammati-
+cal errors using “Google Docs spelling and grammar
+check”.
+• V erify that the images are of reasonable quality and
+do not have any watermarks. If needed, use reverse
+image search to ﬁnd the exact same image in better
+quality.
+4. OOC Image retrieval
+• Extract relevant keywords, or their synonyms, in Cti
+to create a query Q.
+• Use Google image search to retrieve one OOC image
+I xi based on Q.
+123

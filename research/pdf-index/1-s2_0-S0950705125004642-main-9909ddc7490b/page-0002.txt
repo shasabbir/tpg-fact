@@ -1,0 +1,114 @@
+H. Lv et al.
+Fig. 1. Examples of low-quality multimodal posts. The first image illustrates irregular 
+news tweets, while the second image displays an attached image with low resolution.
+image has low resolution, causing the extracted features to 
+include non-excludable noise. However, as shown in Fig.  2(a), 
+existing research [9–12] rarely accounts for data uncertainty 
+caused by inherent noise in each modality and typically em-
+ploys a simple static fusion strategy, leading to noise accumula-
+tion between modalities and reducing the model’s generalization 
+performance.
+2. Some traditional methods [11–13] perform simple fusion by 
+combining feature vectors obtained from text and visual en-
+coders and then feeding the fused features into a classifier. 
+Each modality maintains fixed weights, making it unable to 
+assign higher confidence levels to features with high impact 
+factors [14]. In addition, this approach implicitly assumes that 
+the quality of all samples across different modalities is stable. 
+However, in reality, the quality of different modalities for differ-
+ent samples can vary significantly, as shown by the two examples 
+in Fig.  1.
+Multimodal features are frequently affected by the impact of noise 
+in high-dimensional data, which can adversely impact the final fusion 
+results [15]. To better integrate posts and images from heterogeneous 
+data sources, inspired by the concept of trusted multi-view classifi-
+cation [16], we propose a framework for multimodal dynamic fusion 
+applied to fake news detection. The main motivation of this work is to 
+develop a dynamic decision-making mechanism for multimodal news 
+samples in which the quality varies significantly, based on the assess-
+ment of their uncertainty. Specifically, to reduce the uncertainty re-
+sulting from noise accumulation, it first uses an Uncertainty Estimation
+Module (UEM) to model the uncertainty within each modality. The ro-
+bust feature representations obtained are input into the Dynamic Fusion
+Network (DFN) to dynamically assess the quality of different modali-
+ties, allowing for the dynamic fusion of features, as shown in Fig.  2(b). 
+When uncertainty is high across all modalities, a multimodal heteroge-
+neous graph structure is relied upon to model inter-modal uncertainty 
+and generate the final decision value. Conversely, when uncertainty 
+is lower, we rely on the decision outcomes from the Dynamic Fusion
+Network (DFN), which is based on Dempster–Shafer (D–S) evidence 
+theory. Experiments conducted using the MDF-FND framework on three 
+public datasets — Twitter, Weibo, and PolitiFact — demonstrate that 
+our model delivers exceptional performance in multimodal fake news 
+detection.
+Recent advances in large language models (LLMs) have led to 
+outstanding performance in various natural language processing (NLP) 
+tasks; however, they still face significant challenges in multimodal fake 
+news detection. For example, as noted by [17], although complex LLMs 
+such as GPT3.5 can provide valuable multi-perspective justifications for 
+exposing fake news, they are still less effective than smaller language 
+models (SLMs) such as fine-tuned BERT in these tasks. Therefore, we 
+focused on fine-tuning a small model specifically for multimodal fake 
+news detection.
+The main contributions of this study are as follows:
+∙ We developed an uncertainty modeling module utilizing multi-
+head attention to effectively extract robust feature representations from 
+noisy multimodal news content.
+∙ We designed a multimodal DFN based on D–S evidence theory, 
+which dynamically balances the contributions of both modalities in 
+the final classification, effectively addressing the limitations of weight 
+fixation in static fusion strategies.
+∙ Our experimental results on three real-world multimodal bench-
+mark datasets demonstrate the effectiveness and superiority of our 
+model.
+The remainder of this paper is organized as follows. Section 2 
+review related work on fake news detection and relevant methods. 
+Section 3 formalizes the MDF-FND framework and provides a detailed 
+explanation of the design for each layer. The experimental setup and 
+results are presented in Section 4. The limitations of this study are 
+discussed in Section 5. Finally, Section 6 summarizes our work and 
+outlines future research directions.
+2. Related work
+In this section, the distinction between multimodal and multiview 
+data is shown, followed by briefly review existing research on multi-
+modal fake news detection. Relevant studies on multimodal dynamic 
+fusion strategies and D–S evidence theory are also the most important 
+background, as these techniques are closely related to our approach.
+2.1. Feature selection in multi-view learning and multi-modal learning
+Multi-view learning refers to the technique of using multiple differ-
+ent representations or descriptions of the same data object, typically 
+originating from the same type of sensor or modality. Each ‘‘view’’ 
+reflects a distinct perspective of the data, potentially observed from dif-
+ferent times, locations, or conditions. Recently, some researchers have 
+focused on the influence of feature selection in multiview learning. For 
+example, Han et al. [18] explored the relationship between features, 
+views, and labels, and proposed a new method that integrates feature 
+correlation and redundant representation. Specifically, for multiviews, 
+particularly in multi-label data, the feature correlation component uses 
+label information coefficients to assess the information gain of each 
+label, while the feature redundancy component uses view redundancy 
+factors to address feature redundancy both within and across views. 
+This approach effectively strikes a balance between acquiring label 
+information and reducing feature redundancy. Hao et al. [19] examined 
+the inconsistencies present in each view, including noise and specific 
+elements, which may affect the quality of the mapping between labels 
+and feature representations. Moreover, neglecting certain aspects could 
+lead to suboptimal outcomes, as each label should have its own distinc-
+tive features. To address this, they proposed a unified loss function, 
+which is a completely partitioned structure for the observed labels as 
+hybrid labels, i.e., common labels, view-specific labels, and noise labels. 
+The view-specific labels are further subdivided into several specific 
+labels for each view. This method simultaneously takes into account 
+the consistency and complementarity of different views. By examining 
+the feature weights of the hybrid labels, the mapping relationship 
+between labels and features can be established sequentially based on 
+their attributes. Additionally, their work investigates the correlations 
+between hybrid labels and incorporates these relationships into the loss 
+function.
+Multimodal learning involves different modalities (perception types 
+or data forms) of the same data object, typically drawing from var-
+ious sensory sources. Each modality may encompass various types 
+of sensory data, such as vision, audio, text, sensor data, and more. 
+Typically, multimodal data suffers from the curse of dimensionality, 
+Knowledge-Based Systems 317 (2025) 113417 
+2 

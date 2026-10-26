@@ -1,0 +1,51 @@
+{
+  "evidence": {
+    "claims_with_time_valid_evidence": 108,
+    "claims_with_two_independent_clusters": 32,
+    "independent_cluster_fraction": 0.16,
+    "independent_cluster_target": 0.7,
+    "record_count": 151
+  },
+  "interpretation": "This report measures pilot completion and projected collection burden. It must not be interpreted as evidence that the 2,000-case benchmark exists.",
+  "phase_status": "claim_pilot_complete_evidence_pending",
+  "report_scope": "200-case feasibility pilot, not the final benchmark gate",
+  "retained_claims": {
+    "count": 200,
+    "image_hash_complete": 200,
+    "labels": {
+      "insufficient_evidence": 8,
+      "refuted": 92,
+      "supported": 100
+    },
+    "sufficiency_audited": 0,
+    "target": 200,
+    "years": {
+      "2020": 40,
+      "2021": 11,
+      "2022": 3,
+      "2023": 8,
+      "2024": 67,
+      "2025": 64,
+      "2026": 7
+    }
+  },
+  "screening": {
+    "acceptance_yield": 0.37105751391465674,
+    "candidate_rows": 539,
+    "decisions": {
+      "keep": 200,
+      "reject": 339
+    },
+    "exclusion_reasons": {
+      "article_image_does_not_show_claimed_visual_content": 69,
+      "duplicate_or_contradictory_claim_instance": 4,
+      "missing_article_image": 12,
+      "missing_article_image|us_scope_not_confirmed": 3,
+      "outside_200_case_pilot_quota": 47,
+      "outside_pilot_quota": 189,
+      "us_scope_not_confirmed": 15
+    },
+    "projected_candidates_for_final_target": 5390,
+    "screened_count": 539
+  }
+}

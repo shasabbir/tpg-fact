@@ -1,0 +1,104 @@
+Temporal Expression
+Train Set V alidation Set Test Set
+Support Refute Support Refute Support Refute
+Explicit
+3 events 3,561 2,954 355 318 397 315
+4 events 3,574 3,376 354 282 359 262
+5 events 3,597 3,084 266 198 323 218
+Implicit
+3 events 3,804 3,028 355 318 390 313
+4 events 3,453 3,306 355 278 361 263
+5 events 3,473 3,039 266 199 321 213
+Temporal Category Overlapping events 10,360 9,297 918 807 985 714Recurring events 8,914 6,507 729 376 865 361
+Table 1: Characteristics of ChronoClaims dataset.
+The final loss function combines the soft logic loss Lsof t
+with standard cross-entropy loss Lcross, enabling the model
+to be trained both with supervision and structured constraints,
+with mu as the hyperparameter:
+L = (1− µ)Lcross + µLsof t (5)
+4 ChronoClaims Dataset
+We introduce a new benchmark dataset called
+ChronoClaims that is designed for enhancing the
+accuracy and complexity of timeline-based fact verification.
+Utilizing the November 2022 Wikidata snapshot [Vrandeˇci´c
+and Kr ¨otzsch, 2014 ], we preprocess and extract facts in the
+format <subject, relation, object, time start, time end>. To
+construct an evidence timeline, we organize all the facts that
+have the same subject in a chronological order. Then we
+randomly select N facts from this timeline and use GPT to
+transform these facts into coherent sentences.
+For generating sentences with implicit temporal informa-
+tion, we omit the time start and time end from the fact, and
+prompt GPT to craft sentences that subtly embed the temporal
+context. Then we use a cloze-style template1 to synthesize the
+sentences into a claim that preserves the chronological order.
+To generate claims that contradict the evidence timeline, we
+rearrange the order of these sentences. Finally, we use GPT
+to refine and rephrase the synthetic claim to make it more nat-
+ural and fluent. Each claim is labeled as either SUP or REF,
+depending on whether it aligns or conflicts with the timeline.
+We evaluate the quality of the ChronoClaims dataset
+by sampling 500 claims, ensuring equal distribution across
+different temporal expressions and event complexities (16%
+each type), and temporal categories (50% each category) to
+achieve representative coverage. Two human annotators are
+tasked with determining the labels of the generated claims
+based on the ground truth evidence timeline. The agreement
+rates are high, with 96.8% and 97% of the labels assigned by
+the annotators matching the labels of the generated claims.
+We analyze the claims where the generated labels are dif-
+ferent from the annotators, and discover that most of the
+discrepancies are due to errors in rephrasing For example,
+a claim ”Nasrallah Peter Sfeir worked as a Catholic priest,
+and then Nasrallah Peter Sfeir was educated at Saint Joseph
+University,” was rephrased to ”Nasrallah Peter Sfeir pursued
+his education at Saint Joseph University before becoming a
+Catholic priest,” which altered the original chronological se-
+quence. To rectify this, we perform a second verification
+1<sentence1> and then <sentence2> and then <sentence3>
+step using GPT to ensure that the semantic meanings of the
+original and rephrased claims remain consistent. Any claims
+where the meaning has been altered are discarded.
+In total, we generated 40,249, 3,544 and 3,735 claims for
+the training, validation and test sets. Table 1 shows the de-
+tailed statistics of the ChronoClaims dataset.
+5 Performance Study
+Datasets. Besides the ChronoClaims dataset, we also
+use the T-FEVER and T-FEVEROUS datasets [Barik et al.,
+2024]. These datasets are derived from the benchmark
+fact verification datasets FEVER [Thorne et al., 2018a ],
+FEVER2.0 [Thorne et al., 2018b ] and FEVEROUS [Aly et
+al., 2021] respectively such that the claims in T-FEVER and
+T-FEVEROUS contain temporal expressions. Each claim in-
+volves a maximum of 3 events and is labeled as SUP , REF
+and NEI. We also evaluate our method on the T-QuanTemp,
+a subset of the QuanTemp [V enkteshet al., 2024 ] dataset
+focusing on real-world claims with temporal aspects. T-
+QuanTemp comprises of temporal claims containing tempo-
+ral expressions or tagged as as temporal aspects by Quan-
+Temp dataset. Table 2 shows the characteristics of T-FEVER,
+T-FEVEROUS and T-QuanTemp datasets. We use 80% of
+the data for training and 20% for testing. While T-QuanTemp
+comes with its own set of evidence, we rely on different
+knowledge sources for the others: Wikipedia for T-FEVER
+and T-FEVEROUS, and Wikidata for ChronoClaims.
+Dataset Support Refute NEI
+T-FEVER 11,799 9,292 3,975
+T-FEVEROUS 33,357 28,959 1,266
+T-QuanTemp 1,261 3,470 1,349
+Table 2: Dataset characteristics.
+Implementation Details. We implement the ChronoFact
+framework using Hugging Face Transformers Library with
+PyTorch. The Event Encoder use flan-T5 base [Chung et al.,
+2024] with a hidden size of 768. In the Multi-level Atten-
+tion Encoder, the token-level, event-level, and time-level rep-
+resentations pass through a linear layer of dimension 768 to
+calculate attention scores. The hidden size of the fully con-
+nected layers is set to 192. The Chronological Order Classi-
+fier uses two layers of Bi-LSTM, each with a hidden size of
+768, and the fully connected layers have a hidden size of 192,
+matching those in the Claim Classifier.
+We train the model using Adafactor with a batch size of
+8 and a learning rate of 5e-5 for 5 epochs on each dataset.
+Proceedings of the Thirty-Fourth International Joint Conference on Artiﬁcial Intelligence (IJCAI-25)
+8034

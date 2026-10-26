@@ -51,6 +51,10 @@ def build_synthetic_records() -> tuple[list[ClaimRecord], list[EvidenceRecord]]:
                 normalized_label=label,
                 event_id=event_id,
                 evidence_ids=(first_evidence_id, duplicate_evidence_id, late_evidence_id),
+                sufficiency_target=(
+                    "insufficient" if label == "insufficient_evidence" else "sufficient"
+                ),
+                sufficiency_target_source="synthetic_fixture",
             )
         )
         evidence.extend(
@@ -67,6 +71,8 @@ def build_synthetic_records() -> tuple[list[ClaimRecord], list[EvidenceRecord]]:
                     media_type="text_image",
                     outgoing_links=(),
                     retrieval_query=claims[-1].claim_text,
+                    timestamp_confidence="confirmed",
+                    timestamp_source="synthetic_archive_observation",
                 ),
                 EvidenceRecord(
                     evidence_id=duplicate_evidence_id,
@@ -80,6 +86,8 @@ def build_synthetic_records() -> tuple[list[ClaimRecord], list[EvidenceRecord]]:
                     media_type="text_image",
                     outgoing_links=(f"https://source{index}.example/original",),
                     retrieval_query=claims[-1].claim_text,
+                    timestamp_confidence="confirmed",
+                    timestamp_source="synthetic_archive_observation",
                 ),
                 EvidenceRecord(
                     evidence_id=late_evidence_id,
@@ -93,6 +101,8 @@ def build_synthetic_records() -> tuple[list[ClaimRecord], list[EvidenceRecord]]:
                     media_type="text",
                     outgoing_links=(),
                     retrieval_query=claims[-1].claim_text,
+                    timestamp_confidence="confirmed",
+                    timestamp_source="synthetic_archive_observation",
                 ),
             ]
         )

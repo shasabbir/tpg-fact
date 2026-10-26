@@ -1,0 +1,86 @@
+decrease, we controlled for the relative proportion
+(82% to 9%) of samples in them (see Table 3). We
+made the test splits roughly equal to that of the vali-
+dation set. We controlled for the temporal coverage
+(not size) of the test sets because in a hypothetical
+real-life scenario it would be preferable to know
+how soon after deployment (not after how many
+runs) a model should be retrained.
+Split Time Covered % of Data Days
+Train 06.2008-05.2017 54.05% 3,287
+Val 06.2017-11.2017 5.71% 155
+Test 1 11.2017-04.2018 5.97% 153
+Test 2 05.2018-09.2018 7.57% 155
+Test 3 09.2018-02.2019 2.48% 155
+Test 4 02.2019-07.2019 14.02% 152
+Test 5 07.2019-11.2019 10.19% 128
+Table 3: Data split stats for multiple test splits.
+3.3 Model Architecture and Training
+Our multimodal models followed one version of the
+“ensemble method” described by Abdali (2022):
+1. Text and image were processed individually
+to extract modality-specific features
+2. Feature vectors were concatenated (“interme-
+diate fusion”, see Boulahia et al. (2021))
+3. The resulting concatenated vector was fed into
+a neural network classifier
+To process cleaned submission titles, we used
+a variant of the popular transformer-based pre-
+trained language model BERT (Devlin et al.,
+2019). BERT has successfully been used to em-
+bed input for misinformation detection models (see
+Nakamura et al. (2020) and Segura-Bedmar and
+Alonso-Bartolome (2022)). We used a pre-trained
+RoBERTa model (variantall-distilroberta-v1)3 to
+obtain 768-dim embeddings for sample text.
+We used a pre-trained network called ResNet-50
+to extract image features (He et al., 2016). The
+ResNet architecture won the ILSVRC 2015 image
+classification task and has since remained a popu-
+lar backbone for computer vision models. It has
+also made its way into misinformation classifiers,
+demonstrating potential for transfer learning. For
+example, Nakamura et al. (2020) found that us-
+ing ResNet-50 for classification with r/Fakeddit
+3https://huggingface.co/sentence-transformers/all-
+distilroberta-v1
+Figure 2: Ensemble multimodal model for 2-way and
+6-way classification. The best-performing hidden layer
+size, n, was found through hyperparameter tuning.
+resulted in a better performance than using VGG16
+(Simonyan and Zisserman, 2015) or EfficientNet
+(Tan and Le, 2019), both alternative deep convolu-
+tional neural networks (CNNs) commonly used for
+computer vision. We similarly used ResNet-50’s
+penultimate layer weights to represent each input
+image with 2048-dim vectors.
+Text and image features were combined through
+simple concatenation. This concatenated vector
+was fed through a one-hidden-layer feed-forward
+neural network for classification (see Figure 2).
+To train our models, we first loosely followed
+both Nakamura et al. (2020) and Segura-Bedmar
+and Alonso-Bartolome (2022) to choose hyper-
+parameters. We used cross-entropy loss and the
+Adam optimizer. Each model was selected af-
+ter conducting extensive hyperparameter tuning
+over hidden layer size ( n) and learning rate ( lr).
+We tested all possible pairs of the following:
+n = 2i, i∈ {5, 6, 7, 8, 9, 10, 11, 12, 14}, and lr ∈
+{0.01, 0.001, 0.0001, 0.00001}. We used batches
+of size 256 and trained for a max of 20 epochs,
+with early stopping where validation accuracy did
+not improve over 4 consecutive epochs. Each fi-
+nal model was selected by choosing the hyperpa-
+rameter setting that maximized accuracy on the
+validation set (see Appendix for specifics).
+3.4 Evaluation
+In an imbalanced class setting, a micro F1 score can
+be inflated by high performance on high frequency
+classes, whereas macro F1 is a better reflection of
+model performance across all classes, regardless of
+size. We use both metrics to evaluate our models
+for Experiment 1. For Experiment 2, we report
+micro F1 change over time, as that is representative
+of real-world performance after deployment.
+79

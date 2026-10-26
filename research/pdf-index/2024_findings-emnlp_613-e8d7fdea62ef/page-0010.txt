@@ -1,0 +1,115 @@
+References
+Sara Abdali. 2022. Multi-modal misinformation de-
+tection: Approaches, challenges and opportunities.
+CoRR, abs/2203.13883v5.
+Sahar Abdelnabi, Rakibul Hasan, and Mario Fritz.
+2022. Open-domain, content-based, multi-modal
+fact-checking of out-of-context images via online
+resources. In IEEE/CVF Conference on Computer
+Vision and Pattern Recognition, CVPR 2022, New
+Orleans, LA, USA, June 18-24, 2022, pages 14920–
+14929. IEEE.
+Mubashara Akhtar, Michael Schlichtkrull, Zhijiang Guo,
+Oana Cocarascu, Elena Simperl, and Andreas Vla-
+chos. 2023. Multimodal automated fact-checking: A
+survey. In Findings of the Association for Computa-
+tional Linguistics: EMNLP 2023, pages 5430–5448,
+Singapore. Association for Computational Linguis-
+tics.
+Alon Albalak, Yanai Elazar, Sang Michael Xie, Shayne
+Longpre, Nathan Lambert, Xinyi Wang, Niklas
+Muennighoff, Bairu Hou, Liangming Pan, Hae-
+won Jeong, Colin Raffel, Shiyu Chang, Tatsunori
+Hashimoto, and William Yang Wang. 2024. A sur-
+vey on data selection for language models. CoRR,
+abs/2402.16827.
+Shivangi Aneja, Chris Bregler, and Matthias Nießner.
+2023. COSMOS: catching out-of-context image mis-
+use using self-supervised learning. In Thirty-Seventh
+AAAI Conference on Artificial Intelligence, AAAI
+2023, Thirty-Fifth Conference on Innovative Applica-
+tions of Artificial Intelligence, IAAI 2023, Thirteenth
+Symposium on Educational Advances in Artificial In-
+telligence, EAAI 2023, Washington, DC, USA, Febru-
+ary 7-14, 2023, pages 14084–14092. AAAI Press.
+Christina Boididou, Symeon Papadopoulos, Duc-Tien
+Dang-Nguyen, Giulia Boato, Michael Riegler, Stu-
+art E. Middleton, Andreas Petlund, and Yiannis Kom-
+patsiaris. 2016. Verifying multimedia use at medi-
+aeval 2016. In Working Notes Proceedings of the
+MediaEval 2016 Workshop, Hilversum, The Nether-
+lands, October 20-21, 2016, volume 1739 of CEUR
+Workshop Proceedings. CEUR-WS.org.
+Renwang Chen, Xuanhong Chen, Bingbing Ni, and
+Yanhao Ge. 2020. Simswap: An efficient framework
+for high fidelity face swapping. In MM ’20: The
+28th ACM International Conference on Multimedia,
+Virtual Event / Seattle, WA, USA, October 12-16,
+2020, pages 2003–2011. ACM.
+Ziwei Chen, Linmei Hu, Weixin Li, Yingxia Shao, and
+Liqiang Nie. 2023. Causal intervention and coun-
+terfactual reasoning for multi-modal fake news de-
+tection. In Proceedings of the 61st Annual Meet-
+ing of the Association for Computational Linguistics
+(Volume 1: Long Papers), pages 627–638, Toronto,
+Canada. Association for Computational Linguistics.
+Wei-Lin Chiang, Zhuohan Li, Zi Lin, Ying Sheng,
+Zhanghao Wu, Hao Zhang, Lianmin Zheng, Siyuan
+Zhuang, Yonghao Zhuang, Joseph E. Gonzalez, Ion
+Stoica, and Eric P. Xing. 2023. Vicuna: An open-
+source chatbot impressing gpt-4 with 90%* chatgpt
+quality.
+Nicolas Courty, Rémi Flamary, Amaury Habrard, and
+Alain Rakotomamonjy. 2017. Joint distribution opti-
+mal transportation for domain adaptation. Advances
+in neural information processing systems, 30.
+Dante Everaert and Christopher Potts. 2023. Gio: Gra-
+dient information optimization for training dataset
+selection. arXiv preprint arXiv:2306.11670.
+Samir Yitzhak Gadre, Gabriel Ilharco, Alex Fang,
+Jonathan Hayase, Georgios Smyrnis, Thao Nguyen,
+Ryan Marten, Mitchell Wortsman, Dhruba Ghosh,
+Jieyu Zhang, Eyal Orgad, Rahim Entezari, Gi-
+annis Daras, Sarah M. Pratt, Vivek Ramanujan,
+Yonatan Bitton, Kalyani Marathe, Stephen Muss-
+mann, Richard Vencu, Mehdi Cherti, Ranjay Krishna,
+Pang Wei Koh, Olga Saukh, Alexander J. Ratner,
+Shuran Song, Hannaneh Hajishirzi, Ali Farhadi, Ro-
+main Beaumont, Sewoong Oh, Alex Dimakis, Jenia
+Jitsev, Yair Carmon, Vaishaal Shankar, and Ludwig
+Schmidt. 2023. Datacomp: In search of the next
+generation of multimodal datasets. In Advances in
+Neural Information Processing Systems 36: Annual
+Conference on Neural Information Processing Sys-
+tems 2023, NeurIPS 2023, New Orleans, LA, USA,
+December 10 - 16, 2023.
+Gege Gao, Huaibo Huang, Chaoyou Fu, Zhaoyang Li,
+and Ran He. 2021. Information bottleneck disentan-
+glement for identity swapping. In IEEE Conference
+on Computer Vision and Pattern Recognition, CVPR
+2021, virtual, June 19-25, 2021, pages 3404–3413.
+Computer Vision Foundation / IEEE.
+Amirata Ghorbani and James Zou. 2019. Data shapley:
+Equitable valuation of data for machine learning. In
+International conference on machine learning, pages
+2242–2251. PMLR.
+Faeze Ghorbanpour, Maryam Ramezani, Mohammad A.
+Fazli, and Hamid R. Rabiee. 2023. FNR: a similar-
+ity and transformer-based approach to detect multi-
+modal fake news in social media. Soc. Netw. Anal.
+Min., 13(1):56.
+Aditi Gupta, Hemank Lamba, Ponnurangam Ku-
+maraguru, and Anupam Joshi. 2013. Faking sandy:
+characterizing and identifying fake images on twitter
+during hurricane sandy. In Proceedings of the 22nd
+International Conference on World Wide Web, WWW
+’13 Companion, page 729–736, New York, NY , USA.
+Association for Computing Machinery.
+Frank R Hampel. 1974. The influence curve and its
+role in robust estimation. Journal of the american
+statistical association, 69(346):383–393.
+Trevor Hastie, Robert Tibshirani, Jerome H Friedman,
+and Jerome H Friedman. 2009. The elements of statis-
+tical learning: data mining, inference, and prediction,
+volume 2. Springer.
+10476

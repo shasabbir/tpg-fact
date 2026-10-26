@@ -13,8 +13,9 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{url}
 
-\newcommand{\systemname}{TPG-Fact}
+\newcommand{\systemname}{DTP-Fact}
 \newcommand{\datasetname}{US-TPMFC}
+\IfFileExists{tables/generated_result_macros.tex}{\input{tables/generated_result_macros}}{}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \definecolor{tpgblue}{HTML}{1F5A94}
 \definecolor{tpgteal}{HTML}{167D75}
@@ -22,20 +23,23 @@
 \definecolor{tpgorange}{HTML}{B65C20}
 \definecolor{tpggray}{HTML}{4B5563}
 
-\title{Temporal and Evidence-Source Provenance-Aware Multimodal Misinformation Detection with Calibrated Abstention}
+\title{Decision-Time Provenance for Multimodal Fact-Checking: Independent Evidence, Temporal Validity, and Calibrated Deferral}
 
-\author{Sabbir Hossain%
-\thanks{S. Hossain is with the Department of Computer Science, American International University-Bangladesh, Dhaka, Bangladesh (e-mail: \href{mailto:26-94030-1@student.aiub.edu}{26-94030-1@student.aiub.edu}).}}
+\author{Sabbir Hossain\\
+\small Department of Computer Science\\
+\small American International University-Bangladesh\\
+\small Dhaka, Bangladesh\\
+\small \href{mailto:26-94030-1@student.aiub.edu}{26-94030-1@student.aiub.edu}}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Even an actual picture can spread misinformation when combined with incorrect information about an event, place, or time. Multimodal fact-checkers often look for such false context using web evidence. However, there are three problems with retrieval: the model can use documents published subsequent to the decision cutoff, mistake syndicated copies for independent corroboration, or make a confident decision when the available evidence is inadequate. This study suggests a temporal graph fact model called TPG-Fact, a provenance-aware framework for categorizing image-text claims as supported, refuted, or insufficient evidence. The framework combines lexical, dense, and visual retrieval with post-cutoff removal. It organizes claims, documents, images, publishers, hyperlinks, and publication order in a heterogeneous graph and collects evidence based on source-dependency clusters. A hierarchical classifier estimates evidence sufficiency before veracity. Temperature scaling and a validation-selected threshold are used for selective abstention. The study also outlines US-TPMFC, a temporally partitioned benchmark design created from United States ClaimReview cases and open web archives. Training spans 2020--2023, validation uses 2024, and testing uses 2025--2026, with events, near-duplicate claims, and reused images kept within a single partition. The evaluation compares matched multimodal retrieval baselines and tests temporal leakage, duplicate-source sensitivity, calibration, and selective risk. This protocol tests whether time-valid, independently sourced evidence enhances future-event decisions and reduces overconfidence.
+Genuine images can support false claims when they are paired with the wrong event, place, or date. Web retrieval can recover the missing context, but common evaluation pipelines admit evidence that was unavailable when a decision was made and count syndicated copies as independent corroboration. They can also force a verdict when the available record is inadequate. This study introduces \systemname{}, a framework for classifying image--text claims as supported, refuted, or insufficient evidence. Its primary contribution is a decision-time evidence protocol: an item enters the main analysis only when both its publication metadata and an independent archive or crawl observation precede the claim-specific cutoff. The framework groups copied and linked documents into source-dependence clusters, bounds each cluster's aggregate contribution, and records the evidence path in a typed provenance graph. A hierarchical predictor estimates evidence sufficiency before veracity; temperature scaling and a validation-selected threshold provide selective deferral. The accompanying \datasetname{} design uses United States ClaimReview cases from 2020--2026, with chronological, event-disjoint splits and separate reporting for the partial 2026 snapshot. Counterfactual tests inject syndicated copies and post-cutoff verdicts, remove early sources, and vary dependent and independent conflicts. The protocol compares matched content-only, context-recovery, relevance-reranking, document-level RAG, and cluster-aware systems. A 200-case evidence-first pilot passes the automated evidence-coverage gate, but it remains AI-assisted and class-imbalanced; no empirical superiority is claimed before the frozen model experiments and final-corpus decision are complete.
 \end{abstract}
 
 \begin{IEEEkeywords}
-multimodal misinformation, automated fact-checking, evidence provenance, temporal retrieval, selective prediction, calibrated abstention
+multimodal misinformation, automated fact-checking, evidence provenance, temporal retrieval, source dependence, selective prediction
 \end{IEEEkeywords}
 
 \input{sections/01_introduction}

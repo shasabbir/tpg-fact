@@ -1,0 +1,55 @@
+Input image: Input caption: Image of Melania Trump wore a dress designed by AlexanderMcQueen in collaboration with art students and was inspired by life drawings.
+Output: [TRUE] The caption describes Melania Trump wearing a dress designed
+by Alexander McQueen, which was a collaboration with art students inspired by
+life drawings. The text evidence confirms that the dress is from Alexander
+McQueen’s Spring/Summer 2020 collection, and the sketches on the dress were
+created during a life drawing class held at the Alexander McQueen educational
+space in London. The sketches were drawn by Central Saint Martins MA students.
+[...] evidence needed
+Image evidence: Text evidence:
+Sketches on dress are from students. The dress worn by the first lady did come from
+Alexander McQueen’s Spring/Summer 2020 collection, however, the drawings on
+the dress were not created by children who had been victims of sexual abuse as
+posts claim. On March 21, Alexander McQueen’s official Facebook page posted
+that the dress features dancing girls. "The continuous, spontaneous sketches of
+dancing girls by Central Saint Martins MA students, created during a life drawing
+class held at the Alexander McQueen educational space in London this year, is the
+source of these motifs," the post reads, along with a video of the dress. [...]
+Image scores: Relevancy=1,
+Support=0, Usefulness=0.
+Text scores: Relevancy=1, Support=0.5, Usefulness=1,
+Factuality=0.33, Reliability=1, Bias = 0.5 , Timeliness=0.
+Input image: Input caption: Photograph shows London residents looting electronic devicesduring riots that erupted after police killed a black man in August 2011.
+Output: [TRUE] The caption describes a specific event that took place in August
+2011, referring to the London riots that were indeed sparked by the police killing of
+a black man. The external text evidence lists various locations and dates, including
+Enfield, Brixton, Hackney, and others, along with dates that match the August 2011
+timeline. [...] evidence needed
+Image evidence: Text evidence:
+Luke Macgregor / X01981: Police cordon off an area in Enfield, north London, on
+August 7, 2011. Karel Prinsloo / AP: Youths throw bricks at police in Enfield, north
+London, on August 7, 2011. Dan Kitwood / Getty Images Europe: A girl is
+detained outside Currys electrical store in Brixton, south London, on August 8,
+2011. Peter Macdiarmid / Getty Images Europe: People loot a Carhartt store in
+Hackney, north London, on August 8, 2011. [...]
+Image scores: Relevancy=1,
+Support=0.5,
+Usefulness=0.5.
+Text scores: Relevancy=1, Support=0.5, Usefulness=1,
+Factuality=0.66, Reliability=1, Bias = 0.5 , Timeliness=0.
+Input image: Input caption: Image shows an archaeologist excavating the remains of a woollymammoth that was found at a quarry site near Paris, France in November 2012.
+Output: [TRUE] [...]. The text evidence from BBC Newsround corroborates the
+scene depicted in the image by reporting that a woolly mammoth skeleton was
+indeed unearthed near Paris in the Changis-sur-Marne area, and the discovery
+occurred in November 2012. [...] evidence needed
+Image evidence: Text evidence:
+All image evidences filtered
+out.
+Woolly mammoth skeleton found near Paris, France [...]. The skeleton of a woolly
+mammoth has been unearthed - not in remote Siberia, but near the capital of France,
+Paris! It was discovered accidentally by a team digging at an ancient Roman site in
+the Changis-sur-Marne area. [...]
+Image scores: N/A. Text scores: Relevancy=1, Support=0.5, Usefulness=1,Factuality=0.66, Reliability=1, Bias = 1 , Timeliness=0.
+Table 8: Examples of pipeline outputs with GPT-4V that required evidence retrieval for verification. We additionally
+provide the scores for the top ranked evidences retrieved for these input posts.
+15

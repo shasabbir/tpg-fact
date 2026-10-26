@@ -1,0 +1,1785 @@
+{
+  "claims": [
+    {
+      "claimDate": "2025-01-11T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2025-01-13T00:00:00Z",
+          "textualRating": "False",
+          "title": "Oregon Fire Trucks Fighting L.A. Blazes Didn't Require 'Emissions Testing'",
+          "url": "https://www.factcheck.org/2025/01/oregon-fire-trucks-fighting-l-a-blazes-didnt-require-emissions-testing/"
+        }
+      ],
+      "claimant": "Social media posts",
+      "text": "\"Oregon sent 60 fire trucks to California to help with the fires, but they’re being held in Sacramento for emissions testing.\""
+    },
+    {
+      "claimDate": "2020-11-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2020-11-03T00:28:14Z",
+          "textualRating": "Exaggerates",
+          "title": "Closing Arguments of the Presidential Campaign",
+          "url": "https://www.factcheck.org/2020/11/closing-arguments-of-the-presidential-campaign/"
+        }
+      ],
+      "claimant": "Joe Biden",
+      "text": "“His chief of staff last week said, ‘We’re going to do nothing about the virus. It’s here.’”"
+    },
+    {
+      "claimDate": "2021-03-25T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Flawed Report Fuels Erroneous Claims About COVID-19 Death Toll",
+          "url": "https://www.factcheck.org/2021/04/scicheck-flawed-study-fuels-erroneous-claims-about-covid-19-death-toll/"
+        }
+      ],
+      "claimant": "Wendy Bell",
+      "text": "Because of a change in death certificate procedures specific to COVID-19, \"there is a huge chance that COVID death numbers are exaggerated, to the tune of 94%.\""
+    },
+    {
+      "claimDate": "2021-02-04T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2021-02-09T23:53:32Z",
+          "textualRating": "Among Loan Holders Only",
+          "title": "Schumer, Warren Misstate Student Loan Debt Disparity",
+          "url": "https://www.factcheck.org/2021/02/schumer-warren-misstate-student-loan-debt-disparity/"
+        }
+      ],
+      "claimant": "Elizabeth Warren",
+      "text": "A Democratic plan for “canceling student loan debt would help close the Black-white wealth gap by 28 points for African Americans and by a similar number for Latinos.”"
+    },
+    {
+      "claimDate": "2020-10-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "No Evidence",
+          "title": "Kamala Harris, Honest Abe and the Supreme Court",
+          "url": "https://www.factcheck.org/2020/10/kamala-harris-honest-abe-and-the-supreme-court/"
+        }
+      ],
+      "claimant": "Kamala Harris",
+      "text": "President Abraham Lincoln said filling a Supreme Court vacancy just before the 1864 election was \"not the right thing to do.\""
+    },
+    {
+      "claimDate": "2020-07-22T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Biden's False Claim About McDonald's",
+          "url": "https://www.factcheck.org/2020/07/bidens-false-claim-about-mcdonalds/"
+        }
+      ],
+      "claimant": "Joe Biden",
+      "text": "\"McDonald’s ... made you all sign noncompete contracts that you cannot go across town to try to get a job at Burger King.\""
+    },
+    {
+      "claimDate": "2025-01-30T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2025-02-06T00:00:00Z",
+          "textualRating": "Misleading",
+          "title": "FactChecking RFK Jr.’s Other Health Claims During HHS Confirmation Hearings",
+          "url": "https://www.factcheck.org/2025/02/factchecking-rfk-jr-s-other-health-claims-during-hhs-confirmation-hearings/"
+        }
+      ],
+      "claimant": "Robert F. Kennedy Jr.",
+      "text": "The National Institutes of Health spent “almost nothing” on researching the causes of chronic disease, focusing instead on infectious disease."
+    },
+    {
+      "claimDate": "2018-03-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-03-14T19:57:15Z",
+          "textualRating": "Misleading",
+          "title": "Wind Energy's Carbon Footprint",
+          "url": "https://www.factcheck.org/2018/03/wind-energys-carbon-footprint/"
+        }
+      ],
+      "claimant": "Ryan Zinke",
+      "text": "\"The carbon footprint on wind [energy] is significant.\""
+    },
+    {
+      "claimDate": "2020-10-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2020-10-02T23:48:54Z",
+          "textualRating": "Distorts the Facts",
+          "title": "Misinformation, Speculation Follow Trump COVID-19 Diagnosis",
+          "url": "https://www.factcheck.org/2020/10/misinformation-speculation-follow-trump-covid-19-diagnosis/"
+        }
+      ],
+      "claimant": "Social media posts",
+      "text": "President Donald Trump once said, \"The coronavirus. This is their new hoax.\""
+    },
+    {
+      "claimDate": "2018-10-20T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-10-26T18:03:32Z",
+          "textualRating": "Exaggerates",
+          "title": "Trump Stump Speeches: Economy",
+          "url": "https://www.factcheck.org/2018/10/trump-stump-speeches-economy/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "“In less than two years, we have created over 4.2 million new jobs and lifted over 4 million Americans off of food stamps.”"
+    },
+    {
+      "claimDate": "2019-07-31T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Misleading",
+          "title": "Williamson Misleads on Children's Health, Vaccines",
+          "url": "https://www.factcheck.org/2019/08/williamson-misleads-on-childrens-health-vaccines/"
+        }
+      ],
+      "claimant": "Marianne Williamson",
+      "text": "Childhood chronic illnesses have risen from “something like 12%” before 1986's vaccine protection law to \"54% now.\""
+    },
+    {
+      "claimDate": "2020-01-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "False",
+          "title": "Trump falsely claims House Democrats never asked Bolton to testify – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/jan/27/donald-trump/trump-falsely-claims-house-democrats-never-asked-b/"
+        },
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Trump's False Tweet on Bolton",
+          "url": "https://www.factcheck.org/2020/01/trumps-false-tweet-on-bolton/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"The Democrat controlled House never even asked John Bolton to testify.\""
+    },
+    {
+      "claimDate": "2020-09-18T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2020-09-21T22:42:50Z",
+          "textualRating": "False",
+          "title": "Biden's False and Exaggerated Supreme Court Claims",
+          "url": "https://www.factcheck.org/2020/09/bidens-false-and-exaggerated-supreme-court-claims/"
+        }
+      ],
+      "claimant": "Joe Biden",
+      "text": "\"I think the fastest [Supreme Court] justice ever confirmed was 47 days.\""
+    },
+    {
+      "claimDate": "2019-05-13T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2019-05-14T22:15:10Z",
+          "textualRating": "Economic Experts Disagree",
+          "title": "Economists: Tariffs Not Boosting GDP",
+          "url": "https://www.factcheck.org/2019/05/economists-tariffs-not-boosting-gdp/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"The unexpectedly good first quarter 3.2% GDP was greatly helped by Tariffs from China.\""
+    },
+    {
+      "claimDate": "2021-11-03T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Biden Botches Virginia Election History",
+          "url": "https://www.factcheck.org/2021/11/biden-botches-virginia-election-history/"
+        }
+      ],
+      "claimant": "Joe Biden",
+      "text": "On Democrat Terry McAuliffe's loss in the Virginia governor's race: \"no governor in Virginia has ever won when ... he or she is the same party as the sitting president.\""
+    },
+    {
+      "claimDate": "2023-10-13T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Social Media Posts Spread Bogus Quote From Qatari Leader",
+          "url": "https://www.factcheck.org/2023/10/social-media-posts-spread-bogus-quote-from-qatari-leader/"
+        }
+      ],
+      "claimant": "Social media posts",
+      "text": "Sheikh Tamim bin Hamad Al Thani, the emir of Qatar, has “threatened that if the bombing of Gaza does not stop, he will cut off the supply of gas to the world.”"
+    },
+    {
+      "claimDate": "2022-06-29T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Herbal Remedies are Dangerous",
+          "title": "Herbal Recipes for Abortion Are Unproven and Can Be Dangerous, Contrary to Social Media Posts",
+          "url": "https://www.factcheck.org/2022/07/herbal-recipes-for-abortion-are-unproven-and-can-be-dangerous-contrary-to-social-media-posts/"
+        }
+      ],
+      "claimant": "Social media posts",
+      "text": "Herbal remedies are an option for at-home abortions."
+    },
+    {
+      "claimDate": "2019-07-24T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2019-07-25T00:18:54Z",
+          "textualRating": "Misleading",
+          "title": "FactChecking the Mueller Hearings",
+          "url": "https://www.factcheck.org/2019/07/factchecking-the-mueller-hearings/"
+        }
+      ],
+      "claimant": "Adam Schiff",
+      "text": "Special counsel Mueller \"outlined\" how Russia \"made multiple approaches to the Trump campaign, and far from shunning that foreign involvement in our election, the Trump campaign welcomed it.\""
+    },
+    {
+      "claimDate": "2022-09-26T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Misleading",
+          "title": "Fetterman's Tattoos Under Scrutiny in Pennsylvania Senate Race",
+          "url": "https://www.factcheck.org/2022/10/fettermans-tattoos-under-scrutiny-in-pennsylvania-senate-race/"
+        }
+      ],
+      "claimant": "Newt Gingrich",
+      "text": "\"Is Pennsylvania Democrat Fetterman’s tattoo 'I will make you hurt' based on his ties to the crips gang as reported by the Free Beacon or a reference to the nine inch nails heroin song 'Hurt'.\""
+    },
+    {
+      "claimDate": "2022-08-15T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2022-08-16T21:20:06Z",
+          "textualRating": "Not the Whole Story",
+          "title": "U.S. Inflation Rate at 'Zero' - for One Month",
+          "url": "https://www.factcheck.org/2022/08/u-s-inflation-rate-at-zero-for-one-month/"
+        }
+      ],
+      "claimant": "Joe Biden",
+      "text": "\"Since the start of my presidency, my economic plan has helped ... achieve zero percent inflation in July.\""
+    },
+    {
+      "claimDate": "2024-05-30T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2024-05-30T23:59:13Z",
+          "textualRating": "No Evidence",
+          "title": "Trump's Repeated Claims on His New York Hush Money Trial",
+          "url": "https://www.factcheck.org/2024/05/trumps-repeated-claims-on-his-new-york-hush-money-trial/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "President Joe Biden is behind the prosecution and conviction of Donald Trump in a New York criminal trial."
+    },
+    {
+      "claimDate": "2017-10-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2017-11-02T20:10:01Z",
+          "textualRating": "False",
+          "title": "Blackout or Ham Radio Drill?",
+          "url": "https://www.factcheck.org/2017/11/blackout-ham-radio-drill/"
+        }
+      ],
+      "claimant": "Various websites",
+      "text": "The Department of Defense is planning a nationwide blackout in concert with antifa riots."
+    },
+    {
+      "claimDate": "2020-03-26T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Misleading",
+          "title": "Birx Spins 'Extraordinarily Low Numbers' of Coronavirus Cases",
+          "url": "https://www.factcheck.org/2020/03/birx-spins-extraordinarily-low-numbers-of-coronavirus-cases/"
+        }
+      ],
+      "claimant": "Dr. Deborah Birx",
+      "text": "\"We do have 19 out of our 50 states, to be reminded, that had early cases but have persistently low level of cases and, at this point, have less than 200 cases. So that’s almost 40% of the country with extraordinarily low numbers.\""
+    },
+    {
+      "claimDate": "2018-08-04T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-08-24T21:19:32Z",
+          "textualRating": "False",
+          "title": "Clinton's Emails, Weiner's Laptop and a Falsehood",
+          "url": "https://www.factcheck.org/2018/08/clintons-emails-weiners-laptop-and-a-falsehood/"
+        }
+      ],
+      "claimant": "FBnewscycle.com",
+      "text": "Hillary Clinton's emails on Anthony Weiner's laptop were \"never reviewed\" until after 2016 election."
+    },
+    {
+      "claimDate": "2018-01-09T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-01-17T23:16:41Z",
+          "textualRating": "False",
+          "title": "Trump's Mistake on DACA",
+          "url": "https://www.factcheck.org/2018/01/trumps-mistake-daca/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "Claimed foreign-born residents in the Deferred Action for Childhood Arrivals program “could be 40 years old, 41 years old.”"
+    },
+    {
+      "claimDate": "2019-06-04T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2019-06-05T21:30:52Z",
+          "textualRating": "False",
+          "title": "Anti-Trump Protests in London Not 'Fake News'",
+          "url": "https://www.factcheck.org/2019/06/anti-trump-protests-in-london-not-fake-news/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "Said news reports of large anti-President Trump protests during his United Kingdom state visit are \"fake news.\""
+    },
+    {
+      "claimDate": "2020-10-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Distorts the Facts",
+          "title": "Video Doesn't Show Voter Fraud in Utah",
+          "url": "https://www.factcheck.org/2020/11/video-doesnt-show-voter-fraud-in-utah/"
+        }
+      ],
+      "claimant": "Viral video",
+      "text": "Utah voter: “VOTER FRAUD? YOU TELL ME”"
+    },
+    {
+      "claimDate": "2022-02-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Latest CDC Data: Unvaccinated Adults 97 Times More Likely to Die from COVID-19 Than Boosted Adults",
+          "url": "https://www.factcheck.org/2022/02/scicheck-latest-cdc-data-unvaccinated-adults-97-times-more-likely-to-die-from-covid-19-than-boosted-adults/"
+        }
+      ],
+      "claimant": "Social media post",
+      "text": "The CDC's death rate estimates for COVID-19 are \"classifying people who have 1 or 2 jabs as ‘unvaccinated.'\""
+    },
+    {
+      "claimDate": "2019-04-21T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2019-04-22T23:03:15Z",
+          "textualRating": "False",
+          "title": "Giuliani's Obstruction Distortions",
+          "url": "https://www.factcheck.org/2019/04/giulianis-obstruction-distortions/"
+        }
+      ],
+      "claimant": "Rudy Giuliani",
+      "text": "White House counsel Don McGahn “gave three different versions” of his account alleging that Trump directed him to remove the special counsel."
+    },
+    {
+      "claimDate": "2020-01-18T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Posts Distort Democrats' Positions on Venezuela, China, Iran",
+          "url": "https://www.factcheck.org/2020/01/posts-distort-democrats-positions-on-venezuela-china-iran/"
+        }
+      ],
+      "claimant": "Social media posts",
+      "text": "\"Democrats stood with\" the repressive regimes in Venezuela, China and Iran rather than with the people in those countries."
+    },
+    {
+      "claimDate": "2016-06-20T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2016-06-21T21:40:55Z",
+          "textualRating": "Out of Context",
+          "title": "Groundhog Friday",
+          "url": "https://www.factcheck.org/2016/09/groundhog-friday-13/"
+        }
+      ],
+      "claimant": "Priorities USA Action",
+      "text": "Quotes Donald Trump saying “I love war in a certain way” (slight pause) “including with nukes, yes, including with nukes.”"
+    },
+    {
+      "claimDate": "2017-09-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2017-09-28T00:02:32Z",
+          "textualRating": "Repeats Rural Myth",
+          "title": "'Death Tax' Talking Point Won't Die",
+          "url": "https://www.factcheck.org/2017/09/death-tax-talking-point-wont-die/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "Farmers' heirs \"can't pay the [estate] tax, so they have to sell the farm.\""
+    },
+    {
+      "claimDate": "2020-11-05T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Distorts the Facts",
+          "title": "Claim of Michigan Postal Fraud Is Moot",
+          "url": "https://www.factcheck.org/2020/11/claim-of-michigan-postal-fraud-is-moot/"
+        }
+      ],
+      "claimant": "Project Veritas",
+      "text": "Postal workers in Michigan backdated ballots so that they could be counted."
+    },
+    {
+      "claimDate": "2022-04-08T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Josh Mandel Campaign Ad Was Not Photoshopped, Contrary to Social Media Posts",
+          "url": "https://www.factcheck.org/2022/04/josh-mandel-campaign-ad-was-not-photoshopped-contrary-to-social-media-posts/"
+        }
+      ],
+      "claimant": "Facebook post",
+      "text": "Senate candidate Josh Mandel, a former Marine, photoshopped his head onto the body of a Black man in a photo showing a group of Black Marines in Iraq."
+    },
+    {
+      "claimDate": "2016-06-21T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2016-06-23T22:43:43Z",
+          "textualRating": "Spins the Facts",
+          "title": "Clinton's Equal Pay Claim",
+          "url": "https://www.factcheck.org/2016/06/clintons-equal-pay-claim/"
+        }
+      ],
+      "claimant": "Hillary Clinton",
+      "text": "Claims that Donald Trump said “women will start making equal pay as soon as we do as good a job as men.”"
+    },
+    {
+      "claimDate": "2022-09-03T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2022-09-07T22:39:31Z",
+          "textualRating": "False",
+          "title": "Trump Distorts Facts in Pennsylvania Rally",
+          "url": "https://www.factcheck.org/2022/09/trump-distorts-facts-in-pennsylvania-rally/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "The Justice Department \"stage[d]\" a photo to “pretend” that Trump had left the government documents on the floor of a room at Mar-a-Lago."
+    },
+    {
+      "claimDate": "2018-10-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-10-10T21:03:53Z",
+          "textualRating": "Spins the Facts",
+          "title": "Health Care Spin in Tennessee",
+          "url": "https://www.factcheck.org/2018/10/health-care-spin-in-tennessee/"
+        }
+      ],
+      "claimant": "Majority Forward",
+      "text": "Rep. Marsha Blackburn \"voted to give members of Congress health care for life.\""
+    },
+    {
+      "claimDate": "2021-04-08T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Biden's Missteps on Gun Policies",
+          "url": "https://www.factcheck.org/2021/04/bidens-missteps-on-gun-policies/"
+        }
+      ],
+      "claimant": "Joe Biden",
+      "text": "\"But you go to a gun show, you can buy whatever you want and no background check.\""
+    },
+    {
+      "claimDate": "2024-09-14T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Walz's False Project 2025 Pregnancy Monitoring Claims",
+          "url": "https://www.factcheck.org/2024/10/walzs-false-project-2025-pregnancy-monitoring-claims/"
+        }
+      ],
+      "claimant": "Tim Walz",
+      "text": "Project 2025 calls for the tracking of \"all pregnancies\" and would require people \"to register with a new federal agency\" upon getting pregnant."
+    },
+    {
+      "claimDate": "2019-08-30T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Phony Tweet Targets AOC",
+          "url": "https://www.factcheck.org/2019/09/phony-tweet-targets-aoc/"
+        }
+      ],
+      "claimant": "Viral meme",
+      "text": "A fake tweet claims Rep. Alexandria Ocasio-Cortez said: \"I see people are rushing out to fill up their cars for this hurricane at the gas station This wouldn’t be an issue if they had electric cars.\""
+    },
+    {
+      "claimDate": "2019-05-01T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2019-05-02T23:02:05Z",
+          "textualRating": "Mueller Believed McGahn",
+          "title": "Barr's Testimony, In Context",
+          "url": "https://www.factcheck.org/2019/05/barrs-testimony-in-context/"
+        }
+      ],
+      "claimant": "William Barr",
+      "text": "There was a “very plausible alternative explanation” to White House counsel Don McGahn’s claim that the president asked him to have Robert Mueller removed as special counsel."
+    },
+    {
+      "claimDate": "2020-05-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Out of Context",
+          "title": "Outdated Fauci Video on Face Masks Shared Out of Context",
+          "url": "https://www.factcheck.org/2020/05/outdated-fauci-video-on-face-masks-shared-out-of-context/"
+        }
+      ],
+      "claimant": "Social media posts",
+      "text": "Social media accounts are posting an outdated video of Dr. Anthony Fauci saying, \"There’s no reason to be walking around with a mask.\""
+    },
+    {
+      "claimDate": "2024-07-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2024-08-01T22:06:03Z",
+          "textualRating": "Not the Whole Story",
+          "title": "Trump Distorts the Facts in Attacks on Harris",
+          "url": "https://www.factcheck.org/2024/08/trump-distorts-the-facts-in-attacks-on-harris/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "Vice President Kamala Harris \"endorsed outlawing private health insurance entirely.\""
+    },
+    {
+      "claimDate": "2025-03-23T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2025-03-25T00:00:00Z",
+          "textualRating": "False",
+          "title": "Viral Posts Share Phony 'Leaked' Audio of Vance Criticizing Musk",
+          "url": "https://www.factcheck.org/2025/03/viral-posts-share-phony-leaked-audio-of-vance-criticizing-musk/"
+        }
+      ],
+      "text": "“LEAKED JD VANCE AUDIO ON ELON MUSK 3/23/25”"
+    },
+    {
+      "claimDate": "2018-10-01T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-10-03T22:03:18Z",
+          "textualRating": "Exaggerates",
+          "title": "FactChecking Trump on Trade",
+          "url": "https://www.factcheck.org/2018/10/factchecking-trump-on-trade/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"Since NAFTA’s adoption, the United States racked up trade deficits totaling more than $2 trillion, and it’s a much higher number than that.\""
+    },
+    {
+      "claimDate": "2020-02-09T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Misleading",
+          "title": "Sanders Spins Young Voter Turnout in Iowa",
+          "url": "https://www.factcheck.org/2020/02/sanders-spins-young-voter-turnout-in-iowa/"
+        }
+      ],
+      "claimant": "Bernie Sanders",
+      "text": "“The young vote, of people under 29 years of age, increased by 33% over where it was four years ago, and was even higher than Obama’s extraordinary victory in 2008.”"
+    },
+    {
+      "claimDate": "2020-03-10T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Eric Trump Wrong About Michigan Manufacturing Jobs",
+          "url": "https://www.factcheck.org/2020/03/eric-trump-wrong-about-michigan-manufacturing-jobs/"
+        }
+      ],
+      "claimant": "Eric Trump",
+      "text": "\"More manufacturing jobs have been created in Michigan than just about every state.\""
+    },
+    {
+      "claimDate": "2016-07-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2016-07-28T19:52:03Z",
+          "textualRating": "False",
+          "title": "Trump's Press Conference",
+          "url": "https://www.factcheck.org/2016/07/trumps-press-conference/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "Claims Bernie Sanders “lied” in his convention speech in talking about Trump’s stance on the minimum wage."
+    },
+    {
+      "claimDate": "2021-01-22T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "No Evidence",
+          "title": "Hank Aaron's Death Attributed to Natural Causes",
+          "url": "https://www.factcheck.org/2021/01/scicheck-hank-aarons-death-attributed-to-natural-causes/"
+        }
+      ],
+      "claimant": "Social media posts",
+      "text": "Social media users suggest there is a direct link between baseball legend Hank Aaron getting the Moderna COVID-19 vaccine and then dying more than two weeks later."
+    },
+    {
+      "claimDate": "2022-07-31T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2022-08-04T19:55:38Z",
+          "textualRating": "Misleading",
+          "title": "Sorting Out the Partisan Tax Spin on Inflation Reduction Act",
+          "url": "https://www.factcheck.org/2022/08/sorting-out-the-partisan-tax-spin-on-inflation-reduction-act/"
+        }
+      ],
+      "claimant": "Joe Manchin",
+      "text": "“We’re not putting a burden on any taxpayers whatsoever.\""
+    },
+    {
+      "claimDate": "2018-04-19T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-04-25T21:45:02Z",
+          "textualRating": "Misleading",
+          "title": "California Bill Wouldn't Ban the Bible",
+          "url": "https://www.factcheck.org/2018/04/california-bill-wouldnt-ban-the-bible/"
+        }
+      ],
+      "claimant": "Various websites",
+      "text": "California State Assembly passed a bill that would ban the sale of the Bible."
+    },
+    {
+      "claimDate": "2020-08-25T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2020-08-26T07:49:51Z",
+          "textualRating": "Misleading",
+          "title": "Republican Convention Night 2",
+          "url": "https://www.factcheck.org/2020/08/republican-convention-night-2/"
+        }
+      ],
+      "claimant": "Eric Trump",
+      "text": "Under Joe Biden’s tax plan, “82% of Americans will see their taxes go up significantly.”"
+    },
+    {
+      "claimDate": "2022-11-22T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Unsupported",
+          "title": "‘Died Suddenly’ Pushes Bogus Depopulation Theory",
+          "url": "https://www.factcheck.org/2022/12/scicheck-died-suddenly-pushes-bogus-depopulation-theory/"
+        }
+      ],
+      "claimant": "Stew Peters",
+      "text": "Unusual clots have been found in dead people and may be due to COVID-19 vaccination."
+    },
+    {
+      "claimDate": "2017-10-09T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2017-10-12T22:51:19Z",
+          "textualRating": "False",
+          "title": "Trump Didn't Change NFL Tax Status",
+          "url": "https://www.factcheck.org/2017/10/trump-didnt-change-nfl-tax-status/"
+        }
+      ],
+      "claimant": "Multiple websites",
+      "text": "“President Trump Signs Executive Order Stripping NFL Of ‘Non-Profit’ Status”"
+    },
+    {
+      "claimDate": "2024-07-26T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2024-08-22T19:23:48Z",
+          "textualRating": "Misleading",
+          "title": "Bird Flu Pandemic Preparedness Activities Are Not Evidence of a Conspiracy",
+          "url": "https://www.factcheck.org/2024/08/bird-flu-pandemic-preparedness-activities-are-not-evidence-of-a-conspiracy/"
+        }
+      ],
+      "claimant": "Robert F. Kennedy Jr.",
+      "text": "On the U.S. government's preparedness efforts for bird flu: “Why would you need this vaccine, unless you expected a much more virulent virus to appear which had mysteriously gained the ability to spread between humans? Will there be another lab-derived pandemic?\""
+    },
+    {
+      "claimDate": "2019-07-08T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2019-07-10T21:43:52Z",
+          "textualRating": "False",
+          "title": "Trump Twists Facts in Environmental Speech",
+          "url": "https://www.factcheck.org/2019/07/trump-twists-facts-in-environmental-speech/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "The EPA last year \"completed more Superfund hazardous waste cleanups than any year of the previous administrations and set records in almost every year.\""
+    },
+    {
+      "claimDate": "2021-01-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Road to a Second Impeachment",
+          "url": "https://www.factcheck.org/2021/01/road-to-a-second-impeachment/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"I did no advertising. I did nothing [to promote the \"Save America\" rally]. ... We didn't do anything. This just happened.\""
+    },
+    {
+      "claimDate": "2025-06-25T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2025-06-26T00:00:00Z",
+          "textualRating": "Misleading",
+          "title": "RFK Jr.’s New Vaccine Panel Casts Doubt on Hepatitis B Shot at Birth",
+          "url": "https://www.factcheck.org/2025/06/rfk-jr-s-new-vaccine-panel-casts-doubt-on-hepatitis-b-shot-at-birth/"
+        }
+      ],
+      "claimant": "Martin Kulldorff",
+      "text": "Suggests hepatitis B vaccination at birth might not be \"wise,\" since the virus is \"primarily spread by sexual activity and intravenous drug use.”"
+    },
+    {
+      "claimDate": "2024-02-20T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Distorts the Facts",
+          "title": "Study Largely Confirms Known, Rare COVID-19 Vaccine Side Effects",
+          "url": "https://www.factcheck.org/2024/02/study-largely-confirms-known-rare-covid-19-vaccine-side-effects/"
+        }
+      ],
+      "claimant": "Social media posts",
+      "text": "“Hundreds of millions of people were used as lab rats and now the truth that WE ALL ALREADY KNEW can no longer be denied,” suggesting a new study proves that \"experimental\" COVID-19 vaccines are unsafe."
+    },
+    {
+      "claimDate": "2022-10-28T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "No Evidence He Supports It",
+          "title": "FactChecking DSCC’s Abortion Ad in Nevada Senate Race",
+          "url": "https://www.factcheck.org/2022/11/factchecking-dsccs-abortion-ad-in-nevada-senate-race/"
+        }
+      ],
+      "claimant": "Democratic Senatorial Campaign Committee",
+      "text": "Adam Laxalt \"would let states outlaw abortion, criminalize it, even for victims of rape or incest.”"
+    },
+    {
+      "claimDate": "2024-06-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2024-06-21T20:09:21Z",
+          "textualRating": "No Evidence",
+          "title": "Trump Spreads Election Misinformation in Key States",
+          "url": "https://www.factcheck.org/2024/06/trump-spreads-election-misinformation-in-key-states/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "Abraham Hamadeh lost the 2022 attorney general’s race in Arizona because “his election was rigged.”"
+    },
+    {
+      "claimDate": "2017-05-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2017-05-09T17:56:26Z",
+          "textualRating": "False",
+          "title": "Republican Health Care Spin",
+          "url": "https://www.factcheck.org/2017/05/republican-health-care-spin/"
+        }
+      ],
+      "claimant": "Paul Ryan",
+      "text": "Claimed the CBO analysis of the GOP health plan is “basically saying” that 24 million fewer Americans “through their own free choice” will decide not to buy insurance."
+    },
+    {
+      "claimDate": "2018-10-29T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-11-07T19:52:18Z",
+          "textualRating": "False",
+          "title": "Sayoc Pictured with Soccer Teammate, Not Democratic Donor",
+          "url": "https://www.factcheck.org/2018/11/sayoc-pictured-with-soccer-teammate-not-democratic-donor/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "“Here with Cesar Sayok is Izzy Hernandez, a Billionaire Democrat donor.\""
+    },
+    {
+      "claimDate": "2019-04-23T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2019-04-26T20:36:25Z",
+          "textualRating": "False",
+          "title": "Measles Misinformation Gets an Immigration Twist",
+          "url": "https://www.factcheck.org/2019/04/measles-misinformation-gets-an-immigration-twist/"
+        }
+      ],
+      "claimant": "Viral meme",
+      "text": "\"Thanks to the immigrants who illegally cross the U.S. Mexican border, and the Democrats who refuse to stop them, the Measles virus has been declared a public health emergency in 2019.\""
+    },
+    {
+      "claimDate": "2018-08-01T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-08-07T16:17:31Z",
+          "textualRating": "False",
+          "title": "False Stories Revive Claim About Trump Salary Donation",
+          "url": "https://www.factcheck.org/2018/08/false-stories-revive-claim-about-trump-salary-donation/"
+        }
+      ],
+      "claimant": "Various websites",
+      "text": "\"Trump Gives $400,000 to Repair Military Cemeteries — Liberal Media Ignores the Story\""
+    },
+    {
+      "claimDate": "2020-08-30T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Video Manipulated to Show Biden Asleep",
+          "url": "https://www.factcheck.org/2020/09/video-manipulated-to-show-biden-asleep/"
+        }
+      ],
+      "claimant": "Social media posts",
+      "text": "A video shared on social media purports to show Joe Biden sleeping during a live television interview."
+    },
+    {
+      "claimDate": "2016-08-01T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2016-08-04T19:47:51Z",
+          "textualRating": "False",
+          "title": "False GOP Theme: 'Unvetted' Refugees",
+          "url": "https://www.factcheck.org/2016/08/false-gop-theme-unvetted-refugees/"
+        }
+      ],
+      "claimant": "Election TV Ads",
+      "text": "Claim Syrian refugees being admitted to the U.S. are “unvetted.”"
+    },
+    {
+      "claimDate": "2024-02-03T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Not the Whole Story",
+          "title": "Biden's Job Growth Chart Ignores Impact of Pandemic",
+          "url": "https://www.factcheck.org/2024/02/bidens-job-growth-chart-ignores-impact-of-pandemic/"
+        }
+      ],
+      "claimant": "Joe Biden",
+      "text": "\"The last guy had the worst jobs record since the Great Depression. Our record is a little different,\" including a chart that showed a monthly average loss of 57,000 jobs under Donald Trump and an average gain of 409,000 under Biden."
+    },
+    {
+      "claimDate": "2017-10-10T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2017-10-17T18:32:19Z",
+          "textualRating": "False",
+          "title": "Seahawks Players Didn't Burn Flag",
+          "url": "https://www.factcheck.org/2017/10/seahawks-players-didnt-burn-flag/"
+        }
+      ],
+      "claimant": "Multiple websites",
+      "text": "Seahawks player \"was captured on camera burning an American flag.\""
+    },
+    {
+      "claimDate": "2016-08-11T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2016-08-12T14:26:19Z",
+          "textualRating": "Spins the Facts",
+          "title": "Clinton's Economic Speech",
+          "url": "https://www.factcheck.org/2016/08/clintons-economic-speech/"
+        }
+      ],
+      "claimant": "Hillary Clinton",
+      "text": "\"We already have millions of people working in the economy and paying $12 billion a year to Social Security even though they are undocumented.\""
+    },
+    {
+      "claimDate": "2019-02-28T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2019-03-14T17:55:00Z",
+          "textualRating": "Lacks Context",
+          "title": "How Much Will the 'Green New Deal' Cost?",
+          "url": "https://www.factcheck.org/2019/03/how-much-will-the-green-new-deal-cost/"
+        }
+      ],
+      "claimant": "Sen. Ed Markey",
+      "text": "\"According to the Trump admin's National Climate Assessment, with no action, climate change will result in 10% GDP loss by 2090.\""
+    },
+    {
+      "claimDate": "2026-02-24T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2026-02-25T00:00:00Z",
+          "textualRating": "Exaggerated",
+          "title": "FactChecking Trump's State of the Union Address",
+          "url": "https://www.factcheck.org/2026/02/factchecking-trumps-state-of-the-union-address/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "“American oil production is up by more than 600,000 barrels a day.\""
+    },
+    {
+      "claimDate": "2021-12-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Distorts the Facts",
+          "title": "Article Makes Unfounded Claims Linking Athletes' Injuries, Deaths to Vaccines",
+          "url": "https://www.factcheck.org/2021/12/scicheck-article-makes-unfounded-claims-linking-athletes-injuries-deaths-to-vaccines/"
+        }
+      ],
+      "claimant": "Gateway Pundit",
+      "text": "A list of athletes injured by COVID-19 vaccines \"shows that there may be something wrong with the vaccine.\""
+    },
+    {
+      "claimDate": "2020-01-25T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Fake Coronavirus Cures, Part 3: Vitamin C Isn't a Shield",
+          "url": "https://www.factcheck.org/2020/02/fake-coronavirus-cures-part-3-vitamin-c-isnt-a-shield/"
+        }
+      ],
+      "claimant": "Andrew Saul",
+      "text": "“The coronavirus pandemic can be dramatically slowed, or stopped completely, with the immediate widespread use of high doses of vitamin C.”"
+    },
+    {
+      "claimDate": "2025-02-04T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2025-02-07T00:00:00Z",
+          "textualRating": "False",
+          "title": "Trump Wrong About U.S. Rank in Education Spending and Outcomes",
+          "url": "https://www.factcheck.org/2025/02/trump-wrong-about-u-s-rank-in-education-spending-and-outcomes/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "“We spend more money per pupil than any other nation in the world, and yet we’re rated No. 40. ... We have to tell the teachers union, we’re rated last in the world in education, of the Top 40.\""
+    },
+    {
+      "claimDate": "2016-09-28T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2016-10-13T17:44:17Z",
+          "textualRating": "False",
+          "title": "Fired Over VA Wait Times",
+          "url": "https://www.factcheck.org/2016/10/fired-over-va-wait-times/"
+        }
+      ],
+      "claimant": "Barack Obama",
+      "text": "Suggested that his administration “fired a whole bunch of people who were in charge of some of these facilities” involved in the VA wait-times scandal."
+    },
+    {
+      "claimDate": "2018-08-08T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-08-09T21:42:28Z",
+          "textualRating": "False",
+          "title": "Second Quarter GDP Growth Not a 'Record'",
+          "url": "https://www.factcheck.org/2018/08/second-quarter-gdp-growth-not-a-record/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"As you know, we’re doing record and close-to-record GDP.\""
+    },
+    {
+      "claimDate": "2017-01-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2017-01-31T21:13:19Z",
+          "textualRating": "Unsupported",
+          "title": "Christian Refugees 'Unfairly' Kept Out?",
+          "url": "https://www.factcheck.org/2017/01/christian-refugees-unfairly-kept-out-of-u-s/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "Claims Christians have “been horribly treated” by the refugee program and that it has been “almost impossible” for Syrian Christians to resettle in the U.S."
+    },
+    {
+      "claimDate": "2022-07-09T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Georgia Senate Candidate Herschel Walker Spouts Inaccurate ‘Bad Air’ Theory of Climate Change",
+          "url": "https://www.factcheck.org/2022/07/georgia-senate-candidate-herschel-walker-spouts-inaccurate-bad-air-theory-of-climate-change/"
+        }
+      ],
+      "claimant": "Herschel Walker",
+      "text": "Suggested that U.S. climate efforts were pointless because “China’s bad air” would simply move over into American “air space.”"
+    },
+    {
+      "claimDate": "2023-11-08T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2023-11-09T08:02:04Z",
+          "textualRating": "Lacks Context",
+          "title": "FactChecking the Third GOP Primary Debate",
+          "url": "https://www.factcheck.org/2023/11/factchecking-the-third-gop-primary-debate/"
+        }
+      ],
+      "claimant": "Gov. Ron DeSantis",
+      "text": "Former South Carolina Gov. Nikki Haley gave Chinese companies \"land near a military base.\""
+    },
+    {
+      "claimDate": "2017-04-18T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2017-04-18T19:40:10Z",
+          "textualRating": "Unsupported",
+          "title": "Trump Distorts Ossoff's Record",
+          "url": "https://www.factcheck.org/2017/04/trump-distorts-ossoffs-record/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "Claimed Jon Ossoff, a Democratic candidate in Georgia’s 6th Congressional District, “will raise your taxes.”"
+    },
+    {
+      "claimDate": "2018-06-03T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-06-07T13:37:04Z",
+          "textualRating": "False",
+          "title": "No 'Treason' or 'Bust' for Obama",
+          "url": "https://www.factcheck.org/2018/06/no-treason-or-bust-for-obama/"
+        }
+      ],
+      "claimant": "Various websites",
+      "text": "\"The Feds Bust Barack Obama FELONY.\""
+    },
+    {
+      "claimDate": "2021-01-19T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Disputed Job Figure",
+          "title": "FactChecking Trump's Farewell Remarks",
+          "url": "https://www.factcheck.org/2021/01/factchecking-trumps-farewell-remarks/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"We passed nearly $4 trillion in economic relief, saved or supported over 50 million jobs.\""
+    },
+    {
+      "claimDate": "2022-06-22T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Misleading",
+          "title": "Stimulus Spending a Factor, But Far From Whole Story on Inflation",
+          "url": "https://www.factcheck.org/2022/06/stimulus-spending-a-factor-but-far-from-whole-story-on-inflation/"
+        }
+      ],
+      "claimant": "Ron Johnson",
+      "text": "\"$5,000 a year\" is \"the burden of Joe Biden’s inflation tax on Wisconsin families.\""
+    },
+    {
+      "claimDate": "2018-09-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-09-12T15:56:18Z",
+          "textualRating": "False",
+          "title": "Times Didn't Say 'Resistance' Op-Ed is 'Fake'",
+          "url": "https://www.factcheck.org/2018/09/times-didnt-say-resistance-op-ed-is-fake/"
+        }
+      ],
+      "claimant": "Various websites",
+      "text": "\"White House ‘Resistance’ Mole a Fake – NY Times Admits They Were Trolled.\""
+    },
+    {
+      "claimDate": "2018-05-05T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-05-08T18:46:10Z",
+          "textualRating": "Spins the Facts",
+          "title": "Trump Spins Rise in Job Openings",
+          "url": "https://www.factcheck.org/2018/05/trump-spins-rise-in-job-openings/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "\"We have a lot of job openings. And people that weren’t hiring for years and years and years — all of a sudden, we have jobs.\""
+    },
+    {
+      "claimDate": "2023-05-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "Spins the Facts",
+          "title": "Post Mischaracterizes GOP Opposition to Oregon Bill on Reproductive Health Care for Minors",
+          "url": "https://www.factcheck.org/2023/05/post-mischaracterizes-gop-opposition-to-oregon-bill-on-reproductive-health-care-for-minors/"
+        }
+      ],
+      "claimant": "Social media posts",
+      "text": "\"Oregon Republicans are arguing that 10-year-old girls should be allowed to be forced to give birth to their rapist's baby if the rapist is their father.\""
+    },
+    {
+      "claimDate": "2024-09-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Unfounded Claims Target Springfield Officials, Haitian Immigrants",
+          "url": "https://www.factcheck.org/2024/10/unfounded-claims-target-springfield-officials-haitian-immigrants/"
+        }
+      ],
+      "claimant": "Social media posts",
+      "text": "“The Mayor of Springfield, OH has made multiple trips to Haiti. He, and the entire City Council, received financial kick-backs for importing $20,000+ illegal aliens.\""
+    },
+    {
+      "claimDate": "2018-06-19T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-06-22T17:14:46Z",
+          "textualRating": "False",
+          "title": "Stormy Daniels Didn't Announce 2020 Campaign",
+          "url": "https://www.factcheck.org/2018/06/stormy-daniels-didnt-announce-2020-campaign/"
+        }
+      ],
+      "claimant": "Various websites",
+      "text": "“Stormy Daniels Announces Plans To Run For President”"
+    },
+    {
+      "claimDate": "2024-08-20T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2024-08-21T07:15:11Z",
+          "textualRating": "Not the Whole Story",
+          "title": "Day 2 of the Democratic National Convention",
+          "url": "https://www.factcheck.org/2024/08/day-2-of-the-democratic-national-convention/"
+        }
+      ],
+      "claimant": "Barack Obama",
+      "text": "President Joe Biden delivered “higher wages” for American workers."
+    },
+    {
+      "claimDate": "2022-10-26T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Altered Video of Exchange Between White House Press Secretary and Reporter on Gas Prices Goes Viral",
+          "url": "https://www.factcheck.org/2022/10/altered-video-of-exchange-between-white-house-press-secretary-and-reporter-on-gas-prices-goes-viral/"
+        }
+      ],
+      "claimant": "Social media post",
+      "text": "White House Press Secretary Karine Jean-Pierre ignored a question about oil companies and gas prices asked by Fox News correspondent Peter Doocy."
+    },
+    {
+      "claimDate": "2025-06-01T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2025-06-06T00:00:00Z",
+          "textualRating": "Misleading",
+          "title": "Assessing Medicaid Coverage Losses Under House Reconciliation Bill",
+          "url": "https://www.factcheck.org/2025/06/assessing-medicaid-coverage-losses-under-house-reconciliation-bill/"
+        }
+      ],
+      "claimant": "Mike Johnson",
+      "text": "“There are no Medicaid cuts in the Big Beautiful Bill. ... We’re reducing fraud, waste and abuse that is rampant in Medicaid to ensure that that program is essential for so many people, ensure that it’s available for the most vulnerable.”"
+    },
+    {
+      "claimDate": "2019-02-20T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2019-03-18T22:04:03Z",
+          "textualRating": "Out of Context",
+          "title": "Meme Distorts Quran Verses",
+          "url": "https://www.factcheck.org/2019/03/meme-distorts-quran-verses/"
+        }
+      ],
+      "claimant": "Viral meme",
+      "text": "A meme that asks \"When will liberals check out the Quran?\" lists nine supposed quotes from the Muslim holy book."
+    },
+    {
+      "claimDate": "2020-11-12T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "PolitiFact",
+            "site": "politifact.com"
+          },
+          "textualRating": "Pants on Fire",
+          "title": "Trump’s tweet about 2.7 million deleted votes is baseless – PolitiFact",
+          "url": "https://politifact.com/factchecks/2020/nov/12/donald-trump/trumps-tweet-about-27-million-deleted-votes-basele/"
+        },
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "No Evidence",
+          "title": "Trump Tweets Conspiracy Theory About Deleted Votes",
+          "url": "https://www.factcheck.org/2020/11/trump-tweets-conspiracy-theory-about-deleted-votes/"
+        }
+      ],
+      "claimant": "Donald Trump",
+      "text": "Dominion Voting Systems “deleted 2.7 million Trump votes nationwide.”"
+    },
+    {
+      "claimDate": "2022-08-09T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "False",
+          "title": "Trump Rally Photo Is From 2020, Not Recent Wisconsin Rally, as Social Media Posts Claim",
+          "url": "https://www.factcheck.org/2022/08/trump-rally-photo-is-from-2020-not-recent-wisconsin-rally-as-social-media-posts-claim/"
+        }
+      ],
+      "claimant": "Facebook post",
+      "text": "A photo shows a Trump rally held on Aug. 5 in Wisconsin attracted a “massive” crowd."
+    },
+    {
+      "claimDate": "2019-09-04T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "textualRating": "No Evidence",
+          "title": "Yang's Top-Gun Tale",
+          "url": "https://www.factcheck.org/2019/09/yangs-top-gun-tale/"
+        }
+      ],
+      "claimant": "Andrew Yang",
+      "text": "\"I'm going to share a story that I heard secondhand, so I can't verify it. But there was a Top Gun, a fighter pilot, who said that his least favorite time of the year is at the end of the fiscal year, because he flies over the Pacific Ocean and dumps oil into the ocean. ... Because they have to use all the oil that's budgeted, or else they won't get the same amount budgeted the following year.\""
+    },
+    {
+      "claimDate": "2018-11-05T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2018-11-12T19:52:29Z",
+          "textualRating": "False",
+          "title": "FBI Didn't Clear Michael Flynn",
+          "url": "https://www.factcheck.org/2018/11/fbi-didnt-clear-michael-flynn/"
+        }
+      ],
+      "claimant": "GellerReport.com",
+      "text": "\"FBI clears Michael Flynn in probe linking him to Russia\""
+    },
+    {
+      "claimDate": "2019-07-16T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2019-07-19T16:36:18Z",
+          "textualRating": "False",
+          "title": "Protections for Drivers Who Hit Protesters Didn't Pass",
+          "url": "https://www.factcheck.org/2019/07/protections-for-drivers-who-hit-protesters-didnt-pass/"
+        }
+      ],
+      "claimant": "Viral image",
+      "text": "After the Charlottesville, Virginia, attack, Republicans passed \"laws making it legal to run over protesters with your car.”"
+    },
+    {
+      "claimDate": "2019-03-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2019-03-08T22:04:14Z",
+          "textualRating": "False",
+          "title": "A Falsehood About Chicago’s CityKey ID Cards",
+          "url": "https://www.factcheck.org/2019/03/a-falsehood-about-chicagos-citykey-id-cards/"
+        }
+      ],
+      "claimant": "Social media posts",
+      "text": "“Chicago now has City ID Cards which allow illegal immigrants to vote in local, state & federal elections\""
+    },
+    {
+      "claimDate": "2019-06-26T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "FactCheck.org",
+            "site": "factcheck.org"
+          },
+          "reviewDate": "2019-06-27T07:20:46Z",
+          "textualRating": "Distorts the Facts",
+          "title": "FactChecking the First 2020 Democratic Debate",
+          "url": "https://www.factcheck.org/2019/06/factchecking-the-first-2020-democratic-debate/"
+        }
+      ],
+      "claimant": "Sen. Cory Booker",
+      "text": "The Iran nuclear deal \"pushed back a nuclear breakout 10, 20 years.\""
+    }
+  ],
+  "nextPageToken": "COwO"
+}

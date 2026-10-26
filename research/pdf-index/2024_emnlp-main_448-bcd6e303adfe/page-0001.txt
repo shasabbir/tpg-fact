@@ -1,0 +1,84 @@
+Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing , pages 7845–7864
+November 12-16, 2024 ©2024 Association for Computational Linguistics
+“Image, Tell me your story!”
+Predicting the original meta-context of visual misinformation
+Jonathan Tonglet1,2, Marie-Francine Moens3, Iryna Gurevych1
+1Ubiquitous Knowledge Processing Lab (UKP Lab),
+Department of Computer Science and Hessian Center for AI (hessian.AI),
+TU Darmstadt
+2 Department of Electrical Engineering, KU Leuven
+3 Department of Computer Science, KU Leuven
+www.ukp.tu-darmstadt.de
+Abstract
+To assist human fact-checkers, researchers have
+developed automated approaches for visual
+misinformation detection. These methods as-
+sign veracity scores by identifying inconsis-
+tencies between the image and its caption, or
+by detecting forgeries in the image. However,
+they neglect a crucial point of the human fact-
+checking process: identifying the original meta-
+context of the image. By explaining what is
+actually true about the image, fact-checkers
+can better detect misinformation, focus their
+efforts on check-worthy visual content, en-
+gage in counter-messaging before misinforma-
+tion spreads widely, and make their explana-
+tion more convincing. Here, we fill this gap
+by introducing the task of automated image
+contextualization. We create 5Pils, a dataset
+of 1,676 fact-checked images with question-
+answer pairs about their original meta-context.
+Annotations are based on the 5 Pillars fact-
+checking framework. We implement a first
+baseline that grounds the image in its origi-
+nal meta-context using the content of the image
+and textual evidence retrieved from the open
+web. Our experiments show promising results
+while highlighting several open challenges in
+retrieval and reasoning. We make our code and
+data publicly available.1
+1 Introduction
+The surge of visual misinformation poses a grow-
+ing threat to our society. In 2023, more than 30%
+of all fact-checked claims contained images, an
+increasing portion of which are AI-generated (Du-
+four et al., 2024). Journalists and fact-checkers
+have developed pipelines for detecting and debunk-
+ing visual misinformation (Silverman, 2013; Ur-
+bani, 2020; Khan et al., 2023a,b; Dufour et al.,
+2024). Image contextualization is a key component
+of these pipelines: it establishes the meta-context
+of the image by collecting evidence and answer-
+1github.com/UKPLab/5pils
+Figure 1: An out-of-context image with a false caption.
+The original meta-context of the image is established by
+answering the questions of the 5 Pillars framework.
+ing a concise set of questions. Urbani (2020) pro-
+poses a framework, which we refer to as “5 Pillars”,
+where information about the Provenance (Was the
+image used before?), Source (Who is the source?),
+Date (When was it taken?), Location (Where was it
+taken?), and Motivation (Why was it taken?) serve
+as the image meta-context. For example, Figure 1
+shows an out-of-context image purporting to repre-
+sent an Indian plane evacuating people from Kabul
+in 2021. After conducting a 5 Pillars contextualiza-
+tion, fact-checkers established that the image was
+taken in 2013 in a US plane in the Philippines.
+Image contextualization benefits to several other
+components of the human fact-checking (FC)
+pipeline. (1) It helps identify inconsistencies be-
+tween false claims and images, as shown in Fig-
+ure 1. (2) It is a mandatory component of writing
+a solid debunking article. Indeed, debunking re-
+quires not only stating why a claim is false but
+also what alternative is true instead (Lewandowsky
+et al., 2020). (3) It allows writing prebunking ar-
+ticles (Guo et al., 2022), by informing about the
+image’s true meta-context before misinformation
+spreads widely. (4) It helps assess whether the
+image is check-worthy. For example, images pub-
+lished by an unreliable source, or depicting critical
+events (war, crises, ...) deserve more pre-bunking
+7845

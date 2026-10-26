@@ -1,0 +1,105 @@
+C. Prompts
+In the MultiReflect pipeline, prompts play an im-
+portant role in evaluating the quality of both the
+original input post and the evidences retrieved. In
+this section, we introduce the prompts used within
+the pipeline. The pipeline utilizes prompts in four
+phases: consistency checking (phase 1), evidence
+checking (phase 2), evidence ranking (phase 5) and
+verification (phase 6). For GPT-4V and GPT-4o the
+images for both the post and evidences were given
+through the OpenAI API platform.
+1. Consistency checking
+For consistency checking (phase 1) we used the
+following prompt together with the original image.
+Prompt 1: Given a caption and image, deter-
+mine whether the caption matches the image or not,
+if yes respond <verdict>TRUE</verdict> else <ver-
+dict>FALSE</verdict>, also give the consistency score
+between 0 and 1 like <score>...</score>
+Caption: {caption}
+{encoded image}
+2. Evidence checking
+For evidence checking (phase 2), we use two differ-
+ent prompts. The first time this phase is initiated,
+we use this prompt together with the original cap-
+tion and image.
+Prompt 2: Given a image and caption, please make a
+judgment on whether finding some external documents
+from the web (e.g., Wikipedia) helps to decide whether
+the image and caption is factually correct. Please answer
+[Yes] or [No] and write an explanation.
+Caption: {caption}
+{encoded image}
+If we run into phase 2 again, then during the next
+times we use:
+Prompt 3: Given a image and caption along with some
+external documents (evidences). Your task is to determine
+whether the factuality of the image and caption can be
+fully verified by the evidence or if it requires further ex-
+ternal verification.There are three cases:
+- If image and caption can be verified solely with the evi-
+dences, then respond with [Continue to Use Evidence].
+- If the sentence doesn’t require any factual verification
+(e.g., a subjective sentence or a sentence about common
+sense), then respond with [No Retrieval].
+- If additional information is needed to verify, respond
+with [Retrieval].
+Please provide explanations for your judgments
+Caption: {caption}
+{encoded image}
+Evidences: {evidence texts and encoded images}
+3. Evidence ranking
+Evidence ranking (phase 5) get the relevancy, sup-
+port and usefulness scores using prompts. For each
+of these prompts we used two variations, one for
+ranking images and another for ranking texts. For
+relevancy, we used the following two prompts.
+Prompt 4: You’ll be provided with an image, along
+with evidence. Your job is to determine if the evidence
+is relevant to the determine the factual correctness of the
+image, and provides useful information to complete the
+task described in the instruction. If the evidence meets this
+requirement, respond with [Relevant]; otherwise, generate
+[Irrelevant]. Also determine the relevancy score of the
+evidence, on a scale of 0 to 1.
+{encoded image}
+Text Evidence: {evidence text}
+Prompt 5: You’ll be provided with a text, along with an
+image evidence. Your job is to determine if the evidence
+is relevant to the determine the factual correctness of the
+text, and provides useful information to complete the task
+described in the instruction. If the evidence meets this
+requirement, respond with [Relevant]; otherwise, generate
+[Irrelevant]. Also determine the relevancy score of the
+evidence, on a scale of 0 to 1.
+Text: {caption}
+{evidence encoded image}
+For support, we used the following two prompts.
+Prompt 6: You will receive an input text, input image
+and text evidence towards determining the factuality of
+the input. Your task is to evaluate if the input is fully
+supported by the information provided in the evidence.
+Use the following entailment scale to generate a score:
+- [Fully supported] - All information in input is supported
+by the evidence, or extractions from the evidence.
+- [Partially supported] - The input is supported by the ev-
+idence to some extent, but there is major information in
+the input that is not discussed in the evidence. For exam-
+ple, if the input asks about two concepts and the evidence
+only discusses either of them, it should be considered a
+[Partially supported].
+- [No support / Contradictory] - The input completely ig-
+nores evidence, is unrelated to the evidence, or contradicts
+the evidence. This can also happen if the evidence is irrel-
+evant to the instruction.
+Make sure to not use any external information/knowledge
+to judge whether the input is true or not. Only check
+whether the input is supported by the evidence, and not
+whether the input follows the instructions or not. Output
+Entailment like [Fully supported], [Partially supported] or
+[No support / Contradictory]
+Input text: {caption}
+Input Image: {encoded image}
+Text Evidence: {evidence text}
+16

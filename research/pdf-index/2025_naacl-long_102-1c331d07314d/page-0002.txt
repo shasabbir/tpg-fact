@@ -1,0 +1,99 @@
+leveraging the comprehensive context to predict the
+veracity of the caption.
+In this work, we introduce COVE, the first
+method that both predicts a comprehensive COn-
+text for the image and a VEracity label for the
+caption. The method consists of two steps, shown
+in Figure 1. First, the context is predicted as a set
+of seven items, three of which are first introduced
+in this work. Compared to prior work, COVE lever-
+ages a more diverse set of evidence to predict the
+context, including web search, knowledge bases,
+and the parametric knowledge of large language
+models (LLMs). Afterward, the caption is com-
+pared with the context to predict its veracity. We
+summarize our contributions as follows. (1) Lever-
+aging a more diverse set of evidence, COVE outper-
+forms the context prediction SOTA (Tonglet et al.,
+2024) for all context items, including three items
+introduced in this work, by 0.3 to 18.9 percentage
+points. (2) COVE is competitive with the best mod-
+els for veracity prediction on synthetic data and
+outperforms them on real-world data by up to 4.5
+percentage points in Macro F1, highlighting the
+benefits of automating veracity prediction based on
+the predicted context. (3) Our experiments show
+that the predicted context is an interpretable arti-
+fact for human users, which they can reuse multiple
+times to verify new captions about the same image.
+2 Related work
+Veracity prediction for OOC images
+Providing a veracity label for OOC images
+has received significant attention in automated
+fact-checking (AFC) research (Akhtar et al.,
+2023). It is a binary classification task with labels
+{accurate, OOC}. Synthetic datasets have been
+created by replacing entities in the true caption
+(Sabir et al., 2018; Müller-Budack et al., 2020) or
+by mismatching image-caption pairs from news
+corpora (Luo et al., 2021). Smaller datasets based
+on real-world fact-checks have recently been
+proposed (Aneja et al., 2023; Papadopoulos et al.,
+2024b; Pham et al., 2024). Models that leverage
+external evidence outperform those that use only
+the image and the caption as input (Luo et al.,
+2021; Zhang et al., 2023b). Abdelnabi et al. (2022)
+collects text evidence with reverse image search
+and image evidence by querying a search engine
+with the caption. The performance can further be
+improved by predicting the stance of the evidence
+towards the caption (Yuan et al., 2023) or ranking
+the most relevant evidence (Papadopoulos et al.,
+2023). Unlike prior methods, ECENet provides an
+explanation in the form of a summary of the most
+relevant text evidence (Zhang et al., 2023a). Recent
+work leverages multimodal LLMs (MLLMs) with
+instruction-tuning (Qi et al., 2024), external tools
+(Braun et al., 2024), or multi-agent debate (Lakara
+et al., 2024). Papadopoulos et al. (2024a) showed
+that simple classifiers like random forest trained
+on top of the image, caption, and image and text
+evidence embeddings achieve SOTA performance.
+Their results show that veracity can often be
+predicted based on shallow heuristics, highlighting
+the need to assess the progress in the field from
+other perspectives (Papadopoulos et al., 2024a),
+such as context prediction.
+Context prediction for OOC images
+Context prediction, or image contextualization,
+has received less attention in AFC. Tonglet et al.
+(2024) formulate it as a question-answering (QA)
+task where each context item is predicted given the
+corresponding question and a set of evidence which
+may include the image, the caption, or pieces of
+information derived from them. Tahmasebi et al.
+(2025) formulate it as a true/false classification
+task where candidate people, locations, and events
+are verified with a MLLM. 5Pils is a real-world
+dataset (Tonglet et al., 2024) which contains
+context labels based on human fact-checking
+practices (Urbani, 2020; Mossou and Higgins,
+2021; Khan et al., 2023, 2024). Tonglet et al.
+(2024) proposed a baseline for context predic-
+tion that retrieves text evidence with reverse
+image search and answers context questions with
+a (M)LLM and the image and the evidence as input.
+In this work, we fill an important gap by intro-
+ducing the first method that performs both tasks
+sequentially, leveraging the generated context for
+veracity prediction.
+3 COntext and VEracity (COVE)
+COVE is a method to predict the true context of an
+image first and then the veracity of its caption. The
+overall architecture can be divided into six steps,
+as illustrated in Figure 2. The first three steps are
+concerned with the collection of a diverse set of ev-
+idence, i.e., web captions and visual entities (§3.1),
+Wikipedia entities (§3.2), and automated captions
+(§3.3). Based on their similarity with web images
+2030

@@ -1,0 +1,158 @@
+SIGIR ’23, July 23–27, 2023, Taipei, Taiwan Barry Menglong Yao, Aditya Shah, Lichao Sun, Jin-Hee Cho, & Lifu Huang
+REFERENCES
+[1] Sahar Abdelnabi, Rakibul Hasan, and Mario Fritz. 2022. Open-Domain, Content-
+based, Multi-modal Fact-checking of Out-of-Context Images via Online Resources.
+In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recog-
+nition. 14940–14949.
+[2] Tariq Alhindi, Savvas Petridis, and Smaranda Muresan. 2018. Where is your
+evidence: improving fact-checking by justification modeling. In Proceedings of
+the first workshop on fact extraction and verification (FEVER). 85–90.
+[3] Rami Aly, Zhijiang Guo, Michael Schlichtkrull, James Thorne, Andreas Vlachos,
+Christos Christodoulopoulos, Oana Cocarascu, and Arpit Mittal. 2021. Feverous:
+Fact extraction and verification over unstructured and structured information.
+arXiv preprint arXiv:2106.05707 (2021).
+[4] Pepa Atanasova, Jakob Grue Simonsen, Christina Lioma, and Isabelle Augenstein.
+2020. Generating fact checking explanations. arXiv preprint arXiv:2004.05773
+(2020).
+[5] Isabelle Augenstein, Christina Lioma, Dongsheng Wang, Lucas Chaves Lima,
+Casper Hansen, Christian Hansen, and Jakob Grue Simonsen. 2019. MultiFC:
+A real-world multi-domain dataset for evidence-based fact checking of claims.
+arXiv preprint arXiv:1909.03242 (2019).
+[6] Payal Bajaj, Daniel Campos, Nick Craswell, Li Deng, Jianfeng Gao, Xiaodong Liu,
+Rangan Majumder, Andrew McNamara, Bhaskar Mitra, Tri Nguyen, et al. 2016.
+Ms marco: A human generated machine reading comprehension dataset. arXiv
+preprint arXiv:1611.09268 (2016).
+[7] Alberto Barrón-Cedeno, Israa Jaradat, Giovanni Da San Martino, and Preslav
+Nakov. 2019. Proppy: Organizing the news based on their propagandistic content.
+Information Processing & Management 56, 5 (2019), 1849–1864.
+[8] Christina Boididou, Katerina Andreadou, Symeon Papadopoulos, Duc-Tien Dang-
+Nguyen, Giulia Boato, Michael Riegler, Yiannis Kompatsiaris, et al. 2015. Verifying
+multimedia use at mediaeval 2015. MediaEval 3, 3 (2015), 7.
+[9] Jifan Chen, Aniruddh Sriram, Eunsol Choi, and Greg Durrett. 2022. Generating
+Literal and Implied Subquestions to Fact-check Complex Claims. arXiv preprint
+arXiv:2205.06938 (2022).
+[10] Wenhu Chen, Hongmin Wang, Jianshu Chen, Yunkai Zhang, Hong Wang, Shiyang
+Li, Xiyou Zhou, and William Yang Wang. 2019. Tabfact: A large-scale dataset for
+table-based fact verification. arXiv preprint arXiv:1909.02164 (2019).
+[11] Shih-Chieh Dai, Yi-Li Hsu, Aiping Xiong, and Lun-Wei Ku. 2022. Ask to know
+more: Generating counterfactual explanations for fake claims. In Proceedings
+of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining.
+2800–2810.
+[12] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2018. Bert:
+Pre-training of deep bidirectional transformers for language understanding.arXiv
+preprint arXiv:1810.04805 (2018).
+[13] Jacob Devlin, Ming Wei Chang, Kenton Lee, and Kristina Toutanova. 2019. BERT:
+Pre-training of deep bidirectional transformers for language understanding. In
+NAACL HLT 2019 - 2019 Conference of the North American Chapter of the Associa-
+tion for Computational Linguistics: Human Language Technologies - Proceedings of
+the Conference, Vol. 1. Association for Computational Linguistics (ACL), 4171–
+4186. arXiv:1810.04805 https://github.com/tensorflow/tensor2tensor
+[14] Wei-Wei Du, Hong-Wei Wu, Wei-Yao Wang, and Wen-Chih Peng. 2023. Team
+Triple-Check at Factify 2: Parameter-Efficient Large Foundation Models with
+Feature Representations for Multi-Modal Fact Verification. arXiv preprint
+arXiv:2302.07740 (2023).
+[15] Murray Edelman and Murray Jacob Edelman Edelman. 2001. The politics of
+misinformation. Cambridge University Press.
+[16] Angela Fan, Aleksandra Piktus, Fabio Petroni, Guillaume Wenzek, Marzieh Saeidi,
+Andreas Vlachos, Antoine Bordes, and Sebastian Riedel. 2020. Generating fact
+checking briefs. arXiv preprint arXiv:2011.05448 (2020).
+[17] Joseph L Fleiss. 1971. Measuring nominal scale agreement among many raters.
+Psychological bulletin 76, 5 (1971), 378.
+[18] Yi Fung, Christopher Thomas, Revanth Gangi Reddy, Sandeep Polisetty, Heng Ji,
+Shih-Fu Chang, Kathleen McKeown, Mohit Bansal, and Avirup Sil. 2021. Info-
+surgeon: Cross-media fine-grained information consistency checking for fake
+news detection. In Proceedings of the 59th Annual Meeting of the Association for
+Computational Linguistics and the 11th International Joint Conference on Natural
+Language Processing (Volume 1: Long Papers). 1683–1698.
+[19] Mohamed H Gad-Elrab, Daria Stepanova, Jacopo Urbani, and Gerhard Weikum.
+2019. Exfakt: A framework for explaining facts over knowledge graphs and text.
+In Proceedings of the Twelfth ACM International Conference on Web Search and
+Data Mining. 87–95.
+[20] Peter Godfrey-Smith. 1989. Misinformation. Canadian Journal of Philosophy 19,
+4 (1989), 533–550.
+[21] Josh A Goldstein, Girish Sastry, Micah Musser, Renee DiResta, Matthew Gentzel,
+and Katerina Sedova. 2023. Generative Language Models and Automated Influ-
+ence Operations: Emerging Threats and Potential Mitigations. arXiv preprint
+arXiv:2301.04246 (2023).
+[22] Zhijiang Guo, Michael Schlichtkrull, and Andreas Vlachos. 2022. A Survey on Au-
+tomated Fact-Checking. Transactions of the Association for Computational Linguis-
+tics 10 (2022), 178–206. https://doi.org/10.1162/tacl_a_00454 arXiv:2108.11896
+[23] Sai Gurrapu, Lifu Huang, and Feras A Batarseh. 2022. ExClaim: Explainable Neural
+Claim Verification Using Rationalization. In 2022 IEEE 29th Annual Software
+Technology Conference (STC). IEEE, 19–26.
+[24] Sai Gurrapu, Ajay Kulkarni, Lifu Huang, Ismini Lourentzou, Laura Freeman, and
+Feras A Batarseh. 2023. Rationalization for Explainable NLP: A Survey. arXiv
+preprint arXiv:2301.08912 (2023).
+[25] Andreas Hanselowski, Christian Stab, Claudia Schulz, Zile Li, and Iryna Gurevych.
+2019. A richly annotated corpus for different tasks in automated fact-checking.
+arXiv preprint arXiv:1911.01214 (2019).
+[26] Zhe Hu, Hou Pong Chan, and Lifu Huang. 2022. MOCHA: A Multi-Task Training
+Approach for Coherent Text Generation from Cognitive Perspective. arXiv
+preprint arXiv:2210.14650 (2022).
+[27] Zhe Hu, Hou Pong Chan, Jiachen Liu, Xinyan Xiao, Hua Wu, and Lifu Huang.
+2022. PLANET: Dynamic Content Planning in Autoregressive Transformers for
+Long-form Text Generation. In Proceedings of the 60th Annual Meeting of the
+Association for Computational Linguistics (Volume 1: Long Papers). 2288–2305.
+[28] Md Saiful Islam, Tonmoy Sarkar, Sazzad Hossain Khan, Abu-Hena Mostofa Kamal,
+SM Murshid Hasan, Alamgir Kabir, Dalia Yeasmin, Mohammad Ariful Islam,
+Kamal Ibne Amin Chowdhury, Kazi Selim Anwar, et al. 2020. COVID-19–related
+infodemic and its impact on public health: A global social media analysis. The
+American journal of tropical medicine and hygiene 103, 4 (2020), 1621.
+[29] Kalervo Järvelin and Jaana Kekäläinen. 2002. Cumulated gain-based evaluation
+of IR techniques. ACM Transactions on Information Systems (TOIS) 20, 4 (2002),
+422–446.
+[30] Sarthak Jindal, Raghav Sood, Richa Singh, Mayank Vatsa, and Tanmoy
+Chakraborty. 2020. NewsBag: a multi-modal benchmark dataset for fake news
+detection. In CEUR Workshop Proc., Vol. 2560. 138–145.
+[31] Manvi Kamboj, Christian Hessler, Priyanka Asnani, Kais Riani, and Mohamed
+Abouelenien. 2020. Multimodal Political Deception Detection. IEEE MultiMedia
+28, 1 (2020), 94–102.
+[32] Ashkan Kazemi, Zehua Li, Verónica Pérez-Rosas, and Rada Mihalcea. 2021. Ex-
+tractive and Abstractive Explanations for Fact-Checking and Evaluation of News.
+arXiv preprint arXiv:2104.12918 (2021).
+[33] Dhruv Khattar, Jaipal Singh Goud, Manish Gupta, and Vasudeva Varma. 2019.
+MVAE: Multimodal Variational Autoencoder for Fake News Detection.The World
+Wide Web Conference (2019).
+[34] Christian Kohlschütter, Peter Fankhauser, and Wolfgang Nejdl. 2010. Boilerplate
+detection using shallow text features. InProceedings of the third ACM international
+conference on Web search and data mining. 441–450.
+[35] Neema Kotonya and Francesca Toni. 2020. Explainable automated fact-checking
+for public health claims. arXiv preprint arXiv:2010.09926 (2020).
+[36] Huiyuan Lai, Antonio Toral, and Malvina Nissim. 2021. Thank you BART!
+Rewarding Pre-Trained Models Improves Formality Style Transfer. ACL-IJCNLP
+2021 - 59th Annual Meeting of the Association for Computational Linguistics and the
+11th International Joint Conference on Natural Language Processing, Proceedings of
+the Conference 2 (may 2021), 484–494. https://doi.org/10.48550/arxiv.2105.06947
+arXiv:2105.06947
+[37] Mike Lewis, Yinhan Liu, Naman Goyal, Marjan Ghazvininejad, Abdelrahman
+Mohamed, Omer Levy, Ves Stoyanov, and Luke Zettlemoyer. 2019. BART: De-
+noising Sequence-to-Sequence Pre-training for Natural Language Generation,
+Translation, and Comprehension. arXiv:1910.13461 [cs.CL]
+[38] Lily Li, Or Levi, Pedram Hosseini, and David A Broniatowski. 2020. A multi-
+modal method for satire detection using textual and visual cues. arXiv preprint
+arXiv:2010.06671 (2020).
+[39] Chin-Yew Lin. 2004. ROUGE: A Package for Automatic Evaluation of Summaries.
+In Text Summarization Branches Out. Association for Computational Linguistics,
+Barcelona, Spain, 74–81. https://aclanthology.org/W04-1013
+[40] Nicholas Micallef, Marcelo Sandoval-Castañeda, Adi Cohen, Mustaque Ahamad,
+Srijan Kumar, and Nasir Memon. 2022. Cross-Platform Multimodal Misinforma-
+tion: Taxonomy, Characteristics and Detection for Textual Posts and Videos. In
+Proceedings of the International AAAI Conference on Web and Social Media, Vol. 16.
+651–662.
+[41] Shreyash Mishra, S Suryavardan, Amrit Bhaskar, Parul Chopra, Aishwarya Re-
+ganti, Parth Patwa, Amitava Das, Tanmoy Chakraborty, Amit Sheth, Asif Ekbal,
+et al. 2022. Factify: A multi-modal fact verification dataset. In Proceedings of
+the First Workshop on Multimodal Fact-Checking and Hate Speech Detection (DE-
+FACTIFY).
+[42] Shreyash Mishra, S Suryavardan, Amrit Bhaskar, Parul Chopra, Aishwarya Re-
+ganti, Parth Patwa, Amitava Das, Tanmoy Chakraborty, Amit Sheth, Asif Ekbal,
+et al. 2023. Factify 2: A multimodal fake news and satire news dataset. In pro-
+ceedings of defactify 2: second workshop on Multimodal Fact-Checking and Hate
+Speech Detection, CEUR.
+[43] Kai Nakamura, Sharon Levy, and William Yang Wang. 2019. r/fakeddit: A new
+multimodal benchmark dataset for fine-grained fake news detection. arXiv
+preprint arXiv:1911.03854 (2019).
+[44] Shashi Narayan, Shay B. Cohen, and Mirella Lapata. 2018. Don’t Give Me the
+Details, Just the Summary! Topic-Aware Convolutional Neural Networks for
+Extreme Summarization. arXiv:1808.08745 [cs.CL]
+2742

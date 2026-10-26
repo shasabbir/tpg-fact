@@ -1,0 +1,30 @@
+{
+  "checks": {
+    "cases_per_label": false,
+    "independent_cluster_fraction": false,
+    "test_events": false,
+    "total_cases": false
+  },
+  "counts": {
+    "claims_with_two_independent_clusters": 0,
+    "labels": {
+      "insufficient_evidence": 2,
+      "refuted": 2,
+      "supported": 2
+    },
+    "test_events": 3,
+    "timestamp_confidence": {
+      "confirmed": 18
+    },
+    "total_cases": 6,
+    "unassigned_valid_evidence": 12
+  },
+  "independent_cluster_fraction": 0.0,
+  "status": "stress_test_fallback",
+  "thresholds": {
+    "minimum_independent_cluster_fraction": 0.7,
+    "minimum_per_label": 300,
+    "minimum_test_events": 50,
+    "minimum_total_cases": 2000
+  }
+}

@@ -1,0 +1,1798 @@
+{
+  "claims": [
+    {
+      "claimDate": "2020-09-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-02-06T01:52:00Z",
+          "textualRating": "False",
+          "title": "Doctor with expired license falsely claims masks don’t work",
+          "url": "https://factcheck.afp.com/doctor-expired-license-falsely-claims-masks-dont-work"
+        }
+      ],
+      "claimant": "multiple sources",
+      "text": "Blowing vape smoke through face masks shows that they do not help prevent the spread of coronavirus"
+    },
+    {
+      "claimDate": "2022-01-26T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2022-01-28T15:30:00Z",
+          "textualRating": "Misleading",
+          "title": "Video of baby’s death is from Tanzanian movie and does not depict real incident in Kenya",
+          "url": "https://factcheck.afp.com/doc.afp.com.9XC97X"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Video shows Kenyan man killing his baby"
+    },
+    {
+      "claimDate": "2024-04-24T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-04-10T10:44:00Z",
+          "textualRating": "Altered Video",
+          "title": "Old Trump interview edited with 'free Imran Khan' message",
+          "url": "https://factcheck.afp.com/doc.afp.com.34NA77K"
+        }
+      ],
+      "claimant": "Multiple persons",
+      "text": "Former US president Donald Trump vows to free Imran Khan from jail"
+    },
+    {
+      "claimDate": "2021-04-21T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-04-23T19:29:00Z",
+          "textualRating": "False",
+          "title": "Plywood price up due to high construction demand, not protests",
+          "url": "https://factcheck.afp.com/plywood-price-due-high-construction-demand-not-protests"
+        }
+      ],
+      "claimant": "Multiple people",
+      "text": "Price of plywood is up due to stores using it for protection"
+    },
+    {
+      "claimDate": "2020-04-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-04-22T10:50:00Z",
+          "textualRating": "MISLEADING",
+          "title": "This video shows FBI agents raiding a private home, not a synagogue",
+          "url": "https://factcheck.afp.com/video-shows-fbi-agents-raiding-private-home-not-synagogue"
+        }
+      ],
+      "claimant": "[site:name]",
+      "text": "FBI raids synagogue used to hoard face masks"
+    },
+    {
+      "claimDate": "2024-02-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-03-01T17:53:00Z",
+          "textualRating": "False",
+          "title": "Directed energy weapon conspiracy theories resurface after Texas wildfires",
+          "url": "https://factcheck.afp.com/doc.afp.com.34KE9N7"
+        }
+      ],
+      "claimant": "Multiple people",
+      "text": "Directed energy weapons caused February 2024 wildfires in Texas"
+    },
+    {
+      "claimDate": "2025-04-23T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2025-04-29T09:08:00Z",
+          "textualRating": "False",
+          "title": "Old Kashmir visuals falsely portrayed as April 2025 attack",
+          "url": "https://factcheck.afp.com/doc.afp.com.43FD4T3"
+        }
+      ],
+      "claimant": "Multiple Sources",
+      "text": "Picture shows child who survived April 2025 Kashmir attack"
+    },
+    {
+      "claimDate": "2020-12-09T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-12-18T11:48:00Z",
+          "textualRating": "False",
+          "title": "These photos actually show a figurine of an ancient mythical creature made by a Spanish artist",
+          "url": "https://factcheck.afp.com/these-photos-actually-show-figurine-ancient-mythical-creature-made-spanish-artist"
+        }
+      ],
+      "claimant": "[site:name]",
+      "text": "Four-eyed animal discovered in South Sudan"
+    },
+    {
+      "claimDate": "2024-07-14T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-07-17T22:34:00Z",
+          "textualRating": "False",
+          "title": "Photo shows Secret Service agent's jacket, not Trump gunshot wound",
+          "url": "https://factcheck.afp.com/doc.afp.com.364E3LC"
+        }
+      ],
+      "claimant": "Multiple people",
+      "text": "Photo shows Donald Trump was shot in the chest at attempted assassination"
+    },
+    {
+      "claimDate": "2022-05-28T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2022-06-02T17:01:00Z",
+          "textualRating": "Missing context",
+          "title": "Procedure to remove HIV from semen pioneered decades ago, not in 2022 by South African medical intern",
+          "url": "https://factcheck.afp.com/doc.afp.com.32BR3X9"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "South African scientist achieves HIV breakthrough"
+    },
+    {
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2018-10-04T13:46:00Z",
+          "textualRating": "False",
+          "title": "No, these are not victims of the quake-tsunami on Indonesia’s Sulawesi Island",
+          "url": "https://factcheck.afp.com/no-these-are-not-victims-quake-tsunami-indonesias-sulawesi-island"
+        }
+      ],
+      "claimant": "[site:name]",
+      "text": "These are victims of the quake-tsunami on Indonesia’s Sulawesi Island"
+    },
+    {
+      "claimDate": "2023-03-29T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2023-04-04T07:29:00Z",
+          "textualRating": "False",
+          "title": "Doctored poster circulates online about 'anti-government rally led by former Sri Lankan PM'",
+          "url": "https://factcheck.afp.com/doc.afp.com.33CJ8L8"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Poster for an anti-government rally led by former Sri Lankan PM Rajapaksa."
+    },
+    {
+      "claimDate": "2025-07-03T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2025-07-17T16:32:00Z",
+          "textualRating": "Misleading",
+          "title": "Old video circulated with claims that coalition endorsed Nigerian opposition leader Peter Obi as presidential candidate",
+          "url": "https://factcheck.afp.com/doc.afp.com.672X2NQ"
+        }
+      ],
+      "claimant": "Top O Onyeozizi",
+      "text": "Political coalition names Peter Obi as their presidential candidate"
+    },
+    {
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-02-18T10:00:00Z",
+          "textualRating": "1",
+          "title": "Old photo of former Indian cricketer Mahendra Singh Dhoni circulates online with false claims",
+          "url": "https://factcheck.afp.com/old-photo-former-indian-cricketer-mahendra-singh-dhoni-circulates-online-false-claims"
+        }
+      ],
+      "claimant": "Multiple Sources",
+      "text": "Former Indian cricketer MS Dhoni on a tractor shows his support for farmers protest"
+    },
+    {
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2019-03-14T09:00:00Z",
+          "textualRating": "FALSE",
+          "title": "No, these are not images of suspects arrested over the killing of a Philippine teenager",
+          "url": "https://factcheck.afp.com/no-these-are-not-images-suspects-arrested-over-killing-philippine-teenager"
+        }
+      ],
+      "claimant": "multiple sources",
+      "text": "Images of suspects arrested over the killing of a Philippine teenager"
+    },
+    {
+      "claimDate": "2023-02-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2023-02-17T07:51:00Z",
+          "textualRating": "False",
+          "title": "Chinese social media users share edited Putin speech video with false subtitles about Ukraine",
+          "url": "https://factcheck.afp.com/doc.afp.com.339B3CE"
+        }
+      ],
+      "claimant": "Multiple social media posts",
+      "text": "Video of Putin saying he will not resign in 2023"
+    },
+    {
+      "claimDate": "2024-07-23T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-07-31T06:44:00Z",
+          "textualRating": "False",
+          "title": "Video shows fire in New Taipei City, not 'building collapsing after missile strike' during Taiwan war games",
+          "url": "https://factcheck.afp.com/doc.afp.com.364Y9UM"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "A missile hit a residential building during Taiwan’s military drills."
+    },
+    {
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2019-08-28T09:45:00Z",
+          "textualRating": "False",
+          "title": "This is old footage of a man being attacked in another part of India over 'braid chopping' incidents",
+          "url": "https://factcheck.afp.com/old-footage-man-being-attacked-another-part-india-over-braid-chopping-incidents"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Hindu mob assaults Muslim man in eastern Indian state of Gujarat over communal hatred"
+    },
+    {
+      "claimDate": "2026-04-08T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2026-04-20T07:25:00Z",
+          "textualRating": "False",
+          "title": "Fabricated graphic misuses news outlet logos to spread false claim on Philippine leader's health",
+          "url": "https://factcheck.afp.com/doc.afp.com.A7PY6G3"
+        }
+      ],
+      "claimant": "Multiple persons",
+      "text": "Philippine presidential office confirms President Marcos has colon cancer"
+    },
+    {
+      "claimDate": "2020-12-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-12-17T09:35:00Z",
+          "textualRating": "Misleading",
+          "title": "Old photo from 2018 circulated online alongside misleading claim about ongoing Indian farmers’ protests",
+          "url": "https://factcheck.afp.com/old-photo-2018-circulated-online-alongside-misleading-claim-about-ongoing-indian-farmers-protests"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Old photo from 2018 circulated online alongside misleading claims about ongoing Indian farmers’ protests"
+    },
+    {
+      "claimDate": "2022-03-09T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2022-03-23T20:24:00Z",
+          "textualRating": "Misleading",
+          "title": "Article misleads on US goverment-funded Covid-19 vaccine advocacy",
+          "url": "https://factcheck.afp.com/doc.afp.com.326B2FJ"
+        }
+      ],
+      "claimant": "Children's Health Defense",
+      "text": "US secretly paid media to promote Covid shots"
+    },
+    {
+      "claimDate": "2022-10-09T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2022-11-07T09:13:00Z",
+          "textualRating": "False",
+          "title": "Korean posts share false claim about 'military service exemption for men who live in DMZ village'",
+          "url": "https://factcheck.afp.com/doc.afp.com.32MK393"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "South Korean men living in Daeseong-dong for 20 months are exempt from military service"
+    },
+    {
+      "claimDate": "2019-08-04T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2019-08-22T12:34:00Z",
+          "textualRating": "False",
+          "title": "An old hoax about Christian missionaries being sentenced to death in Afghanistan is spreading online again",
+          "url": "https://factcheck.afp.com/old-hoax-about-christian-missionaries-being-sentenced-death-afghanistan-spreading-online-again"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "22 Christian missionaries sentenced to death in Afghanistan"
+    },
+    {
+      "claimDate": "2020-03-20T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-03-23T21:38:00Z",
+          "textualRating": "Misleading",
+          "title": "Misleading COVID-19 flyer falsely linked to US Veterans Affairs hospital",
+          "url": "https://factcheck.afp.com/misleading-covid-19-flyer-falsely-linked-us-veterans-affairs-hospital"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Roseburg Veterans Affairs issued coronavirus information flyer"
+    },
+    {
+      "claimDate": "2019-02-28T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2019-09-17T05:30:00Z",
+          "textualRating": "FALSE",
+          "title": "No, this man is wearing a costume for a 2007 Halloween carnival in the United States",
+          "url": "https://factcheck.afp.com/no-man-wearing-costume-2007-halloween-carnival-united-states"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Photo of a man cursed after urinating on the Koran"
+    },
+    {
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2019-08-20T21:03:00Z",
+          "textualRating": "False",
+          "title": "High temperatures in Alaska did not cause these salmon’s deaths",
+          "url": "https://factcheck.afp.com/high-temperatures-alaska-did-not-cause-these-salmons-deaths"
+        }
+      ],
+      "claimant": "[site:name]",
+      "text": "Video of salmon dead because of high temperatures"
+    },
+    {
+      "claimDate": "2020-05-05T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-05-21T14:13:00Z",
+          "textualRating": "False",
+          "title": "This video shows an annual Hindu ritual and has nothing to do with coronavirus",
+          "url": "https://factcheck.afp.com/video-shows-annual-ritual-and-has-nothing-do-coronavirus"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Indians drown religious statues for failing to offer COVID-19 protection"
+    },
+    {
+      "claimDate": "2023-08-01T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2023-08-07T20:32:00Z",
+          "textualRating": "Partly false",
+          "title": "Climate change skeptic misleads on heat-related deaths",
+          "url": "https://factcheck.afp.com/doc.afp.com.33QJ3JT"
+        }
+      ],
+      "claimant": "Patrick Moore",
+      "text": "Data on heat-related deaths proves \"Earth is not too hot\" for humans"
+    },
+    {
+      "claimDate": "2024-07-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-07-18T23:03:00Z",
+          "textualRating": "False",
+          "title": "Passive income scam falsely linked to Royal Bank of Canada",
+          "url": "https://factcheck.afp.com/doc.afp.com.364E282"
+        }
+      ],
+      "claimant": "Multiple People",
+      "text": "David McKay announces a passive income investment program for Canadians"
+    },
+    {
+      "claimDate": "2024-08-22T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-09-05T16:21:00Z",
+          "textualRating": "Altered video",
+          "title": "Video of former US president Donald Trump getting slapped at a rally was digitally altered",
+          "url": "https://factcheck.afp.com/doc.afp.com.36FJ4FR"
+        }
+      ],
+      "claimant": "isaacfayoseoriginal_",
+      "text": "Trump slapped on stage at political rally"
+    },
+    {
+      "claimDate": "2024-11-26T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-12-25T04:18:00Z",
+          "textualRating": "False",
+          "title": "AI-generated image passed off as 'living megalodon discovered by German fishermen'",
+          "url": "https://factcheck.afp.com/doc.afp.com.36QP69V"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Genuine photo of 'living megalodon' in the 20th century"
+    },
+    {
+      "claimDate": "2023-07-10T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2023-07-19T11:19:00Z",
+          "textualRating": "False",
+          "title": "Old crocodile video falsely linked to recent flooding in northern India in July 2023",
+          "url": "https://factcheck.afp.com/doc.afp.com.33P927W"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Crocodile spotted in floodwaters in Ambala, India"
+    },
+    {
+      "claimDate": "2020-11-11T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-11-27T04:00:00Z",
+          "textualRating": "Misleading",
+          "title": "Misleading viral posts shared in Myanmar warn of 'Zombie deer virus' outbreak after Covid-19 spike",
+          "url": "https://factcheck.afp.com/misleading-viral-posts-shared-myanmar-warn-zombie-deer-virus-outbreak-after-covid-19-spike"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Health experts have expressed “great concern” for the “Zombie deer virus”, a virus “scarier than the coronavirus” that spreads among deer"
+    },
+    {
+      "claimDate": "2021-09-09T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-09-20T06:08:00Z",
+          "textualRating": "Misleading",
+          "title": "This video has circulated in reports since 2020 about another conflict in Myanmar",
+          "url": "https://factcheck.afp.com/doc.afp.com.9MQ6XG"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Burmese military envoy being attacked in 2021"
+    },
+    {
+      "claimDate": "2021-08-31T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-09-05T06:14:00Z",
+          "textualRating": "False",
+          "title": "The video shows a huge explosion in Beirut in 2020",
+          "url": "https://factcheck.afp.com/doc.afp.com.9LZ4YH"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Video shows blast in Kabul in August 2021"
+    },
+    {
+      "claimDate": "2024-10-31T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-11-06T00:08:00Z",
+          "textualRating": "Misleading",
+          "title": "No voter fraud proved in Kentucky machine failure video",
+          "url": "https://factcheck.afp.com/doc.afp.com.36LG2E3"
+        }
+      ],
+      "claimant": "Multiple people",
+      "text": "Voting machines in Kentucky switch votes for Trump"
+    },
+    {
+      "claimDate": "2024-06-30T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-07-09T15:51:00Z",
+          "textualRating": "False",
+          "title": "Old video does not show Ugandan leader warning against upcoming protests",
+          "url": "https://factcheck.afp.com/doc.afp.com.363E9QA"
+        }
+      ],
+      "claimant": "Mulitple authors",
+      "text": "Video of Museveni threatening Ugandan protesters in 2024"
+    },
+    {
+      "claimDate": "2020-10-12T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-10-30T05:30:00Z",
+          "textualRating": "Misleading",
+          "title": "Facebook posts exaggerate the Pope’s involvement in NASA space missions",
+          "url": "https://factcheck.afp.com/facebook-posts-exaggerate-popes-involvement-nasa-space-missions"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Photos show Pope blessing NASA astronauts before they embark on a mission"
+    },
+    {
+      "claimDate": "2022-09-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2022-09-14T10:03:00Z",
+          "textualRating": "False",
+          "title": "Posts misidentify wrestler in video as 'Indian Olympian'",
+          "url": "https://factcheck.afp.com/doc.afp.com.32HZ7NY"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Video shows Indian Olympian Bajrang Puni wrestling in a local arena"
+    },
+    {
+      "claimDate": "2019-10-14T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2019-10-23T20:05:00Z",
+          "textualRating": "Misleading",
+          "title": "This image shows a fire in Norway in 2006, not a recent blaze at Bamenda Central Prison",
+          "url": "https://factcheck.afp.com/image-shows-fire-norway-2006-not-recent-blaze-bamenda-central-prison"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Bamenda Central Prison is on fire"
+    },
+    {
+      "claimDate": "2021-02-03T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-02-05T05:30:00Z",
+          "textualRating": "Satire",
+          "title": "Myanmar army chief mocked online for short stature in doctored photo",
+          "url": "https://factcheck.afp.com/myanmar-army-chief-mocked-online-short-stature-doctored-photo"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Photo shows Myanmar army chief standing on stool for photo with foreign military officials"
+    },
+    {
+      "claimDate": "2026-02-11T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2026-02-26T07:08:00Z",
+          "textualRating": "False",
+          "title": "Fabricated video of Indian opposition MP lauding Pakistan for cricket 'diplomacy' misleads online",
+          "url": "https://factcheck.afp.com/doc.afp.com.98LP7KG"
+        }
+      ],
+      "claimant": "Multiple Sources",
+      "text": "Genuine video of Shashi Tharoor praising Pakistan’s cricket diplomacy"
+    },
+    {
+      "claimDate": "2025-02-28T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2025-03-18T08:12:00Z",
+          "textualRating": "False",
+          "title": "Clip shows suspects in Indonesian corruption case, not 'student who insulted Prabowo'",
+          "url": "https://factcheck.afp.com/doc.afp.com.37248C3"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Video shows arrest of Indonesian student who mocked the president."
+    },
+    {
+      "claimDate": "2024-04-14T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-04-18T07:55:00Z",
+          "textualRating": "False",
+          "title": "Social media users incorrectly name killer in Sydney mall attack",
+          "url": "https://factcheck.afp.com/doc.afp.com.34PH9YM"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Benjamin Cohen carried out the stabbings in Westfield Bondi Junction"
+    },
+    {
+      "claimDate": "2024-09-05T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-09-13T10:28:00Z",
+          "textualRating": "False",
+          "title": "Video of candlelight vigil in Bangladesh falsely linked to protests for murdered Indian doctor",
+          "url": "https://factcheck.afp.com/doc.afp.com.36FT48G"
+        }
+      ],
+      "claimant": "Multiple type",
+      "text": "Protest against doctor's rape and murder in India's Kolkata"
+    },
+    {
+      "claimDate": "2023-02-16T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2023-03-18T02:50:00Z",
+          "textualRating": "False",
+          "title": "Photo of 'Turkish imam kissing earthquake hero dog' is doctored",
+          "url": "https://factcheck.afp.com/doc.afp.com.33AW823"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Photo shows Turkish imam kissing paw of hero dog after February 2023 earthquake"
+    },
+    {
+      "claimDate": "2025-09-17T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2025-09-30T09:41:00Z",
+          "textualRating": "False",
+          "title": "Hoax claims about cash aid misuse images of Malaysian PM, news logo",
+          "url": "https://factcheck.afp.com/doc.afp.com.76KP9CQ"
+        }
+      ],
+      "claimant": "Multiple Sources",
+      "text": "Malaysia Prime Minister has approved cash assistance for single mothers"
+    },
+    {
+      "claimDate": "2025-11-24T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2025-12-16T10:46:00Z",
+          "textualRating": "False",
+          "title": "US academic targeted by fabricated clip on China-Japan relations",
+          "url": "https://factcheck.afp.com/doc.afp.com.87MF263"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "John Mearsheimer commented on the China-Japan relation in a recent video"
+    },
+    {
+      "claimDate": "2023-07-01T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2023-09-05T14:55:00Z",
+          "textualRating": "FALSE",
+          "title": "Hoax post falsely claims Canada offers free travel, jobs for Ethiopians and Eritreans",
+          "url": "https://factcheck.afp.com/doc.afp.com.33UD3XD"
+        }
+      ],
+      "claimant": "የኢትዮ-አርትስቶች ገጽ",
+      "text": "Canada offering free travel to Ethiopians and Eritreans"
+    },
+    {
+      "claimDate": "2025-09-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2025-09-16T10:51:00Z",
+          "textualRating": "False",
+          "title": "Video shows donations to Bangladesh mosque, not aid for Punjab flood victims",
+          "url": "https://factcheck.afp.com/doc.afp.com.746Z7NT"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Money collected by Muslims to assist Punjab flood victims."
+    },
+    {
+      "claimDate": "2020-09-12T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-09-25T11:51:00Z",
+          "textualRating": "False",
+          "title": "Posts falsely claim Netflix CEO has been arrested for child pornography",
+          "url": "https://factcheck.afp.com/posts-falsely-claim-netflix-ceo-has-been-arrested-child-pornography"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "FBI arrests Netflix CEO for child pornography"
+    },
+    {
+      "claimDate": "2025-09-27T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2025-10-03T08:56:00Z",
+          "textualRating": "False",
+          "title": "Unrelated clips falsely misrepresented as Super Typhoon Ragasa's impact in China",
+          "url": "https://factcheck.afp.com/doc.afp.com.777T7NT"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Clips of extreme weather events were filmed during Typhoon Ragasa"
+    },
+    {
+      "claimDate": "2025-05-01T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2025-05-05T07:21:00Z",
+          "textualRating": "False",
+          "title": "Singaporean opposition candidate misquoted online ahead of polls",
+          "url": "https://factcheck.afp.com/doc.afp.com.44CE2WD"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Alia Mattar says Israel-Palestine more important than Singaporean issues"
+    },
+    {
+      "claimDate": "2026-04-06T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2026-04-20T16:08:00Z",
+          "textualRating": "AI-generated",
+          "title": "Image of pink missile linked to Iran is AI-generated",
+          "url": "https://factcheck.afp.com/doc.afp.com.A8CJ2NW"
+        }
+      ],
+      "claimant": "Iran embassy in SA",
+      "text": "Image of Iranian-made pink missile"
+    },
+    {
+      "claimDate": "2024-04-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-04-08T05:39:00Z",
+          "textualRating": "False",
+          "title": "Australia did not list George Soros as a 'global terrorist'",
+          "url": "https://factcheck.afp.com/doc.afp.com.34ND87H"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Australia declares George Soros a global terrorist"
+    },
+    {
+      "claimDate": "2020-07-29T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-08-03T16:23:00Z",
+          "textualRating": "False",
+          "title": "The photo does not show Ethiopia's envoy to Sudan but an actress",
+          "url": "https://factcheck.afp.com/photo-does-not-show-ethiopias-envoy-sudan-actress"
+        }
+      ],
+      "claimant": "وائل بشرى Wael Bushra",
+      "text": "A photo of the Ethiopian Ambassador to Sudan"
+    },
+    {
+      "claimDate": "2024-09-09T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-09-11T01:45:00Z",
+          "textualRating": "False",
+          "title": "Trump campaign amplifies baseless rumors of migrants stealing pets",
+          "url": "https://factcheck.afp.com/doc.afp.com.36FW4WA"
+        }
+      ],
+      "claimant": "J.D. Vance",
+      "text": "Haitian migrants in Springfield, Ohio are stealing and eating people's pets"
+    },
+    {
+      "claimDate": "2019-07-08T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2019-07-22T09:00:00Z",
+          "textualRating": "Misleading",
+          "title": "Australia’s rate of homelessness rose 14 per cent between 2011 and 2016, the figures for 2019 have not been published",
+          "url": "https://factcheck.afp.com/australias-rate-homelessness-rose-14-cent-between-2011-and-2016-figures-2019-have-not-been-published"
+        }
+      ],
+      "claimant": "Occupy Australia",
+      "text": "Australia’s rate of homelessness rose 14% after government’s 2019 tax cuts."
+    },
+    {
+      "claimDate": "2020-07-28T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-08-04T12:33:00Z",
+          "textualRating": "Missing context",
+          "title": "This image was created by mirroring an aerial photo of Venice",
+          "url": "https://factcheck.afp.com/image-was-created-mirroring-aerial-photo-venice"
+        }
+      ],
+      "claimant": "Wonderful Engineering Discoveries﻿",
+      "text": "Real image of Italy"
+    },
+    {
+      "claimDate": "2024-07-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-07-11T10:11:00Z",
+          "textualRating": "False",
+          "title": "Old photos of stranded dogs falsely linked to north Myanmar floods in 2024",
+          "url": "https://factcheck.afp.com/doc.afp.com.362J8H6"
+        }
+      ],
+      "claimant": "Multiple Sources",
+      "text": "Stray dogs affected by the floodings in Kachin State"
+    },
+    {
+      "claimDate": "2023-11-30T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2023-12-08T22:20:00Z",
+          "textualRating": "False",
+          "title": "Old TikTok clip falsely claimed to show Palestinians faking deaths",
+          "url": "https://factcheck.afp.com/doc.afp.com.347C2WE"
+        }
+      ],
+      "claimant": "Multiple people",
+      "text": "A video shows Palestinians staging their own deaths in the 2023 war"
+    },
+    {
+      "claimDate": "2024-07-28T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-07-30T21:23:00Z",
+          "textualRating": "False",
+          "title": "Fake Kamala Harris quote circulates amid 2024 Olympics",
+          "url": "https://factcheck.afp.com/doc.afp.com.367E2Y8"
+        }
+      ],
+      "claimant": "Multiple people",
+      "text": "Kamala Harris said: \"Olympians are Olympic\""
+    },
+    {
+      "claimDate": "2021-02-09T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-02-24T10:00:00Z",
+          "textualRating": "Misleading",
+          "title": "These photos shows trees damaged by deforestation in the Sri Lankan city of Polonnaruwa in 2019",
+          "url": "https://factcheck.afp.com/these-photos-shows-trees-damaged-deforestation-sri-lankan-city-polonnaruwa-2019"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Images show deforestation in Polonnaruwa Sri Lanka in 2021"
+    },
+    {
+      "claimDate": "2022-05-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2022-05-18T16:46:00Z",
+          "textualRating": "False",
+          "title": "Fabricated campaign posters for Dutch CEO born in Nigeria circulate online ahead of 2023 elections",
+          "url": "https://factcheck.afp.com/doc.afp.com.32AD2LH"
+        }
+      ],
+      "claimant": "Sahara Reporters",
+      "text": "Wiebe Boer aims to become Plateau state governor"
+    },
+    {
+      "claimDate": "2026-01-11T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2026-01-20T05:20:00Z",
+          "textualRating": "False",
+          "title": "AI-generated images of bank notes circulate online after Myanmar armed group declares independence",
+          "url": "https://factcheck.afp.com/doc.afp.com.92W9464"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "New bank note of Kawthoolei"
+    },
+    {
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2019-10-29T10:00:00Z",
+          "textualRating": "FALSE",
+          "title": "This video shows buses on fire in Santiago, Chile during violent protests",
+          "url": "https://factcheck.afp.com/video-shows-buses-fire-santiago-chile-during-violent-protests"
+        }
+      ],
+      "claimant": "multiple sources",
+      "text": "Video of electric bus explosion in China"
+    },
+    {
+      "claimDate": "2023-02-16T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2023-05-26T11:08:00Z",
+          "textualRating": "false",
+          "title": "Posts falsely claim image shows bedroom of late Nigerian politician",
+          "url": "https://factcheck.afp.com/doc.afp.com.33G93G8"
+        }
+      ],
+      "claimant": "A.Ayofe",
+      "text": "Picture shows Nigerian politician’s abandoned bedroom?"
+    },
+    {
+      "claimDate": "2021-08-15T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-08-19T20:34:00Z",
+          "textualRating": "FALSE",
+          "title": "CNN did not describe Afghanistan as 'violent but mostly peaceful'",
+          "url": "https://factcheck.afp.com/doc.afp.com.9LC2QH"
+        }
+      ],
+      "claimant": "Multiple people",
+      "text": "CNN described Afghanistan as 'violent but mostly peaceful'"
+    },
+    {
+      "claimDate": "2024-08-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-08-09T20:59:00Z",
+          "textualRating": "False",
+          "title": "Tim Walz did not sign Minnesota law protecting pedophiles",
+          "url": "https://factcheck.afp.com/doc.afp.com.36CQ6ZW"
+        }
+      ],
+      "claimant": "Various authors",
+      "text": "Tim Walz signed bill protecting pedophiles"
+    },
+    {
+      "claimDate": "2020-02-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-03-02T05:35:00Z",
+          "textualRating": "False",
+          "title": "No, this video shows a road rage incident in the Indian state of Maharashtra",
+          "url": "https://factcheck.afp.com/no-video-shows-road-rage-incident-indian-state-maharashtra"
+        }
+      ],
+      "claimant": "Multiple Sources",
+      "text": "Muslim protesters attack bus in Delhi during communal clashes"
+    },
+    {
+      "claimDate": "2023-01-03T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2023-03-20T22:18:00Z",
+          "textualRating": "False",
+          "title": "Video falsely claims HPV vaccine contains dangerous ingredient",
+          "url": "https://factcheck.afp.com/doc.afp.com.33BG4QE"
+        }
+      ],
+      "claimant": "Multiple people",
+      "text": "There is graphene in Gardasil's HPV vaccine"
+    },
+    {
+      "claimDate": "2021-04-07T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-04-16T18:18:00Z",
+          "textualRating": "False",
+          "title": "Covid-19 vaccinations offered by Ontario mobile clinics are voluntary",
+          "url": "https://factcheck.afp.com/covid-19-vaccinations-offered-ontario-mobile-clinics-are-voluntary"
+        }
+      ],
+      "claimant": "Multiple people",
+      "text": "Ontario doctors are going door-to-door to force people to get Covid-19 vaccines"
+    },
+    {
+      "claimDate": "2022-10-17T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2022-10-20T11:15:00Z",
+          "textualRating": "Misleading",
+          "title": "Documentary on Pakistani PM's alleged corruption is produced independently, not by Netflix",
+          "url": "https://factcheck.afp.com/doc.afp.com.32LP2MX"
+        }
+      ],
+      "claimant": "Multiple Sources",
+      "text": "Netflix is producing a documentary on Pakistani PM's alleged corruption"
+    },
+    {
+      "claimDate": "2021-10-13T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-10-20T07:01:00Z",
+          "textualRating": "Missing context",
+          "title": "Sri Lankan minister did not promise new drug can 'eradicate' Covid",
+          "url": "https://factcheck.afp.com/doc.afp.com.9PP6XN"
+        }
+      ],
+      "claimant": "Hiru News",
+      "text": "Sri Lanka to import drug to fully eradicate Covid-19"
+    },
+    {
+      "claimDate": "2020-01-08T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-01-09T19:32:00Z",
+          "textualRating": "Out of context",
+          "title": "Iranian strikes in Iraq: decontextualized videos abound",
+          "url": "https://factcheck.afp.com/iranian-strikes-iraq-decontextualized-videos-abound"
+        }
+      ],
+      "claimant": "[site:name]",
+      "text": "Iranian strikes on Iraq on the night of January 7-8, 2020"
+    },
+    {
+      "claimDate": "2019-05-20T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-07-13T06:10:00Z",
+          "textualRating": "1",
+          "title": "Health experts refute misleading claim that consuming durian and cola together can be lethal",
+          "url": "https://factcheck.afp.com/health-experts-refute-misleading-claim-consuming-durian-and-cola-together-can-be-lethal"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Eating durian with coke together can cause death?"
+    },
+    {
+      "claimDate": "2021-03-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-03-08T13:25:00Z",
+          "textualRating": "False",
+          "title": "This image is an AFP photo that shows a dog culling in 2015 in Pakistan, not Myanmar",
+          "url": "https://factcheck.afp.com/image-afp-photo-shows-dog-culling-2015-pakistan-not-myanmar"
+        }
+      ],
+      "claimant": "Multiple Sources",
+      "text": "Photo shows dogs killed by Myanmar military?"
+    },
+    {
+      "claimDate": "2021-07-20T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-07-21T19:09:00Z",
+          "textualRating": "False",
+          "title": "Biden did not announce 'quarantine camps' for unvaccinated Americans",
+          "url": "https://factcheck.afp.com/doc.afp.com.9FG3G4"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Joe Biden announced unvaccinated Americans will be sent to camps"
+    },
+    {
+      "claimDate": "2025-05-16T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2025-05-22T11:18:00Z",
+          "textualRating": "False",
+          "title": "Footage of assault predates latest India-Pakistan conflict",
+          "url": "https://factcheck.afp.com/doc.afp.com.47967NP"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Clip shows Pakistani woman beaten for demanding proof of strikes on India"
+    },
+    {
+      "claimDate": "2026-03-18T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2026-03-27T09:55:00Z",
+          "textualRating": "False",
+          "title": "Pictured repatriated cyberscam suspects all South Korean, say police",
+          "url": "https://factcheck.afp.com/doc.afp.com.A4GA9G3"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Scam suspects repatriated to South Korea from Cambodia are Chinese."
+    },
+    {
+      "claimDate": "2020-04-24T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-05-01T02:48:00Z",
+          "textualRating": "False",
+          "title": "This video has circulated online since March 2019 about a fire in China’s Kaifeng city",
+          "url": "https://factcheck.afp.com/video-has-circulated-online-march-2019-about-fire-chinas-kaifeng-city"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Video shows fire at apartment building in Kaifeng, Henan, China in 2020"
+    },
+    {
+      "claimDate": "2022-07-31T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2022-08-12T19:55:00Z",
+          "textualRating": "Misleading",
+          "title": "Posts mislead on human consumption of insects",
+          "url": "https://factcheck.afp.com/doc.afp.com.32GB9GE"
+        }
+      ],
+      "claimant": "Multiple",
+      "text": "Insects contain a compound that cannot be digested by humans"
+    },
+    {
+      "claimDate": "2023-07-30T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2023-08-09T11:27:00Z",
+          "textualRating": "False",
+          "title": "Philippine president's photo misused in false posts saying he 'reinstated capital punishment'",
+          "url": "https://factcheck.afp.com/doc.afp.com.33QP3KJ"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "The Philippines has reinstated the death penalty"
+    },
+    {
+      "claimDate": "2019-10-14T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2019-10-24T10:15:00Z",
+          "textualRating": "False",
+          "title": "This photo shows a road constructed after a landslide destroyed a Japanese highway in July 2018",
+          "url": "https://factcheck.afp.com/photo-shows-road-constructed-after-landslide-destroyed-japanese-highway-july-2018"
+        }
+      ],
+      "claimant": "[site:name]",
+      "text": "Temporary road built in 24 hours after Typhoon Hagibis hit Japan in October 2019"
+    },
+    {
+      "claimDate": "2021-08-11T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2021-08-17T07:35:00Z",
+          "textualRating": "Partly False",
+          "title": "This photo was taken in Russia -- it does not show a Myanmar youth jumping from a building",
+          "url": "https://factcheck.afp.com/doc.afp.com.9L83C7"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Posts show Myanmar youths jumping from building to escape arrest"
+    },
+    {
+      "claimDate": "2022-06-13T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2022-07-06T12:08:00Z",
+          "textualRating": "False",
+          "title": "Incorrect report about Hyderabad blast near mosque shared alongside false 'terrorism' claim",
+          "url": "https://factcheck.afp.com/doc.afp.com.32DA9XA"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Chemical blast inside a mosque in Gowliguda Gol mosque was terror-related"
+    },
+    {
+      "claimDate": "2024-09-23T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-10-02T18:04:00Z",
+          "textualRating": "False",
+          "title": "False claims about 'aspirational' UN pact spread online",
+          "url": "https://factcheck.afp.com/doc.afp.com.36H42XK"
+        }
+      ],
+      "claimant": "Sherri Tenpenny",
+      "text": "The UN \"Pact for the Future\" can override domestic laws"
+    },
+    {
+      "claimDate": "2024-06-19T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-06-27T08:44:00Z",
+          "textualRating": "False",
+          "title": "Old video shows woman burning French flag in Morocco, not France",
+          "url": "https://factcheck.afp.com/doc.afp.com.34YG4TH"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "A woman burns a French flag during a pro-Palestinian rally in France."
+    },
+    {
+      "claimDate": "2020-07-02T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-07-24T22:39:00Z",
+          "textualRating": "False",
+          "title": "This photo shows Boris Johnson with his first wife Allegra Mostyn-Owen in 1986",
+          "url": "https://factcheck.afp.com/photo-shows-boris-johnson-his-first-wife-allegra-mostyn-owen-1986"
+        }
+      ],
+      "claimant": "Multiple Sources",
+      "text": "This photo shows Boris Johnson with Ghislaine Maxwell"
+    },
+    {
+      "claimDate": "2024-03-12T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-03-19T05:13:00Z",
+          "textualRating": "Misleading",
+          "title": "Photo of newly hired S. Korea doctors misrepresented in posts about medics walkout",
+          "url": "https://factcheck.afp.com/doc.afp.com.34LK77Q"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Professors at Hanyang University Hospital resigned before March 12"
+    },
+    {
+      "claimDate": "2020-03-17T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-03-26T07:40:00Z",
+          "textualRating": "False",
+          "title": "This photo shows coffins for dead migrants after a boat capsized off the coast of Italy in 2013",
+          "url": "https://factcheck.afp.com/photo-shows-coffins-dead-migrants-after-boat-capsized-coast-italy-2013"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Picture shows those deceased from COVID-19 in Italy"
+    },
+    {
+      "claimDate": "2019-03-19T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2019-04-05T12:50:00Z",
+          "textualRating": "Hoax",
+          "title": "This is not real footage of an Amazon drone-delivery blimp",
+          "url": "https://factcheck.afp.com/not-real-footage-amazon-drone-delivery-blimp"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Footage of Amazon drone-delivery blimp"
+    },
+    {
+      "claimDate": "2020-07-24T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-07-30T04:45:00Z",
+          "textualRating": "False",
+          "title": "This photo shows a Libyan military jet that was shot down over Benghazi in 2011",
+          "url": "https://factcheck.afp.com/photo-shows-libyan-military-jet-was-shot-down-over-benghazi-2011"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Nepal shoots down intruding Indian fighter jet"
+    },
+    {
+      "claimDate": "2025-05-10T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2025-05-20T11:29:00Z",
+          "textualRating": "False",
+          "title": "Clip shows air strikes in Lebanon, not attack on Pakistan military base",
+          "url": "https://factcheck.afp.com/doc.afp.com.467C4G2"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Video of Indian strikes on airbase in Lahore."
+    },
+    {
+      "claimDate": "2020-07-08T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-07-30T16:44:00Z",
+          "textualRating": "False",
+          "title": "Holy communion has not been banned in Toronto",
+          "url": "https://factcheck.afp.com/holy-communion-has-not-been-banned-toronto"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Holy communion banned in Toronto"
+    },
+    {
+      "claimDate": "2024-09-30T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2024-10-04T19:50:00Z",
+          "textualRating": "False",
+          "title": "Fabricated image of Hurricane Helene flooding spreads online",
+          "url": "https://factcheck.afp.com/doc.afp.com.36J668A"
+        }
+      ],
+      "claimant": "Multiple people",
+      "text": "Image shows Gatlinburg, Tennessee after Hurricane Helene"
+    },
+    {
+      "claimDate": "2020-11-01T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2020-11-03T22:44:00Z",
+          "textualRating": "False",
+          "title": "‘Quebec Halloween attacker’ video not authentic, police say",
+          "url": "https://factcheck.afp.com/quebec-halloween-attacker-video-not-authentic-police-say"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Video shows Quebec Halloween attacker"
+    },
+    {
+      "claimDate": "2023-04-12T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2023-04-19T08:13:00Z",
+          "textualRating": "False",
+          "title": "Tweet falsely claims Joe Biden announced Nigeria stopover en route to N. Ireland",
+          "url": "https://factcheck.afp.com/doc.afp.com.33DE8K2"
+        }
+      ],
+      "claimant": "Aina Dipo",
+      "text": "US president tweets plans to visit to Nigeria on way to Northern Ireland"
+    },
+    {
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2019-03-21T17:41:00Z",
+          "textualRating": "False",
+          "title": "No, Nigeria’s Supreme Court has not nullified the results of the presidential election or called for a new vote",
+          "url": "https://factcheck.afp.com/no-nigerias-supreme-court-has-not-nullified-results-presidential-election-or-called-new-vote"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Nigeria Supreme Court has nullified election results and called new vote"
+    },
+    {
+      "claimDate": "2023-01-25T00:00:00Z",
+      "claimReview": [
+        {
+          "languageCode": "en",
+          "publisher": {
+            "name": "AFP Fact Check",
+            "site": "factcheck.afp.com"
+          },
+          "reviewDate": "2023-01-27T05:43:00Z",
+          "textualRating": "Altered image",
+          "title": "Image of South Korea's Moon Jae-in was doctored to include book calling him 'the dog of North Korea'",
+          "url": "https://factcheck.afp.com/doc.afp.com.337V37P"
+        }
+      ],
+      "claimant": "Multiple sources",
+      "text": "Photo shows Moon Jae-in holding a Japanese book calling him \"North Korea's dog\""
+    }
+  ],
+  "nextPageToken": "CMwI"
+}

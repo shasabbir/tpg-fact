@@ -1,0 +1,94 @@
+International Journal of Multimedia Information Retrieval (2024) 13 :4 Page 7 of 15 4
+pair with:
+argmax
+C fj ∈CF
+⎧
+⎨
+⎩
+sim (TCti , TC fj ), p ≤ 0.5
+sim (VI ti , TC fj ), p > 0.5 (1)
+where p ∈[ 0, 1] is a uniformly sampled number that
+determines calculating the cosine similarity ( sim ) between
+text-to-text or image-to-text pairs.
+We apply crossmodal hard synthetic misalignment between
+VisualNews [30] dataset—consisting of 1,259,732 (I ti , Cti )
+pairs—and the Fakeddit dataset (I fj , C fj ) [35]. Out of the
+400K misleading captions in CF in the Fakeddit dataset, the
+misalignment process only retains 145,891. The resulting
+generated dataset, termed CHASMA, is balanced between
+1.2M(I ti , Cti ) truthful and 1.2M(I ti , C fj ) miscaptioned pairs.
+Since C fj from Fakeddit may have been aligned with more
+than one image from VisualNews, we also create CHASMA-
+D by removing duplicate instances of C fj . We balance the
+classes of CHASMA-D through random down-sampling. The
+resulting dataset consists of 145,891 (I ti , Cti ) and an equal
+number of (I ti , C fj ).
+We randomly sample 100 instances from the generated
+data and determined that approximately 73% of generated
+(I ti , C fj ) can be considered MM, while 12% are Asymmetric-
+MM. Moreover, 6% of the pairs in the dataset are accidentally
+correct pairs, for instance, an image of ﬁreﬁghters near
+a ﬁre being paired with the caption “Firemen battling a
+blaze”. Finally, 9% of pairs are unclear, containing click-
+bait captions as “Y ou’ll never guess how far new home
+prices have dropped” which are paired with a weakly relevant
+image and cannot necessarily be considered misinformation.
+Naturally, the proposed method is not perfect, with approx-
+imately 27% of its samples not aligning with our deﬁnition
+of MM. Nevertheless, it provides a signiﬁcant improvement
+over the original Fakeddit dataset where roughly 45% are
+Asymmetric-MM and only 14% are MM.
+As seen in the examples of Fig. 3 (bottom), misleading
+captions C fj from Fakeddit can contain humour, irony and be
+more imaginative than named entity substitutions. However,
+their connections with the images I fj are often Asymmetric-
+MM or can be easy to detect (e.g. an illustrated image being
+humorously paired with a real demonstration). Conversely,
+CHASMA maintains the “desired” aspects of C fj (e.g. sar-
+casm, emotions, etc.) but pairs them with more relevant
+imagery, thus creating “hard” samples and by extension more
+robust training data. For example, consider the case shown in
+Fig. 3, where an illustrated image is humorously paired with
+a caption about a demonstration and is subsequently “mis-
+aligned” with an image of a real protest, thus creating a more
+realistic misleading pair.
+In contrast to NEI-based methods, our generated samples
+consists of human-written misinformation rather than simple
+named entity manipulations. Finally, unlike NewsCLIPings,
+CHASMA utilizes CLIP-based retrieval to generate MC
+rather than OOC pairs and employs both intra-modal and
+crossmodal similarity to create synthetic samples.
+3.4 Detection model
+In our experiments, we encode all image-caption pairs(I, C)
+using the pre-trained CLIP ViT-L/14 [ 41] both as the image
+encoder EI (·) and the textual encoder EC(·) that produce
+"Campaigners speak as the Queen
+musician and activist Brian May
+looks on at an animal welfare rally."
+"Protestors gather outside No 10
+demanding the release of
+Tommy Robinson, founder of
+the EDL. (2018)."
+"Lockdown at the White House
+lifted after a nearby shooting."
+"U.S. Forces Take Control Of
+White House."
+"Destruction caused by a flash
+flood along Main Street"
+"Great News For Anyone Who
+Hates Conner: He Wrecked His
+Mom’s Car While Driving Drunk
+And It Looks Like He’s Going To
+Lose His Tennis Scholarship To
+Georgetown."
+VisualNews
+True pairs (It, Ct)
+Misalign (It, Cf)
+CLIP-based
+Retrieval
+Misalign (It, Cf)
+Misalign (It, Cf)
+Fakeddit
+Misleading pairs (If, Cf)
+Fig. 3 Training samples from CHASMA when applied across the VisualNews and Fakeddit datasets
+123

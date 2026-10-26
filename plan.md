@@ -2,14 +2,14 @@
 
 ## Document control
 
-- **Study:** Temporal and Evidence-Source Provenance-Aware Multimodal Misinformation Detection with Calibrated Abstention
-- **Short name:** TPG-Fact / US-TPMFC
+- **Study:** Decision-Time Provenance for Multimodal Fact-Checking: Independent Evidence, Temporal Validity, and Calibrated Deferral
+- **Short name:** DTP-Fact / US-TPMFC
 - **Primary venue:** IEEE Transactions on Computational Social Systems (TCSS)
 - **Principal author:** Sabbir Hossain
 - **Institution:** Department of Computer Science, American International University-Bangladesh, Dhaka, Bangladesh
 - **Email:** 26-94030-1@student.aiub.edu
-- **Plan status:** Active; protocol and software scaffold implemented, real-data feasibility pilot not yet executed
-- **Last updated:** 2026-10-17
+- **Plan status:** Active; the redesigned 200-case evidence-first pilot passes the automated coverage and split-integrity gates, while human confirmation, gold sufficiency labels, audited cross-domain dependency clustering, the final corpus decision, and CUDA experiments remain outstanding
+- **Last updated:** 2026-10-25
 
 This file is the single source of truth for the study. It must be read before substantive data, model, evaluation, or manuscript work. After every material change, update the applicable checklist, decision/deviation log, evidence status, and next actions here. A change to the method invalidates dependent results until the affected experiments are rerun.
 
@@ -26,7 +26,7 @@ Synthetic smoke-test values are software diagnostics only. They are never scient
 
 Create a full IEEE TCSS-style study titled:
 
-> **Temporal and Evidence-Source Provenance-Aware Multimodal Misinformation Detection with Calibrated Abstention**
+> **Decision-Time Provenance for Multimodal Fact-Checking: Independent Evidence, Temporal Validity, and Calibrated Deferral**
 
 The system will classify US-focused image-text claims as:
 
@@ -36,23 +36,26 @@ The system will classify US-focused image-text claims as:
 
 The central research question is:
 
-> Does reasoning over time-valid, independently sourced evidence improve future-event multimodal misinformation detection and reduce overconfident decisions compared with ordinary multimodal RAG?
+> Does decision-time-valid, independently corroborated evidence improve future-event multimodal fact-checking and selective risk compared with matched document-level RAG?
 
 The central test compares the full temporal-provenance system with a matched vanilla multimodal RAG system under a future-event, event-disjoint evaluation.
 
 ### Planned contributions
 
-1. A temporally partitioned US multimodal fact-checking benchmark.
-2. A provenance graph representing evidence duplication, citation, source, image reuse, and publication time.
-3. A hierarchical sufficiency-and-veracity detector.
-4. Temporal-leakage, duplicated-source, calibration, abstention, and future-event evaluations.
+1. A decision-time evidence protocol that requires a documented pre-cutoff observation and audits timestamp confidence.
+2. Source-dependence-aware corroboration that bounds the contribution of copied and syndicated documents without treating dependence as credibility.
+3. A sufficiency-first three-way detector with calibrated selective deferral, where sufficiency supervision is separately audited.
+4. Counterfactual leakage and duplication interventions under chronological, event-disjoint evaluation.
 
 ### Scope boundaries
 
 - The study is US-specific and will not claim global generalization.
 - “Provenance” means evidence origin and source dependence, not only human-versus-AI authorship.
+- Source dependence is distinct from source credibility; credibility is not a primary-model weight.
 - Professional fact-checker verdicts are inherited labels; the project does not claim new human annotation.
 - Automatically extracted evidence links are silver evidence.
+- `claim_time` is the earliest observed public appearance of the claim. `decision_cutoff` is the fact-check publication time or a documented equivalent.
+- The 2026 test period is a partial-year snapshot ending at the first successful frozen candidate collection, `2026-10-24T07:53:33.754563Z`, and must be reported separately from 2025; the earlier planned date of 2026-10-21 was not a completed data snapshot.
 - Q1 publication is an objective, not a guaranteed outcome.
 - No result may be described as measured until its raw artifact and configuration are preserved.
 
@@ -153,7 +156,8 @@ Use open sources only:
 
 - ClaimReview for claim and verdict metadata;
 - GDELT for evidence discovery;
-- Common Crawl for archived page recovery and timestamps.
+- Common Crawl for archived page recovery and timestamps;
+- Internet Archive CDX as an independent fallback when no Common Crawl collection overlaps the publication-to-decision interval.
 
 Exclude fact-check articles and post-cutoff documents from the evidence pool.
 
@@ -182,7 +186,8 @@ Claim record:
 ```text
 claim_id, claim_text, claim_image_url, image_sha256, image_phash,
 claim_time, decision_cutoff, fact_check_url, source_rating,
-normalized_label, event_id, evidence_ids
+normalized_label, event_id, evidence_ids, cutoff_basis, cutoff_confidence,
+sufficiency_target, sufficiency_target_source
 ```
 
 Evidence record:
@@ -190,7 +195,8 @@ Evidence record:
 ```text
 evidence_id, url, domain, title, published_at, archived_at,
 text_sha256, image_phash, media_type, source_cluster_id,
-outgoing_links, retrieval_query
+outgoing_links, retrieval_query, timestamp_confidence, timestamp_source,
+dependency_signals
 ```
 
 Prediction record:
@@ -203,6 +209,10 @@ source_cluster_ids, decision_cutoff
 
 Release code, URL/hash metadata, graph annotations, retrieval logs, and split manifests without redistributing copyrighted articles or images.
 
+For the primary analysis, evidence must have both a publication time at or before the decision cutoff and an independent archive or crawl observation at or before the cutoff. Timestamp confidence is recorded as `confirmed`, `observed`, or `uncertain`. Uncertain items are excluded from the primary analysis and admitted only in a named sensitivity analysis. A post-cutoff crawl does not prove pre-cutoff availability.
+
+Site-specific rating dictionaries are frozen and audited rather than inferred with one global keyword rule. The sufficiency target is not derived automatically from the professional verdict. A manually audited subset supplies gold sufficiency labels; any automatically derived labels are reported as silver and evaluated separately.
+
 ### 3.4 Retrieval and provenance model
 
 1. Extract entities, dates, OCR text, and image captions.
@@ -211,13 +221,13 @@ Release code, URL/hash metadata, graph annotations, retrieval logs, and split ma
 4. Fuse rankings with reciprocal-rank fusion.
 5. Rerank 100 candidates and retain the top 20 time-valid items.
 6. Construct a heterogeneous temporal-provenance graph.
-7. Cluster copied and syndicated evidence using MinHash, semantic similarity, image pHash, hyperlinks, domains, and publication order.
-8. Encode the graph with a heterogeneous graph transformer.
-9. Aggregate independent source clusters rather than raw document counts.
+7. Cluster copied and syndicated evidence using exact hashes, MinHash, semantic similarity, image pHash, hyperlinks, and publication order; validate clusters on an audited sample.
+8. Encode typed claim, document, image, publisher, and cluster relations with a relation-aware graph encoder.
+9. Aggregate independent source clusters rather than raw document counts, with each cluster contributing bounded total mass.
 10. Predict evidence sufficiency first and veracity second.
 11. Apply validation-fitted temperature scaling and an abstention threshold targeting 80% coverage.
 
-Qwen2.5-VL-7B-Instruct will serve as an open multimodal comparison and optional query generator, not as an unverified label source. Record the exact model revision, prompt, decoding configuration, and execution date when used.
+Qwen2.5-VL-7B-Instruct will serve as an open multimodal comparison and optional query generator, not as an unverified label source. Record the exact model revision, prompt, decoding configuration, and execution date when used. The graph architecture is an implementation choice, not the principal novelty; if a simpler cluster-aware aggregator matches it, report that result and narrow the method claim.
 
 ## 4. Experiment and testing plan
 
@@ -226,12 +236,16 @@ Qwen2.5-VL-7B-Instruct will serve as an open multimodal comparison and optional 
 1. Majority-class baseline.
 2. Text-only encoder.
 3. Image-text fusion without retrieval.
-4. Multimodal LLM zero-shot and few-shot.
-5. Vanilla multimodal RAG.
-6. Time-filtered RAG without provenance.
-7. Provenance-aware RAG without temporal filtering.
-8. RED-DOT where its implementation is compatible.
-9. Full temporal-provenance model.
+4. Uncertainty-aware image-text fusion, following MDF-FND where reproducible.
+5. Event-aware graph model without external retrieval, following Event-Radar where reproducible.
+6. Multimodal LLM zero-shot and few-shot.
+7. Vanilla multimodal RAG.
+8. Document-level evidence summarization or aggregation.
+9. Original-context prediction, following COVE/5Pils where compatible.
+10. Time-filtered RAG without provenance.
+11. Provenance-aware RAG without temporal filtering.
+12. RED-DOT where its implementation is compatible.
+13. Full decision-time provenance model.
 
 All controlled baselines receive the same evidence corpus, splits, metrics, and 20-trial validation tuning budget. Any unavoidable difference in pretraining, information access, or implementation must be disclosed.
 
@@ -257,7 +271,7 @@ Remove individually:
 - temporal filtering;
 - source-dependency clustering;
 - temporal graph features;
-- graph transformer;
+- graph encoder, replaced by a parameter-matched cluster-aware pooling model;
 - text evidence;
 - visual evidence;
 - evidence-sufficiency gate;
@@ -271,6 +285,7 @@ Remove individually:
 - Introduce conflicting dependent and independent evidence.
 - Swap captions and reuse historical images.
 - Evaluate by topic and chronological window.
+- Report 2025 and partial-2026 results separately and jointly.
 
 ### 4.5 Reproducibility and statistical tests
 
@@ -289,9 +304,9 @@ Drop any claim whose corresponding test fails. If the graph does not improve det
 
 | Intended claim | Required comparison/control | Measurement | Independent unit and uncertainty | Falsifier / consequence |
 |---|---|---|---|---|
-| Time-valid retrieval improves future-event classification | Full model vs. matched vanilla RAG and provenance-only RAG | Test macro-F1; leakage stress test | Event-level paired bootstrap, five seeds | No improvement outside leaked setting → drop/narrow temporal-benefit claim |
+| Decision-time filtering prevents future-information leakage and improves valid future-event classification | Full model vs. matched vanilla RAG and provenance-only RAG | Test macro-F1; post-cutoff verdict intervention | Event-level paired bootstrap, five seeds | No improvement outside leaked setting → retain leakage audit only and drop performance claim |
 | Source-dependency modeling prevents duplicate evidence inflation | Full model vs. no-clustering ablation under 1/5/10 copy injection | Macro-F1, confidence shift, Brier, selective risk | Event-level paired comparisons | Similar degradation or no robustness benefit → drop/narrow provenance claim |
-| Sufficiency-first prediction improves handling of unavailable evidence | Full model vs. flat three-way classifier and no-gate ablation | Insufficient-evidence F1, macro-F1, Brier | Event-level paired bootstrap | No benefit or worse supported/refuted performance without selective-risk gain → remove claim |
+| Sufficiency-first prediction improves handling of unavailable evidence | Full model vs. flat three-way classifier and no-gate ablation on the audited sufficiency subset | Insufficient-evidence F1, macro-F1, Brier | Event-level paired bootstrap | No benefit or worse supported/refuted performance without selective-risk gain → remove claim |
 | Calibrated abstention reduces operational risk | Temperature-scaled threshold vs. uncalibrated confidence at matched coverage | AURC and risk at 80% coverage | Event-level bootstrap; validation-selected threshold | Selective risk does not improve at matched coverage → remove calibrated-abstention claim |
 | Multimodal evidence is necessary | Full model vs. text-only and visual-only evidence ablations | Macro-F1 and topic/window breakdown | Event-level paired bootstrap | One modality matches full model within uncertainty → narrow multimodal necessity claim |
 | US-TPMFC supports benchmark-level conclusions | Corpus passes all preregistered thresholds and audit | Counts, class balance, event counts, evidence-cluster coverage | Dataset records grouped by event | Any threshold fails → release/use only as stress test |
@@ -302,15 +317,14 @@ Drop any claim whose corresponding test fails. If the graph does not improve det
 
 1. Introduction
 2. Related Work
-3. Task and Benchmark Construction
-4. Temporal-Provenance Method
+3. Dataset and Task
+4. Methodology
 5. Experimental Setup
 6. Results
-7. Robustness, Calibration, and Error Analysis
-8. Ethical Considerations and Limitations
-9. Conclusion
+7. Discussion
+8. Conclusion
 
-The current source groups discussion, ethics, and limitations in one section file and contains eight included section files. Split or rename files only when useful; preserve the nine-part conceptual structure in the final manuscript.
+Keep robustness, calibration, error analysis, ethical considerations, and limitations as conventional subsections within Results or Discussion. Do not invent decorative section names.
 
 ### Reporting discipline
 
@@ -339,28 +353,39 @@ Status markers: `[x]` complete, `[~]` in progress/partial, `[ ]` not started, `[
 - [x] Add editable architecture and temporal-split figures plus a claim-to-test matrix.
 - [x] Document environment setup, smoke checks, pilot ingestion, seeded runs, evaluation, notebooks, and LaTeX compilation.
 - [x] Compile and visually inspect the current paper and supplement.
+- [x] Audit all 17 supplied reference PDFs and record venue-priority caveats.
+- [x] Revise the novelty position around decision-time validity and independent corroboration.
+- [x] Implement timestamp-confidence checks, cluster-normalized weights, feasibility auditing, deterministic evidence interventions, and optional dense retrieval adapters.
 
 **Gate:** Passed for the software/protocol scaffold only. This gate does not establish scientific readiness.
 
 ### M2 — 200-claim feasibility pilot
 
-- [ ] Freeze eligible fact-checker sources and collection snapshot date.
-- [ ] Collect at least 200 candidate image-text claims.
-- [ ] Run explicit-label mapping and exclusion audit.
-- [ ] Verify timestamps, image recoverability, and archive availability.
-- [ ] Audit 200 records manually for extraction quality.
-- [ ] Estimate label balance, event counts, independent-source coverage, runtime, storage, and failure rates.
-- [ ] Decide whether the 2,000-case benchmark thresholds are feasible.
+- [x] The initial professional fact-checker allowlist is frozen in `configs/base.yaml`, and the first authenticated candidate snapshot is frozen at `2026-10-24T07:53:33.754563Z`.
+- [x] Implement paginated API collection, untouched raw-response preservation, candidate-review validation, verified image download/hashing, GDELT candidate discovery, Common Crawl observation checking, and a pilot-specific assessment.
+- [x] Collect and validate a broad screening pool: 32,898 pending candidates, 440 raw API pages, and no review-schema errors.
+- [x] Generate a deterministic 1,200-row screening queue balanced at 400 candidates per suggested label; preserve its input/output hashes and manifest.
+- [x] Preserve the initial AI-assisted Snopes pilot as a failed evidence-discovery attempt rather than silently replacing its result.
+- [x] Collect an expanded 30,074-row uncapped ClaimReview snapshot from AFP, PolitiFact, and Snopes and screen 1,099 visual/evidence-first pages with structured ClaimReview checks.
+- [x] Audit 270 initial and 97 supplemental contact-sheet candidates, excluding non-US cases and duplicate claim/image instances, then freeze 200 passing cases with complete SHA-256 and pHash values.
+- [x] Run explicit structured-ClaimReview label mapping and preserve the exclusion audit.
+- [x] Verify timestamps, image recoverability, and archive availability: all 200 claims have verified images and at least one decision-time-valid evidence item; 682 evidence records pass chronology checks.
+- [x] Assign timestamp confidence with supporting provenance: embedded Web Archive citations and independently queried Internet Archive CDX observations use `published_at <= archived_at <= decision_cutoff`; unresolved or post-cutoff items are excluded.
+- [ ] Create and audit gold evidence-sufficiency labels; do not infer them only from verdict strings.
+- [!] Obtain human confirmation of the AI-assisted 200-record extraction audit; the current artifact explicitly makes no human-verification or inter-annotator-reliability claim.
+- [x] Measure pilot label balance, temporal coverage, independent-source coverage, and screening yield.
+- [x] Apply the redesigned feasibility decision: 200/200 claims have time-valid evidence and 141/200 (70.5%) have at least two time-valid source-domain clusters, so automated scale preparation and pilot modeling may proceed.
+- [x] Freeze 50 train, 39 validation, and 111 test cases; verify that exact event IDs and image pHashes do not cross temporal partitions.
 
-**Gate:** Do not scale collection or train a main model until feasibility, access, and temporal metadata quality are documented.
+**Gate:** Passed for automated collection feasibility and pilot-model execution. This is not a human-audited or final-benchmark gate: the 141 two-source counts are source-domain clusters pending cross-domain syndication/dependence validation, gold sufficiency labels remain absent, and the 2,000-case/300-per-label thresholds have not been met.
 
 ### M3 — Corpus and split freeze
 
 - [ ] Complete eligible corpus collection.
 - [ ] Freeze inclusion/exclusion rules.
-- [ ] Freeze record IDs, hashes, event groups, and decision cutoffs.
-- [ ] Freeze train/validation/test manifests.
-- [ ] Pass event, near-duplicate claim, and image-overlap tests.
+- [~] Freeze record IDs, hashes, event groups, and decision cutoffs: complete for the 200-case pilot only.
+- [~] Freeze train/validation/test manifests: complete for the pilot only (50/39/111).
+- [~] Pass event, near-duplicate claim, and image-overlap tests: exact event-ID and pHash leakage checks pass for the pilot; semantic near-duplicate auditing remains required for the final corpus.
 - [ ] Report original and post-filter counts.
 - [ ] Decide benchmark contribution vs. stress-test fallback using preregistered thresholds.
 
@@ -370,20 +395,21 @@ Status markers: `[x]` complete, `[~]` in progress/partial, `[ ]` not started, `[
 - [ ] Exclude fact-check domains and post-cutoff evidence.
 - [ ] Freeze BM25, BGE-M3, SigLIP2, pHash, fusion, reranking, and top-k settings.
 - [ ] Validate dependency clusters on an audited sample.
+- [ ] Report pairwise precision, recall, and F1 for dependency clustering.
 - [ ] Freeze graph schema, temporal features, and unknown-origin treatment.
 - [ ] Measure retrieval Recall@10/nDCG@10 and cluster-quality diagnostics.
 
 ### M5 — End-to-end model pilot
 
-- [ ] Implement real BGE-M3/SigLIP2 feature extraction.
-- [ ] Implement batched heterogeneous-graph training and checkpointing.
-- [ ] Verify objective, gradients, missing-evidence cases, saving/loading, inference, and metrics.
+- [~] BGE-M3, reranker, and SigLIP2 adapters are implemented; execute and profile them on the real pilot.
+- [x] Implement batched heterogeneous-graph and matched feature-model training, validation selection, checkpointing, calibration, prediction export, and runtime metadata.
+- [~] Verify objective, gradients, missing-evidence cases, saving/loading, inference, and metrics on a tiny CPU diagnostic; repeat on the real pilot.
 - [ ] Measure pilot runtime and peak GPU memory.
-- [ ] Verify temperature fitting and 80% coverage threshold selection on validation only.
+- [x] Mechanically verify temperature fitting and 80% coverage threshold selection on validation only; measure their behavior on the real pilot.
 
 ### M6 — Baseline tuning and freeze
 
-- [ ] Implement all feasible controlled baselines.
+- [x] Implement the majority baseline and the controlled text, image--text, vanilla-RAG, time-filtered-RAG, provenance-pooling, no-graph, and graph variants defined in the frozen configuration.
 - [ ] Give each baseline the same 20-trial validation budget.
 - [ ] Record model revisions, prompts, preprocessing, hardware, and deviations.
 - [ ] Freeze configuration-selection rules before final-test evaluation.
@@ -424,44 +450,79 @@ Status markers: `[x]` complete, `[~]` in progress/partial, `[ ]` not started, `[
 - IEEEtran protocol manuscript and supplement.
 - Record schemas for claims, evidence, and predictions.
 - Explicit rating normalization and ambiguous-label rejection.
-- Temporal evidence filtering.
+- Conservative decision-time filtering with timestamp-confidence tiers and an uncertain-date sensitivity mode.
 - Event/split leakage checks.
 - BM25 ranking and reciprocal-rank fusion scaffold.
-- Duplicate/source clustering and provenance graph construction.
+- Duplicate/source clustering, explicit dependence signals, cluster-normalized weights, and provenance graph construction.
+- Deterministic duplicate, post-cutoff verdict, earliest-source, dependent/independent conflict, caption-swap, and historical-image-reuse interventions with frozen-checkpoint inference, per-seed predictions, change-rate summaries, and generated manuscript tables.
+- Configured BGE-M3, BGE reranker, and SigLIP2 adapters with pinned-revision fields.
+- Frozen retrieval runner that ranks the shared corpus with BM25, BGE-M3, and available SigLIP2 features, applies reciprocal-rank fusion and the pinned BGE reranker, filters by decision time, retains the top 20, and reports split-specific Recall@10/nDCG@10.
+- Exact public Hugging Face commit revisions frozen on 2026-10-24 for BGE-M3, BGE reranker v2-m3, SigLIP2 SO400M, and Qwen2.5-VL-7B-Instruct.
+- Feasibility-gate audit command using the preregistered corpus thresholds.
 - Hierarchical smoke classifier and trainable graph-model components.
 - Temperature scaling and abstention-threshold utilities.
 - Classification, calibration, selective-risk, retrieval, AUROC, bootstrap, and Holm utilities.
 - ClaimReview ingestion and open-archive discovery entry points.
-- Prediction evaluator and five-seed command runner.
+- Paginated Google Fact Check API collection with API-key redaction, raw-response preservation, deterministic candidate IDs, deduplication, and year filtering.
+- First frozen ClaimReview candidate snapshot: 32,898 deduplicated 2020--2026 rows, 440 preserved raw API pages, seven configured publisher filters, and a key-free collection manifest timestamped `2026-10-24T07:53:33.754563Z`.
+- UTF-8 candidate-audit CSV generation and strict keep/reject validation.
+- Private target-image download with exact SHA-256 and perceptual hashing.
+- Batch GDELT evidence-candidate collection with raw response and failure manifests.
+- Batch Common Crawl pre-cutoff observation checks with queried-index audit trails.
+- A pilot-specific assessment that separates 200-case completion and projected collection burden from the final 2,000-case benchmark gate.
+- A machine-readable full-run preflight that blocks training until API access, pilot data/evidence, the pilot gate, model revisions, a real trainer, PyTorch, and CUDA are present.
+- Frozen-dataset writer with record, evidence-link, split-completeness, event-leakage, and image-overlap checks plus SHA-256 manifests.
+- Frozen BGE-M3/SigLIP2 feature-store builder with pinned revisions and input/output hashes.
+- Batched heterogeneous-graph trainer and parameter-matched feature baselines with class weighting, evidence dropout, AdamW, cosine scheduling, early stopping, checkpoint hashes, runtime metadata, and prediction export.
+- Validation-only deterministic 20-trial selection, a five-seed baseline/ablation matrix, majority baseline, per-seed evaluation, and resume-safe orchestration.
+- Paired event-level bootstrap comparisons, two-sided bootstrap p-values, Holm adjustment, and checked LaTeX table generation from preserved outputs.
+- Deterministic 1,200-row screening queue with 400 candidates per suggested label, 652 train-period, 233 validation-period, and 315 test-period candidates.
+- Identity-checked queue-to-master review merger that preserves both source CSVs and records SHA-256 hashes.
 - Four analysis/presentation notebooks.
 - Synthetic end-to-end output generation.
 - Current test suite, Python compilation, notebook execution, LaTeX compilation, and PDF visual inspection.
-- Editable TikZ diagrams for the system pipeline and temporal split, with a manuscript claim-to-test table.
+- Editable TikZ diagrams for the system pipeline, temporal split, and evidence interventions, with a manuscript claim-to-test table.
 - Verified command guide for environment setup, diagnostic checks, pilot ingestion, seeded execution, evaluation, notebooks, and manuscript builds.
 
 ### Measured scientific evidence
 
-- None yet.
+- No model-performance evidence exists yet.
+- Real-data feasibility evidence is preserved for 200 evidence-first claims: 200/200 image hashes pass; 682 decision-time-valid evidence records cover 200/200 claims; 141/200 claims have at least two time-valid source-domain clusters; the automated pilot fraction is 0.705 versus the 0.70 gate.
+- The frozen pilot has 50 train, 39 validation, and 111 test cases with no exact event-ID or image-pHash leakage. The inherited-label distribution is 29 supported, 146 refuted, and 25 insufficient-evidence. This is adequate for pipeline testing but remains too imbalanced and too small for the planned final benchmark.
+- The counts above are feasibility measurements, not model-performance findings. Source-domain clusters are a pilot proxy and must not be described as audited independence until cross-domain syndication/dependence validation is complete.
 
 ### Current diagnostic evidence
 
 - Synthetic six-record smoke run passes the software path.
 - These values are tagged `synthetic_software_diagnostic_only` and must not support scientific claims.
+- All 44 unit and integration tests pass in the project environment, including timezone-free Common Crawl catalogue dates and Internet Archive observation handling.
+- The complete CPU-side smoke, manifest, evaluation, intervention, test, and four-notebook execution sequence passed again on 2026-10-24. Its numerical values remain synthetic diagnostics only.
+- The synthetic feasibility audit correctly returns `stress_test_fallback`; its evidence records remain deliberately unassigned to audited real source clusters.
+- The intervention builder produced 30 deterministic smoke manifests across six claims.
+- All four notebooks execute from top to bottom, and the final six-page paper plus two-page supplement compile without LaTeX errors or unresolved references.
+- The key-free frozen collection manifest is accepted by the preflight as `frozen_snapshot`; the full-run readiness artifact has API access removed from the blocker list.
+- The candidate snapshot contains 32,898 deduplicated rows. Before manual screening, 16,809 have a conservative automatically suggested three-way label (14,768 refuted, 1,604 supported, and 437 insufficient-evidence); 16,089 remain deliberately unmapped.
+- The 1,200-row acquisition queue passes strict review-schema validation with all rows still `pending`. Its SHA-256 is `b30f3b1835bca8f3c3f04a8df5ecbd761b1e6af8bef021a5e3cc72d6463acfc7`; the source review CSV SHA-256 is `240e6081303c6899b80fa083f4c566c0e40f168611611129e4cd25f5058c0ee5`.
+- A tiny CPU train/checkpoint/calibration/prediction test passes. It checks mechanics only and supplies no scientific result.
+- The redesigned private pilot bundle and its one-click validation notebook execute successfully; all claim, evidence, image, hash, reference, chronology, split, and gate checks pass, and the notebook returns `pilot_integrity_validated_evidence_gate_passed`.
 
 ### Unresolved before scientific claims
 
-- Real ClaimReview/GDELT/Common Crawl collection has not been executed.
-- No 200-claim feasibility audit exists.
-- No frozen real-data split manifest exists.
-- Dense BGE-M3 and SigLIP2 retrieval is configured but not executed.
-- Full batched/multi-GPU graph training is not implemented or measured.
-- Controlled baselines, real ablations, and robustness studies are not executed.
-- Reference identity/support entries exist, but full author/venue reconciliation and correction/withdrawal/retraction notice review remain pending.
-- Venue quartile is unverified and must be checked near submission.
+- The 200-case claim artifact is AI-assisted rather than human-confirmed, so it cannot support a human-audit or inter-annotator-agreement claim.
+- Domain-level source clusters have not yet been replaced by audited cross-domain syndication/dependence clusters; the automated 70.5% pilot gate must therefore be described as provisional corroboration coverage.
+- Only 25/200 retained pilot cases carry the `insufficient_evidence` label, and the final 300-per-label/2,000-case benchmark threshold is not met. Additional publishers and targeted acquisition, or the preregistered existing-dataset fallback, are required.
+- PolitiFact, AFP, and Snopes each reached the configured 100-page collection cap. The snapshot is sufficient for the 200-case screening pilot but is not a complete census; the final benchmark collector must use a higher cap, checkpointed pagination, or nonoverlapping dated queries and document the resulting coverage.
+- The initial 200-claim feasibility attempt failed and remains preserved; the redesigned evidence-first pilot passes the automated evidence-coverage gate. Neither outcome is a model result.
+- A frozen real-data pilot split manifest exists; no final-corpus split manifest exists.
+- Dense BGE-M3, reranker, and SigLIP2 adapters are implemented but not executed on real data.
+- Full CUDA graph training is implemented but not measured on real data; the local host has no CUDA runtime.
+- Controlled baselines, ablations, and all implemented robustness evaluations have not been executed on the real corpus. The deterministic opposite-label donor policy for conflict interventions must be audited on the pilot and replaced with an audited donor manifest if it does not create semantically valid conflicts.
+- All 17 supplied PDFs have a detailed task/method/evaluation/limitation audit. Correction, withdrawal, and retraction notice review remains pending.
+- A dated venue-priority audit exists, but quartiles and author guidance must be rechecked near submission.
 
 ## 9. Resource and reproducibility assumptions
 
-- Multi-GPU resources are expected but not yet inventoried.
+- The local host audit on 2026-10-24 found no NVIDIA runtime/GPU, 15.2 GB total RAM, and 150.2 GB free on drive D. A CPU PyTorch build is installed in the project environment for unit and miniature integration tests, but Kaggle or another CUDA environment is required after the data gate for the scientific run.
 - Use open metadata and archives only; access does not automatically grant redistribution rights.
 - Preserve exact model and tokenizer revisions.
 - Preserve Python, framework, CUDA/driver, GPU, precision, batch-size, and runtime information.
@@ -478,11 +539,13 @@ $env:PYTHONPATH = "$PWD\src"
 python scripts/run_smoke_test.py --config configs/base.yaml
 python scripts/validate_manifests.py --claims outputs/smoke/claims.jsonl
 python scripts/evaluate_predictions.py --claims outputs/smoke/claims.jsonl --predictions outputs/smoke/predictions.jsonl --bootstrap-replicates 10000 --output outputs/smoke/evaluation.json
-python -m unittest discover -s tests -v
+python scripts/audit_feasibility.py --claims outputs/smoke/claims.jsonl --evidence outputs/smoke/evidence.jsonl --output outputs/smoke/feasibility.json
+python scripts/build_intervention_sets.py --claims outputs/smoke/claims.jsonl --evidence outputs/smoke/evidence.jsonl --output-directory outputs/smoke/interventions
+python -m pytest -q
 python scripts/execute_notebooks.py
 ```
 
-For final real-data evaluation, pass five separate prediction files to `evaluate_predictions.py` and require `--expected-seeds 5`. Use `run_seed_matrix.py` to invoke the frozen training command once per configured seed.
+The pilot is frozen under `experiments/data/private/pilot_evidence_first_final_2026-10-25/frozen`. For the pilot CUDA run, upload `kaggle/output/dtp_fact_background_2026-10-25_v4.zip` and `kaggle/output/dtp_fact_pilot_ready_2026-10-25.zip` as private Kaggle Datasets, import `kaggle/notebooks/01_run_pilot_experiments.ipynb`, enable GPU and Internet, and run all cells. The notebook invokes reusable Python modules, performs validation-only selection, runs the configured five-seed matrix, and labels all outputs as pilot-only. After M3--M4 pass for the final corpus, use `run_full_study.py --resume` for the submission-grade CUDA run.
 
 ## 11. Decision and deviation log
 
@@ -504,14 +567,48 @@ For final real-data evaluation, pass five separate prediction files to `evaluate
 | 2026-10-17 | Packaging | Reproduced the reported Overleaf failure check from the exact v4 archive, confirmed that its sources build after clean extraction, and created a main-manuscript-only v5 archive with a single top-level `main.tex` entry point. | Remove root-document ambiguity caused by packaging the main paper and supplement as separate compilable documents in one upload. | Overleaf upload package; manuscript source content is unchanged. | Upload v5 as a new Overleaf project or set `main.tex` as the main document and select pdfLaTeX. |
 | 2026-10-17 | Manuscript correction | Repaired only meaning-changing grammar and phrase-order errors in the author's manually revised abstract. | Restore the intended method, split, and evaluation statements while preserving the author's wording and avoiding a broad stylistic rewrite. | Abstract and compiled deliverables. | Preserve this author-edited voice in later revisions; change wording only for accuracy or clarity. |
 | 2026-10-17 | Manuscript scope | Cleared the body text under Evaluation Questions, Discussion, Ethics, and Limitations, and Conclusion while retaining their section headings. | The author requested these flagged passages remain blank until they are rewritten. | Sections 6--8 and compiled deliverables. | Refill only when the author supplies or requests replacement prose. |
+| 2026-10-17 | Author metadata | Moved the department, institution, location, and email from the IEEE footnote into the visible author block beneath the title. | Ensure the full supplied affiliation is visible with the author's name on the first page. | Main manuscript title block and compiled deliverables. | Revert to the journal footnote form only if the target venue requires it at submission. |
+| 2026-10-21 | Literature audit | Reviewed all 17 supplied papers at the task, method, evaluation, ablation, and limitation levels; recorded a dated venue-priority audit. | Ground the study in the closest recent A*/Q1 work rather than broad topical similarity. | Literature matrix, reference ledger, reference-paper dossier, venue audit, related work, and baseline plan. | Recheck notices and venue status before submission. |
+| 2026-10-21 | Novelty refinement | Defined the central contribution as decision-time evidence validity plus independent corroboration; treated the graph encoder as an implementation choice. | Prior work already covers multimodal RAG, temporal reasoning, graph learning, relevance reranking, and context prediction separately. | Title, research question, contributions, method, ablations, and falsification rules. | Validate the joint mechanism with matched baselines and counterfactual interventions. |
+| 2026-10-21 | Temporal protocol | Required a pre-cutoff archive/crawl observation for primary evidence and introduced timestamp-confidence tiers. | A publication field alone does not prove historical availability, and a post-cutoff archive can leak future information. | Schemas, temporal filter, tests, manuscript, and supplement. | Audit timestamp confidence on the 200-case pilot. |
+| 2026-10-21 | Provenance protocol | Separated source dependence from credibility and bounded each dependency cluster's total aggregation mass. | Conflicting-evidence research shows credibility filtering can suppress useful counter-evidence, while syndication can inflate document counts. | Clustering, graph attributes, interventions, baselines, and manuscript. | Manually validate cluster quality and run duplicate interventions. |
+| 2026-10-21 | Execution format | Retained a modular Python package and notebooks for analysis only; did not convert the study to one Kaggle notebook. | Collection, retrieval, graph construction, multi-seed training, tests, and artifact generation require reusable command-line modules. | Experiment layout and running instructions. | Kaggle may execute the same commands in a GPU session after the pilot data are mounted. |
+| 2026-10-21 | Manuscript revision | Renamed the study, retained conventional top-level sections, added a mechanism-focused intervention diagram, strengthened the related-work comparison, and stated the pre-results evidence boundary explicitly. | Align the manuscript with the audited novelty and avoid unsupported results or decorative structure. | Main paper, supplement, bibliography, figures, table, and compiled PDFs. | Replace the Results status text only after frozen real-data artifacts exist. |
+| 2026-10-21 | Verification | Passed 18 tests, the synthetic smoke path, feasibility and intervention commands, all four notebooks, LaTeX/BibTeX builds, log checks, and page-by-page PDF inspection. | Confirm the revised scaffold is mechanically consistent before the real-data pilot. | Experiment outputs and compiled paper/supplement. | Repeat from a clean frozen environment at M5 and M9. |
+| 2026-10-23 | Data-intake implementation | Added authenticated paginated Fact Check API collection, raw-response manifests, candidate-review validation, verified image hashing, batch evidence discovery, Common Crawl observation checks, and a pilot-specific assessment. | Make the 200-case pilot executable without asking the author to download or hand-code records. | Experiment modules, scripts, tests, configuration, ignore rules, and running guide. | Store the API key locally and execute the first frozen collection. |
+| 2026-10-23 | Snapshot correction | Replaced the unexecuted 2026-10-21 snapshot claim with a requirement to record the first successful collection timestamp. | No real collection occurred on 2026-10-21, so calling that date a frozen data snapshot would be inaccurate. | Plan now; dataset section and manuscript dates after real collection. | Propagate the actual timestamp only after the raw collection manifest exists. |
+| 2026-10-23 | Data-record separation | Reserved `research/claim_evidence_register.csv` for manuscript-level scientific claims; pilot cases and evidence belong under `experiments/data/`. | Mixing paper-claim evidence status with dataset annotations would corrupt both audit trails. | Plan, experiment guide, and future pilot artifacts. | Generate pilot review and processed manifests through the collection scripts. |
+| 2026-10-24 | Credential preflight | Detected the ignored local API key and reached its Google Cloud project, but Google returned HTTP 403 because the Fact Check Tools API is disabled. The preflight output redacts the key. | Verify live access before creating a supposedly frozen raw snapshot. | No real candidate data were accepted; API checker and error reporting were hardened. | Project owner must enable Fact Check Tools API and allow propagation, then rerun the preflight. |
+| 2026-10-24 | Resource audit | The local host has no NVIDIA GPU and the project environment does not currently include PyTorch; collection and CPU checks remain viable. | Do not launch an unmeasured full training workflow on unsuitable hardware. | Execution plan and Kaggle requirement. | Complete M2 locally, then package frozen data and run GPU stages on Kaggle or equivalent. |
+| 2026-10-24 | Model identity freeze | Pinned the official Hugging Face commit revisions for BGE-M3, BGE reranker v2-m3, SigLIP2 SO400M, and Qwen2.5-VL-7B-Instruct. | Prevent silent upstream model changes between pilot and final runs. | `configs/base.yaml`, adapters, and full-run readiness audit. | Recheck availability without changing revisions before the frozen GPU run. |
+| 2026-10-24 | Full-run guard | Added and executed `preflight_full_run.py`; the first run blocked on API access, absent real pilot artifacts, absent real trainer, and absent local PyTorch/CUDA. | Make unresolved prerequisites machine-visible and prevent synthetic or incomplete work from being presented as a full run. | `outputs/preflight/full_run_readiness.json`, tests, and run instructions. | Rerun at every milestone; implement the trainer only after M2 passes. |
+| 2026-10-24 | API restriction check | After service enablement, the live preflight changed to HTTP 403 stating that `FactCheckedClaimSearch` requests are blocked. | Distinguish service activation from API-key application/method authorization. | No raw snapshot was created and no key value was logged. | Adjust the key to permit local/server requests and restrict it to Fact Check Tools API, wait for propagation, then rerun preflight. |
+| 2026-10-24 | Candidate snapshot | Confirmed the corrected key, collected 32,898 deduplicated 2020--2026 ClaimReview candidates from seven configured publisher filters, and preserved 440 raw API pages plus the review CSV and manifest at `2026-10-24T07:53:33.754563Z`. | Establish a reproducible source pool for the 200-case feasibility pilot without exposing the credential. | `experiments/data/private/pilot_claims_2026-10-24/`; full-run preflight now reports API status `ok`. | Build and audit the stratified review queue; treat the three 100-page sources as capped rather than exhaustive. |
+| 2026-10-24 | Screening preparation | Built and validated a deterministic 1,200-row acquisition queue balanced at 400 candidates per suggested label, with preserved source and queue hashes. | Reduce the 32,898-row pool to a reproducible audit workload while retaining label and temporal coverage. | `screening_queue.csv`, `screening_queue_manifest.json`, M2 status, and run guide. | Audit rows in order until 200 eligible cases remain; automated label suggestions remain non-gold. |
+| 2026-10-24 | Final-run implementation | Added frozen feature construction; fused BM25/BGE-M3/SigLIP2 retrieval with pinned BGE reranking; graph and matched feature trainers; validation-only tuning; five-seed baseline/ablation execution; paired event bootstrap with Holm adjustment; checked table export; and a resume-safe full-study orchestrator. | Make the planned CUDA experiment executable without oracle evidence links, notebook-only logic, or test-set tuning. | Retrieval/training modules, scripts, configuration, tests, run guide, preflight, and conditional manuscript tables. | Execute on the audited pilot first, freeze any protocol corrections, then run the unchanged final matrix on CUDA. |
+| 2026-10-24 | Robustness validity gate | Required an audited semantic-conflict donor manifest for the final run and made manuscript-table export reject automatic opposite-label pairing or diagnostic zero-vector verdict injections. | An opposite inherited label does not establish that a donor document semantically contradicts a particular claim, and a zero vector is not a valid text intervention. | Full-run preflight, intervention evaluator, table exporter, tests, run guide, manuscript, and supplement. | Audit every held-out claim--donor pair before the CUDA run and preserve the manifest with the frozen study artifacts. |
+| 2026-10-24 | Manuscript synchronization | Aligned the method and experiment prose with the implemented graph, objectives, baselines, and selection procedure; connected results tables to generated artifacts and recorded the real candidate snapshot without presenting it as a benchmark. | Keep the pre-results manuscript accurate and prevent synthetic or screening values from becoming scientific results. | Main paper, supplement, figures, compiled PDFs, and plan. | Populate Results and revise Discussion/Conclusion only after checked real-data artifacts exist. |
+| 2026-10-24 | Release-readiness verification | Passed 40 automated tests, executed all four notebooks from top to bottom, rebuilt the six-page main paper and two-page supplement, checked logs for fatal/undefined/overfull errors, and visually inspected the changed method, experiment, results, reference, and supplement pages. | Establish that the CPU-side implementation and pre-results deliverables are mechanically coherent before human audit and CUDA execution. | Executed notebooks, test record, preflight report, rendered QA pages, and final PDFs. | Repeat the same verification from the frozen CUDA environment after the pilot gate passes; the Codex built-in preview compiler remains unavailable on this Windows host because its restricted-token sandbox cannot enforce the configured writable roots, so the successful local `latexmk` build is the current compiler evidence. |
+| 2026-10-24 | Overleaf packaging | Rebuilt the main-manuscript-only package as `overleaf-main-2026-10-24-v9.zip`, including the new intervention figure, and compiled it successfully after clean extraction. | Keep the upload bundle synchronized with the verified local sources and avoid multiple-root ambiguity. | Overleaf ZIP and clean-extraction build record. | Upload the v9 archive with `main.tex` as the root; rebuild the package after generated result tables are added. |
+| 2026-10-25 | Kaggle delivery | Added a one-click Kaggle notebook plus separate clean code, key-free candidate-snapshot, and combined upload ZIPs. The notebook auto-discovers attached packages, installs the project, runs tests and the synthetic diagnostic, summarizes the screening queue, and launches the full CUDA workflow only when an audited final-data ZIP is present. | Reduce setup burden without misrepresenting automatically mapped screening candidates as a benchmark or training silently on unaudited data. | `kaggle/`, package checksums, repository quick start, and clean-extraction execution record. | After the claim/evidence audit, create the final-data ZIP using the documented layout and rerun the same notebook; preserve all `/kaggle/working/final_run` artifacts. |
+| 2026-10-25 | Kaggle delivery revision | Replaced the combined-notebook workflow with three separate Kaggle clients and one code/data Dataset ZIP; added a reusable strict final-artifact validator and two validator tests. Notebook 01 validates setup and screening inputs, notebook 02 runs the resumable CUDA matrix, and notebook 03 displays results only after frozen hashes, split isolation, validation-only selection, complete seed coverage, non-diagnostic retrieval/interventions, statistics, and generated tables all pass. | Match the requested simple Kaggle workflow while keeping training and validation logic in tested Python modules and preventing candidate or smoke outputs from being reported as findings. | `kaggle/notebooks/`, Kaggle Dataset ZIP, `evaluation/study_validation.py`, validator CLI, tests, and running guides. | Create the audited final-data ZIP before notebook 02 can perform the scientific run; save its Kaggle output and attach it to notebook 03. |
+| 2026-10-25 | Kaggle compatibility fix | Changed all three clients to copy the background package from Kaggle's read-only `/kaggle/input` mount into `/kaggle/working` before editable installation and removed quiet pip output. Re-executed the notebook sequence from a clean archive extraction: notebook 01 installed from the writable copy, passed 42 tests, and validated the candidate snapshot; notebooks 02 and 03 reached the expected evidence-gated blocked state. | Kaggle correctly rejected editable package metadata generation inside its read-only Dataset mount. | Three delivered notebooks, checksums, Kaggle guide, and clean-extraction run record. | Replace the previously imported notebook with the repaired version; the already-uploaded background Dataset ZIP remains valid. |
+| 2026-10-25 | AI-assisted pilot claim audit | Retrieved structured Snopes ClaimReview metadata and article images, expanded the shortlist to 320, visually compared every contact-sheet case, rejected 73 image/claim mismatches or duplicate/contradictory instances, and froze the first 200 passing cases with SHA-256 and pHash values. | Remove generic article thumbnails, audio-only items, and mismatched imagery without asking the author to edit the review CSV manually. | `experiments/data/private/pilot_ai_audited_2026-10-25/`, visual audit ledger, 200-claim JSONL, and contact sheets. | Obtain human confirmation before making a human-audit claim; preserve the AI-assisted status meanwhile. |
+| 2026-10-25 | Archive-provider deviation | Added Internet Archive CDX as an independent fallback after Common Crawl produced no usable observations because of crawl-window gaps and repeated index-server timeouts/503s. The same strict `published_at <= archived_at <= decision_cutoff` rule remains in force. | Common Crawl collections do not continuously cover short breaking-news intervals; treating missing crawls as proof or inventing archive times would invalidate the temporal claim. | Open-archive module, archive verifier, regression tests, evidence audit trail, and data-source policy. | Report archive-source counts and rerun both providers when freezing the final evidence corpus. |
+| 2026-10-25 | Feasibility outcome | Collected 293 dated cited-source candidates and confirmed 151 pre-cutoff archive observations covering 108/200 claims; only 32/200 claims have two source-domain clusters. The pilot therefore returns `claim_pilot_complete_evidence_pending` and fails the 70% corroboration gate. | Make the scale/no-scale decision from preserved evidence rather than forcing a positive result. | `pilot_assessment_ai_2026-10-25.json`, audited evidence CSV/JSONL, archive audit, and living plan. | Redesign evidence discovery, add underrepresented publishers/labels, and repeat M2 before any scientific training. |
+| 2026-10-25 | Pilot Kaggle package | Built a private pilot-data ZIP and a one-click integrity notebook, then executed the notebook locally against the exact ZIP. All integrity checks pass and the evidence gate is reported as failed. | Give the author a simple runnable artifact while preventing the feasibility pilot from being mistaken for final experimental evidence. | `kaggle/output/dtp_fact_pilot_data_2026-10-25.zip`, `kaggle/notebooks/00_validate_audited_pilot.ipynb`, executed notebook, and validation report. | Upload the ZIP as a private Kaggle Dataset only if an independent rerun of the pilot audit is desired; do not run notebook 02 as a final study yet. |
+| 2026-10-25 | Evidence-first redesign | Expanded the uncapped AFP/PolitiFact/Snopes collection, required structured ClaimReview agreement and at least one exact pre-cutoff archive citation, restricted US scope to claim metadata, and audited 367 unique visual candidates across initial and supplemental contact sheets. | The first Snopes-heavy pilot failed because evidence was added after claim selection and contained too few insufficient-evidence cases. | New evidence-first preparation, visual-audit, selection, cited-source, archive-verification, and finalization artifacts under `experiments/data/private/`. | Retain the failed pilot as provenance; use the redesigned pilot for automated feasibility and model debugging only. |
+| 2026-10-25 | Redesigned pilot gate | Froze 200 cases and 682 time-valid evidence records; 200/200 claims have evidence and 141/200 have at least two source-domain clusters. Exact event-ID and image-pHash split isolation passes for 50 train, 39 validation, and 111 test cases. | Meet the preregistered automated feasibility thresholds without fabricating missing evidence or weakening temporal validity. | `pilot_assessment.json`, frozen manifests, image/evidence audits, selection manifest, and dataset hashes. | Validate cross-domain dependency clustering and obtain human confirmation before treating the domain clusters as audited independence. |
+| 2026-10-25 | Pilot CUDA delivery | Added a writable-install-safe Kaggle background ZIP, a gate-passing pilot-data ZIP, a data-only validation notebook, and a one-click full pilot-matrix notebook. The exact pilot validation notebook executes locally and all 44 packaged tests pass after clean extraction. | Give the author a two-ZIP, one-notebook GPU workflow while keeping core logic in tested Python modules. | `dtp_fact_background_2026-10-25_v4.zip`, `dtp_fact_pilot_ready_2026-10-25.zip`, `00_validate_audited_pilot.ipynb`, `01_run_pilot_experiments.ipynb`, and checksums. | Run the pilot matrix on Kaggle, preserve `dtp_fact_pilot_results.zip`, and inspect failures before choosing full-corpus scale-up or the preregistered fallback. |
 
 ## 12. Immediate next actions
 
-1. Define the exact professional fact-checker source allowlist and collection snapshot date.
-2. Collect a 200-claim feasibility sample without altering final split rules after inspecting results.
-3. Populate `research/claim_evidence_register.csv` with pilot claim IDs, timestamps, archive status, and evidence-cluster audit fields.
-4. Run the label, timestamp, image-recovery, event-group, and evidence-independence audit.
-5. Measure pilot collection yield and resource cost, then decide whether the full benchmark thresholds are feasible.
+1. Run `kaggle/notebooks/01_run_pilot_experiments.ipynb` with the v4 background ZIP and gate-passing pilot ZIP on a Kaggle GPU; save the generated `dtp_fact_pilot_results.zip` without copying pilot metrics into the final manuscript.
+2. Inspect the pilot retrieval, calibration, class-wise, runtime, and failure artifacts. Freeze any necessary protocol correction before collecting or selecting final-corpus cases.
+3. Audit source dependence beyond domain identity on a stratified pilot sample using content similarity, citation chains, ownership/syndication metadata, and publication order; update the 70% corroboration result if clusters merge.
+4. Obtain human confirmation of claim/image pairs, evidence relevance, and a gold sufficiency subset if the manuscript will make human-audit or sufficiency-supervision claims; record agreement only if a second independent annotator is actually used.
+5. Decide between full corpus scale-up and the preregistered fallback. Scale-up must reach 2,000 cases, 300 per label, 50 test events, and 70% audited independent clusters; otherwise train on a suitable existing benchmark and use this new corpus as the temporal/provenance stress test.
+6. Build an audited semantic-conflict donor manifest, run the unchanged five-seed final CUDA matrix, validate all outputs, and only then generate Results, Discussion, Conclusion, and submission tables for the paper.
 
 ## 13. Update protocol
 

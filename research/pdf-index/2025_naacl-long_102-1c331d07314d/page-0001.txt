@@ -1,0 +1,70 @@
+Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies
+(V olume 1: Long Papers), pages 2029–2049
+April 29 - May 4, 2025 ©2025 Association for Computational Linguistics
+COVE: COntext and VEracity prediction for out-of-context images
+Jonathan Tonglet1,2,3, Gabriel Thiem1, Iryna Gurevych1
+1Ubiquitous Knowledge Processing Lab (UKP Lab),
+Department of Computer Science and Hessian Center for AI (hessian.AI),
+TU Darmstadt
+2 Department of Electrical Engineering, KU Leuven
+3 Department of Computer Science, KU Leuven
+www.ukp.tu-darmstadt.de
+Abstract
+Images taken out of their context are the most
+prevalent form of multimodal misinformation.
+Debunking them requires (1) providing the true
+context of the image and (2) checking the ve-
+racity of the image’s caption. However, exist-
+ing automated fact-checking methods fail to
+tackle both objectives explicitly. In this work,
+we introduce COVE, a new method that pre-
+dicts first the true COntext of the image and
+then uses it to predict the VEracity of the cap-
+tion. COVE beats the SOTA context prediction
+model on all context items, often by more than
+five percentage points. It is competitive with
+the best veracity prediction models on synthetic
+data and outperforms them on real-world data,
+showing that it is beneficial to combine the two
+tasks sequentially. Finally, we conduct a human
+study that reveals that the predicted context is
+a reusable and interpretable artifact to verify
+new out-of-context captions for the same im-
+age. Our code and data are made available.1
+1 Introduction
+An out-of-context (OOC) image is a form of mul-
+timodal misinformation where the caption misrep-
+resents the image in one or several dimensions,
+including the date, location, or event depicted (Luo
+et al., 2021; Dufour et al., 2024). In 2023, more
+than 40% of the visual misinformation verified by
+fact-checkers consisted of OOC images (Dufour
+et al., 2024). To debunk them, human fact-checkers
+follow two objectives: identifying the true con-
+text of the image, which usually takes the form
+of a fixed set of items (Silverman, 2013; Urbani,
+2020; Mossou and Higgins, 2021; Khan et al., 2023,
+2024), and deciding on the veracity of the caption.
+Identifying the true context of the image first is
+often beneficial when checking the caption, as it
+may reveal inconsistencies with the image. How-
+ever, it goes beyond that objective, as most context
+1github.com/UKPLab/naacl2025-cove
+Figure 1: The two steps of COVE: (1) Generating the
+true context of the image. (2) Predicting the veracity of
+a caption by comparing it with the generated context.
+items are neither consistent nor inconsistent with
+the caption and provide more details than needed to
+verify the caption. In Figure 1, the context, shown
+in blue, reveals that the location in the caption is
+inconsistent: Malta instead of Indonesia. It also
+discusses the source and date, which are absent
+from the caption, and provides a precise location
+at the city level.
+Many methods have been proposed to facilitate
+fact-checking (FC) of OOC images. However, they
+study either context prediction (Tonglet et al., 2024)
+or veracity prediction (Abdelnabi et al., 2022; Pa-
+padopoulos et al., 2023, 2024a; Qi et al., 2024).
+They do not consider automating them sequentially,
+2029

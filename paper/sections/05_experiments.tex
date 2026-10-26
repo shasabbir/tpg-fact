@@ -1,22 +1,37 @@
-\section{Experimental Protocol}
+\section{Experimental Setup}
 
 \subsection{Baselines}
 
-The controlled comparison includes majority prediction, text-only classification, image--text fusion without retrieval, and an open multimodal language model under zero- and few-shot prompting. Retrieval baselines cover vanilla multimodal RAG, time-filtered RAG without provenance, provenance-aware RAG without time filtering, and RED-DOT where its implementation is compatible with the protocol. Every method uses the same splits, candidate corpus, evaluation code, and 20-trial validation budget.
+The executable controlled comparison includes majority prediction, text-only classification, image--text fusion, vanilla multimodal RAG, time-filtered RAG, provenance-aware cluster pooling, a parameter-matched no-graph model, and the full relation-aware model. These methods share the same frozen records, feature encoders, splits, evaluation code, and 20-trial validation budget. The controlled ablations remove one temporal, provenance, modality, hierarchy, graph, or regularization component from the same implementation.
+
+MDF-FND, Event-Radar, an open multimodal language model, COVE, and RED-DOT are secondary comparators only where their public implementations and input assumptions can be reconciled with the frozen protocol \cite{lv2025mdffnd,ma2024eventradar,tonglet2025cove,papadopoulos2025reddot}. An incompatible or unavailable method is reported as such rather than approximated and ranked as a controlled reproduction. Literature-reported values remain separate because they use different data and splits.
 
 \subsection{Metrics and Statistical Analysis}
 
-The primary metric is macro-F1 on the 2025--2026 event-disjoint test set. Secondary metrics are per-class F1, balanced accuracy, macro one-versus-rest AUROC, Brier score, negative log-likelihood, expected calibration error, area under the risk--coverage curve, risk at 80\% coverage, Recall@10, nDCG@10, latency, GPU memory, and retrieved-document count. Final configurations are evaluated with five seeds. Differences use 10,000 paired event-level bootstrap replicates, with Holm correction across the primary comparison family.
+The primary metric is macro-F1 on the event-disjoint future test set, reported for 2025, partial 2026, and both periods combined. Secondary metrics are per-class F1, balanced accuracy, macro one-versus-rest AUROC, Brier score, negative log-likelihood, expected calibration error, area under the risk--coverage curve, risk at 80\% coverage, Recall@10, nDCG@10, latency, GPU memory, and retrieved-document count. Dependency clustering also reports pairwise precision, recall, and F1 on the audit sample. Final configurations use five seeds. Differences use 10,000 paired event-level bootstrap replicates with Holm correction across the primary comparison family.
 
 \subsection{Ablation and Stress Tests}
 
-The ablations remove temporal filtering, dependency clustering, temporal edge features, graph aggregation, text evidence, visual evidence, the sufficiency gate, and evidence-dropout training one at a time. The stress tests add syndicated copies and post-cutoff documents that reveal the verdict. They also remove the earliest observed source, introduce conflicts between dependent and independent evidence, swap captions, and reuse historical images.
+The ablations remove observation-time filtering, dependency clustering, temporal edge features, the graph encoder, text evidence, visual evidence, the sufficiency gate, and evidence-dropout training one at a time. The graph ablation uses parameter-matched cluster pooling rather than raw document pooling. Timestamp sensitivity admits uncertain items without changing any trained parameter.
+
+Figure~\ref{fig:interventions} shows the two principal counterfactual tests. Duplicate injection adds 1, 5, or 10 linked copies of one report. Leakage injection adds a post-cutoff document containing the verdict. Further tests remove the earliest observed source, introduce conflicts among dependent and independent clusters, swap captions, and reuse historical images. Conflict donors are selected deterministically from opposite-label cases, but they enter the reported analysis only after the pilot audit confirms that they are semantically opposed to the target claim; otherwise an audited donor manifest replaces the automatic pairing. Each intervention writes a manifest so the modified evidence set can be reconstructed exactly.
+
+\begin{figure}[t]
+\centering
+\resizebox{\columnwidth}{!}{\input{figures/evidence_interventions}}
+\caption{Counterfactual evidence interventions. Duplicate injection should not increase independent corroboration, while the decision-time gate must reject a label-revealing post-cutoff document.}
+\label{fig:interventions}
+\end{figure}
 
 \subsection{Selection and Falsification Rules}
 
-Hyperparameters and the abstention threshold are selected using validation data only. Evidence-source provenance must improve either future-event performance or resistance to duplicate injection to support a performance claim. Calibrated abstention must reduce selective risk at matched coverage. Gains that depend on post-cutoff documents count as leakage.
+Hyperparameters and the deferral threshold are selected using validation data only. Decision-time provenance must improve valid future-event performance or duplicate robustness to support a performance claim. Calibrated deferral must reduce selective risk at matched coverage. Gains that appear only when post-cutoff documents are admitted count as leakage. If the candidate corpus misses any preregistered scale or coverage threshold, it is reported as a stress test rather than a benchmark.
 
 Table~\ref{tab:evaluation-matrix} links each intended claim to a controlled comparison and an explicit rejection condition. This keeps the interpretation tied to tests that can fail rather than to a favorable result chosen after evaluation.
 
 \input{tables/evaluation_matrix}
+
+\subsection{Implementation and Reproducibility}
+
+BGE-M3 encodes claim and evidence text, while SigLIP2 encodes verified local images. Exact public model revisions are fixed in the configuration before feature extraction. AdamW optimization uses class weighting, early stopping on validation macro-F1, and a cosine learning-rate schedule. Every selection trial writes its command, validation score, checkpoint, and log; final configurations are rerun with seeds 11, 23, 37, 53, and 71. The code records the Python, PyTorch, CUDA, GPU, precision, elapsed time, peak GPU memory, checkpoint hash, calibration temperature, and abstention threshold. Test predictions are exported only by the final-run command, whereas the tuning command does not construct test examples.
 

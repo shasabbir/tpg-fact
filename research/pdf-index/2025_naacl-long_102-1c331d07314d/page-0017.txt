@@ -1,0 +1,26 @@
+Question generation prompt
+You are a helpful assistant. You are given context information about an image. The date of the
+image is unknown.
+Your task is to generate one to three world knowledge questions that will help determine when the
+image was taken. The questions should either start with “When” or “On which date”. The question
+should be self-contained and specific enough to be answerable based on world knowledge.
+If no self-contained and specific question can be generated, your response should be “No questions
+can be generated given the context”.
+You are provided with examples below.
+[Demonstrations]
+Context information: {}
+Generated questions (up to 3): {}
+Figure 11: Prompt template for knowledge gap completion - question generation with Llama 3.
+Question answering prompt
+You are a helpful assistant. You are given a question that requires world knowledge to be answered.
+Your task is to provide a specific answer to the question in 1 or 2 sentences based on available
+knowledge from Wikipedia. Your answer should be a date at the day, month or year level.
+If the question cannot be answered based on the available knowledge, your response should be
+“Unknown”.
+You are provided with examples below.
+[Demonstrations]
+Wikipedia knowledge: {}
+Question: {}
+Answer: {}
+Figure 12: Prompt template for knowledge gap completion - question answering with Llama 3.
+2045

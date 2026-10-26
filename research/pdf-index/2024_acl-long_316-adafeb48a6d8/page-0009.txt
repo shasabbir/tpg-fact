@@ -1,0 +1,99 @@
+tures, the credibility for these modalities were low.
+The model chose to believe the judgment based on
+event inconsistency, resulting in the correct classifi-
+cation. Similarly, in the second example, the model
+provided correct credible judgments, leading to the
+correct classification result.
+5 CONCLUSION
+Event-Radar is a novel fake news detection frame-
+work that demonstrates exceptional event modeling
+capabilities and significant robustness, aimed at
+addressing the issue of maliciously crafted fake
+news. Extensive experiments validate that Event-
+Radar’s classification performance surpasses all
+listed strong benchmarks. Further research con-
+firms the effectiveness of our initial technical con-
+tributions, emphasizing Event-Radar’s ability to
+resist interference from poor-quality news.
+6 ACKNOWLEDGEMENT
+This work was supported by the National Key
+Research and Development Program of China
+(No. 2022YFB3102600), the National Nature
+Science Foundation of China (No. 62192781,
+No. 62272374), the Natural Science Foundation
+of Shaanxi Province (2024JC-JCQN-62), the Na-
+tional Nature Science Foundation of China (No.
+62202367, No. 62250009, No. 62137002), Project
+of China Knowledge Center for Engineering Sci-
+ence and Technology, and Project of Chinese
+academy of engineering “The Online and Offline
+Mixed Educational Service System for ‘The Belt
+and Road’ Training in MOOC China”. We would
+like to express our gratitude for the support of K.
+C. Wong Education Foundation.
+7 LIMITATIONS
+Our work has two limitations that may impact the
+generalization ability of our proposed framework.
+While introducing event graphs has yielded promis-
+ing results in fake news detection, we have yet to
+explore event representation learning from a causal
+relationship perspective. Additionally, the perfor-
+mance of the NER tools and object detection tools
+used can impact the structure of the event subgraph,
+thereby influencing the accuracy of event represen-
+tation. Moreover, although the confidence-based fu-
+sion layer used in our work is effective in resisting
+interference from low-quality samples, extremely
+small confidence scores may result in an abundance
+of zero values in the classifier input, posing a risk
+of overfitting or gradient vanishing. We plan to
+address these limitations in future research.
+8 ETHICS STATEMENT
+This paper adheres to the ACM Code of Ethics and
+Professional Conduct. Firstly, the dataset utilized
+does not contain sensitive private information and
+poses no harm to society. Secondly, proper attribu-
+tion is given to relevant papers and the sources of
+pre-trained models, along with detailed references
+to the toolkits used. Furthermore, our code will
+be released under the license of any artifacts used.
+Lastly, the proposed fake news detection method is
+designed to contribute to the safety and stability of
+the internet environment and public opinion.
+References
+Christina Boididou, Katerina Andreadou, Symeon Pa-
+padopoulos, Duc Tien Dang Nguyen, Giulia Boato,
+Michael Riegler, Yiannis Kompatsiaris, et al. 2015.
+Verifying multimedia use at mediaeval 2015. In Me-
+diaEval 2015, volume 1436. CEUR-WS.
+Juan Cao, Peng Qi, Qiang Sheng, Tianyun Yang, Junbo
+Guo, and Jintao Li. 2020. Exploring the role of visual
+content in fake news detection. Disinformation, Mis-
+information, and Fake News in Social Media: Emerg-
+ing Research Challenges and Opportunities, pages
+141–161.
+Kai Chen, Jiaqi Wang, Jiangmiao Pang, Yuhang Cao,
+Yu Xiong, Xiaoxiao Li, Shuyang Sun, Wansen Feng,
+Ziwei Liu, Jiarui Xu, Zheng Zhang, Dazhi Cheng,
+Chenchen Zhu, Tianheng Cheng, Qijie Zhao, Buyu
+Li, Xin Lu, Rui Zhu, Yue Wu, Jifeng Dai, Jingdong
+Wang, Jianping Shi, Wanli Ouyang, Chen Change
+Loy, and Dahua Lin. 2019. MMDetection: Open mm-
+lab detection toolbox and benchmark. arXiv preprint
+arXiv:1906.07155.
+Yixuan Chen, Dongsheng Li, Peng Zhang, Jie Sui, Qin
+Lv, Lu Tun, and Li Shang. 2022. Cross-modal am-
+biguity learning for multimodal fake news detection.
+In Proceedings of the ACM Web Conference 2022 ,
+pages 2897–2905.
+Ziwei Chen, Linmei Hu, Weixin Li, Yingxia Shao, and
+Liqiang Nie. 2023. Causal intervention and coun-
+terfactual reasoning for multi-modal fake news de-
+tection. In Proceedings of the 61st Annual Meet-
+ing of the Association for Computational Linguis-
+tics (Volume 1: Long Papers), ACL 2023, Toronto,
+Canada, July 9-14, 2023, pages 627–638. Associa-
+tion for Computational Linguistics.
+Zhuohang Dang, Minnan Luo, Chengyou Jia, Guang
+Dai, Xiaojun Chang, and Jingdong Wang. 2024.
+5817

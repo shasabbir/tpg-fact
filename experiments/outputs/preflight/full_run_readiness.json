@@ -1,0 +1,43 @@
+{
+  "api_status": "frozen_snapshot",
+  "blockers": [
+    "200-case pilot claim manifest is incomplete",
+    "audited pilot evidence manifest is missing",
+    "pilot feasibility gate has not passed",
+    "audited semantic-conflict donor manifest is missing or invalid",
+    "no CUDA GPU is available in this environment"
+  ],
+  "conflict_manifest_status": "invalid",
+  "data": {
+    "pilot_claims": 0,
+    "pilot_evidence": 0,
+    "pilot_phase_status": "missing"
+  },
+  "execution_scripts": {
+    "build_feature_store.py": "D:\\1.msc\\ET2\\experiments\\scripts\\build_feature_store.py",
+    "compare_experiments.py": "D:\\1.msc\\ET2\\experiments\\scripts\\compare_experiments.py",
+    "evaluate_interventions.py": "D:\\1.msc\\ET2\\experiments\\scripts\\evaluate_interventions.py",
+    "export_paper_artifacts.py": "D:\\1.msc\\ET2\\experiments\\scripts\\export_paper_artifacts.py",
+    "retrieve_evidence.py": "D:\\1.msc\\ET2\\experiments\\scripts\\retrieve_evidence.py",
+    "run_final_matrix.py": "D:\\1.msc\\ET2\\experiments\\scripts\\run_final_matrix.py",
+    "run_full_study.py": "D:\\1.msc\\ET2\\experiments\\scripts\\run_full_study.py",
+    "train.py": "D:\\1.msc\\ET2\\experiments\\scripts\\train.py",
+    "tune.py": "D:\\1.msc\\ET2\\experiments\\scripts\\tune.py"
+  },
+  "interpretation": "Ready means that the pilot gate, frozen model identities, real trainer, and GPU runtime all exist. It is not a claim of scientific validity.",
+  "models": {
+    "revisions": {
+      "comparison_mllm": "cc594898137f460bfe9f0759e9844b3ce807cfb5",
+      "dense_text_model": "5617a9f61b028005a4858fdac845db406aefb181",
+      "reranker_model": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+      "visual_model": "e8e487298228002f3d8a82e0cd5c8ea9c567f57f"
+    }
+  },
+  "runtime": {
+    "cuda_available": false,
+    "cuda_devices": 0,
+    "torch_available": true
+  },
+  "status": "not_ready",
+  "training_entry_point": "D:\\1.msc\\ET2\\experiments\\scripts\\train.py"
+}

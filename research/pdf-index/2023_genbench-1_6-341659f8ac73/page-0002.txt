@@ -1,0 +1,101 @@
+2 Literature Review
+2.1 Detecting Misinformation
+Works such as Murayama (2021) and Wardle et al.
+(2018) provide an overview of different definitions
+of “fake news” and related concepts (misinforma-
+tion, rumor, satire, propaganda, etc.). But the ques-
+tion of how to define “misinformation” is still an
+on-going area of research. For example, Abdali
+(2022) listed binary ground truth (true vs. false)
+and lack of granularity in labels in existing datasets
+as a data-related challenge in the field. To avoid the
+issue of coarse labeling, some researchers formu-
+late the misinformation detection task as a regres-
+sion problem. For our purposes, we use “misinfor-
+mation” interchangeably with “fake news” to refer
+to content that contains some element of untruth,
+regardless of intention.
+Fake news classification research is closely re-
+lated to tasks such as fact verification, fact check-
+ing, rumor/stance detection, and sentiment extrac-
+tion (Oshikawa et al., 2020). A classic ML fake
+news detection model represents input content (e.g.
+text and/or image) with manually selected features
+and feeds these into a classification or regression
+model (Zhou and Zafarani, 2020). The advent of
+powerful deep learning models like BERT (Devlin
+et al., 2019) for text or ResNet (He et al., 2016) for
+images made it possible to step away from manu-
+ally crafted features toward learned representations
+extracted from hidden layers.
+For multimodal information, the main question
+lies in whether to process each individual modal-
+ity and then combine the predictions (ensemble
+methods), or whether to extract cross-modal fea-
+tures that account for inter-modal interactions (Ab-
+dali, 2022). In ensemble methods, one can fuse
+the modalities at the raw input level – “early fu-
+sion”, after extracting modality-specific features
+(e.g. through vector concatenation) – “interme-
+diate fusion”, or instead fuse predictions of each
+modality-specific model – “late fusion” (Boulahia
+et al., 2021). Examples of cross-modal features
+used include measures of similarity between the
+input text and images (Giachanou et al., 2020). An-
+other explored avenue for extracting cross-modal
+interactions consists of using attention mechanisms.
+However, attention-based models are not as easily
+explainable, with regions to attend to often discov-
+ered through trial and error (Abdali, 2022).
+2.2 Evaluation and Temporal Generalizability
+The problem of model generalizability to unseen
+data is a known challenge in ML, often addressed
+through methods such as domain adaptation and
+transfer learning (e.g. see Kouw and Loog (2018)).
+Works such as Suprem et al. (2019) and Žliobait˙e
+(2010) have used continuous/incremental learning
+to train models to respond to “concept drift”. In
+the context of misinformation detection, what is
+defined as "in-domain" and "out-of-domain" can
+vary. Experiments posed by Nan et al. (2021) and
+Min et al. (2022) define "domain" as "subject/topic
+of data", e.g., training models on political sources
+and testing on social content. In this paper, we treat
+different time periods as different "domains", since
+content even within the same subject/topic changes
+so rapidly. We refer to a model’s ability to perform
+on data from a time period not seen in training as
+its “temporal generalizability".
+Bozarth and Budak (2020) explored such “tem-
+poral generalizability" of misinformation detection
+models by comparing evaluation strategies: clas-
+sic (common N-fold cross-validation across the
+entire dataset), forecast (evaluating on future data
+from a time period past the end of training), bydo-
+main (evaluation against content not seen in train-
+ing). They found that “classic” evaluation (which
+was most often encountered in surveyed literature)
+yielded higher performance than “forecast” eval-
+uation (which closely mimics what happens with
+production models). Horne et al. (2019) similarly
+found that performance of fake news classifiers
+worsens over time, although they note that cer-
+tain features (e.g. content-based features like style
+of writing) are more robust to temporal changes.
+Alkhalifa et al. (2023) observed a more pronounced
+model deterioration with time for “open-domain”
+content (e.g. social media) as opposed to “closed-
+domains” (e.g. book reviews).
+Improving temporal generalizability has been ex-
+plored on text-only models: Zhu et al. (2022) used
+an “entity debiasing framework”, Suprem and Pu
+(2022) proposed a new method based on K-Means
+clustering, while Murayama et al. (2021) showed
+that using masking during text-based model train-
+ing resulted in a better generalization accuracy. The
+generalizability of multimodal models has not been
+explored to the same extent as for unimodal (specif-
+ically text-only) models. Moreover, to the best of
+our knowledge, no prior temporal generalizability
+study has used the r/Fakeddit dataset.
+77

@@ -1,0 +1,74 @@
+3 Methods
+3.1 Data: r/Fakeddit
+We used the r/Fakeddit dataset, introduced by Naka-
+mura et al. (2020) as a “multimodal benchmark
+dataset for fine-grained fake news detection”. Com-
+pared to other multimodal datasets, it is one of the
+largest publicly available,1 and contains both binary
+and fine-grained labels. Data was sampled from
+22 subreddits (refer to Table 8 in the Appendix
+for specifics). Of its 1 million samples, roughly
+650K are multimodal, containing text (title of Red-
+dit post) and an associated image. These span June
+1, 2008 to November 15, 2019 and are the focus of
+our investigations. Labels consist of three levels of
+granularity: 2-, 3- or 6-way (see Figure 1).
+Figure 1: Example r/Fakeddit data for all possible 2-,
+3-, and 6-way classes with relative class sizes.
+r/Fakeddit is imbalanced, with the imbalance
+getting more pronounced as the classification gets
+more fine-grained. In the 2-way labels, 255,913
+(38.81%) of posts are labelled as True and 403,451
+(61.19%) False. The 3-way labeling is roughly
+the same as for 2-way labeling, just a portion of
+the Fake samples is listed as Half Fake (2.49% of
+data). The most fine-grained 6-way labeling, with
+5 sub-classes for fake content, contains the most
+imbalances. In this report, we focus only on 2-
+way and 6-way classification, as our 3-way models
+1Refer to https://github.com/entitize/Fakeddit
+behaved extremely similarly to the 2-way models,
+likely due to the relatively small size of the Half
+Fake class.
+Preprocessing We keep the pre-processed text
+of Nakamura et al. (2020). Images were pre-
+processed following the practices of He et al.
+(2016), Krizhevsky et al. (2012), and Simonyan
+and Zisserman (2015): we resized and randomly
+cropped images to force image dimensions to
+224x224, then normalized each pixel value using
+the mean and standard deviation of RGB values in
+the ImageNet dataset (default in Pytorch).2
+3.2 Train-Validation-Test Data Splits
+We prepared three train-val-test splits, changing the
+temporal range of information available to models.
+Original (OG) Data Split: A random partition-
+ing of the dataset into train, val, and test sets pro-
+vided by the r/Fakeddit authors. All three spanned
+the entire decade of available data (see Table 1).
+Split Time Covered # Posts % Data
+Train 06.2008-11.2019 544,288 82.56%
+Val 07.2008-10.2019 57,551 8.72%
+Test 06.2008-10.2019 57,525 8.72%
+Table 1: Original train-val-test split statistics.
+Temporal Data Split: All three splits cover a
+separate time period. We sorted all available data
+by creation timestamp and separated it into three
+consecutive chunks corresponding in size to the
+OG train, val, and test splits (to control for dataset
+size). Splitting the data this way ensured that mod-
+els would be both validated and evaluated on tem-
+porally out-of-domain data.
+Split Time Covered % Data Months
+Train 06.2008-04.2019 82.56% 131
+Val 04.2019-07.2019 8.72% 3
+Test 07.2019-11.2019 8.72% 4
+Table 2: Temporal train-val-test split statistics.
+Multiple Test Splits Over Time: Has 5 consec-
+utive test splits, designed to quantify the change
+in performance as the test set gets further removed
+from the training data. Although the raw count of
+data points in our train and validation sets had to
+2https://pytorch.org/vision/stable/transforms.html#scriptable-
+transforms
+78

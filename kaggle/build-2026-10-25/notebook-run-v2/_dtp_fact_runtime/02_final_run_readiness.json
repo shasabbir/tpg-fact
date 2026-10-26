@@ -1,0 +1,9 @@
+{
+  "status": "blocked",
+  "blockers": [
+    "Audited dtp_fact_final_data_<date>.zip is not attached.",
+    "No CUDA GPU is enabled in this Kaggle session."
+  ],
+  "cuda_devices": 0,
+  "cuda_name": null
+}

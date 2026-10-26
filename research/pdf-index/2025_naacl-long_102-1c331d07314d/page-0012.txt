@@ -1,0 +1,116 @@
+Eric Müller-Budack, Jonas Theiner, Sebastian Diering,
+Maximilian Idahl, and Ralph Ewerth. 2020. Multi-
+modal analytics for real-world news using measures
+of cross-modal entity consistency. In Proceedings
+of the 2020 International Conference on Multimedia
+Retrieval, ICMR ’20, page 16–25, New York, NY ,
+USA. Association for Computing Machinery.
+OpenAI. 2023. Gpt-4 technical report. Technical report,
+OpenAI.
+Liangming Pan, Xinyuan Lu, Min-Yen Kan, and Preslav
+Nakov. 2023a. QACheck: A demonstration system
+for question-guided multi-hop fact-checking. In Pro-
+ceedings of the 2023 Conference on Empirical Meth-
+ods in Natural Language Processing: System Demon-
+strations, pages 264–273, Singapore. Association for
+Computational Linguistics.
+Liangming Pan, Xiaobao Wu, Xinyuan Lu, Anh Tuan
+Luu, William Yang Wang, Min-Yen Kan, and Preslav
+Nakov. 2023b. Fact-checking complex claims with
+program-guided reasoning. In Proceedings of the
+61st Annual Meeting of the Association for Compu-
+tational Linguistics (Volume 1: Long Papers), pages
+6981–7004, Toronto, Canada. Association for Com-
+putational Linguistics.
+Stefanos-Iordanis Papadopoulos, Christos Koutlis,
+Symeon Papadopoulos, and Panagiotis C Petran-
+tonakis. 2023. Red-dot: Multimodal fact-checking
+via relevant evidence detection. ArXiv preprint ,
+abs/2311.09939.
+Stefanos-Iordanis Papadopoulos, Christos Koutlis,
+Symeon Papadopoulos, and Panagiotis C Petranton-
+akis. 2024a. Similarity over factuality: Are we mak-
+ing progress on multimodal out-of-context misinfor-
+mation detection? ArXiv preprint, abs/2407.13488.
+Stefanos-Iordanis Papadopoulos, Christos Koutlis,
+Symeon Papadopoulos, and Panagiotis C Petranton-
+akis. 2024b. Verite: a robust benchmark for multi-
+modal misinformation detection accounting for uni-
+modal bias. International Journal of Multimedia
+Information Retrieval, 13(1):4.
+Kha-Luan Pham, Minh-Khoi Nguyen-Nhat, Anh-Huy
+Dinh, Quang-Tri Le, Manh-Thien Nguyen, Anh-Duy
+Tran, Minh-Triet Tran, and Duc-Tien Dang-Nguyen.
+2024. Ookpik- a collection of out-of-context image-
+caption pairs. In MultiMedia Modeling, pages 132–
+144, Cham. Springer Nature Switzerland.
+Peng Qi, Zehong Yan, Wynne Hsu, and Mong Li Lee.
+2024. Sniffer: Multimodal large language model for
+explainable out-of-context misinformation detection.
+In Proceedings of the IEEE/CVF Conference on Com-
+puter Vision and Pattern Recognition (CVPR), pages
+13052–13062.
+Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya
+Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sas-
+try, Amanda Askell, Pamela Mishkin, Jack Clark,
+Gretchen Krueger, and Ilya Sutskever. 2021. Learn-
+ing transferable visual models from natural language
+supervision. In Proceedings of the 38th International
+Conference on Machine Learning, ICML 2021, 18-24
+July 2021, Virtual Event, volume 139 of Proceedings
+of Machine Learning Research , pages 8748–8763.
+PMLR.
+Ekraam Sabir, Wael AbdAlmageed, Yue Wu, and
+Prem Natarajan. 2018. Deep multimodal image-
+repurposing detection. In 2018 ACM Multimedia
+Conference on Multimedia Conference, MM 2018,
+Seoul, Republic of Korea, October 22-26, 2018 ,
+pages 1337–1345.
+Michael Schlichtkrull, Zhijiang Guo, and Andreas Vla-
+chos. 2023. Averitec: A dataset for real-world claim
+verification with evidence from the web. In Advances
+in Neural Information Processing Systems 36: An-
+nual Conference on Neural Information Processing
+Systems 2023, NeurIPS 2023, New Orleans, LA, USA,
+December 10 - 16, 2023.
+Michael Sejr Schlichtkrull. 2024. Generating media
+background checks for automated source critical rea-
+soning. In Findings of the Association for Computa-
+tional Linguistics: EMNLP 2024, pages 4927–4947,
+Miami, Florida, USA. Association for Computational
+Linguistics.
+Sina Semnani, Violet Yao, Heidi Zhang, and Monica
+Lam. 2023. WikiChat: Stopping the hallucination of
+large language model chatbots by few-shot ground-
+ing on Wikipedia. In Findings of the Association
+for Computational Linguistics: EMNLP 2023, pages
+2387–2413, Singapore. Association for Computa-
+tional Linguistics.
+Craig Silverman. 2013. Verification handbook. Ac-
+cessed: 2023-09-15.
+Sahar Tahmasebi, Eric Müller-Budack, and Ralph Ew-
+erth. 2025. Verifying cross-modal entity consis-
+tency in news using vision-language models. ArXiv
+preprint, abs/2501.11403.
+Jonathan Tonglet, Marie-Francine Moens, and Iryna
+Gurevych. 2024. “image, tell me your story!” pre-
+dicting the original meta-context of visual misinfor-
+mation. In Proceedings of the 2024 Conference on
+Empirical Methods in Natural Language Processing,
+pages 7845–7864, Miami, Florida, USA. Association
+for Computational Linguistics.
+Shaydanay Urbani. 2020. Verifying online information.
+Accessed: 2023-09-15.
+Thomas Wolf, Lysandre Debut, Victor Sanh, Julien
+Chaumond, Clement Delangue, Anthony Moi, Pier-
+ric Cistac, Tim Rault, Remi Louf, Morgan Funtow-
+icz, Joe Davison, Sam Shleifer, Patrick von Platen,
+Clara Ma, Yacine Jernite, Julien Plu, Canwen Xu,
+Teven Le Scao, Sylvain Gugger, Mariama Drame,
+Quentin Lhoest, and Alexander Rush. 2020. Trans-
+formers: State-of-the-art natural language processing.
+In Proceedings of the 2020 Conference on Empirical
+Methods in Natural Language Processing: System
+Demonstrations, pages 38–45, Online. Association
+for Computational Linguistics.
+2040

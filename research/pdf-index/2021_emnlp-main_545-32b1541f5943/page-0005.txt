@@ -1,0 +1,75 @@
+6805
+Figure 3: Comparison of the retrieved matches for the same query caption obtained within our four splits.
+4 Experiments
+We start by describing our experimental setup and
+then present the results of our benchmarking study.
+4.1 Experimental Setup
+Model Architectures For our base models we rely
+on CLIP (Radford et al., 2021) and VisualBERT (Li
+et al., 2019). We include VisualBERT as it is a rep-
+resentative recent model and is an appropriate base-
+line for addressing the semantic mismatch tasks.
+CLIP passes image and text through separate
+encoders that are trained to generate similar repre-
+sentations for related concepts. The model is pre-
+trained on a web-based corpus of 400M image-text
+pairs using a contrastive loss, in which the cosine
+similarity of true image-text pairs is maximized.
+VisualBERT passes image and text through a
+shared series of transformer layers to align them
+into one embedding space. For its bounding box
+features, we use a Faster-RCNN model (Ren et al.,
+2015) trained on Visual Genome with a ResNeXT-
+152 backbone. For pretraining, we only use the
+Masked Token Loss reported by Li et al. (2019),
+which masks each text token with probability 0.15.
+We pretrain VisualBERT either on the 3M image-
+caption pairs from Conceptual Captions (Sharma
+et al., 2018), based on alt-texts from web images
+stripped of all named entities, or on the 1M pairs
+from the VisualNews (Liu et al., 2020), based on
+captions from the news images.
+Implementation Details Our task is to classify
+each image-caption pair as pristine or falsiﬁed. We
+ﬁne-tune both models as we train the classiﬁers.
+When ﬁnetuning, we use a learning rate of 5e-5 for
+the classiﬁer and 5e-7 for other layers. We train
+samples since all matches either do or do not have ‘PERSON”
+named entities depending on the split.
+with a batch size of 32 for 88k steps for the Seman-
+tics splits and 44k steps for the Person and Scene
+splits. We report classiﬁcation accuracy over all
+samples (All) and separately for the Pristine and
+Falsiﬁed samples. We also report model perfor-
+mance at varying false alarm rates via ROC curves.
+4.2 Experimental Results
+In this section, we benchmark several methods on
+our proposed dataset to assess its difﬁculty. First,
+we compare the performance of unimodal vs. mul-
+timodal models to ensure that methods cannot ex-
+ploit unimodal biases. Next, since we leverage
+CLIP ViT/B-32 to make our dataset challenging,
+we explore whether our task could be solved by a
+different model speciﬁcally pretrained on the news
+domain, leveraging a different backbone, or with
+more model parameters. In our ﬁnal experiment,
+we train a single model on the union of all splits
+(Total/Sum in Table 3), while all the other experi-
+ments report the performance of thedistinct models
+trained on each split individually. All tables in this
+section evaluate on the same test set per split.
+Unimodal Model PerformanceOne motivation for
+this work is that several prior works rely on auto-
+matic text manipulation to generate mismatched
+media. We argue that entity manipulation can intro-
+duce linguistic biases. We trained a text-only BERT
+model (Devlin et al., 2019) on just the named enti-
+ties of the TamperedNews dataset (rather than the
+full articles) and achieved comparable results to
+the original paper’s image-and-text based system
+(Müller-Budack et al., 2020). For their “Document
+Veriﬁcation” task, where the goal is to select one
+out of two articles given an image, we were able to
+achieve 90% versus their 93% on the Persons Coun-
+try Gender (PsCG) split. For the Outdoor Places
+City Region split, GCD(25, 200), we were able to

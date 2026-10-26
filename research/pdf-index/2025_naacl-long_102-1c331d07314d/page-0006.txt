@@ -1,0 +1,117 @@
+Source Date Loc. Mot. People Things Event
+(M) ( ∆) (CO ∆) (M) (F1) (M) (M)
+NewsCLIPpings
+5Pils baseline 3.4 28.9 32.7 1.5 39.9 9.9 15.4
+COVE 8.1 41.5 51.6 11.6 49.0 10.9 22.4
+5Pils-OOC
+5Pils baseline 0.3 1.8 21.8 3.0 12.8 4.9 4.8
+COVE 0.6 7.0 28.9 15.1 20.5 7.2 9.4
+Table 1: Context prediction results on the test sets (%).
+The best scores are marked in bold. Loc. and Mot. are
+the location and the motivation, respectively.
+NewsCLIPpings 5Pils-OOC
+(A) (R ACC ) (R OOC ) (F1) (A) (R ACC ) (R OOC ) (F1)
+RED-DOT
+ 90.3 87.3 93.3 90.3 46.8 42.8 50.8 46.7
+AITR
+ 93.5 94.8 92.1 93.5 52.6 81.4 23.9 48.4
+SNIFFER
+ 88.4 92.3 84.4 88.3 56.3 86.4 26.1 51.9
+5Pils baseline - LLama 3
+ 77.2 74.6 79.8 77.2 55.7 42.8 68.6 54.9
+COVE with predicted context
+DebertaV3
+ 87.9 84.0 91.8 87.9 56.7 47.6 65.9 56.4
+Llama 3
+ 86.7 83.5 89.9 86.7 58.2 33.0 83.3 55.3
+COVE with ground truth context
+DebertaV3
+ 94.1 99.2 88.9 94.0 80.7 100.0 61.4 79.9
+Llama 3
+ 95.1 97.1 93.1 94.4 95.9 99.7 92.1 95.3
+Table 2: Veracity prediction results on the test sets (%).
+and
+ indicate trained models and frozen models
+used in a few-shot setting, respectively. The best scores
+without ground truth are marked in bold.
+NewsCLIPpings train instances. Model versions
+and the hyperparameters are listed in Appendix G.
+Appendix H reports the prompts for Llama 3.
+The same set of web evidence is used for all
+methods. Following RED-DOT, AITR, and SNIF-
+FER, we only use the caption field of the web ev-
+idence for NewsCLIPpings. For 5Pils-OOC, we
+use the title field because few web evidence pro-
+vides a caption. This is more restrictive than the
+setup of Tonglet et al. (2024) and limits context
+prediction by ignoring important webpage fields
+like the publication date. However, it ensures a fair
+comparison with the veracity prediction baselines.
+Unlike NewsCLIPpings, the web evidence of 5Pils-
+OOC are multilingual, including texts in Amharic,
+Arabic, Hindi, and Telugu.
+4.6 Main results
+Context prediction
+Thanks to its more diverse evidence set, COVE out-
+performs the 5Pils baseline (Tonglet et al., 2024)
+on all context items and both datasets, as shown
+in Table 1. The performance increases from 1.0 to
+18.9 on NewsCLIPpings, and from 0.3 to 12.1 per-
+centage points on 5Pils-OOC. For date, location,
+motivation, and event, COVE is not only more ac-
+curate but also abstains less often from answering
+than the baseline. We attribute these improvements
+to the larger and more diverse evidence set and
+the knowledge gap completion step for date and
+location. In particular, on 5Pils-OOC, including
+the knowledge gap completion more than doubles
+the COVE date scores, from 3.3 to 7.0%, and in-
+creases the location scores by 6.1 percentage points.
+Thanks to the Wikipedia entities retrieval, COVE
+achieves up to 9.1 percentage points higher F1 than
+the baseline for people. Source relies a lot on web
+captions, which are also part of the evidence set in
+the baseline, resulting in limited improvements.
+With both methods, better contextualization
+is achieved on NewsCLIPpings. The largest
+drops in performance when moving to 5Pils-OOC
+are observed for source, date, location, and
+people. The following properties of the images
+in NewsCLIPpings explain this: (1) they are of
+higher quality, (2) they all originate from news
+articles and the retrieved web captions contain
+more information and are less noisy, impacting
+source the most, (3) most of them are set in
+a Western context, on which MLLMs tend to
+perform better (Ananthram et al., 2024), while
+most of 5Pils-OOC images are set in East Africa
+and South Asia. This affects location the most,
+which is often estimated based on the automated
+captions if no web captions are available.
+Veracity prediction
+The veracity results of COVE are competitive with
+the baselines on NewsCLIPpings, as shown in Ta-
+ble 2, suffering mainly from a low R ACC while
+achieving near SOTA ROOC . COVE with Deber-
+taV3 achieves slightly better performance, which
+we attribute to the fine-tuning on NewsCLIPpings
+train instances.
+All methods suffer from lower results when
+switching from synthetic data to the 5Pils-OOC
+real-world data. However, COVE becomes
+the strongest method, achieving better accuracy,
+ROOC , and F1 than the baselines. While COVE
+with Llama 3 achieves the best accuracy, COVE
+with DebertaV3 is the best method in terms of F1.
+In comparison, RED-DOT performs worse than
+random, and AITR and SNIFFER have very low
+ROOC , as low as one OOC caption on four. RED-
+DOT and AITR always predict the OOC label for
+instances that have web captions, highlighting their
+reliance on shallow heuristics that do not general-
+ize beyond NewsCLIPpings (Papadopoulos et al.,
+2024a). While fine-tuned on synthetic data like the
+baselines, DebertaV3 generalizes better to 5Pils-
+OOC, which we attribute to leveraging a compre-
+hensive and structured context as input.
+2034

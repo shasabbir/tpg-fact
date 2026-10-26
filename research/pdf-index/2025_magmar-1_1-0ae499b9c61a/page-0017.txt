@@ -1,0 +1,98 @@
+Prompt 7: You will receive an input text, input image
+and image evidence towards determining the factuality
+of the input. Your task is to evaluate if the input is fully
+supported by the information provided in the evidence.
+Use the following entailment scale to generate a score:
+- [Fully supported] - All information in input is supported
+by the evidence, or extractions from the evidence.
+- [Partially supported] - The input is supported by the ev-
+idence to some extent, but there is major information in
+the input that is not discussed in the evidence. For exam-
+ple, if the input asks about two concepts and the evidence
+only discusses either of them, it should be considered a
+[Partially supported].
+- [No support / Contradictory] - The input completely ig-
+nores evidence, is unrelated to the evidence, or contradicts
+the evidence. This can also happen if the evidence is irrel-
+evant to the instruction.
+Make sure to not use any external information/knowledge
+to judge whether the input is true or not. Only check
+whether the input is supported by the evidence, and not
+whether the input follows the instructions or not.
+Output Entailment on the first line and the explanation on
+the second line.
+Input text: {caption}
+Input Image: {encoded image}
+Image Evidence: {evidence encoded image}
+For usefulness, we used the following two
+prompts.
+Prompt 8: Given an input text and input image along
+with an text evidence, rate whether the evidence appears
+to be a helpful and informative answer to determine the
+factuality of the input, from 1 (lowest) - 5 (highest). We
+call this score perceived utility. The detailed criterion is
+as follows: 5: The evidence provides a complete, highly
+detailed, and informative response to the factuality of
+the input, fully satisfying the information needs. 4: The
+evidence mostly fulfills the need to get the factuality of the
+input, while there can be some minor improvements such
+as discussing more detailed information, having better
+structure of the evidence, or improving coherence. 3:
+The evidence is acceptable, but some major additions or
+improvements are needed to satisfy factuality. 2: The
+evidence still addresses the main request, but it is not
+complete or not relevant to the input. 1: The response is
+barely on-topic or completely irrelevant.
+Input text: {caption}
+Input Image: {encoded image}
+Text Evidence: {evidence text}
+Prompt 9: Given an input text and input image along
+with an image evidence, rate whether the evidence appears
+to be a helpful and informative answer to determine the
+factuality of the input, from 1 (lowest) - 5 (highest). We
+call this score perceived utility. The detailed criterion is
+as follows: 5: The evidence provides a complete, highly
+detailed, and informative response to the factuality of
+the input, fully satisfying the information needs. 4: The
+evidence mostly fulfills the need to get the factuality of the
+input, while there can be some minor improvements such
+as discussing more detailed information, having better
+structure of the evidence, or improving coherence. 3:
+The evidence is acceptable, but some major additions or
+improvements are needed to satisfy factuality. 2: The
+evidence still addresses the main request, but it is not
+complete or not relevant to the input. 1: The response is
+barely on-topic or completely
+Input text: {caption}
+Input Image: {encoded image}
+Image Evidence: {evidence encoded image}
+4. Verification
+During verification (phase 6), we have two different
+prompts - one for verifing with evidence and one
+without evidence. Note that the prompt here out-
+puts true/false, but later depending on the dataset
+these can be renamed to actual classes. The prompt
+with evidence is as follows.
+Prompt 10: You will receive an image and caption
+along with some external documents (evidences). Based
+on the evidences provided you need to determine fac-
+tual correctness of the input image and caption. If the
+input image and caption are out-of-context output [OUT-
+OF-CONTEXT], else if factually correct output [TRUE],
+otherwise [FALSE]. Also output the confidence score in
+scale 0 to 1 for the same decision.
+Caption: {caption}
+{encoded image}
+Evidences: {evidence texts and encoded images}
+When verifing without evidence, then the pipeline
+uses the following prompt.
+Prompt 11: You will receive an image and caption.
+Based on the knowledge you have, you need to determine
+factual correctness of the input image and caption. If the
+input image and caption are out-of-context output [OUT-
+OF-CONTEXT], else if factually correct output [TRUE],
+otherwise [FALSE]. Also output the confidence score in
+scale 0 to 1 for the same decision.
+Caption: {caption}
+{encoded image}
+17

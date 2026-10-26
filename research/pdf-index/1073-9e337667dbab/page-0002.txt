@@ -1,0 +1,113 @@
+underexplored in fact-checking research.
+Research Objectives. Addressing these gaps, this paper fo-
+cuses on the problem of fact-checking with conflicting evi-
+dence, where retrieved documents present opposing stances
+on a claim. Specifically, we aim to evaluate the ability of
+retrieval-augmented LLMs to identify, analyze, and resolve
+conflicts in evidence by determining which sources to trust
+for claim verification. To enable this, we introduce CON-
+FACT (Conflicting Evidence for Fact-Checking), a novel
+dataset designed to systematically study this challenge. Each
+instance in CONFACT comprises a claim paired with docu-
+ments exhibiting conflicting stances, annotated with source
+credibility ratings.
+We conduct extensive experiments to evaluate state-of-the-
+art RAG models on CONFACT, revealing critical limitations
+in their ability to reason through conflicting evidence and
+prioritize trustworthy sources. Motivated by these findings,
+we further explore strategies for incorporating media back-
+ground information—such as source metadata and credibility
+scores—into both the retrieval and generation processes. Our
+results demonstrate that effectively integrating source credi-
+bility enhances the robustness of retrieval-augmented LLMs
+in resolving conflicting evidence for fact-checking.
+Contributions. In this work, we made the following con-
+tributions in this work:
+• Dataset Creation: We introduce CONFACT, a novel
+dataset for studying fact-checking with conflicting evi-
+dence.4 The dataset includes claims paired with conflict-
+ing retrieved documents, annotated with source credibil-
+ity and stance labels to facilitate systematic evaluation.
+• Performance Evaluation: We conduct a comprehen-
+sive evaluation of RAG-based LLMs on CONFACT,
+revealing critical vulnerabilities in resolving conflicting
+evidence and reasoning about source credibility.
+• Methodological Innovations: We propose and evaluate
+multiple strategies for integrating media background in-
+formation into RAG pipelines, demonstrating significant
+improvements in fact-checking performance through ef-
+fective credibility-aware reasoning.
+2 Related Work
+2.1 RAG for Automated Fact-Checking
+Automated fact-checking (AFC) has gained significant atten-
+tion in recent years [Guo et al., 2022; Nakov et al., 2021 ].
+While LLMs have demonstrated strong performance in vari-
+ous Natural Language Understanding (NLU) tasks [Li et al.,
+2023], they remain limited in AFC, as fact-checking often
+requires evidence beyond the parametric knowledge stored
+within LLMs [Schlichtkrull et al., 2023; Thorne et al., 2018;
+Wang, 2017]. RAG [Lewis et al., 2020; Ram et al., 2023 ]
+facilitates the adaptation of LLMs to AFC by incorporat-
+ing external retrieved evidence to LLMs [Pan et al., 2023a;
+Pan et al., 2023b; Chen et al., 2024; Zhang and Gao, 2024 ].
+However, not all retrieved evidence is reliable [Guo et al.,
+4Dataset available at https://github.com/zoeyyes/CONFACT
+2022; Hong et al., 2024 ], and information from untrust-
+worthy sources may contain misinformation, leading to con-
+flicting evidence. Recent studies have shown that retrieval-
+augmented LLMs are particularly vulnerable to contradic-
+tions in augmented texts [Min et al., 2020; Lee et al., 2024;
+Chen et al., 2021; Amplayo et al., 2023 ]. Given the risks
+posed by unreliable sources, it is crucial to investigate the ro-
+bustness of retrieval-augmented LLMs in AFC, particularly
+in handling conflicting evidence.
+2.2 Source Credibility Estimation
+Source credibility estimation is crucial, as not all media
+sources are reliable; however, this problem remains underex-
+plored. Early works addressed this issue by estimating media
+credibility through analysis of fake news records associated
+with sources [Mukherjee and Weikum, 2015; Popat et al.,
+2016; Popat et al., 2017 ]. The authors in [Baly et al., 2018 ]
+introduced the first dataset with human-annotated factuality
+ratings of news sources and utilized various features, such as
+Wikipedia information and source URLs, for credibility es-
+timation. Subsequent studies proposed more robust models
+using diverse features of media sources [Zhang et al., 2019;
+Baly et al., 2020; Hounsel et al., 2020 ]. In contrast to these
+classification approaches, the work in [Schlichtkrull, 2024 ]
+emphasized the generation of detailed background checks for
+media sources.
+Despite these advancements, the impact of estimated
+source credibility in fact-checking is still unknown. has re-
+ceived limited attention. To date, only [Schlichtkrull, 2024]
+conducted a small-scale experiment with 20 claims, examin-
+ing whether incorporating source background checks could
+benefit claim verification. In this paper, we extend this line
+of inquiry by comprehensively evaluating how media source
+backgrounds can facilitate fact-checking models, and explor-
+ing optimal strategies for integrating source credibility infor-
+mation into these systems.
+3 CONFACT Dataset
+The CONFACT dataset is specifically designed to facil-
+itate the study of fact-checking in scenarios where con-
+flicting evidence is retrieved from sources of varying
+credibility, thereby addressing a critical gap in existing
+datasets like A VERITEC [Schlichtkrull et al., 2023 ] and
+FactCheckQA [Bashlovkina et al., 2023 ]. The construction
+involved two key steps: 1) identifying claims likely to retrieve
+conflicting evidence – particularly those frequently associated
+with misinformation from untrustworthy sources, and 2) en-
+suring that retrieved documents for claim verification present
+conflicting stances.
+3.1 Claim Collection
+To identify claims likely to retrieve conflicting evidence, we
+utilized two widely used fact-checking datasets:
+• A VERITEC. This dataset [Schlichtkrull et al.,
+2023] contains 4,568 real-world claims fact-checked
+by 50 organizations, categorized as Conflicting
+Evidence/Cherry-picking, Not Enough Evidence, Re-
+futed, and Supported. We selected claims labeled as
+Refuted or Supported, which involve clear factuality.
+Proceedings of the Thirty-Fourth International Joint Conference on Artiﬁcial Intelligence (IJCAI-25)
+Special Track on AI and Social Good
+9657

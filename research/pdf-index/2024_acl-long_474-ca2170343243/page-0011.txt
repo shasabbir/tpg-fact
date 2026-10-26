@@ -1,0 +1,114 @@
+Wahid, Jonathan Tompson, Quan Vuong, Tianhe
+Yu, Wenlong Huang, Yevgen Chebotar, Pierre Ser-
+manet, Daniel Duckworth, Sergey Levine, Vincent
+Vanhoucke, Karol Hausman, Marc Toussaint, Klaus
+Greff, Andy Zeng, Igor Mordatch, and Pete Florence.
+2023. Palm-e: An embodied multimodal language
+model.
+Alexander Fabbri, Irene Li, Tianwei She, Suyi Li, and
+Dragomir Radev. 2019. Multi-news: A large-scale
+multi-document summarization dataset and abstrac-
+tive hierarchical model. In Proceedings of the 57th
+Annual Meeting of the Association for Computational
+Linguistics, pages 1074–1084, Florence, Italy. Asso-
+ciation for Computational Linguistics.
+Josh A. Goldstein, Girish Sastry, Micah Musser, Re-
+nee DiResta, Matthew Gentzel, and Katerina Sedova.
+2023. Generative language models and automated
+influence operations: Emerging threats and potential
+mitigations.
+Pengcheng He, Xiaodong Liu, Jianfeng Gao, and
+Weizhu Chen. 2023. Debertav3: Improving de-
+berta using electra-style pre-training with gradient-
+disentangled embedding sharing. In International
+Conference on Learning Representations.
+Andrew Jaegle, Sebastian Borgeaud, Jean-Baptiste
+Alayrac, Carl Doersch, Catalin Ionescu, David Ding,
+Skanda Koppula, Daniel Zoran, Andrew Brock, Evan
+Shelhamer, Olivier J Henaff, Matthew Botvinick, An-
+drew Zisserman, Oriol Vinyals, and Joao Carreira.
+2022. Perceiver IO: A general architecture for struc-
+tured inputs & outputs. In International Conference
+on Learning Representations.
+Andrew Jaegle, Felix Gimeno, Andy Brock, Oriol
+Vinyals, Andrew Zisserman, and Joao Carreira. 2021.
+Perceiver: General perception with iterative attention.
+In Proceedings of the 38th International Conference
+on Machine Learning, volume 139 of Proceedings
+of Machine Learning Research , pages 4651–4664.
+PMLR.
+Maurice Jakesch, Advait Bhat, Daniel Buschek, Lior
+Zalmanson, and Mor Naaman. 2023a. Co-writing
+with opinionated language models affects users’
+views. In Proceedings of the 2023 CHI Conference
+on Human Factors in Computing Systems. ACM.
+Maurice Jakesch, Jeffrey T. Hancock, and Mor Naaman.
+2023b. Human heuristics for AI-generated language
+are flawed. Proceedings of the National Academy of
+Sciences, 120(11).
+Albert Q. Jiang, Alexandre Sablayrolles, Arthur Men-
+sch, Chris Bamford, Devendra Singh Chaplot, Diego
+de las Casas, Florian Bressand, Gianna Lengyel, Guil-
+laume Lample, Lucile Saulnier, Lélio Renard Lavaud,
+Marie-Anne Lachaux, Pierre Stock, Teven Le Scao,
+Thibaut Lavril, Thomas Wang, Timothée Lacroix,
+and William El Sayed. 2023. Mistral 7b.
+Aman Khullar and Udit Arora. 2020. MAST: Multi-
+modal abstractive summarization with trimodal hier-
+archical attention. In Proceedings of the First Inter-
+national Workshop on Natural Language Processing
+Beyond Text, pages 60–69, Online. Association for
+Computational Linguistics.
+Sarah Kreps, R. Miles McCain, and Miles Brundage.
+2022. All the news that’s fit to fabricate: Ai-
+generated text as a tool of media misinforma-
+tion. Journal of Experimental Political Science ,
+9(1):104–117.
+Mike Lewis, Yinhan Liu, Naman Goyal, Marjan
+Ghazvininejad, Abdelrahman Mohamed, Omer Levy,
+Veselin Stoyanov, and Luke Zettlemoyer. 2020.
+BART: Denoising sequence-to-sequence pre-training
+for natural language generation, translation, and com-
+prehension. In Proceedings of the 58th Annual Meet-
+ing of the Association for Computational Linguistics,
+pages 7871–7880, Online. Association for Computa-
+tional Linguistics.
+Chin-Yew Lin. 2004. ROUGE: A package for auto-
+matic evaluation of summaries. In Text Summariza-
+tion Branches Out, pages 74–81, Barcelona, Spain.
+Association for Computational Linguistics.
+Shuaiqi Liu, Jiannong Cao, Ruosong Yang, and Zhiyuan
+Wen. 2022. Long text and multi-table summarization:
+Dataset and method. In Findings of the Association
+for Computational Linguistics: EMNLP 2022, pages
+1995–2010, Abu Dhabi, United Arab Emirates. Asso-
+ciation for Computational Linguistics.
+Preslav Nakov, Giovanni Da San Martino, Tamer
+Elsayed, Alberto Barrón-Cedeño, Rubén Míguez,
+Shaden Shaar, Firoj Alam, Fatima Haouari, Maram
+Hasanain, Watheq Mansour, Bayan Hamdan,
+Zien Sheikh Ali, Nikolay Babulkov, Alex Nikolov,
+Gautam Kishore Shahi, Julia Maria Struß, Thomas
+Mandl, Mucahid Kutlu, and Yavuz Selim Kartal.
+2021. Overview of the clef–2021 checkthat! lab
+on detecting check-worthy claims, previously fact-
+checked claims, and fake news. In Experimental IR
+Meets Multilinguality, Multimodality, and Interac-
+tion, pages 264–291, Cham. Springer International
+Publishing.
+Yixin Nie, Adina Williams, Emily Dinan, Mohit Bansal,
+Jason Weston, and Douwe Kiela. 2020. Adversarial
+NLI: A new benchmark for natural language under-
+standing. In Proceedings of the 58th Annual Meet-
+ing of the Association for Computational Linguistics,
+pages 4885–4901, Online. Association for Computa-
+tional Linguistics.
+Dan S. Nielsen and Ryan McConville. 2022. Mumin:
+A large-scale multilingual multimodal fact-checked
+misinformation social network dataset. In Proceed-
+ings of the 45th International ACM SIGIR Confer-
+ence on Research and Development in Information
+Retrieval, SIGIR ’22, page 3141–3153, New York,
+NY , USA. Association for Computing Machinery.
+OpenAI. 2023. Gpt-4 technical report.
+8752

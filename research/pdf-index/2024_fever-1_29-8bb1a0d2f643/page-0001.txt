@@ -1,0 +1,71 @@
+Proceedings of the Seventh Fact Extraction and VERification Workshop (FEVER), pages 280–296
+November 15, 2024 ©2024 Association for Computational Linguistics
+RAGAR, Your Falsehood Radar:
+RAG-Augmented Reasoning for Political Fact-Checking using
+Multimodal Large Language Models
+Mohammed Abdul Khaliq1,3, Paul Yu-Chun Chang2∗,
+Mingyang Ma2, Bernhard Pflugfelder2, Filip Mileti´c1∗
+1Institute for Natural Language Processing, University of Stuttgart,
+2appliedAI Initiative GmbH, 3appliedAI Institute for Europe gGmbH
+{mohammed.abdul-khaliq, filip.miletic}@ims.uni-stuttgart.de ,
+{p.chang, m.ma, b.pflugfelder}@appliedai.de
+Abstract
+The escalating challenge of misinformation,
+particularly in political discourse, requires ad-
+vanced fact-checking solutions; this is even
+clearer in the more complex scenario of multi-
+modal claims. We tackle this issue using a mul-
+timodal large language model in conjunction
+with retrieval-augmented generation (RAG),
+and introduce two novel reasoning techniques:
+Chain of RAG (CoRAG) and Tree of RAG
+(ToRAG). They fact-check multimodal claims
+by extracting both textual and image content,
+retrieving external information, and reasoning
+subsequent questions to be answered based on
+prior evidence. We achieve a weighted F1-
+score of 0.85, surpassing a baseline reasoning
+technique by 0.14 points. Human evaluation
+confirms that the vast majority of our generated
+fact-check explanations contain all information
+from gold standard data.
+1 Introduction
+In the age of digital information, rapid dissemi-
+nation of news, both genuine and fabricated, has
+become a defining feature of public discourse. The
+phenomenon of fake news – which more precisely
+denotes misinformation, disinformation, or a com-
+bination of both (Aïmeur et al., 2023) – is particu-
+larly prevalent on social media: false information
+spreads six times faster than the truth on platforms
+like Twitter (V osoughi et al., 2018). This trend
+poses a critical challenge to the democratic process
+since it makes voters increasingly prone to mak-
+ing decisions based on incorrect information. The
+matter is further aggravated by visual information,
+which provides yet another widespread and conse-
+quential source of fake news. For instance, fake
+news stories that include images spread further than
+those containing only text (Zannettou et al., 2018).
+A potential solution to these issues is provided by
+automated fact-checking systems. They have bene-
+*Corresponding authors.
+Figure 1: An overview of the fact-checking pipeline con-
+trasting the baseline Sub-Question Generation approach
+from the Chain of RAG and Tree of RAG approach fol-
+lowed by veracity prediction and explanation.
+fited from the development of large language mod-
+els (LLMs), leading to improvements in detection,
+labeling, and generation of veracity explanations
+(Das et al., 2023). More recently, multimodal ap-
+proaches have complemented textual information
+with image representations to assess their cross-
+modal consistency and unified embedding repre-
+sentations (Yao et al., 2023a). Another active line
+of research deploys retrieval-augmented generation
+(RAG), whereby LLMs access up-to-date external
+information at inference time. They convert the
+input claim into phrase queries, pass them onto a
+search engine, and use the retrieved information to
+assess veracity (Asai et al., 2024; Zeng and Gao,
+280

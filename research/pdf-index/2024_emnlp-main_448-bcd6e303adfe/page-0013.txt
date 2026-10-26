@@ -1,0 +1,88 @@
+Michael Schlichtkrull, Nedjma Ousidhoum, and An-
+dreas Vlachos. 2023b. The intended uses of auto-
+mated fact-checking artefacts: Why, how and who.
+In Findings of the Association for Computational Lin-
+guistics: EMNLP 2023, pages 8618–8642, Singapore.
+Association for Computational Linguistics.
+Rui Shao, Tianxing Wu, and Ziwei Liu. 2023. Detecting
+and grounding multi-modal media manipulation. In
+Proceedings of the IEEE/CVF Conference on Com-
+puter Vision and Pattern Recognition (CVPR), pages
+6904–6913.
+Craig Silverman. 2013. Verification handbook. Ac-
+cessed: 2023-09-15.
+S Suryavardan, Shreyash Mishra, Parth Patwa, Megha
+Chakraborty, Anku Rani, Aishwarya Reganti, Aman
+Chadha, Amitava Das, Amit Sheth, Manoj Chin-
+nakotla, et al. 2023. Factify 2: A multimodal
+fake news and satire news dataset. arXiv preprint
+arXiv:2304.03897.
+Hugo Touvron, Louis Martin, Kevin Stone, Peter Al-
+bert, Amjad Almahairi, Yasmine Babaei, Nikolay
+Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti
+Bhosale, et al. 2023. Llama 2: Open founda-
+tion and fine-tuned chat models. arXiv preprint
+arXiv:2307.09288.
+Shaydanay Urbani. 2020. Verifying online information.
+Accessed: 2023-09-15.
+Matthijs J Warrens. 2010. Inequalities between multi-
+rater kappas. Advances in data analysis and classifi-
+cation, 4:271–286.
+Jing Yang, Didier Vega-Oliveros, Taís Seibt, and Ander-
+son Rocha. 2022. Explainable fact-checking through
+question answering. In ICASSP 2022-2022 IEEE In-
+ternational Conference on Acoustics, Speech and Sig-
+nal Processing (ICASSP), pages 8952–8956. IEEE.
+Xin Yuan, Jie Guo, Weidong Qiu, Zheng Huang, and
+Shujun Li. 2023. Support or refute: Analyzing the
+stance of evidence to detect out-of-context mis- and
+disinformation. In Proceedings of the 2023 Con-
+ference on Empirical Methods in Natural Language
+Processing, pages 4268–4280, Singapore. Associa-
+tion for Computational Linguistics.
+Fanrui Zhang, Jiawei Liu, Qiang Zhang, Esther Sun,
+Jingyi Xie, and Zheng-Jun Zha. 2023. Ecenet: Ex-
+plainable and context-enhanced network for muti-
+modal fact verification. In Proceedings of the 31st
+ACM International Conference on Multimedia, MM
+’23, page 1231–1240, New York, NY , USA. Associa-
+tion for Computing Machinery.
+Tianyi Zhang, Varsha Kishore, Felix Wu, Kilian Q.
+Weinberger, and Yoav Artzi. 2020. Bertscore: Eval-
+uating text generation with bert. In 8th Inter-
+national Conference on Learning Representations,
+ICLR 2020, Virtual Event, April 26-May 1, 2020 .
+OpenReview.net.
+Figure 8: Image contextualization narrative diagram.
+Figure based on Schlichtkrull et al. (2023b).
+Figure 9: Connections of image contextualization with
+other components of the human fact-checking pipeline.
+Dimitrina Zlatkova, Preslav Nakov, and Ivan Koychev.
+2019. Fact-checking meets fauxtography: Verify-
+ing claims about images. In Proceedings of the
+2019 Conference on Empirical Methods in Natu-
+ral Language Processing and the 9th International
+Joint Conference on Natural Language Processing
+(EMNLP-IJCNLP), pages 2099–2108, Hong Kong,
+China. Association for Computational Linguistics.
+A Analysis of the FC narrative
+Following the recommendations of Schlichtkrull
+et al. (2023b), we analyze the FC narrative intro-
+duced in this paper. Figure 8 provides a diagram
+of the different epistemic elements of our narrative.
+We envision fact-checkers as the primary data ac-
+tors that will use our automated retrieval and QA
+pipeline (model means) to predict the original meta-
+context of images (application means) and debunk
+visual misinformation (ends). Other potential data
+actors include experts in Open Source Intelligence
+(OSINT). The data subjects are primarily social me-
+dia users who will share image content that might
+be out-of-context, manipulated, or fake.
+Figure 9 shows the interactions of image contex-
+tualization with other components of the human
+FC pipeline. We identify two components at the
+input of image contextualization. (1) Assessing
+check-worthiness saves computational resources
+by filtering out content that is unlikely to be vi-
+7857

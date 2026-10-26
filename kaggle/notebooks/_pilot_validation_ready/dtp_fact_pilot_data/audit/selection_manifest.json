@@ -1,0 +1,20 @@
+{
+  "selected_claims": 200,
+  "label_counts": {
+    "insufficient_evidence": 25,
+    "refuted": 146,
+    "supported": 29
+  },
+  "split_counts": {
+    "test": 111,
+    "train": 50,
+    "validation": 39
+  },
+  "claims_with_two_cited_archive_domains": 133,
+  "two_domain_fraction": 0.665,
+  "claims_with_two_time_valid_source_domains_after_supplement": 141,
+  "two_time_valid_source_domain_fraction_after_supplement": 0.705,
+  "audit_actor": "AI-assisted visual and scope inspection",
+  "human_verified": false,
+  "status": "selected_for_final_pilot_integrity_checks"
+}

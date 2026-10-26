@@ -1,0 +1,96 @@
+Method Twitter Weibo PhemeAccuracy F1 Score Accuracy F1 Score Accuracy F1 Score
+EANN (Wang et al., 2018) 0.648 0.6385 0.782 0.780 0.681 0.721
+SAFE (Zhou et al., 2020) 0.762 0.761 0.763 0.761 0.811 0.767
+MV AE (Khattar et al., 2019) 0.745 0.744 0.824 0.823 0.852 0.827
+CLIP+MLP (Radford et al., 2021) 0.857 0.853 0.887 0.886 0.870 0.845
+CAFE+CLIP (Chen et al., 2022) 0.879 0.857 0.897 0.896 0.882 0.856
+MCAN+CLIP (Wu et al., 2021) 0.917 0.911 0.900 0.899 0.882 0.861
+FND-CLIP (Zhou et al., 2023) 0.902 0.896 0.907 0.907 0.875 0.857
+BMR (Ying et al., 2023) 0.883 0.870 0.889 0.889 0.863 0.830
+Event-Radar 0.928 0.923 0.919 0.919 0.901 0.880
+Table 1: Fake news detection system’s accuracy and binary F1 scores on three datasets. Bold indicates the
+best performance, while underlined denotes the second-best performance. Event-Radar demonstrates superior
+performance across all three datasets compared to all seven multimodal fake news detection baselines. The detailed
+classification results in each category will be provided in the appendix.
+3.5 Training and Inference
+After combining the features from multiple views,
+we connect these fused features with the structural
+difference features. Then, applying a linear trans-
+formation, we obtain the predicted results, i.e,
+yk = Wo · [xk, ˜xk] + bo, (11)
+where Wo and bo represent the learnable parame-
+ters. During the training process of Event-Radar,
+we refer to (Kiela et al., 2018) and utilized the
+the credible loss Lu for each view to ensure the
+model’s judgments are more confident for each
+sample, i.e,
+Lu(xvk) = ∑
+k∈Y
+ˆyk · (ψ (Sv) − ψ (βvk)), (12)
+where Y is the annotated label set, ˆyk represents the
+ground truth label and ψ(·) denotes the digamma
+function. We also incorporate a contrastive learning
+loss Lc to encourage features to be as distant as
+possible from distributions with low credibility in
+the embedding space, i.e,
+Lc(sk, qtmin) =
+∑(c,e,f )
+i̸=t sik(1 − qtmin) + stkqtmin
+∑(c,e,f )
+i sik
+,
+where qtmin signifies the value of the lowest cred-
+ibility among the views, t denotes the view with
+the lowest credibility and sk =
+{
+sck, sek, sfk
+}
+repre-
+sents the set of similarities between the single-view
+representations and the fused representation. The
+overall loss function can be presented as:
+Category Ablation Settings Accuracy F1 Score
+Full Model Event-Radar 0.928 0.923
+Fusion Method
+Use MOE 0.919 0.913
+w/o Lc 0.911 0.907
+Only Concat 0.908 0.903
+View
+w/o Inconsistency 0.897 0.891
+w/o Emotion 0.905 0.893
+w/o Pattern 0.892 0.878
+Table 2: Ablation study of Event-Radar. The test was
+conducted on Twitter. Other results are in the appendix.
+L =
+∑
+k∈Y
+ˆyk log yk + λ1
+∑
+k∈Y
+{c,e,f }∑
+v
+Lu(xvk)
++ λ2
+∑
+k∈Y
+Lc(sk, uvmin),
+(13)
+where λ1 and λ2 are hyperparameters used to bal-
+ance these components.
+4 Experiment
+4.1 Experiment Settings
+We evaluated the Event-Radar on three widely used
+benchmarks for fake news detection: Twitter (Boi-
+didou et al., 2015), Weibo (wei), and Pheme (Zubi-
+aga et al., 2017). Twitter was released in 2015 at
+MediaEval, comprising 17673 news. Weibo is the
+most extensively used Chinese dataset with 9528
+news exposing fake news. Pheme is designed for
+detecting fake news spread on social media and
+consists of five breaking news stories, encompass-
+ing a total of 3670 news. In all of our experiments,
+we used the division of the original dataset into
+training and test sets. We selected classic models
+EANN, SAFE, MV AE, CAFE, MCAN, FND-CLIP,
+and BMR as strong baselines.
+5814

@@ -1,0 +1,45 @@
+6815
+Table 10: Classiﬁcation performance on the val set for the following models: (I) Image-only CLIP (w/ ViT-B/32),
+(II) Multimodal CLIP (w/ ViT-B/32), (III) VisualBERT-CC pretrained on the Conceptual Captions dataset, (IV)
+VisualBERT-VN pretrained on the Visual News.
+(I) (II) (III) (IV)
+CLIP Image-Only CLIP VisualBERT-CC VisualBERT-VN
+Split All All All All
+(a) Semantics/CLIP Text-Image 0.5472 0.6711 0.5451 0.5773
+(b) Semantics/CLIP Text-Text 0.5266 0.6921 0.5738 0.5963
+(c) Person/SBERT-WK Text-Text 0.5000 0.6259 0.5666 0.6139
+(d) Scene/ResNet Place 0.5424 0.6803 0.5558 0.6128
+Merged/Balanced 0.5185 0.6048 0.5504 0.5893
+Table 11: Comparing different CLIP backbones, classi-
+ﬁcation performance (val set).
+Model All
+(a) Semantics/CLIP Text-Image ViT-B/32 0.6475
+RN50 0.6808
+RN101 0.6741
+(b) Semantics/CLIP Text-Text ViT-B/32 0.6921
+RN50 0.7138
+RN101 0.7189
+(c) Person/SBERT-WK Text-Text ViT-B/32 0.6099
+RN50 0.6167
+RN101 0.6395
+(d) Scene/ResNet Place ViT-B/32 0.6803
+RN50 0.6999
+RN101 0.7153
+(e) Merged/Balanced ViT-B/32 0.6048
+RN50 0.6468
+RN101 0.6676
+Table 12: CLIP (ViT/B-32) val set classiﬁcation perfor-
+mance when training a single model with all the avail-
+able training samples, i.e. Total/Sum in Table 1.
+Split All
+(a) Semantics/CLIP Text-Image 0.6632
+(b) Semantics/CLIP Text-Text 0.6445
+(c) Person/SBERT-WK Text-Text 0.6395
+(d) Scene/ResNet Place 0.6858
+Merged/Balanced 0.6640
+Split (a) (b) (c) (d)
+(a) Semantics/CLIP Text-Image 1.0000 0.1133 0.0000 0.0813
+(b) Semantics/CLIP Text-Text 0.1133 1.0000 0.0000 0.0888
+(c) Person /SBERT-WK Text-Text 0.0000 0.0000 1.0000 0.0000
+(d) Scene/Place Label 0.0813 0.0888 0.0000 1.0000
+Table 13: Ratio of exact overlap across splits.

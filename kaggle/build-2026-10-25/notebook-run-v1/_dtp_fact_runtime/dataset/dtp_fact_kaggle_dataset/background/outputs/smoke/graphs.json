@@ -1,0 +1,38 @@
+[
+  {
+    "claim_id": "c-train-1",
+    "edge_count": 11,
+    "node_count": 7,
+    "source_cluster_count": 1
+  },
+  {
+    "claim_id": "c-train-2",
+    "edge_count": 11,
+    "node_count": 7,
+    "source_cluster_count": 1
+  },
+  {
+    "claim_id": "c-val-1",
+    "edge_count": 11,
+    "node_count": 7,
+    "source_cluster_count": 1
+  },
+  {
+    "claim_id": "c-test-1",
+    "edge_count": 11,
+    "node_count": 7,
+    "source_cluster_count": 1
+  },
+  {
+    "claim_id": "c-test-2",
+    "edge_count": 11,
+    "node_count": 7,
+    "source_cluster_count": 1
+  },
+  {
+    "claim_id": "c-test-3",
+    "edge_count": 11,
+    "node_count": 7,
+    "source_cluster_count": 1
+  }
+]

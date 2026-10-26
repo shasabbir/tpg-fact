@@ -1,0 +1,108 @@
+4 Page 10 of 15 International Journal of Multimedia Information Retrieval (2024) 13 :4
+True
+True
+True
+"Facial recognition nabs ISIS fighter
+waiting to cross the Greek border as a
+refugee. What more to say?"
+"Lemmy and Bowie together. This is
+my absolute favorite picture I've seen
+in a long time. #RIPDavidBowie
+#RIPLemmy"
+False
+False
+"Today Mediterranean sea arrivals to
+Europe reach 1 million. 49% are from
+Syria."
+Image Prediction Caption
+Fig. 5 Inference by D(I, C) on three samples from VMU-Twitter.
+Moreover, we examine the model’s image-side unimodal bias by
+inputting the middle image along with each of the three captions.
+D(I, C) predicts “true” with all three captions, which means that the
+model does not take the caption into consideration. Red underlines
+denote mistaken predictions
+regardless of the accompanying text. This example visually
+highlights the presence of image-side unimodal bias within
+the model’s inference process.
+The occurrence of image-side unimodal bias can be
+attributed to two primary factors. Firstly, VMU-Twitter was
+originally designed as an image veriﬁcation corpus, compris-
+ing a substantial number of manipulated or edited images.
+Consequently, the signiﬁcance of the accompanying text
+diminishes, as the primary source of misinformation lies
+within the image itself, what we term Asymmetric-MM.
+Secondly, VMU-Twitter exhibits an imbalance between the
+number of texts and images used for training and test-
+ing. With only 410 images available for training and 104
+images for testing, compared to approximately 17k and 1k
+tweets, respectively, each image appears multiple times in
+the dataset, albeit with different texts. This discrepancy can
+lead to the model disregarding the textual modality, further
+reinforcing the image-side bias. Considering these factors,
+it appears that VMU-Twitter may not be an optimal choice
+for training and evaluating models for the task of MMD and
+might be better suited for its original purpose, namely, image
+veriﬁcation.
+As discussed in Sect. 4.2, it is worth highlighting that
+the evaluation protocol employed in [ 22, 45, 52]i sp r o b -
+lematic, using the test set during the validation and/or
+hyper-parameter tuning process. Under the corrected eval-
+uation protocol, D−(I) achieves 81.0% accuracy, D−(I; C)
+achieves 77.3% ( −4.56%), and D(I, C) achieves 76.66%
+(−5.35%). The aforementioned conclusions regarding image-
+side bias remain consistent even under the corrected evalua-
+tion protocol.
+Finally, note that a direct comparison between the mod-
+els in Table 2 is not possible as they employ different image
+and text encoders. Consequently, we refrain from asserting
+that we have attained “state-of-the-art” performance on the
+VMU-Twitter. Instead, the results showcase that D(·) can
+provide competitive and reasonably strong performance—
+while being a relatively simple architecture—and will be
+leveraged in all preceding experiments.
+Text-side unimodal bias on COSMOS: We proceed by
+training D(·) on various datasets for binary classiﬁcation
+and evaluating on the COSMOS benchmark, as illustrated
+in Table 3. We observe that the text-only D−(C) trained
+on CHASMA-D achieves 72.6% accuracy on COSMOS,
+the highest accuracy score on COSMOS. However, this
+translates into the text-only model outperforming its mul-
+timodal counterparts, D−(I; C) and D(I, C) by −7.85%
+and −14.88%, respectively. As seen in Table 7, on average,
+D−(C) outperforms D−(I; C) by 2.34% and D(I, C) by
+3.47% with a d of 0.25 and 0.4, respectively, highlighting
+that COSMOS does not seem to allow the full utilization
+of multi-head self-attention. We also observe in Table 3
+that both D(I, C) and D−(I; C) suffer from text-side uni-
+Table 3 Results on the COSMOS benchmark. We report the per-
+formance of Transformer D(I, C) and D−(·) for caption-only (C),
+image-only (I) or multimodal inputs (C; I). Bold denotes the highest
+binary accuracy
+Training D−(I) D−(C) D−(I; C) D(I, C)
+RSt 50.0 50.0 51.1 51.5
+NC-t2t 45.1 50.0 50.8 52.6
+CSt 45.5 47.4 52.6 52.2
+MEIR 50.7 51.9 52.6 53.2
+CLIP-NESt 50.0 55.4 53.6 53.4
+R-NESt 50.0 59.5 54.1 55.2
+Fakeddit 57.4 61.7 57.9 52.5
+CHASMA 64.5 67.6 60.3 58.9
+CHASMA-D 64.4 72.6 66.9 61.8
+True
+False
+False
+True
+ "Keith Potter netted the purple lobster on
+Tuesday off the coast of Winter Harbor."
+"Maine lobsterman catches extremely rare
+purple lobster."
+"Some 53,000 dead people were found to be
+included in Florida's voter rolls in
+November 2018."
+"53,000 dead people turned up on the state’s
+voter rolls in November 2018."
+Image Prediction Caption
+Fig. 6 Inference on two misleading samples from COSMOS with near-
+duplicate texts by D(I, C) trained on CHASMA-D. Red underlines
+denote mistaken predictions
+123

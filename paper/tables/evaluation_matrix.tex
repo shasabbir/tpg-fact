@@ -1,20 +1,20 @@
-\begin{table*}[t]
-\caption{Claim-to-test matrix for the main empirical questions. Each comparison uses the same event-disjoint temporal split and evidence corpus unless the named stress test changes the evidence.}
+\begin{table}[t]
+\caption{Preregistered claim-to-test matrix.}
 \label{tab:evaluation-matrix}
 \centering
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1.12}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.19\textwidth}YYY}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.10}
+\begin{tabularx}{\columnwidth}{>{\raggedright\arraybackslash}p{0.24\columnwidth}Y}
 \toprule
-\textbf{Question} & \textbf{Controlled comparison} & \textbf{Primary readout} & \textbf{Evidence that would reject the claim} \\
+\textbf{Question} & \textbf{Controlled test and rejection condition} \\
 \midrule
-Does decision-time filtering help? & Full model vs. vanilla RAG and provenance-only RAG & Test macro-F1 and leakage sensitivity & No advantage outside settings containing post-cutoff evidence \\
+Decision-time validity & Full model vs. vanilla and provenance-only RAG; uncertain-date and post-cutoff interventions. Reject a performance claim if any advantage exists only with leaked evidence. \\
 \rowcolor{black!4}
-Does provenance prevent copy inflation? & Cluster aggregation vs. document aggregation with 1, 5, and 10 injected copies & Confidence shift, Brier score, selective risk, macro-F1 & Similar degradation under duplicate injection \\
-Does sufficiency-first prediction help? & Hierarchical decision vs. flat three-class classifier & Insufficient-evidence F1, macro-F1, AURC & No sufficiency gain or higher risk at matched coverage \\
+Copy robustness & Bounded cluster vs. document aggregation with 1, 5, and 10 copies. Reject if confidence, Brier score, selective risk, and macro-F1 degrade similarly. \\
+Sufficiency first & Hierarchical vs. flat three-class prediction on audited cases. Reject if insufficient-evidence F1 does not improve or matched-coverage risk increases. \\
 \rowcolor{black!4}
-Does calibration support useful deferral? & Temperature-scaled vs. uncalibrated confidence at equal coverage & Risk at 80\% coverage and AURC & Selective risk does not decrease at matched coverage \\
+Calibrated deferral & Temperature-scaled vs. uncalibrated confidence. Reject if risk at 80\% coverage or AURC does not improve at matched coverage. \\
 \bottomrule
 \end{tabularx}
-\end{table*}
+\end{table}

@@ -1,0 +1,94 @@
+Table 1: Comparing Multi-News-Fact-Checking with other fact-checking datasets. Topic(s) is the inferred value.
+Datasets #Samples Source Topic(s) Language Multi-modal Multi-doc Verification Explanations Text/image retrieval
+Zlatkova et al. (2019) 1,233 Snopes, Reuters < 1,500 English ✔ ✗ ✔ ✗ ✗
+Cheema et al. (2022) 3,400 X < 3,400 English ✔ ✔ ✔ ✗ ✔
+Nielsen and McConville (2022) 12,914 X 26,048 Multi ✔ ✔ ✔ ✗ ✗
+Yao et al. (2023) 15,601 Politifact, Snopes < 15,631 English ✔ ✗ ✔ ✔ ✔
+Nakov et al. (2021) 18,014 X < 1,312 Multi ✗ ✔ ✔ ✗ ✗
+Ours 111,905 Multi-News < 1,500 English ✔ ✔ ✔ ✔ ✔
+tion, e.g., a bar chart image accompanying relevant
+facts mentioned in the text. Present methods usu-
+ally produce summaries given a limited number of
+inputs (Puduppully and Lapata, 2021; Wang et al.,
+2022a). The research challenge lies in process-
+ing arbitrary inputs from diverse modalities and
+discerning the explicit relationships between them.
+However, unlike the standard summarization task,
+which seeks to summarize the salient content of an
+article, our objective is to effectively distill claim-
+specific evidence useful for fact-checking across
+various modalities.
+To train our system to generate summaries useful
+for human fact-checking, we assess the utility of
+our summaries at performing entailment (Dagan
+et al., 2006), a closely aligned task to fact-checking.
+Our work is orthogonal to prior work in entailment,
+in that rather than learning to predict the entailment
+label for the premise-hypothesis pair, we seek to
+generate the premise for a specific claim from a
+pool of multimodal data. To address the limitations
+of applying existing summarization methods for
+fact-checking, we propose the MetaSumPerceiver
+(MSP) model in Figure 1, where the input consists
+of a claim, a set of documents and images, and the
+objective is to generate a summary that expedites
+the fact-checking process for humans. We initially
+train the perceiver model with a summarization
+model. Subsequently, to produce the summary for
+fact-checking, we employ a proxy reward mecha-
+nism to update the summarizer to ensure the gen-
+eration of an accurate and relevant summary with
+necessary evidence.
+To support research on the task of multi-
+document fact-checking, we contribute a bench-
+mark (Multi-News-Fact-Checking) of claims and
+entailment labels whose evidence is drawn from
+multiple documents. We evaluate our method on
+the MOCHEG benchmark (Yao et al., 2023) and
+our new dataset and demonstrate substantial im-
+provements compared to existing baselines. The
+major contributions of this paper are as follows:
+• We present an innovative approach for multi-
+modal multi-document summarization specifi-
+cally designed for fact-checking applications.
+• We release the Multi-News-Fact-Checking
+dataset, to support the multimodal multi-
+document fact-checking summarization task.
+• We perform detailed experiments and abla-
+tions of our model and loss functions which
+clearly demonstrate the superiority of our ap-
+proach over existing methods.
+2 Related Work
+2.1 Perceiver
+The Perceiver architecture (Jaegle et al., 2021) en-
+ables scaling transformers to input sequences of
+arbitrary lengths, by reducing the memory foot-
+print in standard self-attention. Follow-up works,
+such as Perceiver IO (Jaegle et al., 2022), adapt the
+original model by presenting a versatile architec-
+ture adept at processing data from various settings
+while ensuring linear scalability with input and
+output dimensions. The model has demonstrated
+strong performance on many downstream tasks, in-
+cluding optical flow estimation (Butler et al., 2012)
+and the GLUE language benchmark (Wang et al.,
+2018). Our method relies on Jaegle et al. (2022) to
+process a variable number of arbitrarily long text
+documents and images. We use the model in se-
+quence with a summarization model to generate a
+multimodal summary.
+2.2 Multimodal Fact-checking Datasets
+In the current task of fact-checking using multiple
+datasets (Zlatkova et al., 2019; Nakov et al., 2021;
+Cheema et al., 2022; Nielsen and McConville,
+2022; Yao et al., 2023), the main sources of data
+are X and Snopes, with a focus on COVID-19, elec-
+tions, and the Russo-Ukrainian war. This has led
+to a couple of issues. First, X has already blocked
+their API, making it difficult for people to access
+these datasets. Second, we are seeking a dataset
+that covers a variety of topics rather than being
+limited to specific ones. Additionally, we prefer a
+dataset in the English language. To address these
+issues, we propose a new multimodal fact-checking
+8743

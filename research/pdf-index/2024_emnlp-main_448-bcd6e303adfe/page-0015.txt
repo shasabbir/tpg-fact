@@ -1,0 +1,55 @@
+Figure 12: Prompt for GPT4 annotations of FC articles.
+Figure 13: Example of GPT4 annotations.
+be “Not enough information”. Figure 13 reports
+the output for the image of Figure 1. The claimed
+location, claimed date, claimant, and claimant mo-
+tivation fields are requested to make sure that GPT4
+clearly distinguishes the claimed context of the im-
+age from its original meta-context. The verification
+strategy was initially extracted by querying GPT4.
+Later, it was replaced by a keyword matching over
+the original article. GPT4 sometimes extracts a list
+of strings, for example, when an image is compos-
+ite. In those cases, we merge the list items into a
+string. The data labeling was performed using the
+Azure OpenAI service with API version 2023-10-
+01-preview. The content filter was turned off to
+allow GPT4 to label FC articles that discuss con-
+flicts and other events that involve violence.
+Figure 14: Co-occurrence of 5 Pillars answers in the
+dataset (%).
+/uni00000015/uni00000013/uni00000014/uni0000001c/uni00000010/uni00000013/uni00000014 /uni00000015/uni00000013/uni00000014/uni0000001c/uni00000010/uni00000013/uni0000001a /uni00000015/uni00000013/uni00000015/uni00000013/uni00000010/uni00000013/uni00000014 /uni00000015/uni00000013/uni00000015/uni00000013/uni00000010/uni00000013/uni0000001a /uni00000015/uni00000013/uni00000015/uni00000014/uni00000010/uni00000013/uni00000014 /uni00000015/uni00000013/uni00000015/uni00000014/uni00000010/uni00000013/uni0000001a /uni00000015/uni00000013/uni00000015/uni00000015/uni00000010/uni00000013/uni00000014 /uni00000015/uni00000013/uni00000015/uni00000015/uni00000010/uni00000013/uni0000001a /uni00000015/uni00000013/uni00000015/uni00000016/uni00000010/uni00000013/uni00000014 /uni00000015/uni00000013/uni00000015/uni00000016/uni00000010/uni00000013/uni0000001a
+/uni0000003c /uni00000048/uni00000044/uni00000055/uni00000010/uni00000030/uni00000052/uni00000051/uni00000057/uni0000004b
+/uni00000013
+/uni00000014/uni00000013
+/uni00000015/uni00000013
+/uni00000016/uni00000013
+/uni00000017/uni00000013
+/uni00000018/uni00000013/uni0000002c/uni00000050/uni00000044/uni0000004a/uni00000048/uni00000003/uni00000026/uni00000052/uni00000058/uni00000051/uni00000057
+/uni00000037/uni0000005c/uni00000053/uni00000048/uni00000003/uni00000052/uni00000049/uni00000003/uni0000004c/uni00000050/uni00000044/uni0000004a/uni00000048
+/uni00000052/uni00000058/uni00000057/uni00000010/uni00000052/uni00000049/uni00000010/uni00000046/uni00000052/uni00000051/uni00000057/uni00000048/uni0000005b/uni00000057
+/uni00000050/uni00000044/uni00000051/uni0000004c/uni00000053/uni00000058/uni0000004f/uni00000044/uni00000057/uni00000048/uni00000047
+/uni00000049/uni00000044/uni0000004e/uni00000048
+Figure 15: Time evolution of the type of misinformation
+in the dataset.
+E Co-occurrence of 5 pillar answers
+Figure 14 shows the percentage of images for
+which two pillars are answered together. The per-
+centages are coherent with the total occurrence
+of each pillar in the dataset. For example, the
+Date-Source is higher than the Date-Location co-
+occurrence because there are more images with
+Source answers than images with Location answers.
+No specific over- or under-representation of a pair
+is observed.
+F Type of misinformation over time
+Figure 15 displays the type of images verified by
+the FC organizations over time. Despite the rise
+of generative AI technologies, Fake images still
+represent a stable and low share of the verified
+content. Out-of-context consistently remains the
+most popular type of visual misinformation. The
+peak in out-of-context images in the summer of
+2022 corresponds to the Kenyan general elections
+and the end of the conflict in Tigray.
+7859

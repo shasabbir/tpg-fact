@@ -1,0 +1,100 @@
+ancies in detection performance. Detectors directly
+trained on synthetic datasets may yield limited re-
+sults or even fail in real-world applications.
+To address this gap, we propose to select valu-
+able synthetic data instances based on similarity
+metrics that are oblivious to the downstream de-
+tection tasks, and utilize it to improve the gen-
+eralization capability of detectors to real-world
+fact-checking data. We first compile a large-scale
+synthetic dataset by amalgamating three distinct
+synthetic datasets, ensuring coverage of diverse
+multimodal misinformation categories. Given this
+synthetic dataset as training set and a very small
+number of unlabeled real-world instances as the
+validation set, our goal is to effectively select a
+small subset of relevant and valuable synthetic data
+to enhance the models’ capacity for detecting real-
+world multimodal misinformation.
+We approach this using two model-agnostic data
+selection methods: 1) semantic similarity-based se-
+lection, which prioritizes synthetic instances with
+the highest similarity scores to the validation set;
+and 2) distributional similarity-based selection us-
+ing gradient information derived from the Optimal
+Transport (OT) problem (Villani et al., 2009) to
+increase the density of data around the desirable
+region by choosing data points in the synthetic
+dataset that are close to the target real-world dis-
+tribution. These methods evaluate the relevance of
+synthetic data points without requiring model re-
+training, ensuring efficiency and scalability. More-
+over, the small selected subset of synthetic training
+instances makes the fine-tuning of MLLMs feasible
+in computing resource-constrained scenarios.
+Our main contributions are four-fold 2:
+• We propose a new task to tackle the scarcity of
+real-world fact-checking data for MMD by learn-
+ing from synthetic data.
+• We frame a new setting for MMD in the era of
+MLLMs: how can we effectively select relevant
+and valuable instances from a large-scale syn-
+thetic dataset to improve MLLM’s detection of
+real-world multimodal misinformation?
+• We employ two model-agnostic data selection
+methods to handle different distributions by se-
+lecting a small number of synthetic instances for
+fine-tuning open-source MLLMs on the MMD
+task.
+2Code and dataset are released at https://github.
+com/znhy1024/MLLMs-for-MMD.
+• Evaluation on real-world fact-checking datasets
+demonstrates the effectiveness of data selection
+methods across MLLM scales and families. This
+approach enables a small MLLM (13B) to even
+surpass GPT-4V (OpenAI, 2023b).
+2 Problem Formulation
+Let D = {(xi, yi)}|D|i=1 be a multimodal misinfor-
+mation dataset with |D| instances, where each in-
+stance consists of the input xi and the ground-truth
+label yi ∈ {0, 1}. We denote xi = (mi, ti) which
+is a pair of information containing an image mi
+and a corresponding claim text ti, and yi indicates
+the veracity of xi is true if yi = 0 or false otherwise.
+The task of MMD aims to determine the veracity
+label of the given piece of information xi.
+We consider a large datasetDs consisting of syn-
+thetic instances that cover common categories of
+multimodal misinformation, and a target datasetDt
+which contains high-quality, annotated, and diverse
+real-world fact-checking data, where |Ds| ≫ |Dt|.
+Our goal is to select a subset Dv = {(xi, yi)}|Dv|i=1
+from Ds to fine-tune a pre-trained multimodal
+model M, such that it generalizes well to the real-
+world test dataset Dt. To reflect real-world con-
+straints related to practical computational resource
+limitations, we also restrict the size of the selected
+subset being small, i.e. |Dv| ≪ |Ds|.
+A small unlabeled validation set Du =
+{(xi)}|Du|i=1 with a few randomly sampled instances
+from Dt is given to facilitate data selection. We
+assume the unlabeled validation set is sampled i.i.d
+from the target distribution as they originate from
+the same source. It is expected that MLLMs trained
+on the selected synthetic instances based on Du
+could generalize well on unseen test instances.
+3 Multimodal Misinformation Data
+3.1 Common Categories
+There is no standard categorizations for multimodal
+misinformation. We categorize it into two types
+based on whether the image content are falsely al-
+tered or counterfeited, as briefly described below.
+Appendix A.1 contains a more formulated and de-
+tailed description.
+Out-of-Context (OOC) Misuse occurs when the
+textual claim misrepresents the original context or
+intent of a genuine image, conveying misleading
+information. OOC image-text pair can be obtained
+by pairing a textual claim with an image taken out-
+of-context (Jaiswal et al., 2017; Luo et al., 2021),
+10468

@@ -29,7 +29,7 @@ from retrieval.hybrid import bm25_rank, reciprocal_rank_fusion
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run the synthetic TPG-Fact integration check")
+    parser = argparse.ArgumentParser(description="Run the synthetic DTP-Fact integration check")
     parser.add_argument("--config", default="configs/base.yaml")
     return parser.parse_args()
 

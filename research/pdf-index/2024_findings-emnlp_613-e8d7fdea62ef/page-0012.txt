@@ -1,0 +1,114 @@
+Xuannan Liu, Peipei Li, Huaibo Huang, Zekun Li, Xing
+Cui, Jiahao Liang, Lixiong Qin, Weihong Deng, and
+Zhaofeng He. 2024b. Fakenewsgpt4: Advancing
+multimodal fake news detection through knowledge-
+augmented lvlms. CoRR, abs/2403.01988.
+Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Man-
+dar Joshi, Danqi Chen, Omer Levy, Mike Lewis,
+Luke Zettlemoyer, and Veselin Stoyanov. 2019.
+Roberta: A robustly optimized BERT pretraining
+approach. arXiv, abs/1907.11692v1.
+Xiaopeng Lu, Zhen Fan, Yansen Wang, Jean Oh, and
+Carolyn P. Rosé. 2021. Localize, group, and select:
+Boosting text-vqa by scene text modeling. In Pro-
+ceedings of the IEEE/CVF International Conference
+on Computer Vision (ICCV) Workshops, pages 2631–
+2639.
+Grace Luo, Trevor Darrell, and Anna Rohrbach. 2021.
+NewsCLIPpings: Automatic Generation of Out-of-
+Context Multimodal Media. In Proceedings of the
+2021 Conference on Empirical Methods in Natural
+Language Processing, pages 6801–6817, Online and
+Punta Cana, Dominican Republic. Association for
+Computational Linguistics.
+Pratyush Maini, Sachin Goyal, Zachary C. Lipton,
+J. Zico Kolter, and Aditi Raghunathan. 2023. T-
+MARS: improving visual representations by circum-
+venting text feature learning. CoRR, abs/2307.03132.
+Michael Mu, Sreyasee Das Bhattacharjee, and Junsong
+Yuan. 2023. Self-supervised distilled learning for
+multi-modal misinformation identification. In Pro-
+ceedings of the IEEE/CVF Winter Conference on Ap-
+plications of Computer Vision (WACV), pages 2819–
+2828.
+Eric Müller-Budack, Jonas Theiner, Sebastian Diering,
+Maximilian Idahl, and Ralph Ewerth. 2020. Multi-
+modal analytics for real-world news using measures
+of cross-modal entity consistency. In Proceedings
+of the 2020 International Conference on Multimedia
+Retrieval, ICMR ’20, page 16–25, New York, NY ,
+USA. Association for Computing Machinery.
+Kai Nakamura, Sharon Levy, and William Yang Wang.
+2020. Fakeddit: A new multimodal benchmark
+dataset for fine-grained fake news detection. In Pro-
+ceedings of the Twelfth Language Resources and
+Evaluation Conference, pages 6149–6157, Marseille,
+France. European Language Resources Association.
+A Tuan Nguyen, Toan Tran, Yarin Gal, Philip HS Torr,
+and Atılım Güne¸ s Baydin. 2021. Kl guided domain
+adaptation. arXiv preprint arXiv:2106.07780.
+OpenAI. 2023a. GPT-4 technical report. CoRR,
+abs/2303.08774v4.
+OpenAI. 2023b. Gpt-4v(ision) system card.
+Sung Min Park, Kristian Georgiev, Andrew Ilyas, Guil-
+laume Leclerc, and Aleksander Madry. 2023. TRAK:
+attributing model behavior at scale. In International
+Conference on Machine Learning, ICML 2023, 23-29
+July 2023, Honolulu, Hawaii, USA, volume 202 of
+Proceedings of Machine Learning Research, pages
+27074–27113. PMLR.
+Or Patashnik, Zongze Wu, Eli Shechtman, Daniel
+Cohen-Or, and Dani Lischinski. 2021. Styleclip:
+Text-driven manipulation of stylegan imagery. In
+2021 IEEE/CVF International Conference on Com-
+puter Vision, ICCV 2021, Montreal, QC, Canada,
+October 10-17, 2021, pages 2065–2074. IEEE.
+Karl Pearson. 1901. Liii. on lines and planes of clos-
+est fit to systems of points in space. The London,
+Edinburgh, and Dublin Philosophical Magazine and
+Journal of Science, 2(11):559–572.
+Peng Qi, Zehong Yan, Wynne Hsu, and Mong-Li Lee.
+2024. SNIFFER: multimodal large language model
+for explainable out-of-context misinformation detec-
+tion. CoRR, abs/2403.03170.
+Shengsheng Qian, Jinguang Wang, Jun Hu, Quan Fang,
+and Changsheng Xu. 2021. Hierarchical multi-modal
+contextual attention network for fake news detection.
+In Proceedings of the 44th International ACM SIGIR
+Conference on Research and Development in Infor-
+mation Retrieval, SIGIR ’21, page 153–162, New
+York, NY , USA. Association for Computing Machin-
+ery.
+Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya
+Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sas-
+try, Amanda Askell, Pamela Mishkin, Jack Clark,
+Gretchen Krueger, and Ilya Sutskever. 2021a. Learn-
+ing transferable visual models from natural language
+supervision. In Proceedings of the 38th International
+Conference on Machine Learning, ICML 2021, 18-24
+July 2021, Virtual Event, volume 139 of Proceedings
+of Machine Learning Research , pages 8748–8763.
+PMLR.
+Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya
+Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sas-
+try, Amanda Askell, Pamela Mishkin, Jack Clark,
+Gretchen Krueger, and Ilya Sutskever. 2021b. Learn-
+ing transferable visual models from natural language
+supervision. In Proceedings of the 38th International
+Conference on Machine Learning, ICML 2021, 18-24
+July 2021, Virtual Event, volume 139 of Proceedings
+of Machine Learning Research , pages 8748–8763.
+PMLR.
+Aditya Ramesh, Prafulla Dhariwal, Alex Nichol, Casey
+Chu, and Mark Chen. 2022. Hierarchical text-
+conditional image generation with CLIP latents.
+CoRR, abs/2204.06125.
+Roshan Rao, Sudha Rao, Elnaz Nouri, Debadeepta Dey,
+Asli Celikyilmaz, and Bill Dolan. 2020. Quality
+and relevance metrics for selection of multimodal
+pretraining data. In 2020 IEEE/CVF Conference
+on Computer Vision and Pattern Recognition, CVPR
+Workshops 2020, Seattle, WA, USA, June 14-19, 2020,
+pages 4109–4116. Computer Vision Foundation /
+IEEE.
+10478

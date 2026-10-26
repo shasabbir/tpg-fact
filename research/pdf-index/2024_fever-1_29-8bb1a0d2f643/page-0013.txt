@@ -1,0 +1,56 @@
+A.4 Example Questions
+In Table 3 and Table 4 we show the questions asked by each approach.
+Table 3: Example of Question-Answers asked by SubQ+CoTVP, CoRAG and ToRAG
+Claim: PPP on average provided a grant of around $11,000 per employee
+SubQ+ CoTVP Q. What was the total amount of funds disbursed through the Paycheck Protection Program
+(PPP) in 2020?
+A.More than $511 billion
+Q. What criteria were used to determine the amount of grant each business received per employee
+under the PPP?"
+A. ... determined based on the business’s average monthly payroll costs... approximately 2.5 times the
+applicant’s average monthly payroll... only up to $100,000 of an employee’s annual compensation was
+eligible for calculation.
+Q. Were there any variations in the grant amount per employee based on the industry, location,
+or size of the business?
+A. ... mentions different aspects of grants, such as administration costs, the impact of public money on
+grant receivers, and the employee retention credit, which suggests that grant amounts...
+Q. How does the PPP define an "employee" for the purposes of calculating grants?
+A. ...means individuals employed on a full-time, part-time, or other basis.
+CoRAG Q. What was the average grant amount per employee provided by the Paycheck Protection
+Program in 2020?
+A. ...for self-employed individuals and employees, the PPP loans could cover up to $100,000 of
+annualized pay per employee for eight weeks, with a maximum of $15,385 per individual."
+Q. How does the maximum allowable amount of $15,385 per individual under PPP loans relate to
+the average grant of around $11,000 per employee?
+A. The maximum allowable amount of $15,385 per individual under PPP loans is derived from the limit
+set for self-employed individuals and employees, which is based on up to $100,000 of annualized pay
+for eight weeks...On the other hand, the average grant of around $11,000 per employee, as observed by
+Square Capital, reflects the actual average loan amount disbursed to small businesses through the PPP.
+ToRAG Q. What was the typical grant amount per employee provided by the PPP as of mid-2020?
+A. ... the average size of a PPP loan approved during the first wave was $206,000, with 74% of the
+loans approved being for amounts of $150,000 or less."
+Q. What is the average monthly payroll cost per employee, as used in the PPP loan calculations,
+and how does this figure relate to the reported average grant of around $11,000 per employee?
+A. ...For a 24-week period, the maximum amount per individual is $46,154, or for an eight-week period,
+it is $15,385.
+Q. Can you provide the total number of employees covered by PPP loans up to mid-2020 and
+the total amount of PPP funds disbursed by that time, to calculate the actual average grant per
+employee?
+A. ... average grant per employee can be calculated as $511 billion divided by 51 million employees,
+which equals approximately $10,019.61 per employee.
+Table 4: Example of Question-Answers asked by CoRAG and ToRAG
+Claim: These 11 mass shootings involved an AR-15-style weapon.
+CoRAG Q.Were AR-15-style weapons used in 11 mass shootings in the United States before 2021?
+A. . . . confirms that AR-15-style rifles were used in the 2012 Aurora, Colorado...
+Q. Can you list the specific mass shootings, aside from the 2012 Aurora, Colorado incident, where
+AR-15-style rifles were reportedly used before 2021?
+A. ... search results provided do not list specific mass shootings... stating that AR-15 rifles were used in 26
+percent of the last 80 mass shootings...before 2021.
+Q. Given the information that AR-15-style rifles were used in 26 percent of the last 80 mass shootings
+before 2021, identify other incidents where these rifles were reportedly used.
+A. ... occurred when a gunman, armed with an AR-15-style rifle and body armor, killed nine people and
+wounded 27 others.
+Q. Can you identify the specific characteristics or features that define an AR-15-style rifle as used in
+these incidents?
+A. 1. Chambering . . . 2. Controls 3. Fast and easy reloading. . .
+292

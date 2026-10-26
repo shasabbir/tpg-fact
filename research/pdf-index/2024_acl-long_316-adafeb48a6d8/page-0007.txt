@@ -1,0 +1,82 @@
+Figure 4: The results of inconsistency studies.
+To ensure fairness, we replace the backbones
+of the latest strong baselines CAFE and MCAN,
+with CLIP having identical parameters. We also
+use CLIP+MLP as a comparative baseline. BMR
+proposed the use of MAE as a more suitable back-
+bone for fake news detection; therefore, we did not
+alter its backbone. Meanwhile, BMR improved by
+removing poor-quality samples during data prepa-
+ration, which, however, cannot address the com-
+plex data distribution in the real world. Therefore,
+during testing, we used the most original data dis-
+tribution. More details of the implementation and
+baselines can be found in the appendix.
+4.2 Main Result
+We evaluated Event-Radar and eight representative
+baselines on three fake news detection benchmarks.
+Table.1 presents the results, indicating:
+• The performance of Event-Radar consistently out-
+performs all baseline methods across the three
+datasets. On average, it achieves an 1.4% increase
+in accuracy and 1.43% increase in F1 scores com-
+pared to baslines on the three datasets.
+• It is evident that leveraging the powerful multi-
+modal representation capabilities, the CLIP+MLP
+method has achieved remarkably good detection
+performance. While methods like CAFE and
+MCAN show limited improvement on a CLIP-
+based backbone, Event-Radar demonstrates higher
+enhancement due to its ability to model at the event
+level and encode credibility across multiple views,
+compared to CLIP+MLP.
+• Through multi-view feature modeling, MCAN and
+BMR have achieved excellent results in inferring
+fake news. However, subsequent experiments have
+shown that the ability of multi-view learning is
+highly sensitive to the quality of news samples.
+Event-Radar, through the adoption of more effec-
+tive event modeling and credibility calculation, has
+Figure 5: Heatmap visualization. Each cell in the heat
+maps represents the paired cosine similarity.
+demonstrated more promising inferential capabili-
+ties and accuracy. Its specific noise resistance will
+be further validated in robustness experiments.
+4.3 Ablation Studies
+We conduct further analysis to examine the roles
+of each module in our proposed model. The corre-
+sponding results are shown in Table. 2:
+• To validate the reliability of our fusion approach,
+apart from simple concatenation of features and
+excluding the enhanced representation loss Lc, we
+also employed the MOE used in BMR for multi-
+modal fusion as a comparison to validate the ef-
+fectiveness of our fusion strategy. We observe that
+while using the MOE fusion method yielded decent
+results, it fell 0.9% and 1% lower in accuracy and
+F1 Score respectively compared to Event-Radar.
+This also shows that our credibility-based fusion
+approach is effective.
+• To assess the effectiveness of utilizing information
+from each modality, we removed event inconsis-
+tency, emotion, and pattern features, comparing
+these ablated versions with the complete model.
+The view ablation experiments in the table.2 show
+that removing any view leads to performance degra-
+dation, which emphasizes the advantage of learning
+fused representations from multiple views to better
+judge news veracity.
+4.4 Inconsistency Studies
+To demonstrate our superior ability in measuring
+multimodal inconsistency, we focused on the multi-
+modal inconsistency view for fake news inference.
+For a fair comparison, we compared this view with
+CLIP and CAFE retaining only the inconsistency
+component. It is evident that our inconsistency
+modeling capability surpasses the current popular
+methods in Fig.4. Additionally, we constructed
+models that do not use event subgraphs and only
+perform convolution on the multimodal graph G
+(denoted as "NS"), and models that only construct
+event subgraphs without convolution (denoted as
+5815

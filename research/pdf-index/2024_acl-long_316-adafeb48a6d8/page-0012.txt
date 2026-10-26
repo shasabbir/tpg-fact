@@ -1,0 +1,68 @@
+A Implementation
+We utilized PyTorch (Paszke et al., 2017), PyTorch
+Geometric (Fey and Lenssen, 2019), scikit-learn
+(Pedregosa et al., 2011), and Transformers (Wolf
+et al., 2020) to implement Event-Radar. Table.3
+outlines the hyperparameter settings for easy repli-
+cation of experimental results. For the model’s
+backbone, "ViT-B/16" was employed for Twitter
+and Pheme datasets, while "Chinese-CLIP-ViT-B-
+16" provided by HuggingFace (Yang et al., 2022)
+was used for Weibo. The experiments were con-
+ducted on a Tesla A100 GPU.
+Table 3: Hyperparameter settings of Event-Radar
+Hyperparameter Twitter Weibo Pheme
+optimizer Adam Adam Adam
+learning rate 5e-4 5e-5 5e-5
+credible loss coefficient 0.4 0.4 0.4
+constractive loss coefficient 0.2 0.2 0.2
+graph update rate α 0.6 0.6 0.6
+B Baselines
+To validate the effectiveness of our method, we ap-
+plied the Event-Radar framework to the following
+seven strong baselines:
+EANN (Wang et al., 2018) trained a fake news
+classifier based on extracting post events.
+SAFE (Zhou et al., 2020) employs consistency
+as a loss function to optimize the task.
+MV AE(Khattar et al., 2019) employs a vari-
+ational autoencoder to model representations be-
+tween text and images.
+CLIP (Radford et al., 2021) exhibits strong mul-
+timodal representation capabilities. We concate-
+nated CLIP with a two-layer MLP for our task.
+CAFE (Chen et al., 2022) adaptively aggregates
+features based on the inherent cross-modal ambigu-
+ity, addressing misclassification issues arising from
+differences between different modalities.
+MCAN (Wu et al., 2021) integrates pattern fea-
+tures into the co-attention network. It conducts
+detection by incorporating multiple views that fuse
+text, image semantics, and image pattern features.
+FND-CLIP (Zhou et al., 2023) leverages the
+multimodal cognitive capabilities of clip by gener-
+ating self-directed attentional weights to fuse fea-
+tures through modal similarity computed by CLIP.
+BMR (Ying et al., 2023) models news features
+from multiple views through bootstrap multi-view
+representations. It utilizes the Mixture of Experts
+network for the fusion of multi-view features.
+Figure 9: TSNE visualization of mined features on the
+test set. Dots with the same color are within the same
+label.
+C Ablation Studies
+The detailed abaltion study results in the ablation
+study are shown in Table4.
+D Classification Result
+The detailed classification results in the main ex-
+periment are shown in Table.5.
+E Representation Study
+In Fig.9, we present t-SNE visualizations of differ-
+ent model features learned by Event-Radar, CAFE,
+MCAN, and BMR on the Twitter test set. In Event-
+Radar, there is a relatively clear boundary between
+true and false news, and the clustering effect is
+good, with fewer outliers. This indicates that the
+features extracted by Event-Radar are more distinc-
+tive.
+5820

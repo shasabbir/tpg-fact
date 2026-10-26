@@ -1,0 +1,104 @@
+International Journal of Multimedia Information Retrieval (2024) 13 :4 Page 11 of 15 4
+Table 4 Binary classiﬁcation results on the test set of each dataset
+Training Dataset D−(C) D−(I) D−(I; C) D(I, C)
+RSt 50.0 50.0 96.5 96.6
+CSt 57.4 57.2 75.1 75.9
+NC-t2t 50.0 53.7 84.0 84.3
+MEIR 72.2 65.5 76.1 73.9
+R-NESt 82.6 52.1 91.0 91.2
+CLIP-NESt 65.5 54.0 70.4 70.3
+Fakeddit 90.9 90.1 95.1 94.5
+CHASMA 90.1 50.0 93.0 91.3
+CHASMA-D 86.9 60.4 94.1 94.3
+modal bias on COSMOS, only when trained with NEI-based
+datasets (CLIP-NESt and R-NESt) or datasets relying on
+human-written misinformation (Fakeddit and CHASMA).
+Text manipulations and human-written texts may display cer-
+tain linguistic patterns that inadvertently the models learn to
+attend to while reducing attention towards the visual modal-
+ity.
+Figure 6 provides a visual representation of the behaviour
+of the multimodal modelD(I, C) when trained on CHASMA-
+D and evaluated on COSMOS. It showcases that the model
+can generate different outputs when applied to near-duplicate
+image-caption pairs, where the textual content exhibits only
+very minor differences that do not signiﬁcantly alter the
+fact that it represents misinformation. Considering these
+results, we can conclude that COSMOS is not an ideal choice
+when it comes evaluating models for the task of multimodal
+misinformation detection. The dataset’s characteristics and
+composition allow for the presence and reinforcement of text-
+sided unimodal bias, thereby yielding misleading or falsely
+optimistic outcomes.
+Unimodal bias is not (entirely) algorithmic: Table 4
+presents the performance of D(·) when trained on various
+datasets and evaluated on their respective test sets. When
+trained on OOC-based datasets (RSt, NC-t2t, and CSt) D(·)
+performs poorly in both image—and text-only settings—
+with an average of 53.6% and 52.5%, respectively, while
+achieving high multimodal accuracy. Expectedly, as both the
+image and the caption in OOC samples are factually accurate,
+but only their relation is corrupted, it is not possible to deter-
+mine the existence of misinformation by solely examining
+one modality.
+In contrast, D−(C) trained on NEI datasets (MEIR,
+R-NESt, CLIP-NESt) and CHASMA perform in closer prox-
+imity to the multimodal one, with D−(C) scoring 81.4%,
+compared to 86.6% by D−(I; C) and 85.9% by D(I, C).
+At the same time, the image-only setting yields signiﬁcantly
+lower performance for NEI methods and CHASMA; the only
+exception being Fakeddit, which comprises a higher percent-
+age of manipulated images. Once again, these results suggest
+that methods relying on text manipulation or human-written
+misinformation may introduce linguistic patterns and biases
+that render the image less important.
+However, unlike the COSMOS benchmark, no unimodal
+method surpasses its multimodal counterparts on the test
+sets. This is also demonstrated in Table 7, where neither
+/Delta1% nor d indicate the presence of any unimodal bias. We
+can deduce that unimodal bias is partially algorithmic—an
+MMD model may rely on certain superﬁcial unimodal pat-
+terns during training—but more importantly, these biases are
+signiﬁcantly exacerbated by certain characteristics of VMU-
+Twitterand COSMOS—one of which is the high prevalence
+of Asymmetric-MM instances—thus raising concerns about
+their reliability as evaluation benchmarks.
+VERITE alleviates unimodal bias:The analysis of Table
+7 reveals that both /Delta1% and Cohen’s d effect sizes indi-
+cate the absence of any unimodal bias on the VERITE
+benchmark. Notably, D(I, C) displays an average 27.94%
+increase in accuracy when compared to text-only D−(C)
+and 43.27% when compared to image-only D−(I). These
+results emphasize that a model biased towards one modal-
+ity can not achieve satisfactory performance on VERITE.
+Furthermore, it is worth noting thatD(I, C) consistently out-
+performs D−(I; C), demonstrating that VERITE effectively
+allows for the power of multi-head self-attention to be lever-
+aged, unlike COSMOS and VMU-Twitter.
+Additionally, we train D(·) for binary classiﬁcation and
+evaluate its performance on VERITE-B; the binary version of
+VERITE. The primary aim of these experiments is to investi-
+gate the implications of removing “modality balancing” from
+VERITE in relation to unimodal bias. This entails that each
+image no longer appears twice inVERITE, once in the “True”
+class and once in the “Miscaptioned” class, and each caption
+no longer appears twice, once in the “True” class and once in
+the “out-of-context” class; since they are separated into two
+separate evaluations. In Table 6, we observe that D−(I; C)
+trained on R-NESt or CHASMA-D exhibits minor instances
+of unimodal bias in the “True vs MC” evaluation. The scale
+of this bias becomes more pronounced when multi-head self-
+attention is employed in D(I, C). Additionally, when trained
+with Fakeddit, D(I, C) showcases unimodal bias within the
+“True vs OOC” metric. These ﬁndings bear similarities to the
+patterns identiﬁed within the COSMOS benchmark, albeit at
+a smaller scale, presumably due to the lack of Asymmetric-
+MM in VERITE. Based on these results, we can infer that
+“modality balancing” plays a crucial role in mitigating the
+manifestation of unimodal bias within VERITE. Hence, we
+advise against employing VERITE-B as an evaluation bench-
+mark for multimodal misinformation detection, especially
+of MC pairs. Instead, we recommend utilizing the original
+VERITE benchmark, as it has demonstrated its robustness as
+a comprehensive evaluation framework.
+123

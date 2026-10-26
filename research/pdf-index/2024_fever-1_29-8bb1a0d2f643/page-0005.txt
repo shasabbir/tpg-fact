@@ -1,0 +1,54 @@
+Figure 3: Chain of RAG and Tree of RAG pipeline
+Algorithm 1 Chain of RAG (CoRAG)
+1: Input: Claim C, Image Context I, Image Captions IC
+2: Q ← GenerateFirstQuestion(C, I)
+3: QAPairs ← [] ▷ Initialize an empty list for Q-A pairs
+4: counter ← 0
+5: f ollowU pN eeded← True
+6: while counter < no_of_steps and f ollowU pN eededdo
+7: if QuestionAboutImage(Q) then
+8: A ← ImageQA(Q, I, IC) ▷ Using image, question, and captions
+9: else
+10: A ← WebQA(Q) ▷ Standard evidence retrieval
+11: end if
+12: QAPairs.append((Q, A)) ▷ Store the Q-A pair of this iteration
+13: f ollowU pN eeded← FollowupCheck(Q, A)
+14: if f ollowU pN eededthen
+15: Q ← FollowupQuestion(QAP airs)
+16: end if
+17: counter ← counter + 1
+18: end while
+19: return QAPairs ▷ Returns the list of Q-A pairs
+tion in one go. Moreover, CoRAG follows a zero-
+shot approach, i.e. the LLM is not provided with
+any example question-answer pairs to influence the
+reasoning process. An overview of the process is
+provided in Algorithm 1 as well as Figure 3.
+The input to the CoRAG module is theclaim and
+image context from the multimodal claim genera-
+tion module (§4.1). The LLM is first prompted to
+generate a question that is intended to answer an as-
+pect of the claim. The generated question is passed
+to the multimodal evidence retriever (§4.2), which
+obtains evidence to inform the RAG answer. Once
+the answer is generated, the CoRAG process under-
+goes a follow-up check (effectively an early termi-
+nation check). The follow-up check prompt (see
+Appendix A.5) takes as input the LLM-generated
+claim as well as all the generated question-answer
+pair(s), and checks whether enough information
+has been gathered to answer the claim. If the re-
+sponse from the follow-up check is “True”, it asks
+a follow-up question. The follow-up question is
+intended to ask for further information, building on
+top of the previous question-answer pairs such that
+the claim can be fully addressed.
+A follow-up check occurs after each question-
+answer generation step. If the follow-up check
+prompt finds sufficient evidence in the questions
+and answers generated up until that point, it ter-
+minates and passes the evidence to the veracity
+prediction and explanation generation module. We
+also set a constraint of a maximum of six questions,
+after which the CoRAG process terminates even if
+284

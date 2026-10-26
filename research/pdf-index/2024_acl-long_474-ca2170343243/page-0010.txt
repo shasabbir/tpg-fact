@@ -1,0 +1,107 @@
+8 Limitations
+Given the societal importance of fact-checking ap-
+plications, it is important that the limitations of
+our method be explored. Our experimental results
+reveal that the surrogate entailment model often as-
+signs truthfulness labels for entailment even when
+it struggles to fully grasp the relationship between
+the claim and the summary with evidence. This
+issue not only impacts the judgment of the claim
+label but also affects MSP during training. One po-
+tential solution is using a textual entailment model
+adept at managing this uncertainty or excluding
+such instances during training. Secondly, Llama 2’s
+claims in the Multi-News-Fact-Checking dataset
+have certain flaws. Our review suggests that neu-
+tral claims might mix consistent and conflicting
+details. Enhancing our data creation prompts or the
+prompts used in the second-stage claiming could
+boost Llama 2’s understanding.
+Our model, trained on English text and topics
+from the Multi-News benchmarks, may not per-
+form well in other languages without retraining.
+Care should be taken to ensure the model is trained
+on data that closely aligns with the target domain
+of interest, if possible, to minimize errors. Finally,
+our model relies on identifying relevant and trusted
+source documents on which to perform summa-
+rization and checking. While this document-level
+retrieval task is orthogonal to our research, failure
+to retrieve relevant documents will affect the down-
+stream performance of the fact-checking system.
+If irrelevant documents are used, even true claims
+might be wrongly challenged. Thus, approaches
+should confirm that events and entities in sourced
+documents are directly related, employing sophisti-
+cated methods.
+References
+Esma Aïmeur, Sabrine Amri, and Gilles Brassard. 2023.
+Fake news, disinformation and misinformation in so-
+cial media: a review. Soc. Netw. Anal. Min., 13(1):30.
+Fatma Arslan, Naeemul Hassan, Chengkai Li, and Mark
+Tremayne. 2020. A benchmark dataset of check-
+worthy factual claims. Proceedings of the Interna-
+tional AAAI Conference on Web and Social Media,
+14(1):821–829.
+Yuntao Bai, Andy Jones, Kamal Ndousse, Amanda
+Askell, Anna Chen, Nova DasSarma, Dawn Drain,
+Stanislav Fort, Deep Ganguli, Tom Henighan,
+Nicholas Joseph, Saurav Kadavath, Jackson Kernion,
+Tom Conerly, Sheer El-Showk, Nelson Elhage, Zac
+Hatfield-Dodds, Danny Hernandez, Tristan Hume,
+Scott Johnston, Shauna Kravec, Liane Lovitt, Neel
+Nanda, Catherine Olsson, Dario Amodei, Tom
+Brown, Jack Clark, Sam McCandlish, Chris Olah,
+Ben Mann, and Jared Kaplan. 2022. Training a help-
+ful and harmless assistant with reinforcement learn-
+ing from human feedback.
+Emily M. Bender, Timnit Gebru, Angelina McMillan-
+Major, and Shmargaret Shmitchell. 2021. On the
+dangers of stochastic parrots: Can language mod-
+els be too big? In Proceedings of the 2021 ACM
+Conference on Fairness, Accountability, and Trans-
+parency, FAccT ’21, page 610–623, New York, NY ,
+USA. Association for Computing Machinery.
+Nicolas Berlinski, Margaret Doyle, Andrew M. Guess,
+Gabrielle Levy, Benjamin Lyons, Jacob M. Mont-
+gomery, Brendan Nyhan, and Jason Reifler. 2023.
+The effects of unsubstantiated claims of voter fraud
+on confidence in elections. Journal of Experimental
+Political Science, 10(1):34–49.
+D. J. Butler, J. Wulff, G. B. Stanley, and M. J. Black.
+2012. A naturalistic open source movie for optical
+flow evaluation. In European Conf. on Computer
+Vision (ECCV), Part IV , LNCS 7577, pages 611–625.
+Springer-Verlag.
+Andrea Ceron and Paride Carrara. 2023. Fact-checking,
+reputation, and political falsehoods in italy and the
+united states. New Media & Society, 25(3):540–558.
+Gullal Singh Cheema, Sherzod Hakimov, Abdul Sittar,
+Eric Müller-Budack, Christian Otto, and Ralph Ew-
+erth. 2022. MM-claims: A dataset for multimodal
+claim detection in social media. In Findings of the
+Association for Computational Linguistics: NAACL
+2022, pages 962–979, Seattle, United States. Associ-
+ation for Computational Linguistics.
+Ido Dagan, Oren Glickman, and Bernardo Magnini.
+2006. The pascal recognising textual entailment chal-
+lenge. In Machine Learning Challenges. Evaluating
+Predictive Uncertainty, Visual Object Classification,
+and Recognising Tectual Entailment, pages 177–190,
+Berlin, Heidelberg. Springer Berlin Heidelberg.
+Anubrata Das, Houjiang Liu, Venelin Kovatchev, and
+Matthew Lease. 2023. The state of human-centered
+NLP technology for fact-checking. Information Pro-
+cessing & Management, 60(2):103219.
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and
+Kristina Toutanova. 2019. BERT: Pre-training of
+deep bidirectional transformers for language under-
+standing. In Proceedings of the 2019 Conference of
+the North American Chapter of the Association for
+Computational Linguistics: Human Language Tech-
+nologies, Volume 1 (Long and Short Papers), pages
+4171–4186, Minneapolis, Minnesota. Association for
+Computational Linguistics.
+Danny Driess, Fei Xia, Mehdi S. M. Sajjadi, Corey
+Lynch, Aakanksha Chowdhery, Brian Ichter, Ayzaan
+8751

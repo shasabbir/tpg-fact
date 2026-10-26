@@ -1,0 +1,133 @@
+SIGIR ’23, July 23–27, 2023, Taipei, Taiwan Barry Menglong Yao, Aditya Shah, Lichao Sun, Jin-Hee Cho, & Lifu Huang
+where𝑋 is the concatenated sequence of the input claim, its truthful-
+ness label, and text evidence, and𝜙 denotes the model parameters.
+5 EXPERIMENTS
+5.1 Evidence Retrieval
+For each claim, we retrieve the top-𝐾 text and image evidence from
+the corresponding text and image corpus and evaluate the retrieval
+performance based on Precision, Recall, NDCG [29], MAP (Mean
+Average Precision), and S-Recall (Similarity-based Recall) scores. In
+S-Recall, it first computes a recall score for each gold text or image
+evidence based on the highest cosine similarity score between it and
+all retrieved text or image evidence, while each piece of evidence is
+represented with a vector learned from SBERT or CLIP. We use the
+average recall of all gold evidence as the S-Recall.
+Me
+dia K Re
+c@K Pr
+e@K NDCG MAP S-Re
+c
+Image 5 17.01 4.71 13.81 11.93 68.22
+Image 10 21.44 3.02 15.32 12.58 71.85
+T
+ext w/o Re-ranking 5 15.67 12.20 19.23 13.61 52.42
+T
+ext w/o Re-ranking 10 19.40 8.16 19.60 13.02 55.77
+T
+ext 5 19.72 14.92 23.66 14.34 54.57
+T
+ext 10 23.99 9.79 24.09 15.34 58.28
+Table 3: Performance of text and image evidence retrieval.
+(%). Pre denotes Precision while Rec means Recall.
+We show the performance of text and image evidence retrieval
+on the test set of Mocheg in Table 3. We can see that the perfor-
+mance of both image and text evidence retrieval is low, indicating
+the difficulty of both tasks. Taking text evidence retrieval as an
+example, the model needs to retrieve 2 pieces of text evidence on
+average for each claim from a collection of 2,792,639 sentences,
+which is very challenging. Also, the proposed evidence retrieval is
+based on semantic matching. However, in many cases, it is more
+important to find evidence that is relevant to the claim but describes
+different aspects or is against the claim, especially for refuted claims.
+For example, given an input claim, “H.R. 6666 provides $100 billion
+to entities that perform COVID-19 testing but prohibits them from al-
+lowing any non-vaccinated persons into their facilities. ” the retrieval
+model missed an important piece of evidence “No provision in this
+bill would make testing or quarantining mandatory. ”. This is against
+the claim and has lower similarity compared with the retrieved
+text “It would provide $100 billion to organizations that do COVID-
+19 testing or contact tracing or that provide services to people who
+are isolated at home. ”. In addition, for many claims, their evidence
+come from the comprehension of long paragraphs instead of several
+sentences. Although our approach successfully retrieves several
+relevant sentences, they are insufficient to cover all the background
+and indicate the truthfulness of the claims.
+5.2 Claim Verification
+For claim verification, we first design two common baselines: (1)
+Majority Label, which predicts the majority label (i.e., Refuted) in
+the Training set for all the claims in the Test set; and (2) A verage
+Similarity, which computes average cosine similarity between the
+target claim and all the gold text and image evidence based on their
+embeddings learned from CLIP. If the average similarity is higher
+than 𝛼1 ∈ {0.5, 0.6, 0.7, 0.75, 0.8}, predict it as Supported; if the
+average similarity is lower than𝛼2∈{ 0.2, 0.3, 0.4, 0.5, 0.6, 0.65, 0.7}
+and𝛼2 <𝛼1, predict it as Refuted; otherwise, predict it as NEI. We
+search for the best value of𝛼1 and𝛼2 on the Development set and
+then apply them to the Test set. We then adapt Pre-CoFactv2 [14],
+a multimodal fact-checking model which achieves state-of-the-art
+results at the Factify 2 challenge [42] at AAAI 202314, to be the third
+baseline model. As there is very little existing work on multimodal
+fact-checking, we further adapt SpotFakePlus [59], a multimodal
+fake news detection approach, to our fact-checking task, by using
+their model to compare the consistency of input claim and image
+evidence and adding a new component to check the consistency
+of input claim and text evidence15. As shown in Table 4, Majority
+Label and A verage Similarity yield a performance score that is
+close to a random baseline, while Pre-CoFactv2 and SpotFakePlus
+underperform our approach, demonstrating that Mocheg does not
+contain any label distribution bias and cannot be easily solved
+simply by comparing the semantics between claims and evidence.
+Setting F-scor
+e (%)
+Majority
+Label 33.78
+A
+verage Similarity (Gold Evidence) 32.72
+Pr
+e-CoFactv2 [14] (Gold Evidence) 47.17
+Sp
+otFakePlus [59] (Gold Evidence) 44.11
+w/o
+Evidence 39.93
+w/
+Text Evidence (Gold) 47.54
+w/
+Image Evidence (Gold) 45.62
+w/
+Text and Image evidence (Gold) 50.78
+w/
+Text Evidence (System) 42.79
+w/
+Image Evidence (System) 40.91
+w/
+Text and Image evidence (System) 44.06
+Human
+w/o Evidence 20.00
+Human
+w/ System Evidence 62.00
+Human
+w/ Gold Evidence 70.00
+Table 4: Performance of claim verification. Gold Evidence
+denotes gold text and image evidence while System Evidence
+means system-retrieved text and image evidence.
+To evaluate the impact of each type of evidence to claim verifi-
+cation, we design ablated models of our approach by considering
+the text evidence only, image evidence only, or no evidence. In ad-
+dition, we compare its performance based on the system-retrieved
+evidence and the gold evidence to show the impact of evidence
+retrieval. As shown in Table 4, without considering any evidence,
+the model can still outperform the majority based baseline on claim
+verification due to the fact that some claims, such as “Paying taxes
+is optional!!, ” contain obvious clues or are against common sense so
+that the model can directly predict the truthfulness based on the
+claim itself. By adding text and/or image evidence, the performance
+of claim verification can be boosted, proving the usefulness of the
+evidence. The text evidence provides more significant gain than
+image evidence due to two reasons: (1) for about 32% of the claims
+(787 out of 2,442) in the Test set, they only have text evidence
+14https://aiisc.ai/defactify2/
+15Most of existing multimodal fake news detection studies aim to detect fake news
+by comparing the consistency between news text and news image or between the
+news articles and external knnowledge graphs, thus cannot be directly applied to
+fact-checking task.
+2738

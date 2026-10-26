@@ -1,0 +1,91 @@
+622 IEEE TRANSACTIONS ON KNOWLEDGE AND DATA ENGINEERING, VOL. 37, NO. 2, FEBRUARY 2025
+Fig. 5. Case studies on GossipCop dataset.
+We further evaluate detection performance on the various
+number of generation users in Fig. 4. With the increase of
+generation users, the model performance ﬁrst increases and then
+levels off. This demonstrates that the performance does not
+increase after a certain amount of propagated information and
+the social context integrated from propagation paths is sufﬁcient
+for detection.
+F . Case Study
+Fig. 5(a) illustrates a generated propagation path by RPPG-
+Fake. The resemblance of these paths to the actual ground-truth
+is apparent, particularly in aspects such as the presence of
+high-frequency users, the identity of the initial spreader, the
+sequence of propagation, and the structure of the sub-graph.
+This resemblance indicates that our model effectively captures
+the key temporal and structural characteristics of news dissemi-
+nation within user communities. We also conduct a comparative
+analysis of the detection process employing various methods,
+as illustrated in Fig. 5(b). Contrasted with the content-based
+approach, the RPPG-Fake generates the propagation path and
+enhances detection accuracy. In comparison with propagation-
+enhanced methods, our proposed utilizes news content as input
+without relying on real propagation paths. This observation
+signiﬁes that our proposal enhances detection performance while
+concurrently mitigating social hazards.
+V. R ELA TEDWORK
+A. Related Work
+Content-based: In recent years, there has been widespread
+attention to the automated detection of fake news in social
+media. Some early research endeavors seek to detect fake
+news by extracting features from the textual content of the
+news articles [2], [38], [39], [40], [41], [42]. For instance,
+Wawer et al. [43] utilize textual and linguistic features from
+websites, based on bag-of-words vector space and psycholin-
+guistic dimensions, to predict the credibility of websites. V aib-
+hav et al. [44] propose a model based on graph neural networks
+to capture the interaction among sentences in the content of fake
+news. Meanwhile, some researchers propose novel approaches
+utilizing cross-modal features in news to enhance the accuracy
+of fake news detection[4], [32], [45], [46], [47]. Khattar et al.[1]
+propose the MV AE model which consists of three components:
+an encoder, a decoder, and a fake news classiﬁer. The encoder is
+used to encode a shared representation of features, the decoder
+reconstructs the data from multi-modal representations, and the
+fake news classiﬁer categorizes news into true or false categories.
+Zhou et al. [48] propose the SAFE method by computing the
+correlation between textual information and visual information,
+deﬁning it as a modiﬁed cosine similarity to detect fake news.
+Wu et al. [49] uses multiple co-attention layers to learn the
+relationship between text and images.
+Recently, researchers have started exploring the utilization
+of Large Language Models (LLMs) for fake news detection.
+Some studies focus on directly prompting various LLMs such
+as GPT-3 [37], ChatGPT-3.5 [50], [51] and GPT-4 [52] for
+misinformation detection. For instance, Pan et al. [53] introduce
+a program-guided fact-checking framework leveraging the con-
+textual learning ability of LLMs to generate reasoning programs
+guiding veracity veriﬁcation. Wu et al. [54] apply GPT-3.5 as
+a feature extractor to identify out-of-context images. However,
+existing LLM-based fake news detection methods primarily rely
+on textual semantics, often insufﬁcient for effectively consider-
+ing user behaviors during news dissemination. Textual features
+alone may not adequately verify the veracity of news items in
+certain situations.
+Propagation-enhanced: Different from methods that rely on
+the content of news for fake news detection, propagation-
+enhanced fake news detection approaches aim to improve ac-
+curacy by leveraging differences in the propagation processes
+between real and fake news [10], [55], [56], [57], [58].J i n
+et al. [59] apply epidemiological models to characterize infor-
+mation cascades triggered by both real and fake news on Twitter.
+Ma et al.[60] use a recursive neural network to represent features
+of news by integrating both the propagation structure and news
+features. Zhang et al. [61] propose a deep diffusive Network
+model that can simultaneously learn latent representations and
+infer the accuracy of news articles, creators, and topics. Liu
+et al. [9] conduct an authenticity assessment of news based on
+user proﬁle information within the news propagation network.
+Dou et al. [34] integrate user past engaged posts into news
+content with graph modeling. Zheng et al. [17] combine textual,
+visual, and social graph features with cross-attention for rumor
+detection. Wei et al.[62] design a structure adversarial net frame-
+work to learn transferable features from propagation to solve the
+problem of cold-start fake news detection. Lakzaei et al. [63]
+adopt a graph-based model and introduce a semi-supervised
+and one-class approach to overcome the limited availability of
+labeled news datasets.
+Due to the potential impact of misinformation on a large
+audience and its negative consequences during dissemination,
+Authorized licensed use limited to: American International University Bangladesh. Downloaded on October 20,2026 at 19:57:35 UTC from IEEE Xplore.  Restrictions apply. 

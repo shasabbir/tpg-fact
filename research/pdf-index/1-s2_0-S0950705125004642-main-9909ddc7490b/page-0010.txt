@@ -1,0 +1,137 @@
+H. Lv et al.
+Table 3
+Performance comparison of proposed MDF-FND with other baselines on the Twitter, 
+Weibo, and PolitiFact datasets.
+ Dataset Method ACC Fake news Real news
+ P R F1 P R F1  
+ 
+Twitter
+SVM-TS [54] 0.529 0.488 0.497 0.496 0.565 0.556 0.561 
+ GRU [55] 0.634 0.581 0.812 0.677 0.758 0.502 0.604 
+ CNN [56] 0.549 0.508 0.597 0.549 0.598 0.509 0.550 
+ BERT [46] 0.706 0.648 0.540 0.589 0.715 0.636 0.673 
+ SAFE [12] 0.766 0.777 0.795 0.786 0.752 0.731 0.742 
+ VQA [13] 0.631 0.765 0.509 0.611 0.550 0.794 0.650 
+ MVAE [11] 0.745 0.801 0.719 0.758 0.689 0.777 0.730 
+ EANN [9] 0.648 0.810 0.498 0.617 0.584 0.759 0.660 
+ SpotFake [10] 0.892 0.902 0.964 0.932 0.847 0.656 0.739 
+ BDANN [26] 0.821 0.790 0.610 0.690 0.830 0.920 0.870 
+ MCNN [29] 0.823 0.858 0.801 0.828 0.787 0.848 0.816 
+ MPFN [25] 0.833 0.846 0.921 0.880 0.809 0.721 0.740 
+ DIFF [35] 0.783 0.810 0.803 0.806 0.758 0.786 0.772 
+ CMMTN [24] 0.903 0.870 0.917 0.892 0.927 0.881 0.903 
+ COOLANT [31] 0.900 0.879 0.922 0.900 0.923 0.880 0.901 
+ MDF-FND 0.947 0.876 0.962 0.917 0.983 0.941 0.961 
+ 
+Weibo
+SVM-TS [54] 0.640 0.741 0.573 0.646 0.651 0.798 0.711 
+ GRU [55] 0.702 0.671 0.794 0.727 0.747 0.609 0.671 
+ CNN [56] 0.740 0.736 0.756 0.744 0.747 0.723 0.735 
+ BERT [46] 0.804 0.800 0.860 0.830 0.840 0.760 0.800 
+ VQA [13] 0.736 0.797 0.634 0.706 0.695 0.838 0.760 
+ MVAE [11] 0.824 0.854 0.769 0.809 0.802 0.875 0.837 
+ EANN [9] 0.794 0.790 0.820 0.800 0.800 0.770 0.780 
+ BDANN [26] 0.814 0.800 0.860 0.830 0.840 0.760 0.800 
+ MPFN [25] 0.870 0.887 0.849 0.868 0.855 0.891 0.873 
+ MFIR [57] 0.917 0.901 0.839 0.868 0.906 0.832 0.868 
+ LIIMR [36] 0.900 0.878 0.817 0.846 0.884 0.826 0.854 
+ MDF-FND 0.819 0.841 0.876 0.858 0.855 0.891 0.873 
+ 
+PolitiFact
+VGG-19[58] 0.45 0.492 0.473 0.482 0.573 0.273 0.370 
+ TextCNN [59] 0.608 0.621 0.623 0.622 0.513 0.865 0.645 
+ BERT [46] 0.781 0.766 0.878 0.818 0.822 0.690 0.750 
+ EANN [9] 0.804 0.808 0.794 0.801 0.796 0.782 0.785 
+ MVAE [11] 0.812 0.803 0.835 0.819 0.866 0.747 0.802 
+ SAFE [12] 0.872 0.883 0.897 0.890 0.925 0.777 0.845 
+ SpotFake [10] 0.770 0.753 0.795 0.773 0.603 0.937 0.734 
+ CAFE [32] 0.848 0.847 0.860 0.853 0.762 0.948 0.845 
+ MDF-FND 0.795 0.712 0.955 0.816 0.690 0.875 0.772 
+where 𝑃 = 𝑇 𝑃𝑇 𝑃 +𝐹 𝑃 , and 𝑅 = 𝑇 𝑃𝑇 𝑃 +𝐹 𝑁 . The accuracy is formulated as 
+follows: 
+𝐴𝐶𝐶. = 𝑇 𝑃 + 𝑇 𝑁𝑇 𝑃 + 𝑇 𝑁 + 𝐹 𝑃 + 𝐹 𝑁 (19)
+where 𝑃 denotes precision, 𝑅 denotes recall, 𝑇𝑃 (True Positive) denotes 
+the total number of posts predicted to be in the positive category, 𝐹𝑃
+(False Positive) refers to the total number of samples in the negative 
+category that were predicted to have a positive label, 𝐹𝑁 (False Nega-
+tive) denotes the round-up of samples from the positive category that 
+were predicted to be in the negative category, and 𝑇𝑁 (True Negative) 
+denotes the total number of samples that were predicted to be negative. 
+The Adam optimizer [53] is used to optimize the model parameters to 
+reach optimal decisions.
+4.3. Baselines
+Most previous research has focused on unimodal and multimodal 
+fake news detection. To evaluate the superiority of our proposed model, 
+we compared it with a baseline model that employs a single textual 
+modality. In this comparison, we eliminated the dynamic decision-
+making component and directly input the noisy single-textual posts into 
+the UEM module. A fully connected layer splicing was then used to 
+output the predicted values.
+(a) Fake news detection model based on single modality. The SVM-
+TS model [54] employs a machine learning approach to detect 
+fake news through heuristic rules and linear multi-layer per-
+ceptron classifiers. To capture temporal feature information, the 
+GRU model [55] implements a RNN for fake news detection. 
+In addition, a CNN is employed to learn feature representa-
+tions by framing related posts into fixed-length sequences, as 
+introduced in [56]. Additionally, a model based on the pre-
+trained BERT [46] with a fully connected layer is constructed 
+for detecting fake news from plain text input. Meanwhile, to 
+assess the performance of the unimodal image baseline model, 
+VGG-19 [58] and TextCNN [59] are incorporated into the com-
+parative experiments.
+(b) Fake news detection model based on multimodal features. VQA 
+[13] aims to answer questions about the given images. The 
+original VQA model is designed for multi-class classification 
+tasks. SAFE [12] is a similarity-aware cross-modal fusion func-
+tion for multimodal FND. The MVAE model [11] extracts modal 
+information from text and images and uses a multimodal variant 
+encoder for simple fusion. [9] constructed an event adversarial 
+neural network (EANN) that uses an event learner to learn the 
+feature representations of text and images in an article; however, 
+additional auxiliary features will increase the cost of detection. 
+Intuitively, the SpotFake model [10] can use large-scale textual 
+and visual pre-trained models to extract features for each modal-
+ity and concatenate them into a multimodal representation of the 
+news, which is then placed into a binary classifier for detecting 
+fake news. MCNN [29] considers the consistency of different 
+modalities and captures the global characteristics of social media 
+information. BDANN [26] is a BERT-based domain adaptive 
+neural network for detecting multimodal fake news. LIIMR [36] 
+utilizes both intra- and inter-modal relationships for fake news 
+detection. MFIR [57] recognizes that traditional fusion meth-
+ods, such as union or addition, can enhance the performance 
+of multimodal fake news detection to some extent. However, 
+this approach is mainly limited by shallow cross-modal feature 
+fusion. Therefore, this model focuses on identifying inconsis-
+tent semantics across modalities to achieve interpretable fake 
+news detection. MPFN [25] is a progressive fusion network 
+designed for multimodal fake news detection, capable of cap-
+turing representation information for each modality at different 
+levels. It uses mixers to facilitate fusion between modalities at 
+the same and different levels, thereby establishing strong con-
+nections between them. DIIF [35] employs a dynamic internal 
+and cross-modal fusion model for multimodal fake news detec-
+tion, dynamically learning the interactions and fusions among 
+different modalities. The SAFE [12] model detects fake news 
+on social media using a similarity-aware approach. CAFE [32] 
+enhances the accuracy of fake news detection by intuitively 
+and adaptively aggregating unimodal features and cross-modal 
+correlations. CMMTN [24] enhances the performance of fake 
+news detection by jointly modeling both the inter- and intra-
+modal relationships of multimodal information, while masking 
+irrelevant context. COOLANT [31] is a cross-modal contrastive 
+learning framework for multimodal fake news detection, aiming 
+to achieve more accurate image–text alignment. It implements 
+an attention mechanism with an attention-guided module to help 
+effectively and interpretably aggregate the aligned unimodal 
+representations and cross-modal correlations.
+4.4. Main results
+This subsection compares the performance of our proposed MDF-
+FND with that of existing baselines and provides specific analytical 
+results.
+The experimental results in Table  3 illustrate the superiority of the 
+proposed framework on the three publicly available datasets. Specifi-
+cally, we derived the following results:
+Knowledge-Based Systems 317 (2025) 113417 
+10 

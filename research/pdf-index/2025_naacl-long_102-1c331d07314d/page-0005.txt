@@ -1,0 +1,98 @@
+either “accurate”, “OOC”, “Unknown, probably
+[label]”, which counts as a prediction of the corre-
+sponding label, or “Unknown”, which is mapped
+to the majority predicted label. This flexibility in
+the output answers was empirically found to help
+Llama 3 in ambiguous cases. (2) A DebertaV3 (He
+et al., 2023) model fine-tuned on (predicted context,
+ground truth veracity) training pairs.
+4 Experiments
+4.1 Datasets
+NewsCLIPpings is a synthetic dataset for verac-
+ity prediction (Luo et al., 2021). Images and their
+captions are selected from Visual News (Liu et al.,
+2021). OOC pairs are created by mismatching im-
+ages and captions using various measures of seman-
+tic similarity. Following prior works, we use the
+“merged-balanced” split, which contains 71,072,
+7,024, and 7,264 instances in the train, validation,
+and test splits, respectively. Within a split, each
+caption appears twice, once as accurate and once
+as OOC. NewsCLIPpings does not contain ground
+truth context items. Hence, we create them by de-
+composing the accurate caption in a set of context
+items with Llama 3, as explained in Appendix D.
+5Pils-OOC is a real-world test set containing
+624 images, each paired with two captions, one
+accurate and the other OOC, for a total of 1248
+instances. We construct 5Pils-OOC as a subset of
+5Pils (Tonglet et al., 2024). The images and OOC
+captions have been fact-checked by human experts
+from three organizations: Factly, Pesacheck, and
+211Check. The images come from both Western
+and non-Western contexts, in particular, India and
+Ethiopia. As 5Pils does not contain accurate cap-
+tions, we generate them automatically using GPT4
+(OpenAI, 2023) based on the ground truth context
+items. Furthermore, 5Pils does not contain ground
+truth labels for context items people, things, and
+event. They are derived from the accurate caption,
+as explained in Appendix D. The creation of 5Pils-
+OOC from 5Pils is detailed in Appendix E.
+4.2 Context metrics
+We report one metric per context item. Additional
+evaluations with all metrics introduced in Tonglet
+et al. (2024) are provided in Appendix F.
+Source, motivation, things, and event are evalu-
+ated with Meteor (Banerjee and Lavie, 2005).
+Date predictions are mapped to timestamps. We
+use ∆, which is inversely proportional to the dis-
+tance in years with the ground truth.
+Location predictions are mapped to coordinates
+using GeoNames.5 We use Coordinates ∆ (CO∆),
+which is inversely proportional to the distance in
+thousand kilometers with the ground truth.
+People expects sets of named entities as predic-
+tions, evaluated with the Macro F1-score (F1).
+4.3 Veracity metrics
+We use four metrics for veracity prediction: the
+accuracy A, the recall over accurate samples RACC ,
+the recall over OOC samples ROOC , and F1.
+4.4 Baselines
+For context prediction, we compare COVE with the
+5Pils baseline Tonglet et al. (2024), which provides
+the image and web captions from reverse image
+search as input to a MLLM, LlavaNext in our case,
+asking one question per context item.
+We compare COVE against three SOTA models
+for veracity prediction of OOC images, which all
+rely on external evidence. RED-DOT (Papadopou-
+los et al., 2023) and AITR (Papadopoulos et al.,
+2024a) use transformer architectures trained on top
+of the CLIP embeddings of the image, the caption,
+and text and image evidence. Furthermore, they fil-
+ter the evidence to keep only the most relevant one
+from each modality. SNIFFER (Qi et al., 2024)
+predicts veracity based on two signals: (1) the de-
+tection of inconsistencies between the caption, the
+image, and the visual entities, using a fine-tuned In-
+structBLIP (Dai et al., 2023), and (2) the detection
+of inconsistencies between the caption and text evi-
+dence using a frozen Vicuna (Chiang et al., 2023),
+which we replace here by Llama 3 for a fair com-
+parison. We also evaluate veracity prediction with
+Llama 3 based on the context items predicted by
+the 5Pils baseline. Finally, we report as an upper
+bound the COVE veracity results using the ground
+truth context items.
+4.5 Implementation details
+All hyperparameters are tuned, and ablations are
+performed on a random sample of 1500 instances
+from the NewsCLIPpings validation set. Deber-
+taV3 is fine-tuned on a subset of the NewsCLIP-
+pings train set containing 5000 instances. Inference
+with Llama 3 is done in a few-shot setting with
+4 to 8 demonstrations, which have been selected
+and labeled by hand from a random sample of 100
+5geonames.org
+2033

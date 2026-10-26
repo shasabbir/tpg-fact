@@ -1,0 +1,107 @@
+Alexander Martin, Reno Kriz, William Gantt Walden,
+Kate Sanders, Hannah Recknor, Eugene Yang,
+Francis Ferraro, and Benjamin Van Durme. 2025.
+Wikivideo: Article generation from multiple videos.
+Preprint, arXiv:2504.00939.
+Microsoft. 2024a. Bing visual search v7 - microsoft
+learn.
+Microsoft. 2024b. Bing web search v7 - microsoft learn.
+OpenAI. 2023. Gpt-4 technical report. arXiv,
+abs/2303.08774.
+OpenAI. 2024. Gpt-4o system card. Preprint,
+arXiv:2410.21276.
+Stefanos-Iordanis Papadopoulos, Christos Koutlis,
+Symeon Papadopoulos, and Panagiotis C. Pe-
+trantonakis. 2024a. Red-dot: Multimodal fact-
+checking via relevant evidence detection. Preprint,
+arXiv:2311.09939.
+Stefanos-Iordanis Papadopoulos, Christos Koutlis,
+Symeon Papadopoulos, and Panagiotis C Petranton-
+akis. 2024b. Verite: a robust benchmark for multi-
+modal misinformation detection accounting for uni-
+modal bias. International Journal of Multimedia
+Information Retrieval, 13(1):4.
+Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya
+Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sas-
+try, Amanda Askell, Pamela Mishkin, Jack Clark,
+Gretchen Krueger, and Ilya Sutskever. 2021. Learn-
+ing transferable visual models from natural language
+supervision. Preprint, arXiv:2103.00020.
+Nils Reimers and Iryna Gurevych. 2019. Sentence-bert:
+Sentence embeddings using siamese bert-networks.
+In Proceedings of the 2019 Conference on Empirical
+Methods in Natural Language Processing. Associa-
+tion for Computational Linguistics.
+Gemma Team, Aishwarya Kamath, Johan Ferret, Shreya
+Pathak, Nino Vieillard, Ramona Merhej, Sarah Perrin,
+Tatiana Matejovicova, Alexandre Ramé, Morgane
+Rivière, et al. 2025. Gemma 3 technical report. arXiv
+preprint arXiv:2503.19786.
+James Thorne and Andreas Vlachos. 2021. Evidence-
+based factual error correction. In Proceedings
+of the 59th Annual Meeting of the Association
+for Computational Linguistics and the 11th
+International Joint Conference on Natural Language
+Processing (V olume1: Long Papers), pages 3298–
+3309, Online. Association for Computational
+Linguistics.
+James Thorne, Andreas Vlachos, Christos
+Christodoulopoulos, and Arpit Mittal. 2018.
+FEVER: a large-scale dataset for fact extraction
+and VERification. In Proceedings of the 2018
+Conference of the North American Chapter of
+the Association for Computational Linguistics:
+Human Language Technologies, V olume1 (Long
+Papers), pages 809–819, New Orleans, Louisiana.
+Association for Computational Linguistics.
+Wikimedia. 2024. Api portal.
+Zhiyu Wu, Xiaokang Chen, Zizheng Pan, Xingchao
+Liu, Wen Liu, Damai Dai, Huazuo Gao, Yiyang Ma,
+Chengyue Wu, Bingxuan Wang, Zhenda Xie, Yu Wu,
+Kai Hu, Jiawei Wang, Yaofeng Sun, Yukun Li, Yishi
+Piao, Kang Guan, Aixin Liu, Xin Xie, Yuxiang You,
+Kai Dong, Xingkai Yu, Haowei Zhang, Liang Zhao,
+Yisong Wang, and Chong Ruan. 2024. Deepseek-
+vl2: Mixture-of-experts vision-language models
+for advanced multimodal understanding. Preprint,
+arXiv:2412.10302.
+Guowei Xu, Peng Jin, Li Hao, Yibing Song, Lichao
+Sun, and Li Yuan. 2024a. Llava-o1: Let vision lan-
+guage models reason step-by-step. arXiv preprint
+arXiv:2411.10440.
+Ziwei Xu, Sanjay Jain, and Mohan Kankanhalli. 2024b.
+Hallucination is inevitable: An innate limitation of
+large language models. Preprint, arXiv:2401.11817.
+Appendix
+The appendix is structured into three sections: (A)
+Additional Information, (B) Qualitative Examples
+and (C) Prompts.
+A Additional Information
+A.1 Limitations
+There are several limitations that have an impact
+on the pipeline’s results. First, not all post have
+evidence available for them, thus reducing the qual-
+ity of the verification of those posts. Future works
+could solve this issue by expanding the amount of
+evidence sources. Second, as generative models
+are prone to hallucinate, it might be that the model
+sometimes hallucinates on the given evidence - this
+being specifically the case when we provide all
+evidence. Additionally, the OpenAI API policy fil-
+ters might refuse to answer some prompts. If the
+pipeline is to be used, we recommend always in-
+cluding a human in the loop and running the model
+several times and taking into account the standard
+deviation of the results. Third, there is no way to
+identify if an evidence is originally written by the
+source where it comes from. This can create prob-
+lems as platforms can repost information in mis-
+leading contexts. A possible solution for this would
+be to keep a blacklist of uncredible sources. Fourth,
+the pipeline is rather costly as for one post. The
+costliness primarily arises from the amount of evi-
+dence (10 images and 10 texts) that is retrieved and
+ranked. It might require around 70-100 prompts to
+verify all evidences involved. Cost can be lowered
+by reducing the amount of evidences retrieved, but
+10

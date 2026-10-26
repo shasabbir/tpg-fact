@@ -1,0 +1,48 @@
+6809
+to “entourage.“ CLIP also has a number of capa-
+bilities off-the-shelf that require minimal ﬁnetun-
+ing, for example sign reading and logo recognition
+in the case of distinguishing “Tigerair Australia”
+from “Germanwings.” We also present a failure
+case where CLIP focuses on the two people in the
+foreground when the caption talks about “marches.“
+Evidently the model does ﬁnd one point of sup-
+port – the photo looks like it could have been taken
+in 1965 – but it fails to identify the absence of a
+crowd which would have been a “red ﬂag” for a
+human. Similar failure cases, such as a falsiﬁed
+caption that mentions Mitt Romney and Rand Paul
+at a rally but only pictures Romney, highlight how
+our dataset can be particularly challenging because
+pristine news is an ambiguous domain that often
+mentions entities but does not picture them.
+6 Conclusion
+We introduced NewsCLIPpings, a large-scale au-
+tomatically constructed dataset for classifying news
+image-caption pairs as real or out-of-context. We
+found CLIP to be effective for the dataset construc-
+tion and recognition of mismatches. By design,
+unimodal models cannot solve our task, while mul-
+timodal ones require named entity and semantic
+knowledge to do well on our diagnostic splits. Our
+Merged set aims to model the more realistic diver-
+sity of image-caption mismatches in the wild.
+From our experimental results, we ﬁnd that the
+ResNet backbone offers a modest performance
+boost compared to a ViT-B/32 model. We ﬁnd
+that a CLIP ViT model is able to match human
+performance on a small subset of our Merged / Bal-
+anced split, and that our task is generally difﬁcult
+with an average 66% human accuracy.
+Our training data could be used to augment and
+increase the training data size of human-made fal-
+siﬁed news, which often lack ground truth labels
+or sufﬁcient scale. Overall, we show that it is pos-
+sible to automatically match plausible images for
+given input captions, and we present a challenging
+benchmark to foster the development of defenses
+against large-scale image repurposing.
+Acknowledgements. This work was supported
+in part by DoD including DARPA’s XAI, LwLL,
+and/or SemaFor programs, as well as BAIR’s in-
+dustrial alliance programs.

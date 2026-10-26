@@ -1,0 +1,120 @@
+End-to-End Multimodal Fact-Checking and Explanation Generation: A Challenging Dataset and Models SIGIR ’23, July 23–27, 2023, Taipei, Taiwan
+XXXXXXXXDataset Featur
+e Evidence
+Retrieval Multimo
+dal Explainable
+Fact-checking Annotate
+d Label Annotate
+d Evidence
+FEVER
+[64] ✓ ✗ ✗ ✓ ✓
+Liar
+[70] ✗ ✗ ✗ ✓ ✓
+Snop
+es[25] ✓ ✗ ✗ ✓ ✓
+P
+UBHEALTH [35] ✓ ✗ ✓ ✓ ✓
+F
+ACTIFY [41] ✗ ✓ ✗ ✗ ✗
+MuMiN
+[45] ✗ ✓ ✗ ✓ ✗
+FakeNe
+wsNet [58] ✓ ✓ ✗ ✓ ✗
+Fauxtography
+[78] ✗ ✓ ✗ ✓ ✗
+Ne
+wsBag [30] ✗ ✓ ✗ ✓ ✗
+QPr
+op [7] ✗ ✓ ✗ ✓ ✗
+T
+ABFACT [10] ✗ ✓ ✗ ✓ ✓
+CLAIMDECOMP
+[9] ✓ ✗ ✓ ✓ ✓
+MultiFC
+[5] ✓ ✗ ✗ ✓ ✗
+FEVEROUS
+[3] ✓ ✗ ✗ ✓ ✓
+Mocheg (
+Ours) ✓ ✓ ✓ ✓ ✓
+Table 1: Comparison between Mocheg and other related datasets. The columns indicate whether the dataset requires automatic
+evidence retrieval, multimodal reasoning, or explanation generation and whether its label and evidence are annotated by a
+human.
+evidence references that are linked to external articles/images con-
+taining the text and image evidence, and ruling articles that can
+explain and justify the truthfulness of the claims and can be viewed
+as a short summary of the various evidence. Note that, the claims
+were originally manually collected by the journalists of the two
+websites from many sources, e.g., online speeches, public state-
+ments, news articles, and social media platforms, such as Facebook,
+Twitter, Instagram, TikTok, and so on. The truthfulness labels, evi-
+dence, evidence references, and ruling articles are also manually
+provided by fact-checkers of the two websites5.
+Based on the evidence references, we further develop scripts to
+collect the articles and images that contain the evidence. Since the
+evidence references are linked to thousands of websites with distinct
+HTML templates, we utilize Boilerpipe [34] to extract the text and
+newspaper6 to obtain all image links contained in the webpages and
+download the images based on urllib7. Some evidence references
+are linked to Twitter. To collect them, we first extract the Tweet
+IDs from the URLs of evidence references and then apply Twitter
+API8 to collect the text and images from the corresponding Tweets.
+3.2 Data Preprocessing
+Since fact-checking websites adjust their labels over time, the initial
+data contains more than 75 truthfulness labels, and some labels
+overlap with each other, such as “True”, “TRUE”, and “Status: True.”.
+Also, some labels have only a few instances. For example, the label
+“Labeled Satire” has only 23 instances in total. Considering these, we
+follow [25] and map 68 of these labels into three general categories,
+including Supported, Refuted, and NEI (Not Enough Information ).
+We remove the claims that are annotated with other labels. In this
+way, each claim is just assigned one of the three target labels. The
+initial dataset also contains a lot of advertisement images. To clean
+the dataset, we design several rules, including (1) removing an
+image if its name contains any of the keywords, including “-ad-”,
+“logo”, “.gif”, “.ico”, “lazyload”, “.cgi”, “Logo”, “ .php”, “icon”, “Bubble”,
+“svg”, “rating-false”, “rating-true”, “banner”, “-line”, or its size is
+5We illustrate the detailed fact-checking processing in Snopes and Politifact in Section.
+8.
+6https://newspaper.readthedocs.io/en/latest/
+7https://docs.python.org/3/library/urllib.html
+8https://developer.twitter.com/en/docs/api-reference-index
+smaller than 400× 400; (2) removing a claim if we can not crawl
+any evidence or the ruling article; (3) for each ruling article, there
+is usually a paragraph starting with “Our ruling” or “In sum” which
+summarizes the whole ruling and reasoning process to achieve
+the fact-checking conclusion, thus we use this paragraph as the
+target explanation. As a result, we collect 15,601 claims with 33,880
+text evidence, where each piece of text evidence is an individual
+paragraph extracted from a particular evidence reference article
+and 12,112 image evidence9. Based on the evidence references, we
+finally collect 91,822 articles and 122,246 images which are further
+combined to form a constant collection of web resources for the
+evidence retrieval task. Within the web source collection, only 30%
+(27,566 out of 91,822) of articles and 10% (12,112 out of 122,246) of
+images contain the evidence of claims, making the evidence retrieve
+task realistic and challenging enough.
+3.3 Task Definition
+We name the dataset Mocheg and propose End-to-End10 Multi-
+modal Fact-Checking and Explanation Generation, with three sub-
+tasks11:
+Task 1. Multimodal Evidence Retrieval: Given a claim and a
+collection of web sources containing both documents and images,
+the Evidence Retrieval task is to determine which paragraphs con-
+tained in the documents and images are related to the claim and
+can be further used to determine the truthfulness of the claim.
+Task 2. Multimodal Claim Verification: Based on the text and
+image evidence retrieved in Task 1, the Multimodal Claim Veri-
+fication task is to predict the truthfulness (Supported, Refuted, or
+NEI) of the claim. As both the input claim and retrieved evidence
+may contain both text and images, this task requires cross-modal
+reasoning.
+9Among the 15,601 claims, 19% of them have tweets as evidence while the remaining
+81% only use other sources such as news articles or government reports as evidence.
+Note that the image and text evidence may be from separate sources with no clear
+association.
+10The end-to-end setting in our fact-checking task means it starts with only the claim
+and goes through the evidence retrieval, claim verification, and explanation generation,
+which is almost the complete pipeline for a journalist to do fact-checking in real life.
+11Note that we don’t consider claim extraction as a subtask as all the input claims are
+considered worthy of being checked.
+2735

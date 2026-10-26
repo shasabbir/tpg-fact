@@ -1,0 +1,104 @@
+6804
+SBERT-WK Text-Text: We match samples that
+mention the query person based on the lowest se-
+mantic similarity measured by their SBERT-WK
+score, a text-only sentence embedding. See exam-
+ple (c) in Figure 1.
+Query for Scene This split models a threat sce-
+nario that queries for a speciﬁc scene, with the
+intent to mislabel the event, see Figure 2 (iv). All
+samples must have no “PERSON” named entities
+in the captions. This aims to ﬁlter headshots and
+other images with little scene information. (d)
+ResNet Place: We match samples with the high-
+est Places365 image similarity, as determined by
+the dot product of their ResNet embeddings. See
+example (d) in Figure 1.
+Merged Split This split mixes samples from all the
+splits to model a more realistic case where a variety
+of methods are used to generate out-of-context im-
+ages, i.e. all types of mismatch may be encountered
+at test time. We merge the splits such that there is
+an equal number of samples from every split, and
+the captions and images across splits are disjoint.
+Adversarial CLIP Filtering In the initial version
+of our dataset, we observed a distributional shift
+of CLIP Text-Image scores between the pristine
+(img1, cap1) and falsiﬁed (img2, cap1) samples.
+This makes sense, since it is not always possible to
+ﬁnd a falsiﬁed image that is more convincing than
+the original. To reduce the difference between the
+two distributions, we use CLIP Text-Image similar-
+ity to adversarially ﬁlter our splits. For each pris-
+tine sample (img1, cap1) with CLIP Text-Image
+similarity CT Ip we have two options: (1) There
+may exist a set of falsiﬁed candidates(img2, cap1),
+where their score CT If≥ CT Ip, ordered for each
+of our splits: using (a) CLIP Text-Image, (b) CLIP
+Text-Text, (c) SBERT-WK Text-Text, (d) ResNet
+Place, respectively. (2) There exists a set of can-
+didates where their score CT If < CT I p, ordered
+in the same way. We select the top scoring sample
+from set (1), else we select the top sample from (2)
+if set (1) is empty. Finally, we remove the sample
+with max(CT Ip− CT If ) until we get a 50-50
+ratio of samples from sets (1) and (2) since the
+larger the delta CT Ip− CT If the more likely the
+falsiﬁed sample is of low quality. As a result, on
+a ranking task where CLIP off-the-shelf is given
+a caption and two images, it correctly chooses the
+pristine image 50% of the time by design.
+NewsCLIPpings Dataset Statistics The detailed
+statistics for the proposed NewsCLIPpings Dataset
+are reported in Table 1. Each caption appears twice,
+once in a pristine sample then again in a falsiﬁed
+sample. Thus exactly half of the samples are pris-
+tine and half are falsiﬁed, and there is no unimodal
+text bias in the dataset. We report the total number
+of samples across splits including any duplicates
+as Total/Sum, and the number ofunique text-image
+pairings as Total/Unique in Table 1.
+Table 1: NewsCLIPpings Dataset Statistics.
+Split Train Val Test
+(a) Semantics/CLIP Text-Image 453,128 47,248 47,288
+(b) Semantics/CLIP Text-Text 516,072 53,876 54,164
+(c) Person/SBERT-WK Text-Text 17,768 1,756 1,816
+(d) Scene/ResNet Place 124,860 13,588 13,636
+Total/Sum 1,111,828 116,468 116,904
+Total/Unique 816,922 85,609 85,752
+Merged/Balanced 71,072 7,024 7,264
+Table 2 provides a comparison to the most re-
+lated prior datasets, highlighting the key differ-
+ences, such as the image-text mismatch procedure
+used in each dataset.
+Table 2: Comparison to prior related datasets. Size is
+the total number of unique samples across all splits.
+Dataset Data Source Mismatch Size
+MAIM Caption, Flickr Random 239k
+(Jaiswal et al., 2017) Image
+MEIR Caption, Flickr Text entity 57k
+(Sabir et al., 2018) Image, GPS manipulation
+TamperedNews Article, BreakingNews Text entity 776k
+(Müller-Budack et al., 2020) Image manipulation
+COSMOS Caption, News Outlets Two sources 453k
+(Aneja et al., 2021) Image (3k labeled)
+NewsCLIPpings (Ours) Caption, VisualNews Automatic 988k
+Image retrieval
+Dataset Examples Here, we provide a few samples
+from the NewsCLIPpings Dataset. Figure 3 com-
+pares the matches from each split for the same
+query caption and pristine image. Our diverse
+methods of computing similarity result in different
+weightings for concepts, displaying the realm of
+plausible images for a given caption. In (1), CLIP
+Text-Image matches “parliament” to Tennessee’s
+governor speaking to a General Assembly, CLIP
+Text-Text matches “Angela Merkel” to Ingeborg
+Berggreen-Merkel speaking, and SBERT-WK Text-
+Text ﬁnds a match of Angela Merkel at a summit.
+In (2), CLIP Text-Image matches “tsunami” to a
+ﬂooding in New York, CLIP Text-Text matches
+“Japan” to the president of a Japanese company,
+and ResNet Place matches “earthquake” to a de-
+stroyed highway after an earthquake in Chile7.
+7The Person split and Scene splits have no shared pristine

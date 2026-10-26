@@ -1,0 +1,114 @@
+of retrieval-augmented LLMs. Therefore, we further map this
+description into a credibility score scred ∈ (0, 1) using a pre-
+diction model πθ:
+scred = πθ(B). (1)
+The model is trained on [Baly et al., 2018 ], which provides
+labeled credibility supervision. More details about the credi-
+ble score prediction are provided in Appendix.
+Media Background Incorporation
+We explore to incorporate source credibility information in
+three stages of the RAG pipeline:
+1. Source Filtering in Retrieval (SF): It aims to filter in-
+credible information in the document level. Documents from
+sources described as low credible according to B are filtered
+before ranking (Figure 2(b)) (more details in Appendix). The
+remaining documents are ranked, and the top-K paragraphs
+are used for answer generation.
+2. Credibility Weighting in Ranking (CW): Instead of filter-
+ing in the document level, credibility scores influence ranking
+(Figure 2(c)). The final ranking score for a paragraph Pm is
+computed as:
+sm = srel,m + β ∗ scred,m, (2)
+where srel,m is the relevance score and β balances relevance
+and credibility. We considered both a soft (CW soft) and a
+hard (CWhard) setting for leveraging the credible score where
+CWhard further maps scred into 0 and 1. Specifically, if scred is
+below a threshold γ, it will be mapped to 0, otherwise, 1.
+3. Source Backgrounds Augmentation in Generation
+(SBA): Source backgrounds are included at the answer gen-
+eration stage (Figure 2(d)). We evaluate four strategies:
+• SBAdir: Concatenates each paragraph with its source
+background for source-aware paragraphs ([P k, Bk]).
+The K source-aware paragraphs are fed to LLMs for a
+direct answer.
+• SBACoT: Uses CoT prompt with source-aware para-
+graphs.
+• SBAexp: Receives source-aware paragraphs and uses ex-
+plicit instructions to filter unreliable sources.
+• SBAens: Uses a two-stage process where candidate an-
+swers are generated per paragraph, and conflicts are re-
+solved based on source-aware rationales:
+Ak, Rk = LLM([Pk, Bk], Q) (3)
+A∗ = LLM([A1, R1, . . . ,AD, RD], Q) (4)
+where A∗ is the final answer after considering all ratio-
+nales.
+Refer to Appendix for the designed prompts.
+5 Experiments
+5.1 Main Experimental Results
+We conducted extensive experiments on the ModC and
+HumC splits of CONFACT (for implementation details,
+see Appendix) to evaluate the performance of retrieval-
+augmented LLMs in fact-checking scenarios involving con-
+flicting evidence. Our evaluation compares baseline RAG
+models that do not consider media source backgrounds (Base-
+line) against models that integrate source credibility data at
+different stages of the pipeline, using the strategies intro-
+duced in Section 4.3 (i.e., Source Filtering (SF), Credibility
+Weighting (CW [·]), and Source Background Augmentation
+(SBA[·])). The experiment results are presented in Table 2.
+Below, we analyze key findings from our experiments by ad-
+dressing three research questions.
+RQ 1: How do vanilla retrieval-augmented LLMs perform
+when confronted with conflicting evidence from sources of
+varying credibility?
+As shown in the first block of Table 2, vanilla RAG models
+exhibit difficulties when dealing with conflicting evidence.
+Their performance is notably limited, as reflected by lower
+F1 scores, suggesting challenges in correctly classifying the
+minority class (i.e., claims where the majority of retrieved
+evidence is misleading). This is primarily due to three key
+issues. First, hallucination — when presented with conflict-
+ing sources, LLMs sometimes generate factually incorrect re-
+sponses that do not accurately reflect the retrieved evidence.
+Second, over-reliance on high-frequency responses — the
+Majority V ote setting biases the system toward the dominant
+source perspective, often amplifying misinformation if it is
+overrepresented in retrieval. Third, inability to distinguish
+misinformation from reliable sources — since vanilla RAG
+models do not assess source credibility, they treat all retrieved
+documents as equally valid, leading to incorrect fact-checking
+outputs. Notably, using GPT-4o in RAG methods (see Ap-
+pendix) showed no clear advantage over open-source models,
+highlighting the problem’s complexity.
+Among the baseline answering strategies, Discern-and-
+Answer (DisA.) and Chain-of-Thought (CoT) prompting
+achieve better results than direct answer generation. This im-
+provement suggests that prompting LLMs to explicitly reason
+about retrieved content helps mitigate the influence of un-
+reliable sources. However, despite these improvements, the
+overall accuracy and F1 scores remain suboptimal, highlight-
+ing the need for more effective mechanisms to incorporate
+source credibility into the fact-checking process.
+RQ 2: Does incorporating media source backgrounds im-
+prove fact-checking performance in RAG-based LLMs?
+Incorporating media background information into RAG
+models generally leads to improved performance, although
+the degree of improvement varies across models. Specifically,
+LLaMA-3.1 shows a 10% absolute improvement in F1 score,
+while Mistral achieves a 5% in accuracy improvement when
+media backgrounds are integrated on the ModC split. Similar
+improvements are observed on HumC, with the incorporation
+of source credibility information. These results indicate that
+providing source credibility cues helps LLMs resolve con-
+flicting evidence more effectively.
+However, not all models benefit equally from media back-
+grounds. Specifically, Qwen-2 exhibits the least improve-
+ment, which we attribute to its weaker long-context process-
+ing capabilities. The inclusion of source background infor-
+mation significantly increases input length. In models that do
+not handle extended sequences efficiently, this can dilute rel-
+evant context, increase token misalignment, and disrupt self-
+attention mechanisms, ultimately leading to suboptimal fact-
+Proceedings of the Thirty-Fourth International Joint Conference on Artiﬁcial Intelligence (IJCAI-25)
+Special Track on AI and Social Good
+9660

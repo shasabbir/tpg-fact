@@ -1,0 +1,105 @@
+ZHANG et al.: EARL Y DETECTION OF MULTIMODAL FAKE NEWS VIA REINFORCED PROPAGA TION PA TH GENERA TION 619
+TABLE I
+DATA S E TSTA TISTICSSUMMARY OF PHEME,P OLITIFACT, AND GOSSIPCOP
+DA TASETS
+r MVAE [1] comprises an encoder, a decoder, and a detector
+to classify fake news.
+r EANN [32] designs a multi-task learning framework to
+detect fake news and classify events simultaneously.
+r CAFE [4] aggregates unimodal features and cross-modal
+correlations to help detection.
+r LLAMA2 [4] aggregates unimodal features and cross-
+modal correlations to help detection.
+r Detect-GPT [4] aggregates unimodal features and cross-
+modal correlations to help detection.
+The propagation-enhanced detection methods:
+r CSI [33] employs LSTM to encode the news content, and
+utilizes the group behavior of users for detection.
+r Bi-GCN [16] uses a Bidirectional Graph Convolutional
+Network to learn the propagation patterns of fake news.
+r UPFD [34] learns user preferences through their past en-
+gaged posts, and combines content with graph modeling.
+r MF AN [17] integrates textual, visual, and social graph
+features in one uniﬁed framework for rumor detection.
+3) Implementation Details: Following [32], all datasets are
+randomly split into training, validation and testing set with a
+ratio of 7:1:2. We employ AdamW [35] as the optimizer, and
+the batch size is set at 16. The initial learning rate is set to
+5e−3. The hidden size of user embedding is set to 128. The
+The experiments are implemented based on PyTorch 1.13.0 on
+a Linux server equipped with GeForce RTX3090 GPUs.
+B. Quantitative Evaluation
+Each detection model is executed ﬁve times, with the average
+outcomes presented in Tables II and III. A comprehensive com-
+parison of full propagation paths with propagation-enhanced
+methods is conducted, as shown in Table II. Our proposed
+RPPG-Fake achieves competitive results when compared with
+other propagation-enhanced baselines. Notably, RPPG-Fake
+surpasses all baselines on the PolitiFact and PHEME dataset
+across all evaluated metrics. This indicates that the gener-
+ated propagation paths effectively provide additional contex-
+tual information, even in scenarios where data is sufﬁcient.
+The improvement of detection capabilities is achieved through
+the incorporation of comprehensive propagation paths into
+propagation-enhanced methods. The propagation-enhanced ap-
+proach Bi-GCN effectively leverages all propagation-path data
+during news dissemination, resulting in the optimal performance
+on the GossipCop dataset. Notably, the propagation paths within
+the GossipCop dataset provide abundant supplementary social
+context information for fake news detection. While an increase
+in generated propagation paths may not necessarily introduce
+additional social context for detection, our proposed method still
+achieves the second-best performance on precision metric on
+the GossipCop dataset. This ﬁnding suggests that the generation
+path is particularly effective in data-sparse scenarios and can
+enhance detection accuracy even when sufﬁcient propagation
+path information is available.
+To assess the detection efﬁcacy of RPPG-Fake at early stages
+of news propagation, comparative analyses with early detection
+benchmarks are presented in Table III. For the simulation of
+early detection scenarios within the test dataset, early user
+engagements are retained randomly within the range of three
+to ﬁve as the accessible propagation paths. It is evident that
+the performance of propagation-enhanced methods signiﬁcantly
+deteriorates, at times falling below that of some content-based
+methods such as CAFE. This suggests that a limited number
+of propagation paths struggle to capture the complex global
+structures and temporal information effectively during news
+spreading. Further comparisons are made with large language
+model (LLM) baselines such as LLAMA2 [36] and Detect-
+GPT [37], which utilize zero-shot prompt engineering. Inter-
+estingly, these LLM-based approaches underperform compared
+to both propagation-enhanced methods (in Table II) and our
+RPPG-Fake, indicating that textual features alone are inadequate
+for improving the accuracy of detection. The integration of
+generated propagation paths by RPPG-Fake markedly enhances
+detection capabilities, underscoring the critical importance of
+ample propagation paths. Notably,RPPG-Fakeconsistently sur-
+passes all baselines across three datasets, registering accuracy
+improvements of +4.0% on PolitiFact, +4.1% on GossipCop,
+and +2.7% on Pheme. Our proposal RPPG-Fake, which gen-
+erates propagation paths from news content, presents mini-
+mal social hazards while demonstrating superior performance
+at early stage detection compared to propagation-enhanced
+methods.
+C. Impact of Propagation Paths
+Fig. 3 illustrates the impact of propagation paths with four
+distinct methods across three datasets, simulating the progres-
+sion from the early detection stage to a full propagation paths
+stage. The observed trend indicates an improvement in detection
+performance with the increase of propagation paths across all
+propagation-enhanced methods. This observation demonstrates
+the integrated value of extensive propagation paths in furnishing
+supplementary social context information, thereby enhancing
+the efﬁcacy of fake news detection. Notably, in contrast to other
+propagation-enhanced models such as MFAN and Bi-GCN,
+our proposed RPPG-Fake exhibits minimal variation with the
+increase of propagation paths. This observation suggests that
+the generated propagation paths closely resemble real paths
+and consequently contribute valuable social context information
+to the detection process. With the full propagation paths and
+generation paths, our proposal achieves the highest detection
+performance. It indicates that generated propagation paths could
+provide external social context even in the situation of sufﬁcient
+paths. This discovery underscores the efﬁcacy of our approach in
+Authorized licensed use limited to: American International University Bangladesh. Downloaded on October 20,2026 at 19:57:35 UTC from IEEE Xplore.  Restrictions apply. 

@@ -1,0 +1,89 @@
+Proceedings of the 1st Workshop on Multimodal Augmented Generation via Multimodal Retrieval (MAGMaR 2025), pages 1–17
+August 1, 2025 ©2025 Association for Computational Linguistics
+MultiReflect: Multimodal Self-Reflective RAG-based
+Automated Fact-Checking
+Uku Kangur1 Krish Agrawal2 Yashashvi Singh3 Ahmed Sabir1 Rajesh Sharma1,4
+1University of Tartu, Institute of Computer Science, Estonia, 2Indian Institute of Technology
+Indore 3Indian Institute of Information Technology Dharwad, 4Plaksha University, India
+Abstract
+In this work, we introduce MultiReflect, a
+novel multimodal self-reflective Retrieval Aug-
+mented Generation (RAG)-based automated
+fact-checking pipeline. MultiReflect is de-
+signed to address the challenges of rapidly
+outdated information, limitations in human
+query capabilities, and expert knowledge barri-
+ers in fact-checking. Our proposed pipeline
+leverages the latest advancements in Large
+Language Models (LLMs) and Retrieval Aug-
+mented Generation (RAG) to enhance fact ver-
+ification across text and images. Specifically,
+by integrating multimodal data processing with
+RAG-based evidence reflection, our system im-
+proves the accuracy of fact-checking by utiliz-
+ing internet-sourced verification. We evaluate
+our results on the VERITE benchmarks and us-
+ing several multimodal LLMs, outperforming
+baselines in binary classification.1
+1 Introduction
+Information plurality, particularly on the internet,
+presents both opportunities and challenges in iden-
+tifying accurate and up-to-date information. Given
+the increasing reliance on online platforms for news
+consumption, learning, and interaction (Eurostat,
+2022), developing effective mechanisms to distin-
+guish between truthful and false information has
+become more critical. However, the increase of co-
+ordinated misinformation movements by spam bots,
+and other forms of informational chaos have signif-
+icantly complicated this process. Therefore, more
+advanced and systematic approaches are required
+to evaluate and verify (fact-check) the credibility
+of information sources.
+With the emergence of Large Language Models
+(LLMs), which can understand and learn from bil-
+lions of texts, automated fact-checking has grown
+in popularity as an alternative to traditional manual
+1https://github.com/ukangur/MultiReflect
+methods (Guo et al., 2022). While LLMs are state-
+of-the-art tools for various language understanding
+and reasoning tasks, they still face several limita-
+tions, such as hallucinations, overconfidence, and
+bias (Xu et al., 2024b; Li et al., 2024). To address
+these issues, several studies have employed Re-
+trieval Augmented Generation (RAG) techniques,
+which allow the model to check based on externally
+verified information (Lewis et al., 2021; Gao et al.,
+2024).
+Language, however, is only part of the challenge
+when it comes to fact-checking information on
+the internet. Online information is presented in
+various forms, including text, images, video, and
+sound. As a result, fact-checking also requires
+the retrieval and reasoning of information across
+multiple modalities (Akhtar et al., 2023b; Martin
+et al., 2025). More recently, several state-of-the-art
+models, such as GPT-4V (OpenAI, 2023), GPT-4o
+(OpenAI, 2024), DeepSeek-VL2 (Wu et al., 2024)
+and Claude 3 (Anthropic, 2024), have made rea-
+son across multimodal data possible. These rapid
+advancements highlight the need for multimodal
+fact-checking, which has grown with the increased
+prevalence of complex information that spans vari-
+ous data types: text, image, video, and audio. Sys-
+tems like COSMOS (Aneja et al., 2021), Twitter-
+COMMs (Biamby et al., 2022), EXMULF (Amri
+et al., 2022), ChartBERT (Akhtar et al., 2023a),
+RED-DOT and (Papadopoulos et al., 2024a) have
+made significant progress in tackling the challenges
+posed by multimodal data.
+However, despite their successes, these systems
+have not fully taken advantage of RAG, a cru-
+cial component for dynamic and context-aware
+evidence retrieval in the multimodal setting. To
+address this gap, we introduce MultiReflect, il-
+lustrated in Figure 1, which integrates multimodal
+fact-checking (image + text) with a self-reflective
+RAG framework. Our system is designed to dy-
+namically retrieve, evaluate, and rank supporting
+1

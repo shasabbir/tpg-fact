@@ -1,0 +1,28 @@
+\begin{tikzpicture}[
+  font=\sffamily\scriptsize,
+  evidence/.style={draw=tpgblue, fill=tpgblue!8, rounded corners=1.2pt, minimum width=19mm, minimum height=7mm, align=center},
+  copy/.style={draw=tpgviolet, fill=tpgviolet!8, rounded corners=1.2pt, minimum width=18mm, minimum height=7mm, align=center},
+  blocked/.style={draw=tpgorange, fill=tpgorange!9, rounded corners=1.2pt, minimum width=23mm, minimum height=7mm, align=center},
+  cluster/.style={draw=tpggray, dashed, rounded corners=2pt, inner sep=2mm},
+  flow/.style={-{Stealth[length=1.6mm]}, semithick, draw=tpggray}
+]
+  \node[font=\sffamily\bfseries\scriptsize, anchor=west] at (0,1.0) {(a) Duplicate-source intervention};
+  \node[evidence] (origin) at (0.8,0.25) {report $A$};
+  \node[copy, right=4mm of origin] (copy1) {$A_1$};
+  \node[copy, right=2mm of copy1] (copy2) {$A_2$};
+  \node[copy, right=2mm of copy2] (copyk) {$A_{10}$};
+  \draw[flow] (origin) -- (copy1);
+  \draw[flow] (copy1) -- (copy2);
+  \draw[flow] (copy2) -- (copyk);
+  \node[cluster, fit=(origin)(copy1)(copy2)(copyk), label={[font=\sffamily\scriptsize]below:one dependency cluster; total base mass $=1$}] {};
+
+  \node[font=\sffamily\bfseries\scriptsize, anchor=west] at (0,-1.25) {(b) Post-cutoff leakage intervention};
+  \draw[very thick, draw=tpggray] (0.25,-2.0) -- (7.45,-2.0);
+  \node[evidence, anchor=south] (valid) at (2.1,-1.9) {observed evidence};
+  \node[draw=tpgteal, very thick, minimum height=13mm, inner sep=0pt] (tau) at (4.65,-2.0) {};
+  \node[font=\sffamily\scriptsize, below=1mm of tau] {cutoff $\tau$};
+  \node[blocked, anchor=south] (verdict) at (6.35,-1.9) {verdict document};
+  \node[font=\sffamily\bfseries\scriptsize, text=tpgorange] at (6.35,-2.55) {rejected};
+  \draw[-{Stealth[length=1.6mm]}, semithick, draw=tpgteal] (valid.south) -- (2.1,-2.0);
+  \draw[-{Stealth[length=1.6mm]}, semithick, draw=tpgorange] (verdict.south) -- (6.35,-2.0);
+\end{tikzpicture}

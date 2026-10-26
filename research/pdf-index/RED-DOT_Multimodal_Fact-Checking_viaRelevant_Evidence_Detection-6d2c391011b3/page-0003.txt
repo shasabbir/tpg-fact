@@ -1,0 +1,114 @@
+PAPADOPOULOS et al.: RED-DOT: MULTIMODAL FACT-CHECKING VIA RELEV ANT EVIDENCE DETECTION 4233
+evidence”. These observations have been empirically supported
+by recent research, which found high rates of leaked evidence
+in both MOCHEG and FACTIFY (the “refute” class), and sig-
+niﬁcantly lower rates in NewsCLIPpings+ [42].
+Recent works have utilized NewsCLIPpings+ for MFC.
+The consistency checking network (CCN) [23] employs two
+attention-based memory networks for visual and textual rea-
+soning, with ResNet152 and BERT, respectively, as well as
+a ﬁne-tuned CLIP (ViT B/32) component for additional fea-
+ture extraction. The stance extraction network (SEN) leverages
+a similar architecture to CCN but with ResNet50 (pretrained
+on Places365), ResNet152 (pretrained on ImageNet), and
+S-BERT as the backbone encoders[25]. Additionally, it extracts
+the “stance” of external evidence toward the image-text pair
+and calculates the “support-refutation score” based on the co-
+occurrence of named entities between the claim and the tex-
+tual evidence. Finally, the explainable and context-enhanced
+network (ECENet) employs ResNet50, BERT, and CLIP ViT-
+B/32 for feature extraction on images, texts, evidence, and
+named entities within a “coarse- and ﬁne-grained attention”
+network for intramodal and cross-modal feature reasoning [24].
+Nevertheless, while the aforementioned methods demonstrated
+promising results on NewsCLIPpings+, they operated under
+the assumption that all collected information from the Web is
+relevant, which is not necessarily valid.
+One limitation of NewsCLIPpings is that it relies on algo-
+rithmically created misinformation. This introduces uncertainty
+regarding the ability of models trained on it to generalize effec-
+tively to real-world multimodal misinformation. For this reason,
+researchers have been experimenting with training multimodal
+misinformation detection models on algorithmically created
+datasets such as NewsCLIPpings and MEIR[35] and evaluating
+their generalizability to real -world misinformation [10].D u e
+to unimodal biases in widely adopted benchmarks, such as
+VMU Twitter [43] and COSMOS [7], we recently developed
+VERITE, an evaluation benchmar k for real-world multimodal
+misinformation detection that accounts for unimodal biases
+[29]. However, VERITE and other similar evaluation datasets
+have not yet been used for MFC since they do not provide
+external evidence.
+In light of these considerations, we introduce a new architec-
+ture that incorporates “relevant evidence detection” (RED) as
+a means of improving verdict prediction accuracy. We opt for
+training our model on NewsCLIPpings+ while also evaluating
+its generalizability to VERITE, after augmenting it through
+evidence collection from the Web.
+III. M ETHODOLOGY
+A. Problem Formulation
+We deﬁne the tasks of multimodal fact-checking (MFC) and
+relevant evidence detection (RED) as follows: given a dataset
+(Ivi ,T vi ,Iei ,T ei ,yvi ,yei)Ni=1, where (Ivi ,T vi ) represents the
+image-text pair under veriﬁcation (pair, from now on), Iei =
+[Iei1,Iei2,...,I ei2K] and T ei =[Tei1,T ei2,...,T ei2M] represent an
+array of image evidence with 2·K elements (K relevant +
+K irrelevant) and text evidence with 2·M elements ( M
+relevant + M irrelevant), respectively, yvi ∈0,1 denotes
+the overall verdict label, truthful (0) or misinformation
+(1) and yei =(yei1,yei2,...,y ei2·(M+K)) is an array of
+binary labels of 2·(M +K) size denoting whether each
+piece of evidence is relevant (1) or irrelevant (0) to the
+pair; with the primary objective of training a classiﬁer
+f :(Iv,T v,Ie,T e)→(ˆyv,ˆye). During training, balanced
+values for M and K are employed for both relevant and
+irrelevant evidence to mitigate class imbalance, which could
+otherwise lead the model to overlook the minority labels.
+B. Evidence Retrieval and Reranking
+We implement a preprocessing stage to rerank collected evi-
+dence from the Web and to retrieve irrelevant evidence for hard
+negative sampling. To this end, we leverage the NewsCLIP-
+pings+ dataset [23] comprising 85 360 image–text pairs, bal-
+anced in terms of truthful and misinformation pairs. The authors
+use the text Tvi to retrieve visual evidenceIei and the image Ivi
+to retrieve textual evidenceT ei . Each pair is associated with up
+to 19 textual evidence and up to 10 visual evidence, with a total
+of 146 032 text evidence and 736 731 image evidence; collected
+via Google API. These items are not “robust evidence” in the
+sense that they necessarily support or refute the claim but rather
+“potential evidence”, nevertheless, we use the term “evidence”
+for consistency with most papers in the ﬁeld. While some level
+of relevance between the collected evidence and the pair is ex-
+pected, we undertake the task of reranking all gathered evidence
+to heighten the likelihood of their relevance.
+Following [23], we use the pretrained CLIP ViT B/32 [26]
+as the backbone encoder to extract visual FI ∈Rdim×1 and
+textual features FT ∈Rdim×1 with dimensionality dim=512 ,
+for Iv,Ie and T v,T e. Additionally, we experiment with AL-
+BEF Base [27], BLIP2 ViT L [28], and CLIP ViT L/14 with
+dim=768 , all taken from the LA VIS2 library. We signify the
+ranked or “relevant” evidence with the superscript “+”, and rank
+them based on the intramodal cosine similarity sim as follows:
+I+i =argsort
+Iej ∈Iei
+sim(FIvi ,FIej )
+T +i =argsort
+Tej ∈T ei
+sim(FTvi ,FTej ). (1)
+For the “irrelevant” evidence class, denoted by the super-
+script “-”, we leverage hard negative sampling, instead of de-
+pending on random sampling. More speciﬁcally, we calculate
+the most similar item based on text–text similarity, fetch its
+ranked evidence and employ them asI−i , and use image–image
+similarity for T −i . We incorporate the “opposite” modality in
+similarity calculations to mimic the evidence retrieval process
+of NewsCLIPpings+. The process of hard negative sampling “ir-
+relevant” evidence is illustrated in Fig. 2 and can be expressed
+as follows:
+I−i =I+j , where j =a r g m a x
+Tvj ∈T v,j⁄=i
+sim(FTvi ,FTvj )
+T −i =T +j , where j =a r g m a x
+Ivj ∈Iv,j⁄=i
+sim(FIvi ,FIvj ). (2)
+2https://github.com/salesforce/LA VIS

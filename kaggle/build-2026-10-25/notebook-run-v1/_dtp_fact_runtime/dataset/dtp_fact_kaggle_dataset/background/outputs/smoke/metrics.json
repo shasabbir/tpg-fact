@@ -1,0 +1,35 @@
+{
+  "accuracy": 1.0,
+  "aurc": 0.0,
+  "balanced_accuracy": 1.0,
+  "brier": 0.05999999999999999,
+  "ece": 0.20000000000000007,
+  "macro_f1": 1.0,
+  "macro_ovr_auroc": 1.0,
+  "nll": 0.2231435513142097,
+  "per_class": {
+    "insufficient_evidence": {
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "refuted": {
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "supported": {
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  },
+  "risk_at_80_coverage": 0.0,
+  "sample_count": 6,
+  "split_counts": {
+    "test": 3,
+    "train": 2,
+    "validation": 1
+  },
+  "status": "synthetic_software_diagnostic_only"
+}

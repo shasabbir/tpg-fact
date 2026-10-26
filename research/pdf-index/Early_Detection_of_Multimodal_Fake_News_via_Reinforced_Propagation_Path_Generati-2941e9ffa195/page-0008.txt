@@ -1,0 +1,35 @@
+620 IEEE TRANSACTIONS ON KNOWLEDGE AND DATA ENGINEERING, VOL. 37, NO. 2, FEBRUARY 2025
+TABLE II
+PERFORMANCE WITH FULL PROPAGA TIONPAT H S
+TABLE III
+PERFORMANCE WITH FEWER PROPAGA TIONPAT H SAT EARL YSTAG E
+Fig. 3. The accuracy performance with different generation users. Comparison of the proposed RPPG-Fake model with baselines across three datasets.
+generating high-quality propagation paths at the early detection
+stage, thereby integrating substantial social context into fake
+news detection and mitigating the potential societal hazards
+stemming from the dissemination of fake news.
+D. Ablation Study
+The ablation studies are conducted to investigate the impor-
+tance of different modules in Table IV.
+Heterogeneous Contrastive Learning: We aim to study the
+inﬂuence of various contrastive learning methods. “w/o Node-
+view CL” and “w/o Meta-path CL” stand for without node-view
+contrastive learning, and meta-path contrastive learning. “w/o
+all CL” stand for without all contrastive learning and initialize
+with random user embedding. (1) The performance declines
+with “w/o Node-view CL” or “w/o Meta-path CL”, revealing
+that propagation information is as important as heterogeneous
+relations for user embedding in social networks. (2) Without all
+contrastive learning, performance declines signiﬁcantly, proving
+both contrastive learning are crucial to generate the reasonable
+user embedding.
+Propagation Path Generation:Here we focus on investigating
+the effectiveness of reinforced propagation path generation.
+“Random Sample” denotes to sample 10 user nodes as the
+neighbors at current time step. “Node Similarity” is designed
+to select top-10 context neighbors based on the semantic sim-
+ilarities. (1) After replacing the reinforced propagation path
+generation with random samples, model performance presents
+a signiﬁcant decline, verifying that random samples may intro-
+duce noises and reasonable user interaction is crucial to improve
+Authorized licensed use limited to: American International University Bangladesh. Downloaded on October 20,2026 at 19:57:35 UTC from IEEE Xplore.  Restrictions apply. 

@@ -1,0 +1,73 @@
+Figure 3: Wikipedia entities collection. The candidate
+set is composed of the entities in the caption and those
+that are most similar to the image. Candidates are re-
+tained if the similarity between the image and their name
+or their Wikipedia images passes a threshold.
+3.3 Automated caption generation
+The third set of evidence is generated automati-
+cally with the MLLM LlavaNext (Liu et al., 2023,
+2024). One caption describing the entire image and
+another one describing the people are generated
+by providing the entire image as input. Then, fol-
+lowing Hu et al. (2023b), we detect objects in the
+image using the Google Vision API.4 We crop the
+image to its bounding boxes, and caption it with
+LlavaNext using a question specific to the object’s
+category. Categories are manually defined with
+their questions in Appendix A.
+3.4 Context prediction
+We predict seven context items: {source, date, lo-
+cation, motivation, people, things, event}. The first
+four items were introduced in Tonglet et al. (2024),
+while the last ones are new to this work. The first
+l web captions are ranked based on the number of
+named entities relevant to the context item that they
+contain, for example, the number of PERSON en-
+tities for the people item. The selected Wikipedia
+entities and the automated captions are merged into
+two captions: one for everything that relates to
+people in the image and the other one for all other
+pieces of information. All the collected evidence
+is provided as input with a question to the LLM
+Llama 3 (MetaAI, 2024) to predict a context item.
+When the evidence does not contain the answer,
+the model is prompted to output “Unknown”. Each
+4cloud.google.com/vision/docs/object-localizer
+Figure 4: Knowledge gap completion. Questions are
+generated based on the predicted context and answered
+with Wikipedia passages. If the answers are relevant,
+the context is updated.
+item, its associated question, and relevant named
+entities are discussed in Appendix B .
+3.5 Knowledge gap completion
+The date and location can often be missing after
+step 4. However, these two items can be derived
+from other context items and world knowledge.
+Following QACheck (Pan et al., 2023a), we use a
+sequence of three modules: question generation,
+question answering, and validation, illustrated in
+Figure 4. If the answer to date is Unknown, and
+location + people, event, or motivation are avail-
+able, we provide the currently known context items
+as input to Llama 3 and ask it to generate up to
+three questions that could help predict the date of
+the image. For each question, relevant Wikipedia
+passages are retrieved with WikiChat and Colbert
+(Khattab and Zaharia, 2020; Semnani et al., 2023)
+and provided as input to Llama 3 to provide an
+answer. Finally, Llama 3 predicts the date, if it can
+be determined, based on the existing context and
+the generated QA pairs. For location, we apply the
+same pipeline if the date + people, event, or moti-
+vation are available. More examples of knowledge
+gap completions are shown in Appendix C.
+3.6 Veracity prediction
+This step takes the predicted context and the cap-
+tion as input and is performed only for captions
+that could not automatically be verified based on
+the web evidence (§3.1). We consider two differ-
+ent models. (1) A frozen Llama 3 with few-shot
+demonstrations as input. Each demonstration’s out-
+put starts with an explanation of the inconsisten-
+cies, followed by the predicted veracity, which is
+2032

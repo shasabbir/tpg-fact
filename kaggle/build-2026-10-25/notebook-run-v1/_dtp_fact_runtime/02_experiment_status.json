@@ -1,0 +1,8 @@
+{
+  "status": "blocked_missing_audited_data_or_gpu",
+  "scientific_claims_allowed": false,
+  "blockers": [
+    "Audited dtp_fact_final_data_<date>.zip is not attached.",
+    "No CUDA GPU is enabled in this Kaggle session."
+  ]
+}

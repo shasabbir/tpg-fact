@@ -7,7 +7,8 @@ from pathlib import Path
 import numpy as np
 
 from data.io import read_jsonl, write_json
-from data.schema import LABELS
+from data.schema import ClaimRecord, LABELS
+from data.splits import split_name
 from evaluation.bootstrap import event_bootstrap_ci
 from evaluation.metrics import (
     area_under_risk_coverage,
@@ -36,6 +37,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--bootstrap-replicates", type=int, default=10000)
     parser.add_argument("--bootstrap-seed", type=int, default=2026)
     parser.add_argument("--target-coverage", type=float, default=0.80)
+    parser.add_argument(
+        "--split",
+        choices=("train", "validation", "test"),
+        help="Optionally evaluate only one preregistered temporal split",
+    )
     return parser.parse_args()
 
 
@@ -112,6 +118,12 @@ def main() -> None:
             f"Expected {args.expected_seeds} prediction files, received {len(args.predictions)}"
         )
     claims = read_jsonl(args.claims)
+    if args.split:
+        claims = [
+            row
+            for row in claims
+            if split_name(ClaimRecord.from_dict(row)) == args.split
+        ]
     if not claims:
         raise ValueError("Claim manifest is empty")
     runs = [
@@ -147,6 +159,7 @@ def main() -> None:
     report = {
         "status": "measured_from_supplied_prediction_artifacts",
         "claim_manifest": str(Path(args.claims).resolve()),
+        "evaluated_split": args.split or "all_rows",
         "seed_count": len(runs),
         "runs": runs,
         "aggregate": aggregate,

@@ -1,0 +1,79 @@
+Figure 2: An annotated image of the 5Pils dataset. Above: the FC article. Below: the extracted 5 Pillars answers.
+of their GeoNames hierarchies.3 For example, the
+distance for the pair (USA, Chicago) is 2, based on
+the hierarchy USA-Illinois-Chicago.
+In addition to RougeL and Meteor, we evaluate
+Motivation with BertScore (BertS) (Zhang et al.,
+2020) to measure the semantic similarity between
+ground truth and predicted Motivation.
+5 The 5Pils Dataset
+The 5Pils dataset consists of 1,676 images anno-
+tated with 5 Pillars answers. We collect metadata
+for analysis purposes, including the type of image,
+the verification strategy, and the verification tools.
+5.1 Data Collection
+We selected FC organizations that met the follow-
+ing criteria: they write some of their articles in
+English, include the verified image in the article,
+do not systematically cover the images with FC an-
+notations, for example, marking the image with a
+“Fake” stamp or a red cross, and are verified signa-
+tories of the International Fact-Checking Network
+(IFCN)4 since Fall 2023, which guarantees that the
+images are verified according to the highest stan-
+dards. None of the existing visual misinformation
+datasets met these combined criteria. However,
+three IFCN members did: Factly, PesaCheck, and
+211Check, based in India, Kenya, and South Sudan,
+respectively. Hence, we created a new dataset with
+articles from these organizations. We collected all
+URLs archived on the Wayback Machine between
+2019 and 2023.5 We kept URLs that contain the
+keywords photo, image, or picture. This results
+in a collection of 3,424 articles. We scraped the
+title, the publication date, the text content, and the
+fact-checked image URL. We downloaded the im-
+ages and cleaned them by cropping social media
+3geonames.org/export/place-hierarchy.html
+4ifcncodeofprinciples.poynter.org/signatories
+5archive.org/help/wayback_api.php
+sidebars. We applied a second round of filtering by
+removing articles written in French, Kannada, and
+Telugu, articles that do not verify images despite
+the keyword match, articles duplicated from one
+organization to another, and articles with FC anno-
+tations covering the image. The resulting unlabeled
+dataset contains 1,692 FC articles.
+5.2 Data Annotation
+We make the assumption that each article explic-
+itly discusses one or more of the 5 Pillars. Hence,
+the annotation process becomes a text extraction
+task. Given its relative simplicity, we decided to
+automate the process using GPT4 (OpenAI, 2023).
+We tasked GPT4 to extract the 5 Pillars answers
+and relevant metadata as a JSON file using a cus-
+tom prompt detailed in Appendix D. An annotated
+image is illustrated in Figure 2. In total, only 16
+articles (<1%) did not contain any 5 Pillars an-
+swers, confirming our initial assumption. We re-
+cruited three students to evaluate the quality of the
+GPT4 annotations for a random sample of 50 im-
+ages. After reading the corresponding FC article,
+they assigned a label to each of the GPT4 extracted
+answers: “Correct” if GPT4 detects the presence
+or absence of the answer in the article, “Missing”
+if GPT4 does not provide an answer while it was
+available in the article, and “Incorrect” if GPT4 pro-
+vides a wrong answer. Taking their majority vote,
+annotators found 100, 100, 98, 96, and 94% of the
+answers to be “Correct” for Provenance, Source,
+Date, Location, and Motivation, respectively, the
+remaining cases being “Missing” answers. Restrict-
+ing to a unanimous vote for “Correct” answers,
+those percentages decrease to 94, 82, 90, 82, 76%.
+For the rest, at least one annotator has chosen the
+“Missing” (2, 10, 10, 12, 20%) or “Incorrect” (4,
+8, 0, 6, 4%) label. “Missing” are preferable over
+“Incorrect” labels as they lower the recall without
+impacting the precision of the annotations. Overall,
+7848

@@ -1,0 +1,103 @@
+tency (Chen et al., 2022; Zhou et al., 2023). In
+addition, news on social media is diverse, and in-
+consistency is not an absolute criterion for deter-
+mining news authenticity (Ying et al., 2023). De-
+tecting manipulated images (Cao et al., 2020) or
+provocative emotion in post (Zhang et al., 2021b)
+is also an effective view for detecting fake news.
+As a result, integrating as many available multi-
+modal clues as possible becomes crucial for fake
+news detection, called multi-view learning (Ying
+et al., 2023; Wu et al., 2021; Zeng et al., 2023;
+Wan et al., 2024). Although methods based on in-
+consistency or multi-view learning have achieved
+many promising results, the lack of inconsistency
+checks at the event level still affects the accuracy
+of detection methods. Meanwhile, most existing
+methods overlook the impact of inherent noise in
+multimodal news data. Therefore, we summarize
+two main shortcomings of current methods:
+• Event-level multimodal inconsistency : In the
+context of news being regarded as a collection
+of events, 89% of news images encompass events
+characterized by subjects, objects, and predicates
+(Li et al., 2022). As illustrated in Fig.1 (a) and
+(b), both images contain entities such as ’police’
+and ’protesters.’ However, due to differing subject-
+verb relationships, they convey significantly dif-
+ferent meanings. Although existing methods have
+achieved excellent results in modeling inconsis-
+tency at element-level, aligning subjects and ob-
+jects in images, merely achieving alignment at the
+element level may not effectively measure the re-
+lationship between news posts and images. This
+limitation leads the model to learn features biased
+towards check the authenticity of the news.
+• Noise of multimodal samples : With the rise of
+we-media, the casual composition of news has led
+to the proliferation of poor-quality news on social
+media. Some images undergo compression pro-
+cessing, making it almost impossible to recognize
+entities within them, while some news posts con-
+tain very few words. Additionally, certain multi-
+view methods incorporate pattern features to detect
+image manipulation in fake news. Some news pub-
+lishers use image editing techniques to highlight
+key elements in news images, as shown in Figure
+1(c), leading to biases in models relying on image
+manipulation for detection. On social media, cer-
+tain platforms use symbols like "#" in the post for
+tagging or mentioning, as illustrated in Fig. 1(d),
+leading to misjudgments by models analyzing post
+content and emotion. These noise of multimodal
+news characterized by poor-quality and capable
+of causing cognitive bias in models, usually sig-
+nificantly impacts the generalization performance.
+To tackle these challenges, we propose the
+Event-dRiven fAke news Detection frAmewoRk
+(Event-Radar) based on multi-view learning. The
+framework leverages statistical distributions to
+learn more robust news representations at the event-
+level. Specifically, we model individual news as
+a multimodal graph and extract subgraphs repre-
+senting events present in both images and posts.
+Additionally, we utilize textual emotion and image
+pattern features as additional clues for multi-view
+learning, leveraging features from different views
+to enhance classification accuracy. However, this
+assumes that the quality or importance of these
+views is relatively stable across all samples. When
+feature from certain view is severely compromised,
+it can significantly impact the accuracy of classi-
+fication (Wu et al., 2022). To address this issue,
+the beta distribution is utilized to estimate the cred-
+ibility for each view, biasing the model towards
+trusting views with higher credibility. The contri-
+butions of this paper are three-folded:
+• We propose a novel event-driven fake news detec-
+tion framework that elucidates the inherent subject-
+verb logic in multimodal news.
+• We attempt to address the issue of varying sample
+quality in news by estimating the credibility of each
+viewpoint using a Beta distribution. We determine
+the weight of feature fusion based on the magnitude
+of credibility, aiming to integrate features more
+heavily from views with higher credibility.
+• Event-Radar not only outperforms all existing
+multi-view multimodal fake news detection frame-
+works but also provides a robust approach to resist
+the disturbance of noise samples, addressing the
+issue of model bias introduced by the complex data
+distribution in the real world.
+2 RELATED WORK
+2.1 Multimodal Fake News Detection
+Traditional multimodal fake news detection ex-
+tensively leverages latent information from both
+images and posts to obtain comprehensive multi-
+modal news representations (Liu et al., 2023; Chen
+et al., 2023; Khattar et al., 2019). Approaches
+like Safe (Zhou et al., 2020) and BTIC (Zhang
+et al., 2021a) enhance multimodal representations
+by setting appropriate loss functions. Detecting
+fake news through modal inconsistency, measuring
+5810

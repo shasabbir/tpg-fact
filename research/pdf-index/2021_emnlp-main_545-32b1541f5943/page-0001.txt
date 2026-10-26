@@ -1,0 +1,77 @@
+Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing , pages 6801–6817
+November 7–11, 2021. c©2021 Association for Computational Linguistics
+6801
+NewsCLIPpings: Automatic Generation of
+Out-of-Context Multimodal Media
+Grace Luo Trevor Darrell
+University of California, Berkeley
+{graceluo, trevordarrell, anna.rohrbach}@berkeley.edu
+Anna Rohrbach
+Abstract
+Online misinformation is a prevalent societal
+issue, with adversaries relying on tools rang-
+ing from cheap fakes to sophisticated deep
+fakes. We are motivated by the threat sce-
+nario where an image is used out of context
+to support a certain narrative. While some
+prior datasets for detecting image-text incon-
+sistency generate samples via text manipula-
+tion, we propose a dataset where both image
+and text are unmanipulated but mismatched.
+We introduce several strategies for automati-
+cally retrieving convincing images for a given
+caption, capturing cases with inconsistent enti-
+ties or semantic context. Our large-scale auto-
+matically generated NewsCLIPpings Dataset:
+(1) demonstrates that machine-driven image
+repurposing is now a realistic threat, and (2)
+provides samples that represent challenging in-
+stances of mismatch between text and image
+in news that are able to mislead humans. We
+benchmark several state-of-the-art multimodal
+models on our dataset and analyze their per-
+formance across different pretraining domains
+and visual backbones.
+1 Introduction
+Misinformation has reached new heights as sophis-
+ticated AI-based tools have come into the spotlight.
+For instance, it has become easy to generate images
+of people who “do not exist”1 and create realistic
+deepfakes of existing people (Victor, 2021). Re-
+cent language models have become better at fool-
+ing people into believing that generated texts are
+from real people (Hao, 2020). However, simple
+and cheap image repurposing remains one of the
+most widespread and effective forms of misinfor-
+mation (Fazio, 2020). Speciﬁcally, real images
+of people and events get reappropriated and used
+out of context to illustrate false events and mis-
+leading narratives by misrepresenting who is in the
+image, what is the context in which they appear,
+1https://thispersondoesnotexist.com
+Figure 1: Consider the following examples and
+guess whether these are pristine news or automatically
+matched image-caption pairs. The solution and more
+discussion are given in text.
+or where the event takes place. This method is
+effective since augmenting a story with an image
+has been shown to increase user engagement and
+make false stories seem true (Fenn et al., 2019).
+Here, we explore whether such a threat can be au-
+tomated. We show that real world images can be
+automatically matched to captions to generate false
+but compelling news stories, a threat scenario that
+may lead to larger-scale image repurposing.
+While synthetic media conceptually could be
+detected by doing unimodal analysis (e.g. a detec-
+tor for GAN-generated images), in our case both
+the text and the image are real. Thus, determining
+whether an image-caption pair is pristine or falsi-
+ﬁed requires joint multimodal analysis of the image
+and text (consider Figure 1 and make your guess).
+Prior work has proposed several datasets related
+to our problem statement. One line of work obtains
+out-of-context image-text pairs by manipulating
+the named entities within the text (Müller-Budack
+et al., 2020; Sabir et al., 2018). We ﬁnd that in
+practice this may lead to linguistic inconsistencies,

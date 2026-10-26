@@ -1,0 +1,99 @@
+project:
+  name: DTP-Fact
+  dataset: US-TPMFC
+  seed: 2026
+
+data:
+  start_year: 2020
+  train_end_year: 2023
+  validation_year: 2024
+  test_start_year: 2025
+  test_end_year: 2026
+  allowed_languages: [en]
+  country_scope: US
+  minimum_total_cases: 2000
+  minimum_per_label: 300
+  minimum_test_events: 50
+  minimum_independent_cluster_fraction: 0.70
+  audit_sample_size: 200
+
+collection:
+  api_key_environment_variable: GOOGLE_FACTCHECK_API_KEY
+  factcheck_publishers:
+    - politifact.com
+    - factcheck.org
+    - reuters.com
+    - apnews.com
+    - factcheck.afp.com
+    - snopes.com
+    - leadstories.com
+  evidence_lookback_days: 365
+  raw_data_release: prohibited_unless_source_license_allows
+
+retrieval:
+  candidate_limit: 100
+  retained_limit: 20
+  rrf_k: 60
+  lexical_model: bm25
+  dense_text_model: BAAI/bge-m3
+  dense_text_revision: 5617a9f61b028005a4858fdac845db406aefb181
+  reranker_model: BAAI/bge-reranker-v2-m3
+  reranker_revision: 953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e
+  visual_model: google/siglip2-so400m-patch14-384
+  visual_model_revision: e8e487298228002f3d8a82e0cd5c8ea9c567f57f
+  sources: [claimreview, gdelt, commoncrawl]
+  exclude_fact_check_domains: true
+  enforce_publication_cutoff: true
+  require_pre_cutoff_observation: true
+  uncertain_timestamp_policy: exclude_primary_include_sensitivity
+
+provenance:
+  title_jaccard_threshold: 0.80
+  image_phash_hamming_threshold: 6
+  cluster_same_domain_only: false
+  aggregation_unit: source_cluster
+  source_credibility_in_primary_model: false
+
+model:
+  comparison_mllm: Qwen/Qwen2.5-VL-7B-Instruct
+  comparison_mllm_revision: cc594898137f460bfe9f0759e9844b3ce807cfb5
+  hidden_dimension: 256
+  graph_layers: 2
+  dropout: 0.20
+  target_answer_coverage: 0.80
+
+training:
+  seeds: [11, 23, 37, 53, 71]
+  tuning_trials: 20
+  bootstrap_replicates: 10000
+  primary_metric: macro_f1
+  selection_split: validation
+  batch_size: 16
+  epochs: 30
+  learning_rate: 0.0002
+  weight_decay: 0.0001
+  sufficiency_loss_weight: 0.25
+  early_stopping_patience: 5
+  num_workers: 0
+  precision: fp32
+  evidence_dropout: 0.10
+  variants:
+    - text_only
+    - image_text
+    - vanilla_rag
+    - time_filtered_rag
+    - provenance_pool
+    - no_graph
+    - no_temporal_filter
+    - no_provenance
+    - no_temporal_features
+    - no_text_evidence
+    - no_visual_evidence
+    - no_sufficiency_gate
+    - no_evidence_dropout
+    - full
+
+outputs:
+  directory: outputs
+  smoke_directory: outputs/smoke
+

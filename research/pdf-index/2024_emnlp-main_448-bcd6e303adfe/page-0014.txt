@@ -1,0 +1,72 @@
+Figure 10: Contextualization with keyword search.
+sual misinformation. (2) Detecting manipulations
+informs whether any edits need to be removed to
+obtain the original image. For the output, we iden-
+tify four components covered in Section 1. In this
+work, we integrate manipulation detection in our
+automated baseline, while other tasks at the input
+and output are expected to be performed by human
+fact-checkers. Integrating image contextualization
+with other automated FC tasks is an interesting
+direction for future work.
+B Image contextualization with keyword
+search
+It can happen that RIS engines do not return
+any results for a given image. In those cases,
+human fact-checkers use other methods to retrieve
+evidence, including keyword search. We provide
+two examples in Figure 10, corresponding to the
+2nd and 4th images of Figure 5.
+Left image : The image contains visual cues,
+namely, a military convoy, a semi-arid landscape,
+and mountain chains in the background. Assuming
+sufficient world knowledge, we know that this
+landscape is characteristic of the Horn of Africa,
+and the main recent conflict in the area was the war
+in Tigray. Hence, we make the hypothesis that the
+image is related to the war in Tigray. We run the
+web search query “soldiers convoy war ethiopia
+tigray truck”. The 10th result is the same image
+hosted on the platform Getty, captioned with all
+relevant meta-context.
+Right image : the plane is recognizable as a
+Boeing F/A-18 Hornet fighter aircraft. Searching
+Wikipedia for information, we find that the top
+owner of F/A-18 is the US Airforce. We run the
+following web search query: “F/A-18 Hornet
+Figure 11: A manipulated image with edited television
+background (a) and the original version (b). A digital
+artwork of a giant skeleton (c).
+fight aircraft united states”, and retrieve the
+target image among the first results on a web-
+page that contains all the meta-context information.
+C Contextualization of manipulated and
+fake images
+We provide examples of manipulated and fake
+images in Figure 11. The manipulated image
+(a) claimed that footballer Cristiano Ronaldo was
+showing support for the Argentine football team.8
+By collecting RIS results, it was first observed that
+the image had been manipulated (b). Additional
+meta-context elements informed the fact-checkers
+that the image was taken prior in time, when the
+footballer showed support for the Portugal team
+and originated from his official social media ac-
+count. Image (c) claimed to show the discovery of
+giant human skeletons. 9 By searching the Source
+and Motivation pillars, it was discovered that an
+artist created the image for a digital artwork com-
+petition.
+D Automated annotations prompt
+Figure 12 shows the instructions given to GPT4
+to extract the 5 Pillars answers from FC articles.
+The prompt was improved iteratively over batches
+of 10 articles until a satisfactory performance was
+achieved. The prompt instructs GPT4 to create a
+JSON file containing various fields. If the infor-
+mation is unavailable, the standard answer should
+8factly.in/this-post-shares-an-edited-image-to-claim-that-
+cristiano-ronaldo-is-supporting-argentina
+9factly.in/a-digitally-created-artwork-falsely-shared-as-a-
+real-picture-of-a-giant-human-skeleton
+7858

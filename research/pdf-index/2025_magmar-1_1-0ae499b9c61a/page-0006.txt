@@ -1,0 +1,89 @@
+Type Class GPT-4V GPT-4o-mini LLaV A-CoT (11B) DeepSeek-VL2 (4.2B) Gemma 3 (12B)
+Acc. Prec. Rec. F1 Acc. Prec. Rec. F1 Acc. Prec. Rec. F1 Acc. Prec. Rec. F1 Acc. Prec. Rec. F1
+M
+ALL 0.49 0.53 0.49 0.46 0.50 0.53 0.50 0.50 0.38 0.59 0.38 0.30 0.36 0.38 0.36 0.31 0.44 0.52 0.44 0.37
+TRUE 0.69 0.62 0.65 - 0.60 0.48 0.53 - 0.41 0.69 0.51 - 0.38 0.53 0.44 - 0.47 0.71 0.56
+MC 0.54 0.16 0.25 - 0.56 0.34 0.42 - 1.00 0.00 0.01 - 0.34 0.49 0.40 - 0.41 0.59 0.49
+OOC 0.37 0.69 0.48 - 0.43 0.70 0.53 - 0.34 0.45 0.38 - 0.42 0.04 0.07 - 0.71 0.02 0.03
+B
+ALL 0.78 0.75 0.74 0.74 0.72 0.70 0.72 0.71 0.56 0.64 0.56 0.57 0.54 0.59 0.54 0.56 0.63 0.68 0.63 0.64
+TRUE 0.69 0.62 0.65 - 0.60 0.48 0.53 - 0.41 0.69 0.51 - 0.38 0.53 0.44 - 0.47 0.71 0.56
+FALSE 0.81 0.86 0.83 - 0.76 0.84 0.80 - 0.75 0.49 0.59 - 0.70 0.55 0.62 - 0.80 0.59 0.68
+Table 1: Performance results of the proposed pipeline MultiReflect on the VERITE dataset. The results are shown
+for both the binary case (denoted as B, with labels TRUE and FALSE) and the multi-class case (denoted as M,
+with labels TRUE, MISCAPTIONED [MC], and OUT-OF-CONTEXT [OOC]). The drop in performance in the
+multi-class classification indicates that the model struggles to distinguish between MISCAPTIONED and OUT-
+OF-CONTEXT datapoints. The best overall accuracy and F1-scores for both binary and multi-class settings are
+highlighted. We observe that GPT-4o-mini performs best in the multi-class setting, while GPT-4V performs best in
+the binary classification setting.
+Model Accuracy
+Multi-class Binary
+VERITE (Papadopoulos et al., 2024b) 0.52 0.73
+RED-DOT (Papadopoulos et al., 2024a) 0.77
+GPT-4V (OpenAI, 2023) 0.49 0.78
+GPT-4o-mini (OpenAI, 2024) 0.50 0.72
+LLaV A-CoT (11B) (Xu et al., 2024a) 0.38 0.56
+DeepSeek-VL2 (4B) (Wu et al., 2024) 0.36 0.54
+Gemma 3 (12B) (Team et al., 2025) 0.44 0.63
+Table 2: The results show that MultiReflect with
+GPT-4V outperforms all baselines in binary classifica-
+tion. However, all MultiReflect versions underperform
+against the original VERITE baseline in multi-class clas-
+sification.
+tract and align the most relevant visual and textual
+features. We select DeepSeek-VL2 as a compari-
+son due to its reliance on mixture-of-experts and
+good performance on reasoning benchmarks given
+its relatively small size.
+4.2 Results
+The VERITE dataset provides three classes: TRUE,
+MISCAPTIONED, and OUT-OF-CONTEXT. For
+binary classification, however, MISCAPTIONED
+and OUT-OF-CONTEXT are combined into a sin-
+gle FALSE class. We evaluate both binary and
+multi-class (taking into account all three classes).
+Multi-class results: In the multiclass setting, our
+pipeline achieved the best result with GPT-4o-mini
+with a macro F1-score of 0.50 and accuracy of0.50,
+slightly lower than the VERITE benchmark accu-
+racy of 0.52 (see Table 2). Surprisingly, the score
+for the larger GPT-4V is lower, suggesting that the
+pipeline struggles to differentiate false subclasses.
+This is also shown when we look at the TRUE
+class, as the GPT-4V model performs the best with
+a F1-score of 0.65, the highest among all classes.
+However, for the MISCAPTIONED class GPT-4V
+showed a low F1-score of 0.25, driven by a recall
+of 0.16, indicating difficulty in identifying MIS-
+CAPTIONED posts. The same difficulty arised for
+LLaV A-CoT, which only identified a single MIS-
+CAPTIONED post due to being overconfident in
+the verification stage. Surprisingly, Gemma 3 per-
+forms the best win identifying MISCAPTIONED
+posts with an F 1-score of 0.49 showing its capa-
+bility of using evidence critically. For OUT-OF-
+CONTEXT, GPT-4o-mini achieved an F1-score of
+0.53, primarily due to low precision (0.43) of OUT-
+OF-CONTEXT class. DeepSeek-VL2, performs
+the worst out of the four with an F1-score of 0.36
+due to misclassifying OUT-OF-CONTEXT posts.
+We note that these results highlight the pipelines
+poor capability to differentiate which modality in-
+cludes the false information.
+Binary results: In the binary setting, we see that
+GPT-4V performs the best out of the three mod-
+els in all metrics achieving a F 1-score of 0.74
+and an accuracy of 0.78, exceeding the VERITE
+benchmark of 0.72 and RED DOT baseline of
+0.77 (see Table 2). The TRUE class retained its
+F1-score of 0.65, while the combined false class
+achieved 0.83 as shown in Table 1. The overall
+result against other baselines is shown in Table
+2, our model achieves the best binary results in
+the VERITE benchmark dataset. The open-source
+models (Gemma 3, LLaV A-CoT and DeepSeek-
+VL2) all perform worse in both classes compared
+to the OpenAI models. This performance gap may
+be attributed to less effective use of evidence in the
+verification process.
+6

@@ -1,20 +1,30 @@
-\section{Task and Benchmark Construction}
+\section{Dataset and Task}
 
 \subsection{Task Definition}
 
-Each instance contains claim text $x_t$, an image $x_v$, a decision cutoff $\tau$, and an evidence collection $E_{\leq\tau}$. The output is $y \in \{\text{supported},\text{refuted},\text{insufficient}\}$. Documents published after $\tau$ are unavailable to the model. The event is the independent unit for data splitting and uncertainty analysis.
+Each instance contains claim text $x_t$, an image $x_v$, the earliest observed claim time, a decision cutoff $\tau$, and an evidence collection $E_{\leq\tau}$. The output is $y \in \{\text{supported},\text{refuted},\text{insufficient evidence}\}$. Selective deferral is an operational decision applied after calibration, not a fourth class. The event is the independent unit for splitting and statistical analysis.
 
 \subsection{Candidate Acquisition}
 
-Corpus construction starts with English ClaimReview records about United States events from 2020--2026. GDELT provides discovery metadata, and Common Crawl provides archived page observations. The corpus retains cases with an identifiable claim time, a recoverable image or archive, an unambiguous professional rating, and enough timestamp information to enforce the cutoff. The retrieval pool excludes fact-check domains and documents that contain the final verdict.
+Corpus construction starts with English ClaimReview records about United States events from 2020--2026. GDELT supplies discovery metadata, and Common Crawl supplies archived page observations; Internet Archive CDX is used as an independently queried fallback when Common Crawl does not cover the publication-to-decision interval. The claim time is the earliest documented public appearance. The decision cutoff is the fact-check publication time or a recorded equivalent. The corpus retains cases with a recoverable image or archive, an unambiguous professional rating, and enough timestamp information to enforce that cutoff. Fact-check pages, their domains, and verdict-bearing post-cutoff documents are excluded from the primary evidence pool.
+
+The first authenticated candidate snapshot was frozen at 2026-10-24 07:53:33 UTC. It contains 32,898 deduplicated ClaimReview candidates and 440 preserved API response pages from seven configured publisher filters. This number is a screening-pool count rather than a benchmark size: eligibility, United States relevance, image identity, rating, event membership, and decision-time metadata still require audit. PolitiFact, AFP, and Snopes reached the preregistered 100-page collection cap, so this snapshot is not interpreted as a census of their ClaimReview records.
+
+Evidence timestamps have three confidence levels. \emph{Confirmed} items have consistent publication metadata and an independent pre-cutoff observation. \emph{Observed} items have a pre-cutoff archive or crawl time but incomplete publication metadata. \emph{Uncertain} items rely on self-reported metadata or were first observed after the cutoff. The primary analysis uses confirmed and observed items only; uncertain items enter a sensitivity analysis. A post-cutoff archive does not establish pre-cutoff availability.
 
 \subsection{Label Policy}
 
-Only explicit site ratings are normalized. True or correct maps to supported. False, fake, or miscaptioned maps to refuted. Unproven, unsubstantiated, or no evidence maps to insufficient evidence. Mixed, partially true, satire, opinion, and ambiguous ratings are excluded. The labels come from professional fact-checkers; automatically extracted evidence links are treated as silver evidence.
+Only explicit site ratings are normalized through a frozen, site-specific mapping. True or correct maps to supported; false, fake, or miscaptioned maps to refuted; and unproven, unsubstantiated, or no evidence maps to insufficient evidence. Mixed, partially true, satire, opinion, and ambiguous ratings are excluded. The labels come from professional fact-checkers, and automatically extracted evidence links remain silver evidence.
+
+The evidence-sufficiency target is audited separately. It is not inferred solely from the professional verdict: a later supported or refuted verdict does not prove that enough time-valid evidence existed at an earlier cutoff. The current pilot therefore leaves the sufficiency target unlabeled. A later human-audited subset will receive gold sufficiency judgments under a written protocol; any automatically derived targets will be reported as silver and evaluated separately.
+
+\subsection{Feasibility Pilot}
+
+The evidence-first feasibility pilot freezes 200 image--text cases and 682 evidence records. Every case has at least one evidence item satisfying the decision-time chronology, and 141 cases (70.5\%) have at least two time-valid source-domain clusters. The inherited verdict distribution is 29 supported, 146 refuted, and 25 insufficient evidence. The temporal partitions contain 50 training, 39 validation, and 111 test cases; exact event identifiers and image perceptual hashes do not cross partitions. These counts pass the automated pilot coverage rule, but they do not establish the final benchmark: the visual and scope review is AI-assisted, sufficiency labels remain unaudited, and domain identity is only a provisional proxy for source independence pending cross-domain syndication analysis.
 
 \subsection{Temporal Partitioning and Release}
 
-Training covers 2020--2023, validation uses 2024, and final testing uses 2025--2026. Events, near-duplicate claims, and images with matching perceptual hashes remain in one partition. The release package contains URLs, cryptographic and perceptual hashes, timestamps, normalized labels, graph annotations, retrieval queries, and split manifests. It does not redistribute copyrighted articles or images.
+Training covers 2020--2023, validation uses 2024, and final testing uses 2025 plus a partial-2026 snapshot ending on 2026-10-24. The 2025 and 2026 results are reported separately and jointly. Events, near-duplicate claims, and images with matching perceptual hashes remain in one partition. The release package contains URLs, hashes, timestamp confidence, normalized labels, graph annotations, retrieval queries, and split manifests. It does not redistribute copyrighted articles or images.
 
 Figure~\ref{fig:temporal-protocol} shows the order of operations. Group identities are fixed before the year-based allocation. Training data are used to fit model parameters and preprocessing; validation data are reserved for model selection, calibration, and abstention thresholds; the final period is not used for any of those choices.
 
@@ -25,5 +35,9 @@ Figure~\ref{fig:temporal-protocol} shows the order of operations. Group identiti
 \label{fig:temporal-protocol}
 \end{figure}
 
-This study treats \datasetname{} as a benchmark only if the filtered corpus contains at least 2,000 cases, 300 cases per label, 50 test events, and two independent evidence clusters for at least 70\% of retained claims. If the collection misses any threshold, it is used as a temporal and provenance stress test instead.
+This study treats \datasetname{} as a benchmark only if the filtered corpus contains at least 2,000 cases, 300 cases per label, 50 test events, and two independent evidence clusters for at least 70\% of retained claims. If the collection misses any threshold, it becomes a temporal and provenance stress test. The threshold is fixed before inspecting the full collection.
+
+\IfFileExists{tables/generated_dataset_summary.tex}{%
+\input{tables/generated_dataset_summary}%
+}{}
 

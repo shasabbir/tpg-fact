@@ -1,0 +1,89 @@
+Table 6: Performance of claim verification in Multi-News-Fact-Checking dataset. We compare our method with
+Llama 2, and other offline summarization models.
+Setting Accuracy (%) Precision (%)Entailment Precision (%)Contradiction Precision (%)Neutral Recall (%)Entailment Recall (%)Contradiction Recall (%)Neutral
+PEGASUS → DeBERTA V3 33.2 64.2 14.7 21.5 37.3 12.4 11.9
+PEGASUS → Llama 2 39.5 37.4 23.1 42.8 27.6 24.3 24.0
+T5 large → DeBERTA V3 34.8 62.8 17.5 26.2 33.0 18.5 18.2
+T5 large → Llama 2 37.2 40.2 32.8 48.0 30.5 26.4 26.8
+PRIMERA → DeBERTA V3 35.9 68.2 32.7 23.7 35.8 23.8 45.1
+PRIMERA → Llama 2 39.2 43.5 47.2 33.1 47.2 35.5 24.9
+MSP(Entail., LM critics) → DeBERTA V3 36.9 74.3 29.3 28.3 42.5 23.9 44.8
+MSP(Entail. critic) → Llama 2 42.6 41.0 53.7 34.6 54.8 37.8 29.6
+MSP(Entail., LM critics) → Llama 2 46.0 49.5 49.3 34.1 56.4 44.7 28.9
+Table 7: Performace of explanation generation. Our system outperforms MOCHEG on equivalent settings. Gold
+Truthfulness denotes ground truth claim label and System Truthfulness means the predicted claim label.
+Setting ROUGE 1 (%) ROUGE 2 (%) ROUGE L (%) BLEU (%) BERTScore (%)
+MOCHEG w/ Gold Evidence, Gold Truthfulness 45.5 27.3 35.4 21.8 89.0
+MOCHEG w/ Gold Evidence, System Truthfulness 43.8 26.3 34.1 20.8 88.8
+MOCHEG w/ System Evidence, Gold Truthfulness 35.5 17.4 26.0 10.9 87.0
+MOCHEG w/ System Evidence, System Truthfulness 33.8 16.5 24.8 10.0 86.9
+MSP(Entail., LM critics) w/ System Evidence, Gold Truthfulness 37.8 19.4 24.6 11.4 88.1
+MSP(Entail., LM critics) w/ System Evidence, System Truthfulness 35.1 16.3 24.9 10.6 87.5
+Normal summary
+President Trump has been criticized for congratulating
+Vladimir Putin on his election victory, and it has now been
+revealed that Trump invited Putin to the White House
+during a phone call. While the details are unclear, the
+invitation adds controversy due to allegations of Russian
+meddling in the election and the poisoning of a former spy
+in Britain. White House press chief Sarah Huckabee
+Sanders confirmed the discussion of the White House as a
+potential meeting place.
+Concise and clear summary
+President Trump, criticized for congratulating Putin on
+his election, invited him to the White House during a
+phone call. The invitation, amidst allegations of Russian
+interference and a spy poisoning, adds controversy.
+Sanders confirmed the White House as a potential
+meeting place, but no plans have been set.
+Figure 4: The normal summary is produced by our
+initial MSP model, while the concise and clear summary
+is generated using MSP trained with therquality reward.
+sifier on any benchmark, unlike FEVER’s evalu-
+ation methods that directly train on labeled data
+in FEVER. Fine-tuning the final classifier would
+likely yield better results, but this is orthogonal
+to our contribution. Our zero-shot evaluation on
+FEVER, compared to the most competitive multi-
+document summarization baseline, demonstrates
+that our approach significantly outperformed (62%
+vs. 42%), underscoring the importance of fact-
+checking-driven summarization.
+5.3 Explanation Generation
+In order to assess the degree to which our gener-
+ated summaries contain the relevant facts necessary
+to fact check the generated claims, we measure
+the ability of a method to generate an explanation
+of the predicted truthfulness label using our sum-
+mary. We adopt a methodology similar to Yao et al.
+(2023), where we consider the input claim C, its
+truthfulness label YC, and the summary for fact-
+checking {T1, T2, ...} generated from MSP. These
+components are concatenated into an overall se-
+quence X using a separator </s>. During the train-
+ing of the rationale generator, we employ the actual
+truthfulness label of each claim as input. Critically,
+we do not retrain or fine-tune MSP for this task.
+In the evaluation phase, we utilize the truthfulness
+label predicted by the fixed entailment models.
+Following Yao et al. (2023), we utilize BART
+to generate the ruling statement. Our evaluation
+metrics include ROUGE (Lin, 2004), BLEU (Pap-
+ineni et al., 2002), and BERTScore (Zhang* et al.,
+2020). To assess the performance of explanation
+generation, we compare it with MOCHEG (Yao
+et al., 2023), as shown in Table 7, Figure 4 and 5.
+We observe that our model outperforms
+MOCHEG’s evidence-retrieval based method (“sys-
+tem evidence”) on the rationale generation task.
+In our case, “system evidence” is our generated
+summary. We note that MOCHEG’s method re-
+lies on retrieval from a pool of multimodal doc-
+uments. The ground truth explanations rely on
+these sentences and thus may share some phras-
+ing. This gives a slight advantage to MOCHEG’s
+method on some metrics that measure n-gram over-
+lap, whereas our method based on summarization
+may rephrase the same evidence. Nevertheless, we
+observe that our system outperforms MOCHEG’s
+8749

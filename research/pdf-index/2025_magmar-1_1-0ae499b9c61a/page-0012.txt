@@ -1,0 +1,93 @@
+events or well-known individuals. This highlights
+the complexity of the task.
+A.4 Implementation Details
+The high level overview of the MultiReflect
+pipeline is shown in Figure 3. The figure shows all
+of the 6 phases, with their corresponding tasks. We
+outline the implementation details of the models
+used in the experiments. All models were initial-
+ized with their default parameters to ensure repro-
+ducibility and consistency across experiments. The
+experiments for Gemma 3 and LLaV A-CoT were
+using a 2xV100 GPU with 64 GB VRAM. For
+the LLaV A-CoT (11B) the model ran for approxi-
+mately 20 days, while the Gemma 3 (12B) model
+ran for 1 week. The experiments for DeepSeek-
+VL2 were using a A100 GPU with 80 GB VRAM.
+For DeepSeek-VL2 (4.2B) the model ran for ap-
+proximately 1 week. All models used the default
+temperature for generations. The model versions
+used are the following:
+GPT-4V: gpt-4-1106-vision-preview5
+GPT-4o-mini: gpt-4o-mini-2024-07-186
+Gemma 3: gemma-3-12b-it7
+LLaV A-CoT: Llama-3.2V-11B-cot8
+DeepSeek-VL2: deepseek-vl29
+CLIP-336: clip-vit-large-patch14-33610
+SBERT: all-mpnet-base-v211
+BLIP-2 2.7B: blip2-opt-2.7b12
+BLIP-2 6.7B: blip2-opt-6.7b13
+BLIP 2 FLAN XL: blip2-flan-t5-xl14
+B Qualitative Examples
+We introduce qualitative examples predicted by the
+MultiReflect pipeline using GPT-4V . We show ex-
+amples from GPT-4V due to its largest accuracy,
+but also due to it giving also the reasoning for its
+verification label, something other models did not
+show in the final output. We separate these exam-
+ples into two - those that do not require evidences
+for verification in Table 7 and those that do require
+5openai.com/index/gpt-4v-system-card/
+6platform.openai.com/docs/models/gpt-4o-mini
+7huggingface.co/google/gemma-3-12b-it
+8huggingface.co/Xkev/Llama-3.2V-11B-cot
+9huggingface.co/deepseek-ai/deepseek-vl2
+10huggingface.co/openai/
+clip-vit-large-patch14-336
+11huggingface.co/sentence-transformers/
+all-mpnet-base-v2
+12huggingface.co/Salesforce/blip2-opt-2.7b
+13huggingface.co/Salesforce/blip2-opt-6.7b
+14huggingface.co/Salesforce/blip2-flan-t5-xl
+evidence in Table 8.
+Without evidence: The first example shows a
+mother fox feeding cubs near Montreal, Canada,
+in 2009. However, upon analyzing the image, the
+pipeline identifies a golden jackal, not a fox, which
+is clear from its physical characteristics, thus clas-
+sifying it as OUT-OF-CONTEXT. The second and
+third examples show known people from news sto-
+ries: Justine Damond and Dmytro Vasilievich Kha-
+ladzhi. The pipeline successfully identifies the peo-
+ple on the image together with the context of their
+news story. The fourth example caption claims that
+U.S. President Donald Trump said, "I don’t care
+how sick you are. [...] Get out and vote" during
+a November 2016 campaign event. However, the
+image shows a similar tweet from Eric Trump in
+November 2020. Despite the text’s alignment with
+the image’s message, the people involved and the
+dates do not match, leading the pipeline to classify
+the caption as OUT-OF-CONTEXT. In the fifth ex-
+ample, a shocking image about Christmas display
+is presented. The pipeline argues that since the
+caption describes the image exactly as it is, then
+there is no reason to doubt the authenticity of the
+post.
+With evidence: In the first example, the cap-
+tion about Melania Trump’s dress is verified by
+evidence confirming it is part of Alexander Mc-
+Queen’s Spring/Summer 2020 collection, designed
+with art students. The image evidence shows the
+author of the dress, which additionally does not
+contradict the textual evidence and thus allows the
+pipeline to verify the post as TRUE. The second ex-
+ample describes the London riots in August 2011.
+The text evidence supports the caption, confirm-
+ing the locations and dates of the riots, making
+the caption true, despite the image not matching a
+specific looting event. The third example features
+an archaeologist excavating a woolly mammoth
+near Paris in 2012. Text evidence corroborates this
+discovery, confirming the caption as true.
+12

@@ -1,0 +1,106 @@
+tention from both the computer vision community and the
+general public, due to their lifelike qualities and their sig-
+nificant influence in accelerating the spread of fake news.
+Nevertheless, one of the easiest and most prevalent ways
+to mislead audiences is to use unaltered images in a new
+but false or misleading context, known as out-of-context
+(OOC) misinformation [13]. For example, during the recent
+Israel-Hamas war, numerous instances of OOC misinforma-
+tion were observed on social media. These often involved
+repurposing old images from unrelated armed conflicts or
+even military footage from video games [2]. Detecting such
+OOC misinformation poses a unique challenge since the
+visual content remains authentic, and the deception stems
+solely from the context created by combining these images
+with misleading or incorrect text.
+Faced with this challenge, current studies [3, 16, 17, 29,
+31, 36, 42] focus on learning a unified latent representation
+space to assess the consistency of image-text pairs or com-
+pare them with external references. While these approaches
+have made some progress, the development of convincing
+explanations for these judgments, critical for establishing
+public trust and more effectively debunking misinformation
+[8, 26], still remains unexplored. Although some works
+[3, 29] visualize salient objects and words based on the
+model’s attention weights, it is still unclear why these high-
+lighted regions signify misinformation. Therefore, it is im-
+portant to develop technologies capable of not only detect-
+ing but also explaining out-of-context misinformation.
+Multimodal Large Language Models (MLLMs) have
+made great advancements in a variety of multimodal tasks
+[19, 50]. With their extensive world knowledge and robust
+visual reasoning and generation capabilities, MLLMs have
+the potential to detect factual inconsistency in image-text
+pairs and to generate coherent, natural language-based ex-
+planations. However, applying existing MLLMs to the task
+of OOC misinformation detection is non-trivial. On the one
+hand, initial experiments on some open-sourced MLLMs
+(such as InstructBLIP [10]) revealed common shortcom-
+ings, including failure to follow instructions, misunder-
+standing of user’s intent, and hallucination (detailed in Sup-
+plementary). These shortcomings may stem from the funda-
+mental differences between the training corpus for MLLMs
+and the requirements of the specific task. In OOC detec-
+tion, the model must discern when text and images describe
+disparate news events, which are typically not present in
+MLLMs’ training data. On the other hand , the news event
+from which the image originates may not be discernible
+from the image itself. For example, news images accom-
+panying reports of public figures speaking at various events
+are generally similar close-up shots of the individuals, mak-
+ing it almost impossible to distinguish from the image con-
+tent alone which news scene or event the image is from.
+MLLMs have inherent limitations as they lack the ability
+to access real-time information or utilize external tools for
+identifying and contextualizing events.
+To address these challenges, we introduce S NIFFER , an
+MLLM specifically engineered for detecting OOC misin-
+formation. We utilize language-only GPT-4 [34] to gener-
+ate the instruction data that includes both judgments and
+explanations, and employ two-stage instruction tuning on
+InstructBLIP. We first refine the model’s concept alignment
+of generic objects with news-domain entities by image cap-
+tioning data, and then leverage the OOC-specific data to
+fine-tune the model’s discriminatory powers. Through task-
+specific tuning, the inherent knowledge within the model
+can be activated and reorganized to align with the specific
+logic required by our task. This is the first attempt to ex-
+tend multimodal instruction tuning to the news domain for
+end-to-end training of an OOC misinformation detector.
+Moreover, SNIFFER is augmented with external knowl-
+edge through retrieval and tool usage. It conducts internal
+checking to spot inconsistencies between text and image,
+and external checking to reason between the given text and
+retrieved image context. The judgments and explanations
+derived from these two perspectives are then integrated into
+the LLM module for a more comprehensive and unified out-
+put. Empowered by multimodal instruction tuning and en-
+hanced with external knowledge, S NIFFER demonstrates a
+significant performance improvement, exceeding the orig-
+inal MLLM by over 40% and surpassing current state-of-
+the-art methods. Beyond accurate judgments, SNIFFER also
+excels in providing precise and persuasive explanations, as
+evidenced by quantitative analysis and human evaluations.
+Our contribution can be summarized as follows:
+• We design a novel data reformation pipeline assisted by
+language-only GPT-4 to convert the given OOC image-
+text pairs into the appropriate instruction-following for-
+mat with judgments and explanations simultaneously.
+• We propose a practical approach to adapt existing
+general-purpose MLLMs for out-of-context misinforma-
+tion detection through two-stage instruction tuning. Our
+task-specific MLLM, S NIFFER , enhanced with external
+tools and retrieval, effectively models both the internal
+image-text clues and the external claim-evidence clues for
+simultaneous OOC detection and explanation.
+• Extensive experiments show that S NIFFER significantly
+surpasses the original MLLM and SOTA methods in de-
+tection performance, achieves comparable results with
+just 10% of the training data, and provides precise and
+persuasive explanations validated by both quantitative
+and human assessments.
+2. Related Work
+Out-of-Context Misinformation Detection. Existing mul-
+timodal misinformation detection methods extract and fuse
+features from different perspectives, such as linguistic pat-
+13053

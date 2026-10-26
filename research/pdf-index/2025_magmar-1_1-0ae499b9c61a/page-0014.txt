@@ -1,0 +1,45 @@
+Input image Input caption: Image of a mother fox feeding fox cubs near Montreal, Canada in2009.
+Output: [OUT-OF-CONTEXT] The caption claims that the image depicts a
+mother fox feeding her cubs near Montreal, Canada in 2009. However, the image
+shows a golden jackal (not a fox) with its pups, which can be determined by the
+physical characteristics of the animals in the picture such as the shape of their ears,
+the color and pattern of the fur, and their general morphology. Golden jackals are
+not native to Canada, they are found in regions such as Africa, Southeast Europe,
+and parts of Asia. Therefore, the caption is out-of-context as it erroneously
+identifies the animal species and their location. Moreover, the date provided cannot
+be verified from the image alone, but the main reason for assigning an
+out-of-context label is the incorrect identification of the species and their
+geographical location. evidence not needed
+Input caption: Image of Justine Damond, a white woman, was killed by a police
+officer named Mohamed Noor in Minneapolis in 2017.
+Output: [TRUE] The image provided matches widely circulated images of Justine
+Damond, and the caption correctly states that she was killed by a police officer
+named Mohamed Noor in Minneapolis in 2017. evidence not needed
+Input caption: Ukrainian strongman Dmytro Vasilievich Khaladzhi - a
+power-lifting champion - carrying a horse.
+Output: [TRUE] The image shows Ukrainian strongman Dmytro Khaladzhi
+carrying a horse, consistent with the provided caption. Dmytro Khaladzhi is known
+for performing feats of strength, and a video of him carrying a horse has been
+circulated online in the past, confirming that this image is likely true to the
+caption’s claim. Therefore, the image and caption are factually correct and in
+context. evidence not needed
+Input caption: U.S. President Donald Trump said ’I don’t care how sick you are.
+[...] Get out and vote’ during a campaign event in November 2016.
+Output: [OUT-OF-CONTEXT] The caption pertains to Donald Trump making a
+statement during a campaign event in November 2016, while the image shows a
+tweet from Eric Trump dated November 10, 2020, encouraging people to vote. The
+content of the tweet does not match the statement attributed to Donald Trump in the
+caption, and the dates also do not align. Therefore, the image is out of context with
+the caption provided. evidence not needed
+Input caption: A picture of a humorous Christmas display of a doll staged to look
+as if the homeowner was trapped by a fallen ladder while installing Christmas
+decorations.
+Output: [TRUE] The image shows a humorous Christmas display featuring what
+appears to be a doll dressed in red and blue, with its legs dangling from a gutter and
+a ladder fallen below, creating the illusion that someone was trapped while putting
+up Christmas decorations. Since the caption accurately describes what is depicted
+in the image, and there’s no internal contradiction or reason to doubt the
+authenticity of the humor intended by the display, the statement is factually correct.
+evidence not needed
+Table 7: Examples of pipeline outputs with GPT-4V that did not require evidence for verification.
+14

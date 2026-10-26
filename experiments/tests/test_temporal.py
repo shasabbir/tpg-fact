@@ -26,6 +26,25 @@ class TemporalFilterTest(unittest.TestCase):
         )
         self.assertEqual(filter_time_valid([altered], claim.decision_cutoff), [])
 
+    def test_uncertain_timestamp_only_enters_sensitivity_analysis(self):
+        claims, evidence = build_synthetic_records()
+        claim = claims[0]
+        item = evidence[0]
+        uncertain = item.__class__(
+            **{
+                **item.to_dict(),
+                "timestamp_confidence": "uncertain",
+                "archived_at": claim.decision_cutoff + timedelta(days=1),
+            }
+        )
+        self.assertEqual(filter_time_valid([uncertain], claim.decision_cutoff), [])
+        self.assertEqual(
+            filter_time_valid(
+                [uncertain], claim.decision_cutoff, allow_uncertain=True
+            ),
+            [uncertain],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

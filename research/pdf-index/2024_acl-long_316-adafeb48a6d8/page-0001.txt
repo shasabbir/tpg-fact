@@ -1,0 +1,92 @@
+Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (V olume 1: Long Papers) , pages 5809–5821
+August 11-16, 2024 ©2024 Association for Computational Linguistics
+Event-Radar: Event-driven Multi-View Learning for Multimodal Fake
+News Detection
+Zihan Ma†1,5 Minnan Luo*1,2,3 Hao Guo4 Zhi Zeng1,2 Yiran Hao1,3 Xiang Zhao4
+1School of Computer Science and Technology, Xi’an Jiaotong University, Xi’an, 710049, China
+2Ministry of Education Key Laboratory of Intelligent Networks and Network Security,
+Xi’an Jiaotong University, Xi’an, 710049, China
+3Shaanxi Province Key Laboratory of Big Data Knowledge Engineering,
+Xi’an Jiaotong University, Xi’an, 710049, China
+4Laboratory for Big Data and Decision, Nation University of Defence Technology, Changsha, China
+5SGIT AI Lab, State Grid Corporation of China
+mazihan880@stu.xjtu.edu.cn; minnluo@xjtu.edu.cn
+Abstract
+The swift detection of multimedia fake news
+has emerged as a crucial task in combating ma-
+licious propaganda and safeguarding the secu-
+rity of the online environment. While existing
+methods have achieved commendable results
+in modeling entity-level inconsistency, address-
+ing event-level inconsistency following the in-
+herent subject-predicate logic of news and ro-
+bustly learning news representations from poor-
+quality news samples remain two challenges. In
+this paper, we propose an Event-dRiven fAke
+news Detection fr AmewoRk (Event-Radar)
+based on multi-view learning, which integrates
+visual manipulation, textual emotion and mul-
+timodal inconsistency at event-level for fake
+news detection. Specifically, leveraging the
+capability of graph structures to capture inter-
+actions between events and parameters, Event-
+Radar captures event-level multimodal incon-
+sistency by constructing an event graph that
+includes multimodal entity subject-predicate
+logic. Additionally, to mitigate the interference
+of poor-quality news, Event-Radar introduces
+a multi-view fusion mechanism, learning com-
+prehensive and robust representations by com-
+puting the credibility of each view as a clue,
+thereby detecting fake news. Extensive experi-
+ments demonstrate that Event-Radar achieves
+outstanding performance on three large-scale
+fake news detection benchmarks. Our studies
+also confirm that Event-Radar exhibits strong
+robustness, providing a paradigm for detecting
+fake news from noisy news samples.
+1 INTRODUCTION
+Against the backdrop of the rapid expansion of
+social media, online platforms like Twitter have
+emerged as the primary channels for people to ob-
+tain information. Unfortunately, they have also
+*Corresponding Author
+†Part of the work was assisted by SGIT AI Lab, State Grid
+Corporation of China during the author’s internship.
+Thepolice arrested
+a protester.
+Protestersconfronted 
+the police.
+Post Post
+The man believed to 
+be the bomber.
+Post
+Omg！Incredible surf at 
+Beach!
+😱#Hurricane
+Post
+(a) (b)
+(c) (d)
+Figure 1: (a) and (b) demonstrate the limitations of
+element-level consistency detection. (c) and (d) demon-
+strate noise in the news on social media.
+become breeding grounds for the proliferation and
+dissemination of fake news. Fake news publish-
+ers exploit these platforms by spreading erroneous
+information, fueling societal divisions, fostering
+conspiracy theories, and posing threats to societal
+safety (Zhao et al., 2015; Lao et al., 2021). The
+“viral spread of information” during the 2016 US
+presidential elections (Fisher et al., 2016) and the
+COVID-19 pandemic (Naeem and Bhatti, 2020)
+vividly depict how fake news disrupts societal or-
+der. Typically, visual media like photos often trig-
+ger strong emotional reactions in readers, leading to
+higher engagement on social media, thereby serv-
+ing as an ideal vehicle for fake news (Qi et al.,
+2019).
+Some researchers argue that the inconsistency
+between posts and images is a key feature in judg-
+ing the authenticity of news, and they have pro-
+posed methods to model this text-visual inconsis-
+5809

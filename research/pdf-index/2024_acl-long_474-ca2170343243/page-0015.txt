@@ -1,0 +1,91 @@
+... James Holmes, the accused gunman in last Friday's midnight movie 
+massacre in Colorado,
+mailed a notebook "full of details about how he was going to kill people" 
+to a University of Colorado psychiatrist before the attack,
+and the parcel may have sat unopened in a mailroom for up to a week 
+before its discovery Monday, a law enforcement source told 
+FoxNews.com.
+"Inside the package was a notebook full of details about how he was going 
+to kill people," the source told FoxNews.com.
+"There were drawings of what he was going to do in it -- drawings and 
+illustrations of the massacre."
+Among the images shown in the spiral-bound notebook’s pages were gun-
+wielding stick figures blowing away other stick figures.
+The source said police and FBI agents were called to the University of 
+Colorado Anschutz medical campus in Aurora on Monday morning after 
+the psychiatrist,
+who is also a professor at the school, reported receiving a package 
+believed to be from the suspect.
+Although that package turned out to be from someone else and harmless, a 
+search of the Campus Services' mailroom turned up another package
+sent to the psychiatrist with Holmes’ name in the return address, the 
+source told FoxNews.com.
+A second law enforcement source said authorities got a warrant from a 
+county judge and took the package away Monday night.
+When it was opened, its chilling contents were revealed. The first source 
+on Tuesday told FoxNews.com the package had been in the mailroom 
+since July 12,
+though another source who confirmed the discovery to FoxNews.com 
+could not say if the package arrived prior to Friday's massacre. ...
+Documents
+#1 James Holmes mailed a notebook containing details about his planned massacre to a University of Colorado psychiatrist before the 
+attack.
+#2 The notebook included drawings and illustrations of the massacre.
+#3 The psychiatrist received a package believed to be from the suspect, but it turned out to be from someone else and was harmless.
+#4 A search of the Campus Services' mailroom revealed another package sent to the psychiatrist with Holmes' name in the return address.
+#5 Authorities obtained a warrant and took the package away on Monday night.
+#6 The package had been in the mailroom since July 12, but it was not delivered to the psychiatrist.
+#7 The contents of the package were chilling and included details about how Holmes planned to kill people.
+#8 The notebook is now in possession of the FBI.
+#9 The University of Colorado Denver confirmed that a suspicious package was found, but disputed the July 12 timeline.
+#10The package was delivered on Monday and found on the same day.
+#1 The notebook sent by James Holmes to a University of Colorado psychiatrist contains detailed plans for a mass shooting.
+#2 The drawings and illustrations in the notebook depict the scene of the massacre that took place on Friday.
+#3 James Holmes had been planning the attack for a week or longer.
+#4 The package sent to the psychiatrist was delivered on July 12, before the massacre took place.
+#5 James Holmes intended to harm the psychiatrist who received the package.
+#6 The FBI has taken possession of the notebook and is investigating its contents.
+#7 The second law enforcement source who confirmed the discovery of the package to FoxNews.com is an FBI agent.
+#8 The package was delivered to the psychiatrist's office, but it was not opened until Monday night.
+#9 The chilling contents of the package were revealed when it was opened on Monday night.
+#10 The University of Colorado Denver's statement confirming the discovery of a suspicious package is a cover-up for the school's failure 
+to respond appropriately to the threat posed by James Holmes.
+#1 James Holmes did not mail a notebook containing details about his planned massacre to a University of Colorado psychiatrist.
+#2 The package sent to the psychiatrist did not contain drawings and illustrations of the massacre.
+#3 The notebook did not include details about how Holmes planned to kill people.
+#4 The package was not delivered to the psychiatrist's office.
+#5 The FBI did not take possession of the notebook.
+#6 The University of Colorado Denver did not issue a statement confirming the discovery of a suspicious package.
+#7 Holmes did not intend to harm the psychiatrist who received the package.
+#8 The package was not sent from someone else and was not harmless.
+#9 Authorities did not obtain a warrant from a county judge to take the package away.
+#10 The package did not contain chilling contents when it was opened.
+Entailment claims
+Neutral claims
+Contradiction claims
+Figure 6: The prompted entailment, neutral, contradiction claims from Llama-2-70b.
+checker will use for fact-checking a claim.
+Your task is to evaluate the provided summary
+using a quality assessment metric that mea-
+sures whether the summary is factual and writ-
+ten in a clear and concise manner. Good sum-
+maries provide facts useful for fact-checking
+(a general claim) and are short to ease the
+fact-checkers job. Given a summary, your
+job is to provide a number from 0 to 1 that
+indicates your assessment of the quality of
+the summary. Provide the evaluation score in
+the format: "The quality score is <score>."
+The score should range from 0 to 1, where a
+score of 1 indicates high quality and a score
+of 0 signifies the lowest quality. The provided
+summary: <summary>"
+9.2 Implementation Details
+We used 4 NVIDIA A40 to run our experiments.
+Our model costs 180 GB and are trained for about
+24 runs with a batch size of 256. In the pre-
+processing and evaluation parts, we use NLTK,
+ROUGE, and BERTScore. For claim verification,
+the learning rate ∈ {10−4, 10−5, 10−6} and batch
+size ∈ {256, 480, 512}.
+8756

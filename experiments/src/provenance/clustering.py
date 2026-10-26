@@ -53,26 +53,67 @@ def are_dependent(
     return False
 
 
+def dependency_reasons(
+    left: EvidenceRecord,
+    right: EvidenceRecord,
+    title_jaccard_threshold: float = 0.80,
+    image_phash_hamming_threshold: int = 6,
+) -> tuple[str, ...]:
+    """Return observable dependence signals without assigning credibility."""
+    reasons: list[str] = []
+    if left.text_sha256 and left.text_sha256 == right.text_sha256:
+        reasons.append("exact_text_hash")
+    if _jaccard(left.title, right.title) >= title_jaccard_threshold:
+        reasons.append("near_duplicate_title")
+    if _hex_hamming(left.image_phash, right.image_phash) <= image_phash_hamming_threshold:
+        reasons.append("shared_or_near_duplicate_image")
+    if left.url in right.outgoing_links or right.url in left.outgoing_links:
+        reasons.append("direct_hyperlink")
+    return tuple(reasons)
+
+
 def assign_source_clusters(
     records: list[EvidenceRecord],
     title_jaccard_threshold: float = 0.80,
     image_phash_hamming_threshold: int = 6,
 ) -> list[EvidenceRecord]:
     sets = _DisjointSet([record.evidence_id for record in records])
-    by_id = {record.evidence_id: record for record in records}
+    observed_signals: dict[str, set[str]] = {
+        record.evidence_id: set(record.dependency_signals) for record in records
+    }
     for left, right in combinations(records, 2):
-        if are_dependent(
+        reasons = dependency_reasons(
             left,
             right,
             title_jaccard_threshold=title_jaccard_threshold,
             image_phash_hamming_threshold=image_phash_hamming_threshold,
-        ):
+        )
+        if reasons:
             sets.union(left.evidence_id, right.evidence_id)
+            observed_signals[left.evidence_id].update(reasons)
+            observed_signals[right.evidence_id].update(reasons)
 
     roots = sorted({sets.find(record.evidence_id) for record in records})
     cluster_ids = {root: f"cluster-{index:04d}" for index, root in enumerate(roots, start=1)}
     return [
-        replace(record, source_cluster_id=cluster_ids[sets.find(record.evidence_id)])
+        replace(
+            record,
+            source_cluster_id=cluster_ids[sets.find(record.evidence_id)],
+            dependency_signals=tuple(sorted(observed_signals[record.evidence_id])),
+        )
         for record in records
     ]
+
+
+def cluster_normalized_weights(records: list[EvidenceRecord]) -> dict[str, float]:
+    """Give each source cluster one unit of mass, split across its documents."""
+    sizes: dict[str, int] = {}
+    for record in records:
+        cluster_id = record.source_cluster_id or f"unassigned:{record.evidence_id}"
+        sizes[cluster_id] = sizes.get(cluster_id, 0) + 1
+    return {
+        record.evidence_id: 1.0
+        / sizes[record.source_cluster_id or f"unassigned:{record.evidence_id}"]
+        for record in records
+    }
 

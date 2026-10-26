@@ -1,0 +1,99 @@
+shared the visual misinformation online. Establish-
+ing the Source allows to evaluate the credibility of
+the original image. A combination of social media
+profiling, interviews, and RIS allows fact-checkers
+to answer this question.
+The Date, i.e., “When was the image taken?”, and
+the Location, i.e., “Where was the image taken?”,
+position the image in time and space, and highlight
+any mismatch with the claimed context. The tasks
+associated with these two pillars are also known
+as chronolocation and geolocation (Mossou and
+Higgins, 2021; Khan et al., 2023a). In the sim-
+plest case, the image contains the Date in EXIF
+format. However, most social media platforms re-
+move EXIF data from uploaded images (Urbani,
+2020). RIS results can also help to find the Date and
+the Location. If that is not enough, fact-checkers
+can define keywords to query search engines and
+retrieve (partially) matching images, a process de-
+tailed in Appendix B. In other cases, they search
+for cues in the image, for example, landmarks, road
+signs, and clothing. Additional tools include street
+imagery, sun angle analysis, and historical weather
+records (Urbani, 2020; Mossou and Higgins, 2021).
+The Motivation, asks the question “Why was the
+image taken?”. In most cases, the Motivation is to
+report on an event. However, some sources may
+have a particular agenda, for example, if they are
+political activists. In other cases, a fake image used
+for malicious purposes might originate from the
+harmless work of an artist. The source’s Motiva-
+tion is different from the claimant’s intent, which
+is explored in Da et al. (2021).
+Figure 1 shows the 5 Pillars analysis of an out-of-
+context image. Examples with manipulated and
+fake images are shown in Appendix C. Given its
+popularity and comprehensive documentation (Ur-
+bani, 2020; Mossou and Higgins, 2021; Khan et al.,
+2023a), we use the 5 Pillars framework to define
+QA pairs for automated image contextualization.
+4 Task definition and evaluation
+The task is to provide answers for each of the 5
+Pillars using the image content itself and evidence
+retrieved from the open web. Formally, a model
+has to generate answer A given a question Q, an
+image I, and evidence items E retrieved from the
+open web W using a retriever R,
+A = argmax
+a
+P (a | Q, I, E) , E = R(W ).
+We impose two restrictions on the open web re-
+triever. (1) It cannot return evidence published after
+the FC article from which we collected the image
+and annotations, to avoid temporal leaks (Glockner
+et al., 2022). (2) It cannot return FC articles pub-
+lished by other FC organizations.
+The answer to Provenance (“Was the image used
+before?”) is either “Yes” when (partially) match-
+ing images are retrieved, and “No” or “Unknown”
+otherwise, the latter two being difficult to distin-
+guish in practice. The answer is automatically de-
+rived from the retrieved results. Therefore, the
+Provenance evaluates the ability of retrievers to
+obtain evidence that contains previous versions of
+the same image. We define the Provenance score
+as the recall on images with ground truth answer
+“Yes”. We do not penalize nor reward retrievers for
+collecting matching images when the ground truth
+is “No” or “Unknown”.
+Source expects free-form answers, evaluated using
+the RougeL (Lin, 2004) and Meteor (Banerjee and
+Lavie, 2005) metrics.
+The expected answers for Date are actual times-
+tamps. We evaluate the answers using the Exact
+Match (EM) and ∆, a custom metric ranging from
+1 for predictions that are close in time to the ground
+truth to 0 for those that are far. If the ground truth
+answer contains more than one date for the image,
+for example, if it is a composite image, we com-
+pute ∆ based on the smallest time difference that
+can be obtained by matching pairs of predicted and
+ground truth answers. Formally ∆ is defined as
+∆ = 1N ∑(i,j)∈M 11 + di,j ,
+where N is the number of ground truth elements,
+M is the set of matched prediction-ground truth
+pairs (i, j), and di,j is the optimal distance between
+i and j, obtained with the Jonker-V olgenant algo-
+rithm (Jonker and V olgenant, 1987; Crouse, 2016).
+Years serve as the distance unit.
+Location is evaluated with RougeL and Meteor.
+The subset of images where ground truth locations
+can be mapped to coordinates using GeoNames 2
+is further evaluated in a spatial dimension. We em-
+ploy variants of ∆, namely, Coordinates ∆ (CO∆),
+with thousands kilometers as distance unit, and Hi-
+erarchical Location ∆ (HL∆), using the distance
+between the prediction and ground truth in terms
+2geonames.org
+7847

@@ -1,0 +1,101 @@
+7 Limitations
+Our multimodal models perform worse than re-
+lated works on r/Fakeddit (Nakamura et al., 2020;
+Segura-Bedmar and Alonso-Bartolome, 2022). We
+tried exactly recreating the architecture of Naka-
+mura et al. (2020), but model performance was still
+lower. Noting that our investigation would benefit
+from being comparable to related studies, we at-
+tempted to locate the source of the discrepancy in
+performance but were unsuccessful. We think that
+our difficulty with reproducing existing results is
+not uncommon, and future research would benefit
+greatly from studies that explicitly outline guide-
+lines on how to exactly reproduce their architecture
+(as in Zaeem et al. (2020), Shu et al. (2019)).
+Due to computational limitations, we did not
+fine-tune the feature extraction process on our
+dataset, instead relying on pretrained RoBERTa
+and ResNet-50. Building models that are specif-
+ically tailored to misinformation datasets for fea-
+ture extraction might increase performance, though
+it is unclear if this would change the impact of
+a temporal data split. Future research could ex-
+plore whether temporal generalizability is largely
+dependent on the dataset being used, and whether
+the obtained results would be different if another
+dataset was analyzed instead.
+Additionally, we did not extensively investigate
+what validation strategy would work the best for
+temporal generalizability. Instead, we naively sep-
+arated the training and validation set temporally
+from each other, and used that for hyperparameter
+tuning. Further work could look into training meth-
+ods specifically designed for maximal temporal
+generalizability in misinformation detection.
+We study the temporal generalizability of mul-
+timodal misinformation detection models in one
+specific language, for one specific platform. Al-
+though the experiments presented in this paper are
+inspired by real-world applications (e.g. deploying
+a misinformation detection model on a social me-
+dia platform), it is worth noting that the r/Fakeddit
+dataset contains some particularities that make it
+difficult to generalize to broader misinformation
+detection in other languages and settings. Some
+of the samples labeled as “Fake” are harmless (e.g.
+certain memes), although technically they are “un-
+true” or “manipulated”. This raises the question of
+whether the results presented here are generalizable
+to datasets that focus on more “serious” topics of
+information (e.g. COVID-19 or certain political
+topics). For example, some photoshopped images
+are evidently meant to entertain, and, although tech-
+nically they constitute “misinformation”, it seems
+unintuitive to seriously treat them as such. This
+raises the research question of how to effectively
+define “misinformation” that both makes sense se-
+mantically and also is maximally useful for auto-
+mated models deployed in the real world, dealing
+with topics of substantial weight.
+8 Ethical considerations
+We use the existing r/Fakeddit dataset. Since this
+was released as a benchmarking dataset for misin-
+formation detection models, our use of this dataset
+is consistent with the use cases it was intended for.
+The dataset may contain personal data or offensive
+content so we ensure that the examples reported in
+this paper do not make any individuals identifiable
+or include offensive content. We were not able to
+find information on the licence associated with this
+dataset but since it was released for the purpose
+of benchmarking we assume that our use of this
+dataset is acceptable.
+We study when misinformation detection sys-
+tems fail to perform well. A malicious actor could
+potentially exploit this knowledge to decide what
+kind of misinformation to spread, however, we be-
+lieve that our results will be far more useful to those
+who are hoping to improve the temporal generaliz-
+ability of their systems.
+References
+Sara Abdali. 2022. Multi-modal misinformation de-
+tection: Approaches, challenges and opportunities.
+arXiv preprint arXiv:2203.13883.
+Rabab Alkhalifa, Elena Kochkina, and Arkaitz Zubi-
+aga. 2023. Building for tomorrow: Assessing the
+temporal persistence of text classifiers. Information
+Processing & Management, 60(2):103200.
+Said Yacine Boulahia, Abdenour Amamra, Mo-
+hamed Ridha Madi, and Said Daikh. 2021. Early,
+intermediate and late fusion strategies for robust deep
+learning-based multimodal action recognition. Ma-
+chine Vision and Applications, 32(6):1–18.
+Lia Bozarth and Ceren Budak. 2020. Toward a bet-
+ter performance evaluation framework for fake news
+classification. Proceedings of the International AAAI
+Conference on Web and Social Media, 14(1):60–71.
+Yuanzhi Chen and Mohammad Hasan. 2021. Navigat-
+ing the kaleidoscope of COVID-19 misinformation
+using deep learning. In Proceedings of the 2021
+84

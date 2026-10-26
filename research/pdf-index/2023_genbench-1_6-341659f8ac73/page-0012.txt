@@ -1,0 +1,52 @@
+Label
+subreddit 2-way 3-way 6-way
+mildlyinteresting True True True
+photoshopbattles True True True
+nottheonion True True True
+upliftingnews True True True
+neutralnews True True True
+usanews True True True
+pic True True True
+usnews True True True
+fakealbumcovers Fake Fake Satire
+theonion Fake Fake Satire
+satire Fake Fake Satire
+waterfordwhispersnews Fake Fake Satire
+propagandaposters Fake Half Fake Misleading Content
+fakefacts Fake Fake Misleading Content
+savedyouaclick Fake Fake Misleading Content
+psbattle_artwork Fake Fake Manipulated Content
+pareidolia Fake Fake False Connection
+fakehistoryporn Fake Fake False Connection
+misleadingthumbnails Fake Fake False Connection
+confusing_perspective Fake Fake False Connection
+subredditsimulator Fake Fake Imposter Content
+subsimulatorgpt2 Fake Fake Imposter Content
+Table 8: 2-way, 3-way, and 6-way subreddit-level labels for r/Fakeddit (every sample from a specific subreddit is
+labeled the same way).
+Per-Subreddit Accuracy
+subreddit 6-way Label Original Temporal
+mildlyinteresting True 88.00 80.29
+photoshopbattles True 80.54 83.13
+nottheonion True 89.68 91.26
+upliftingnews True 93.85 94.28
+usanews True 90.29 94.30
+pic True 64.66 71.64
+usnews True 91.16 91.18
+neutralnews True 89.88 NA
+fakealbumcovers Satire 55.56 57.06
+theonion Satire 45.83 35.51
+satire Satire 25.57 19.78
+waterfordwhispersnews Satire 25.00 20.00
+pareidolia False Connection 60.81 60.59
+fakehistoryporn False Connection 74.62 66.18
+misleadingthumbnails False Connection 46.40 54.85
+confusing_perspective False Connection 31.10 33.16
+propagandaposters Misleading Content 75.66 79.72
+savedyouaclick Misleading Content 47.04 46.53
+fakefacts Misleading Content NA 0.00
+subredditsimulator Imposter Content 29.48 36.51
+subsimulatorgpt2 Imposter Content 15.38 7.22
+psbattle_artwork Manipulated Content 87.24 86.52
+Table 9: Percent of correctly classified samples per subreddit for original vs. temporal BERT 6-way models.
+87

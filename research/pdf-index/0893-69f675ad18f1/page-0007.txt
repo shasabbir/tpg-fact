@@ -1,0 +1,80 @@
+Claim: Y ossi Y ona began studying for a PhD and went on to become a Professor of philosophy of education at Ben - Gurion University before he joined the Left
+Camp of Israel party . Label: REF
+Claim Events
+c1: Y ossi Y ona began studying for a PhD Claim Chrono. Final
+c2: Y ossi Y ona become a Professor of philosophy of education at Ben - Gurion University Event Order Claim
+c3: Y ossi Y ona joined the Left Camp of Israel party Label
+TACV Evidence Events:
+• After graduating in 1979, he began studying for a PhD, graduating from the University of Pennsylvania in
+Philadelphia
+SUP c1 N.A. SUP
+• Y ossi Y ona became a Professor of philosophy of education at Ben-Gurion University
+• He subsequently joined the Education Department at Ben-Gurion University of the Negev.
+SUP c2
+• Whilst at university he joined the Left Camp of Israel party. SUP c3
+ChronoFact Evidence Events in Chronological Order:
+1. Whilst at university, Y ossi Y ona joined the Left Camp of Israel party SUP c3 REF REF
+2. After graduating in 1979, Y ossi Y ona began studying for a PhD, graduating from the University of Penn-
+sylvania in Philadelphia
+3. He subsequently joined the Education Department at Ben-Gurion University of the Negev.
+SUP c1
+4. Y ossi Y ona became a Professor of philosophy of education at Ben-Gurion University SUP c2
+Table 6: Sample T-FEVEROUS claim where chronological order of claim events is inconsistent with that of evidence events.
+Claim: Davie Dodds was a member of Dundee United F.C. before joining Arbroath F.C., thereafter becoming part of the Scotland national football team, then
+moving to Neuchˆatel Xamax, and finally playing for Aberdeen F.C. Label: SUP
+Claim Events
+c1: Davie Dodds was a member of Dundee United F.C. Claim Chrono. Final
+c2: Davie Dodds joined Arbroath F.C. after joining Dundee United F.C. Event Order Claim
+c3: Davie Dodds became part of the Scotland national football team Label
+c4: Davie Dodds moved to Neuchˆatel Xamax
+c5: Davie Dodds played for Aberdeen F.C.
+TACV Evidence Events:
+• Davie Dodds is a member of the Dundee United F.C. from 1975 until 1986 SUP c1 N.A. REF
+• Davie Dodds is a member of the Arbroath F.C. from 1977 until 1978 REF c2
+• Davie Dodds is a member of the Scotland national football from 1983 until 1983. SUP c3
+• Davie Dodds is a member of the Neuchˆatel Xamax from 1986 until 1986 SUP c4
+• Davie Dodds is a member of the Aberdeen F.C. from 1986 until 1989 SUP c5
+ChronoFact Evidence Events in Chronological Order:
+1. Davie Dodds is a member of the Dundee United F.C. from 1975 until 1986 SUP c1 SUP SUP
+2. Davie Dodds is a member of the Arbroath F.C. from 1977 until 1978 SUP c2
+3. Davie Dodds is a member of the Scotland national football from 1983 until 1983 SUP c3
+4. Davie Dodds is a member of the Neuchˆatel Xamax from 1986 until 1986 SUP c4
+5. Davie Dodds is a member of the Aberdeen F.C. from 1986 until 1989 SUP c5
+Table 7: Sample claim in ChronoClaims dataset involving overlapping events.
+Claim: Georgi Andonov was a member of the Botev Plovdiv from 2002 to 2006, joined the Bulgaria national under-21 team from 2003 to 2005, returned to Botev
+Plovdiv in 2009, played for PSFC Chernomorets Burgas from 2010 to 2012, and then became a member of PFC Beroe Stara Zagora starting in 2015. Label: SUP
+Claim Events
+c1: Georgi Andonov was a member of the Botev Plovdiv from 2002 to 2006 Claim Chrono. Final
+c2: Georgi Andonov joined the Bulgaria national under-21 team from 2003 to 2005. Event Order Claim
+c3: Georgi Andonov returned to Botev Plovdiv in 2009 Label
+c4: Georgi Andonov played for PSFC Chernomorets Burgas from 2010 to 2012
+c5: Georgi Andonov became a member of PFC Beroe Stara Zagora starting in 2015
+TACV Evidence Events:
+• Georgi Andonov is a member of the Botev Plovdiv from 2002 until 2006 SUP c1 N.A. REF
+REF c3
+• Georgi Andonov is a member of the Bulgaria national under-21 team from 2003 until 2005 SUP c2
+• Georgi Andonov is a member of the PSFC Chernomorets Burgas from 2010 until 2012 SUP c4
+• Georgi Andonov is a member of the PFC Beroe Stara Zagora from 2015 SUP c5
+• Georgi Andonov is member of Botev Plovdiv from 2009 until 2009
+ChronoFact Evidence Events in Chronological Order:
+1. Georgi Andonov is a member of the Botev Plovdiv from 2002 until 2006 SUP c1 SUP SUP
+2. Georgi Andonov is a member of the Bulgaria national under-21 team from 2003 until 2005 SUP c2
+3. Georgi Andonov is a member of the Botev Plovdiv from 2009 until 2009 SUP c3
+4. Georgi Andonov is a member of the PSFC Chernomorets Burgas from 2010 until 2012 SUP c4
+5. Georgi Andonov is a member of the PFC Beroe Stara Zagora from 2015 SUP c5
+Table 8: Sample claim in ChronoClaims dataset involving recurring event.
+7 Conclusion
+We have introduced a framework for temporal claim veri-
+fication that incorporates temporal reasoning based on the
+chronological order of events. By utilizing a multi-level at-
+tention encoder, ChronoFact effectively captures the rel-
+evance of evidence events to claim events. This enables
+ChronoFact to accurately predict to claim event labels and
+verify the chronological order consistency between claim and
+evidence events before determining the overall claim label.
+We have curated a new benchmark dataset that involves com-
+plex claims with multiple events that may overlap or recur.
+Extensive experiments on multiple datasets have shown that
+ChronoFact outperforms state-of-the-art models.
+Proceedings of the Thirty-Fourth International Joint Conference on Artiﬁcial Intelligence (IJCAI-25)
+8037

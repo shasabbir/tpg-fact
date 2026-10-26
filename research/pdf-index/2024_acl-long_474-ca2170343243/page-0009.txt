@@ -1,0 +1,96 @@
+Claim Summary for fact-checking Image evidence Truthfulness
+The driver in a video appeared
+to ram a crowd of people,
+some of whom were identified
+as Taco Bell employees.
+Supported
+... The incident, captured on video, shows the
+driver assaulting an employee before plowing
+into people outside the restaurant, then
+crashing through the front. Two individuals
+were treated on-site, and one was taken to the
+hospital. The Charles County Sheriff's Office is
+investigating, offering a cash reward for
+information. Charges are pending as they work to
+identify and locate the driver and occupants.
+NEI
+Criticism over the failure to
+conduct immediate, widespread
+coronavirus testing in the U.S.
+focused on the availability of test
+kits from the WHO.
+... The U.S. faced delays in developing and
+deploying tests, with defective CDC tests and
+regulatory issues. Accusations surfaced that
+the U.S. rejected WHO's test, but WHO
+clarified they never discussed providing tests
+to the U.S. The CDC's standard protocol involves
+developing its own tests, and Dr. Anthony Fauci
+mentioned it would have been nice to have WHO
+tests as a backup but emphasized the CDC's
+focus on reliable testing.
+A video documents a hot-mic
+exchange between Fox News
+reporter John Roberts and a 'fake
+news tech' in which they admit
+COVID-19 was a hoax, and that
+everyone in the news media has
+already been vaccinated.
+Refuted
+... It does not reveal a bombshell revelation but
+rather an informal exchange between friends.
+Mills jokes about the virus being a hoax, and
+Roberts clarifies that he doesn't think it was a
+hoax. The video, not deceptively edited, captures
+sardonic gallows humor and was shared on social
+media with misleading claims about the pandemic
+being a hoax. The conversation mainly revolves
+around a recent USC study on infection rates in
+California.
+Figure 5: Explanation generation examples of Multimodal Fact-Checking. The Truthfulness column shows gold
+labels.
+generated explanations.
+We further observe that our explanations gen-
+erated using system evidence and system truthful-
+ness outperform MOCHEG’s method, which re-
+lies on the ground truth truthfulness label on the
+BERTScore metric. Overall, these results demon-
+strate that our summarizer, which was not trained
+for the rationale prediction task, is capturing rele-
+vant evidence across modalities in a short summary
+better than MOCHEG’s evidence retrieval-based
+approach.
+6 Conclusion
+We present MetaSumPerceiver (MSP), a summa-
+rization model crafted to generate concise and in-
+formative summaries specifically tailored for fact-
+checking claims in intricate multimodal datasets.
+The model’s adaptable architecture can handle vary-
+ing numbers of documents and input types, en-
+compassing documents, images, and claims, by
+leveraging a perceiver-based design. We train our
+model using a RL approach, aiming to produce
+summaries that are instrumental in verifying the
+accuracy of claims. Moreover, our reward func-
+tion is designed to generate more concise and clear
+summaries, aiding in the verification of diverse
+claims with the assistance of the LM critic. Our
+experimental assessments on the MOCHEG and
+our Multi-News-Fact-Checking datasets highlight
+MSP’s robust performance in claim verification and
+explanation generation tasks and demonstrate its
+effectiveness in real-world fact-checking scenarios.
+This contribution underscores MSP’s potential to
+streamline fact-checking processes in today’s mul-
+timodal information landscape. Finally, we release
+the publicly accessible Multi-News-Fact-Checking
+dataset, aimed at assisting researchers in develop-
+ing multi-document fact-checking methods.
+7 Acknowledgements
+We acknowledge Advanced Research Computing
+at Virginia Tech for providing computational re-
+sources and technical support that have contributed
+to the results reported within this paper. We
+also thank all reviewers for their comments which
+helped improve the paper.
+8750

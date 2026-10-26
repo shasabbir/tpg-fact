@@ -1,0 +1,106 @@
+(a) Effect on µ (b) Effect on k
+Figure 3: Sensitivity Experiments on ChronoFact.
+ChronoFact is trained to predict REF and SUP labels on
+ChronoClaims, as the dataset does not have NEI labels. For
+T-FEVER and T-FEVEROUS, the model is trained to predict
+SUP , REF, and NEI. We report the macro F1 score of the best
+performing model on the test set.
+5.1 Sensitivity Experiments
+We first conduct sensitivity experiments to obtain the opti-
+mal value of the parameter µ in Eqn 5. Figure 3(a) shows
+the label accuracy as we vary the value of µ from 0.1 to 0.9.
+The performance improves when µ increases from 0.1 to 0.3,
+indicating that the model benefits from incorporating Lsof t.
+The best performance is achieved when µ = 0.3 across all
+datasets and we use this value for the rest of the experiments.
+We also vary the number of top-k evidence events in the
+classifier module to examine its effect on ChronoFact’s
+performance. Figure 3(b) shows that the optimal performance
+for T-FEVER, T-FEVEROUS, and ChronoClaims was
+achieved when k is 3, 5, and 7 respectively, and we use these
+values in our experiments. Note that ChronoClaims generally
+achieves higher performance because it has only two class
+labels (SUPPORTS, REFUTES), whereas T-FEVER and T-
+FEVEROUS include an additional label (’NOT ENOUGH
+INFO’).
+5.2 Comparative Experiments
+We compare ChronoFact with the following state-of-the-
+art evidence-based fact verification baselines:
+• KGA T[Liu et al., 2020]. This uses a transformer to ob-
+tain claim-sentence representations and a graph attention net-
+work to aggregate the evidence for claim verification.
+• CGA T[Barik et al., 2022]. This method incorporates ex-
+ternal knowledge from ConceptNet to enrich the contextual
+representations of claim and evidence sentences. It then em-
+ploys graph attention networks to propagate the information
+among the evidence sentences to verify the claim veracity.
+• ITR [Allein et al., 2023 ]. This also employs a trans-
+former to obtain the claim and evidence representations
+which are augmented with the publication dates of the claim
+and evidence for temporal reasoning.
+• FAITH [Jia et al., 2024 ]. We adapt this temporal QA
+model for temporal claim verification by using GPT to gen-
+erate relevant temporal questions for FAITH, then prompting
+GPT to verify the claim based on FAITH’s generated answers.
+• GPT-4o in a zero-shot setting. Given the claim and re-
+trieved evidence using TACV retrieval method, we prompt
+GPT-4o to predict the claim’s label.
+• TACV[Barik et al., 2024]. This is an end-to-end solution
+for temporal claim verification that considers the temporal in-
+formation in claims to obtain relevant evidence sentences and
+uses LLM for temporal reasoning.
+Table 3 shows the macro F1 score of the various
+methods on the ChronoClaims dataset, with our proposed
+ChronoFact achieving the highest score and significantly
+outperforming the baseline models 2. Further analysis in
+terms of the number of events shows that ChronoFact is
+better in managing complex claims with multiple events. This
+is evident in the smaller decline in the performance as the
+number of events increases, compared to other baselines. We
+also analyze ChronoFact’s ability to handle complex tem-
+poral event types where the timelines of different events may
+overlap or the events may recur at multiple time points. Once
+again, there is a significant gap in the macro F1 score com-
+pared to other methods, demonstrating ChronoFact’s su-
+perior performance in managing such complexities.
+Table 4 shows the performance on T-FEVER and T-
+FEVEROUS datasets, where ChronoFact is the best per-
+former on both datasets. Similar trend is observed when com-
+paring the performance in terms of the number of events.
+Table 4 also shows ChronoFact’s robustness on the real-
+world T-QuanTemp, despite noisy date information.
+Error Analysis. We conduct an error analysis on 50 ran-
+domly incorrectly predicted claims on ChronoClaim dataset.
+We find that 82% of these errors are due to claims contain-
+ing implicit temporal information. For example, the claim
+”Greg Clark first held the position of Minister of State for
+Decentralisation, thereafter became the Secretary of State for
+Business and Trade, and later served as the Secretary of State
+for Levelling Up, Housing and Communities.” lacks explicit
+dates or clear temporal markers. This ambiguity poses a chal-
+lenge for the model to accurately encode and reason about the
+sequence of events. The remaining 18% of the errors comes
+from claims with events that have multiple dates and varying
+levels of granularity, such as ”Nicola Fratoianni joined the
+Movement for the Left from 2009 until October 22, 2010”.
+The complexity of this claims hinders the model’s ability to
+encode the temporal information.
+5.3 Ablation Studies
+We examine the effectiveness of the key modules in
+ChronoFact by implementing the following variants:
+• ChronoFact without multi-level attention encoder
+module. In this variant, we set the final attention scores be-
+tween each claim event ci and evidence event ej to 1.
+• ChronoFact without claim event classifier. Here, the
+input to the claim classifier is the concatenation of seqC ,
+seqE, and the distribution of chronological order zo.
+• ChronoFact without chronological order classifier.
+This variant does not assess the consistency of the chronolog-
+ical order of the claim events with that of the evidence events.
+Therefore, the input to the Claim Classifier is the concatena-
+tion of seqC , seqE, and the probability distribution of the
+claim events zc1 · · ·zcn .
+2Results of micro F1 scores are provided in https://arxiv.org/pdf/
+2410.14964
+Proceedings of the Thirty-Fourth International Joint Conference on Artiﬁcial Intelligence (IJCAI-25)
+8035

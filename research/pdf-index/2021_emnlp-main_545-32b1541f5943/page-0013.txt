@@ -1,0 +1,100 @@
+6813
+A Appendix to “NewsCLIPpings:
+Automatic Generation of
+Out-of-Context Multimodal Media”
+In the following we include additional details re-
+garding dataset construction (Section A.1), ad-
+ditional experimental results (Section A.2), and
+dataset examples (Section A.3).
+A.1 Dataset Construction
+Here, we go over additional implementation de-
+tails for dataset construction. (1) To ensure the
+quality of our dataset, we ﬁlter pristine samples
+such that they have between 5 and 30 words, at
+least 2 named entities, and non-corrupted images.
+(2) We split our 509,730 pristine image-caption
+pairs into chunks of size ∼40k for train/val/test.
+We only computed matches across these disjoint
+chunks, which allowed us to parallelize the genera-
+tion process. (3) We precomputed features such as
+spaCy NER, Radboud Entity Linking, SBERT-WK
+text embeddings, CLIP text embeddings, CLIP im-
+age embeddings, Faster R-CNN bounding boxes,
+ResNet50 place embeddings. (4) We ran Algo-
+rithm 1, the NewsCLIPpings matching algorithm.
+(5) We removed low quality samples by balancing
+the number of samples where the CLIP text-image
+score is higher for the pristine vs falsiﬁed pair as de-
+scribed in our Adversarial CLIP Filtering process
+in Section 3.
+A.2 Additional Results
+ROC Curves We include ROC curves for the splits
+not depicted in Section 4 in the main paper. Note
+that the rankings for model performance across all
+these splits are consistent with Table 3. We see that
+CLIP vastly outperforms the other models in the Se-
+mantics/CLIP Text-Image split whereas model per-
+formance is very similar in the Merged/Balanced
+split. This makes sense since CLIP was used as the
+scoring function for matches in Semantics/CLIP
+Text-Image, whereas a diverse set of scoring func-
+tions were used for Merged/Balanced.
+Finetuning CLIP Representation We also exper-
+iment with freezing a varying number of CLIP
+layers to determine how useful CLIP’s original
+knowledge and representation is for each split. We
+compare three models: RN50-all-frozen (RN50-
+af, no CLIP layers ﬁnetuned), RN50-lower-frozen
+(RN50-lf, ﬁnal few layers ﬁnetuned) 10, and RN50
+10The exact layers we ﬁnetune are ["visual.layer4",
+Algorithm 1 NewsCLIPpings Matching
+Input: Dataset D, scoring function sim ∈
+{CLIP Text-Image, CLIP Text-Text, SBERT-WK
+Text-Text, ResNet Place}, split typesplit.
+Output: Matches M
+M←{}
+for each p = (i1, c1)∈ D do
+MH , ML←{} ,{}
+D∗← sort(D, key=sim)
+for each (i2, c2)∈ D∗ do
+f← (i2, c1)
+if ﬁlter(p, f, split) then
+continue
+else if CT I(f ) > CT I (p) then
+MH← MH∪{ f}
+else
+ML← ML∪{ f}
+end if
+end for
+M← M∪{ (MH∪ ML)[0]}
+M← M∪{ p}
+end for
+(all layers ﬁnetuned). In Tables 7 and 8, we ob-
+serve that ﬁnetuning all layers (RN50) beneﬁts the
+Semantics splits (a,b) while freezing some or all
+layers (RN50-af/lf) beneﬁts the Person and Scene
+splits (c,d). We posit that this result could be re-
+lated to the training data size – since the Semantics
+splits are signiﬁcantly large we can meaningfully
+ﬁnetune all layers whereas in the others we do not
+have enough data to do so.
+Table 7: Comparing different ﬁnetuning strategies for
+CLIP, classiﬁcation performance (val set).
+Model All
+(a) Semantics/CLIP Text-Image RN50-af 0.6354
+RN50-lf 0.6706
+RN50 0.6808
+(b) Semantics/CLIP Text-Text RN50-af 0.6826
+RN50-lf 0.6954
+RN50 0.7138
+(c) Person/SBERT-WK Text-Text RN50-af 0.6606
+RN50-lf 0.6560
+RN50 0.6167
+(d) Scene/ResNet Place RN50-af 0.6965
+RN50-lf 0.7034
+RN50 0.6999
+(e) Merged/Balanced RN50-af 0.6642
+RN50-lf 0.6684
+RN50 0.6468
+"visual.attnpool", "transformer.resblocks.11", "ln_ﬁnal",
+"text_projection", "logit_scale"].

@@ -1,0 +1,113 @@
+End-to-End Multimodal Fact-Checking and Explanation Generation: A Challenging Dataset and Models SIGIR ’23, July 23–27, 2023, Taipei, Taiwan
+the encoder to learn an overall representation for the claim and a
+representation for each image, then compute the cosine similarity
+between each image and the input claim. We sort all the images
+in the corpus based on the cosine similarity scores and take the
+top-𝐾 as the candidate image evidence. We fine-tune CLIP based
+on the same InfoNCE loss as text evidence retrieval. Note that,
+during inference, we always retrieve top-𝐾 text and image evidence
+respectively though it’s possible that there is no image or text
+evidence contained in the background corpus.
+4.2 Claim Verification
+Based on the text and image evidence, we further design a claim
+verification approach to predict the truthfulness of each input claim,
+which is shown in the bottom right of Figure 2.
+Encoding with CLIP:. We formulate an input claim as𝐶 ={𝑐0,𝑐 1,...,𝑐 𝑛},
+a piece of text evidence as𝑇𝑖 ={𝑡𝑖0,𝑡𝑖1,...,𝑡 𝑖𝑠}, a piece of image evi-
+dence as𝑀𝑗 ={𝑚𝑗0,𝑚𝑗1,...,𝑚 𝑗𝑞}, where𝑐𝑘 denotes the𝑘-th token
+of the claim,𝑡𝑖𝑘 is the𝑘-th token of the𝑖-th text evidence𝑇𝑖, and
+𝑚𝑗𝑘 is the𝑘-th patch of the 𝑗-th image evidence𝑀𝑗 . Given a claim
+𝐶 and its text evidence{𝑇0,𝑇1,...} and image evidence{𝑀0,𝑀 1,...},
+we concatenate them as an overall sequence{𝐶,𝑇 0,𝑇1,...,𝑀 0,𝑀 1...}
+and feed it into CLIP to obtain their contextual representations:
+𝑯𝐶 ={𝒉𝑐0, 𝒉𝑐1,..., 𝒉𝑐𝑛},
+𝑯𝑇𝑖 ={𝒉𝑡𝑖0, 𝒉𝑡𝑖1,..., 𝒉𝑡𝑖𝑠},
+𝑯𝑀𝑗 ={𝒉𝑚𝑗 0, 𝒉𝑚𝑗 1,..., 𝒉𝑚𝑗𝑞}.
+Stance detection: We then pair each piece of evidence with the in-
+put claim and detect the stance of the evidence towards the claim. As
+Figure 3 describes, taking text evidence as an example, we first com-
+pute an attention distribution between the claim and the evidence by
+using 𝑯𝐶 ={𝒉𝑐0, 𝒉𝑐1,..., 𝒉𝑐𝑛} as query, 𝑯𝑇𝑖 ={𝒉𝑡𝑖0, 𝒉𝑡𝑖1,..., 𝒉𝑡𝑖𝑠}
+as key and value to compute cross attention and obtain an updated
+claim representation 𝑯𝑇𝑖 2𝐶 ={𝒉 ˜𝑐0, 𝒉 ˜𝑐1,..., 𝒉 ˜𝑐𝑖,..., 𝒉 ˜𝑐𝑛} where 𝒉 ˜𝑐𝑖
+is defined by:
+𝒉 ˜𝑐𝑖 = Softmax(𝒉𝑐𝑖· 𝑯⊤𝑇𝑖)· 𝑯𝑇𝑖
+We then fuse the updated claim representation 𝑯𝑇𝑖 2𝐶 with its
+original representation𝐻𝐶 by two arithmetic operations, subtrac-
+tion (-) and multiplication (*), which work best as comparison func-
+tions in [69], and obtain the stance representation𝑮𝑇𝑖 2𝐶 of evidence
+𝑇𝑖 towards the claim𝐶 based on max pooling.
+˜𝑮𝑇𝑖 2𝐶 =𝜎([ 𝑯𝑇𝑖 2𝐶 𝑯𝐶 : 𝑯𝑇𝑖 2𝐶− 𝑯𝐶]· 𝑾𝑎+ 𝒃𝑎),
+𝑮𝑇𝑖 2𝐶 = Max_Pooling( ˜𝑮𝑇𝑖 2𝐶),
+where[:] denotes concatenation operation,𝑾𝑎 and 𝒃𝑎 are learnable
+parameters for aggregating the representations, and𝜎 denotes a
+LeckyReLU activation function.
+Claim Token
+Representations  
+Evidence Token
+Representations Stance Representation 
+Attention
+Concat (-,*)
+FC + Max Pooling
+Figure 3: Stance Detection
+Prediction: As we have multiple text and image evidence, we
+further compute the average of the stance representations of all
+text evidence and image evidence, respectively, to obtain 𝑮𝑇 2𝐶 =
+Mean_Pooling(𝑮𝑇𝑖 2𝐶) and 𝑮𝑀2𝐶 = Mean_Pooling(𝑮𝑀𝑗 2𝐶). We
+then concatenate the overall stance representations 13 𝑮𝑇 2𝐶 and
+𝑮𝑀2𝐶 obtained from both modalities to predict the truthfulness
+label and optimize the claim verification approach based on the
+cross-entropy objective:
+ˆ𝒚𝑐𝑙𝑠 = 𝑾⊤ℎ·[ 𝑮𝑇 2𝐶 : 𝑮𝑀2𝐶]+ 𝒃ℎ,
+L(𝑦𝑖|𝐶) =− log(
+exp( ˆ𝒚𝑐𝑙𝑠,𝑖)˝2
+𝑗=0 exp( ˆ𝒚𝑐𝑙𝑠,𝑗)
+)
+where ˆ𝒚𝒄𝒍𝒔 denotes the probabilities over all possible labels.𝑦𝑖 is the
+truthfulness label of claim𝐶. During training, we fix the parameters
+of CLIP while tuning all the other parameters.
+4.3 Explanation Generation
+To justify the truthfulness prediction, we further generate a ruling
+statement by considering the input claim, the predicted truthfulness
+label as well as the text evidence. The top right of Figure 2 illustrates
+the overall architecture for explanation generation.
+Specifically, given an input claim 𝐶, its truthfulness label 𝑦𝐶,
+and text evidence{𝑇1,𝑇2,... }, we concatenate them into an overall
+sequence𝑋 with a separator </s>. Then we feed this sequence as
+input to BART [37], which is a state-of-the-art pre-trained sequence-
+to-sequence model, to generate a ruling statement𝑆 ={𝑠1,𝑠 2,...,𝑠 𝑞}.
+During training, we use the gold truthfulness label of each claim
+as input. During the evaluation, we use the truthfulness label pre-
+dicted by the claim verification model. The training objective is to
+minimize the following negative log-likelihood based on the gold
+ruling statement ˜𝑆 ={ ˜𝑠1, ˜𝑠2,..., ˜𝑠𝑞}:
+L𝑔 =−
+∑︁
+𝑖
+log(𝑝( ˜𝑠𝑖| ˜𝑠1:𝑖−1,𝑋 ;𝜙))
+To ensure the generated ruling statement is consistent with the
+truthfulness label of the claim, we apply a truthfulness reward
+and optimize the generation model with reinforcement learning
+(RL) [36]. Specifically, we pre-train a truthfulness classification
+model based on BERT [ 13], which takes the ruling statement as
+input and outputs a confidence score for each truthfulness label.
+We use the difference between the confidence score of the correct
+label and the score of the wrong labels as the reward𝑅𝑐𝑙𝑠 :
+𝑅𝑐𝑙𝑠 = 𝒑(𝑦𝐶|𝑆) −
+∑︁
+𝑦𝑗 ≠𝑦𝐶,𝑦𝑗∈𝑌
+𝒑(𝑦𝑗|𝑆),
+𝒑(𝑦|𝑆) = Softmax(BERT𝜃(𝑆)),
+where𝑦𝐶 is the gold truthfulness label of𝐶,𝑌 is the target label
+set, and𝑆 is the generated ruling statement.
+We then apply the reward𝑅𝑐𝑙𝑠 for policy learning, and the policy
+gradient is computed as:
+∇𝜙J(𝜙) = E[𝑅𝑐𝑙𝑠·∇𝜙
+∑︁
+𝑖
+log(𝒑(𝑠𝑖|𝑠1:𝑖−1,𝑋 ;𝜙))],
+13Since the evidence in our corpus is annotated by journalists on Politifact and Snopes,
+we assume the evidence is reliable and fuse the stance of evidence to the claim to
+predict the truthfulness. We leave it as a future work to check the trustworthiness of
+evidence.
+2737

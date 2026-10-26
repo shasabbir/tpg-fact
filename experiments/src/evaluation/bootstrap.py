@@ -67,6 +67,16 @@ def paired_event_bootstrap(
         "mean_difference": float(differences.mean()),
         "ci_low": float(np.quantile(differences, 0.025)),
         "ci_high": float(np.quantile(differences, 0.975)),
+        "p_value_two_sided": float(
+            min(
+                1.0,
+                2.0
+                * min(
+                    (np.sum(differences <= 0.0) + 1) / (replicates + 1),
+                    (np.sum(differences >= 0.0) + 1) / (replicates + 1),
+                ),
+            )
+        ),
     }
 
 

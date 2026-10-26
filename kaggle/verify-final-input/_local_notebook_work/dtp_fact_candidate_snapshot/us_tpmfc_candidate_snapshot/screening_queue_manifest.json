@@ -1,0 +1,30 @@
+{
+  "actual_size": 1200,
+  "created_at": "2026-10-24T08:25:50.768457Z",
+  "interpretation": "Priority signals order manual work only. They do not verify US relevance, multimodality, target-image identity, timestamps, ratings, or labels.",
+  "label_counts": {
+    "insufficient_evidence": 400,
+    "refuted": 400,
+    "supported": 400
+  },
+  "output": "D:\\1.msc\\ET2\\experiments\\data\\private\\pilot_claims_2026-10-24\\screening_queue.csv",
+  "output_sha256": "b30f3b1835bca8f3c3f04a8df5ecbd761b1e6af8bef021a5e3cc72d6463acfc7",
+  "publisher_counts": {
+    "apnews.com": 51,
+    "factcheck.afp.com": 164,
+    "factcheck.org": 191,
+    "leadstories.com": 132,
+    "politifact.com": 228,
+    "snopes.com": 434
+  },
+  "requested_size": 1200,
+  "seed": 2026,
+  "source": "D:\\1.msc\\ET2\\experiments\\data\\private\\pilot_claims_2026-10-24\\candidate_review.csv",
+  "source_sha256": "240e6081303c6899b80fa083f4c566c0e40f168611611129e4cd25f5058c0ee5",
+  "status": "screening_queue_ready",
+  "temporal_split_counts": {
+    "test": 315,
+    "train": 652,
+    "validation": 233
+  }
+}

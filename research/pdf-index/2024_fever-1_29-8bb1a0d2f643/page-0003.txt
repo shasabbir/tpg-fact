@@ -1,0 +1,75 @@
+Figure 2: A detailed overview of the Multimodal Fact-checking pipeline
+3 Dataset
+The aim of our study is to explore the potential of
+multimodal LLM-based RAG and reasoning for po-
+litical fact-checking. Given the substantial compu-
+tational and financial costs of running multimodal
+LLMs through multiple rounds of reasoning, we
+evaluate our approach on a well-controlled and
+balanced dataset, so as to minimize noise while
+maintaining the validity of our experiments.
+We specifically rely on a carefully selected sub-
+set of the MOCHEG dataset (Yao et al., 2023a).
+MOCHEG provides 21,184 multimodal claims
+sourced from two fact-checking websites, Politi-
+Fact1 and Snopes.2 Each instance contains an input
+claim extracted from the title of the fact-checking
+source, and an associated image extracted from the
+web page that addresses the claim. The dataset
+further provides a summary of the fact-check in the
+form of a “Ruling Outline”, which we consider for
+evaluating LLM-generated explanations.
+We start from the test set containing 2,007 mul-
+timodal claims and filter it in two steps. First, we
+select the 794 claims that were fact-checked by
+PolitiFact, since our focus is on political claims; by
+contrast, Snopes provides fact-checks for a variety
+of domains. Second, we filter this set down to 300
+test samples randomly selected from the supported
+and refuted classes, for a balanced final dataset with
+150 multimodal claims in each of the two classes.
+In this process, we purposefully discard the NEI
+(Not Enough Information) instances. During the
+creation of MOCHEG, some ambiguous cases were
+outright discarded, while the labels mixture, un-
+proven, and undetermined were aggregated under
+NEI. This class is potentially unstable in two re-
+1https://www.politifact.com/
+2https://www.snopes.com/
+spects: fact-checking websites update their labels
+as new evidence emerges (Yao et al., 2023a), which
+by definition affects this class more prominently;
+and the fact-checking intentions behind mixed la-
+bels such as half-true and mixture are compara-
+tively unclear, leading prior studies to exclude them
+(e.g. V o and Lee, 2019). We adopt the same deci-
+sion given our focus on an initial validation of novel
+reasoning techniques.
+Although we only retain instances that are unam-
+biguous in the dataset, our model may still struggle
+to retrieve information of sufficient quality to fact-
+check them. We account for this by allowing it to
+generate a failed label when it fails to retrieve rele-
+vant information. We reserve an extension of our
+study to the NEI class, as well as the connected is-
+sue of improving retrieval quality, for future work.
+4 Multimodal Fact-Checking Pipeline
+Our fact-checking pipeline comprises four parts:
+(i) Multimodal Claim Generation, which analyzes
+both the textual claim and associated image to for-
+mulate a new claim incorporating both; (ii) Multi-
+modal Evidence Retrieval, which extracts evidence
+from the web for a question posed by the LLM;
+(iii) LLM-based and RAG-augmented Reasoning
+for fact-checking, our reasoning approach to fact-
+check a claim; and (iv) Veracity Prediction and
+Explanation. The pipeline is shown in Figure 2.
+4.1 Multimodal Claim Generation
+Given an input claim as text, an associated image,
+and the date of the claim, the claim generation
+module generates a response verbalizing the infor-
+mation contained in both the textual claim and the
+image. We use GPT-4V as our multimodal LLM
+given its strong performance across tasks. Note
+that our aim is not to determine the best-performing
+282

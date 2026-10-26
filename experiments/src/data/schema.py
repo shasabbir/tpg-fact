@@ -6,6 +6,8 @@ from typing import Any, Mapping
 
 
 LABELS = ("supported", "refuted", "insufficient_evidence")
+SUFFICIENCY_TARGETS = ("sufficient", "insufficient", "unlabeled")
+TIMESTAMP_CONFIDENCE_LEVELS = ("confirmed", "observed", "uncertain")
 
 
 def parse_datetime(value: str | datetime) -> datetime:
@@ -37,6 +39,10 @@ class ClaimRecord:
     normalized_label: str
     event_id: str
     evidence_ids: tuple[str, ...] = field(default_factory=tuple)
+    cutoff_basis: str = "fact_check_publication"
+    cutoff_confidence: str = "confirmed"
+    sufficiency_target: str = "unlabeled"
+    sufficiency_target_source: str = ""
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "claim_time", parse_datetime(self.claim_time))
@@ -44,6 +50,8 @@ class ClaimRecord:
         object.__setattr__(self, "evidence_ids", tuple(self.evidence_ids))
         if self.normalized_label not in LABELS:
             raise ValueError(f"Unsupported label: {self.normalized_label}")
+        if self.sufficiency_target not in SUFFICIENCY_TARGETS:
+            raise ValueError(f"Unsupported sufficiency target: {self.sufficiency_target}")
         if self.claim_time > self.decision_cutoff:
             raise ValueError("claim_time must not be later than decision_cutoff")
 
@@ -77,11 +85,19 @@ class EvidenceRecord:
     source_cluster_id: str = ""
     outgoing_links: tuple[str, ...] = field(default_factory=tuple)
     retrieval_query: str = ""
+    timestamp_confidence: str = "uncertain"
+    timestamp_source: str = "self_reported_metadata"
+    dependency_signals: tuple[str, ...] = field(default_factory=tuple)
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "published_at", parse_datetime(self.published_at))
         object.__setattr__(self, "archived_at", parse_datetime(self.archived_at))
         object.__setattr__(self, "outgoing_links", tuple(self.outgoing_links))
+        object.__setattr__(self, "dependency_signals", tuple(self.dependency_signals))
+        if self.timestamp_confidence not in TIMESTAMP_CONFIDENCE_LEVELS:
+            raise ValueError(
+                f"Unsupported timestamp confidence: {self.timestamp_confidence}"
+            )
 
     @classmethod
     def from_dict(cls, value: Mapping[str, Any]) -> "EvidenceRecord":
@@ -89,6 +105,7 @@ class EvidenceRecord:
         data["published_at"] = parse_datetime(data["published_at"])
         data["archived_at"] = parse_datetime(data["archived_at"])
         data["outgoing_links"] = tuple(data.get("outgoing_links", ()))
+        data["dependency_signals"] = tuple(data.get("dependency_signals", ()))
         return cls(**data)
 
     def to_dict(self) -> dict[str, Any]:
@@ -96,6 +113,7 @@ class EvidenceRecord:
         data["published_at"] = datetime_to_text(self.published_at)
         data["archived_at"] = datetime_to_text(self.archived_at)
         data["outgoing_links"] = list(self.outgoing_links)
+        data["dependency_signals"] = list(self.dependency_signals)
         return data
 
 
