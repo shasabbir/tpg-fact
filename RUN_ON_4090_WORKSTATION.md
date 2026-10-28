@@ -5,26 +5,40 @@ annotations. The official test remains locked.
 
 ## 1. Move the complete project
 
-Preferred: copy dist/cefes-study-handoff.bundle to the new PC and run:
+Clone the repository into any folder you choose. That cloned folder is the
+study root. It is identified by containing plan.md, paper/, experiments/, and
+research/. No drive letter or folder name is required by the code.
 
-    git clone D:\Transfer\cefes-study-handoff.bundle D:\cefes-study
-    cd D:\cefes-study
+Preferred offline transfer: copy dist/cefes-study-handoff.bundle to the new PC
+and run from the parent directory where you want the study folder created:
+
+    git clone X:\Transfer\cefes-study-handoff.bundle my-study
+    cd my-study
     git status
     git log -1 --oneline
 
-Alternative: extract dist/cefes-workstation-source.zip to D:\cefes-study. This
-contains the same source handoff but not Git history. Do not copy the old
-experiments/data or experiments/outputs directories; the runner downloads
-pinned public files and creates fresh outputs.
+Replace the bundle path and my-study with your actual choices. If the handoff
+commit has been pushed to GitHub, an ordinary clone is also valid:
 
-Before using ChatGPT on the destination PC, ask it to read plan.md Section 0 and
-paper/paper.tex. The continuation prompt is in plan.md Section 0.7.
+    git clone https://github.com/shasabbir/tpg-fact.git my-study
+    cd my-study
+
+Alternative: extract dist/cefes-workstation-source.zip into any folder. That
+extracted folder becomes the study root but does not contain Git history. Do
+not copy the old experiments/data or experiments/outputs directories; the
+runner downloads pinned public files and creates fresh outputs.
+
+Open the cloned study root in ChatGPT/Codex and say: "Continue this study. Treat
+this repository folder as the study root and read plan.md first." The complete
+continuation instructions are in plan.md Section 0.7.
 
 ## 2. Create and check the environment
 
-Open PowerShell:
+Open PowerShell anywhere inside the cloned repository. Normalize to its root,
+then enter experiments/:
 
-    cd D:\cefes-study\experiments
+    Set-Location -LiteralPath (git rev-parse --show-toplevel)
+    Set-Location experiments
     powershell -ExecutionPolicy Bypass -File scripts\setup_workstation.ps1
 
 If the final hardware check reports pytorch_cuda_available as false, use the

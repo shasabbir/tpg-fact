@@ -22,7 +22,7 @@ The 400-claim development packet gate passes. All 378,864 distinct train/develop
 Prepare or re-audit the currently downloaded metadata with:
 
 ```powershell
-cd D:\1.msc\ET2\experiments
+cd experiments
 python -m pip install --no-deps -e .
 python scripts/prepare_mocheg.py
 ```
@@ -99,7 +99,7 @@ The former causal counterfactual objective remains in historical code for audita
 ## Local setup and checks
 
 ```powershell
-cd D:\1.msc\ET2\experiments
+cd experiments
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip

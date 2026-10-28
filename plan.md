@@ -57,17 +57,19 @@ new PC.
 ### 0.4 Transfer options
 
 After the handoff commit, the preferred complete transfer is the Git bundle
-dist/cefes-study-handoff.bundle. Copy it to the new PC and run:
+dist/cefes-study-handoff.bundle. Clone it into any folder. The resulting folder
+containing plan.md is the study root; its absolute path and directory name are
+not part of the protocol.
 
-    git clone D:\Transfer\cefes-study-handoff.bundle D:\cefes-study
-    cd D:\cefes-study
+    git clone X:\Transfer\cefes-study-handoff.bundle my-study
+    cd my-study
     git status
     git log -1 --oneline
 
 The source-only alternative is dist/cefes-workstation-source.zip. It contains
 the paper, plan, code, research records, and reference PDFs but no Git history,
 public data, outputs, virtual environments, credentials, or old ZIP archives.
-Extract it to a short path such as D:\cefes-study.
+Extract it into any chosen folder; that extracted folder becomes the study root.
 
 The GitHub remote is https://github.com/shasabbir/tpg-fact.git, branch main.
 The handoff commit is local unless it is explicitly pushed later. A normal clone
@@ -75,9 +77,11 @@ from GitHub will not contain the handoff commit until that push occurs.
 
 ### 0.5 Exact first run on the destination PC
 
-Open PowerShell:
+Open PowerShell anywhere inside the cloned repository, resolve the study root,
+and enter the experiments directory:
 
-    cd D:\cefes-study\experiments
+    Set-Location -LiteralPath (git rev-parse --show-toplevel)
+    Set-Location experiments
     powershell -ExecutionPolicy Bypass -File scripts\setup_workstation.ps1
 
 The setup creates .venv-workstation, installs the formal, analysis, and
@@ -122,7 +126,9 @@ hash smoke as a scientific pilot.
 
 Use this prompt after opening the transferred repository:
 
-> Continue the CEFES/MOCHEG study from this repository. Read plan.md in full,
+> Continue the CEFES/MOCHEG study from this repository. Treat the current cloned
+> repository folder containing plan.md as the study root; do not assume a fixed
+> drive letter or directory name. Read plan.md in full,
 > then read paper/paper.tex, every included paper section,
 > RUN_ON_4090_WORKSTATION.md, experiments/configs/mocheg_development.yaml, and
 > research/mocheg_access_audit_2026-10-28.md. Inspect Git status and the actual

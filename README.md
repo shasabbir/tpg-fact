@@ -58,9 +58,10 @@ development pilot with one PowerShell command.
 
 ## Retained SciVer verification
 
-Use the bundled or project Python environment from `D:\1.msc\ET2\experiments`:
+From the cloned study root, use the project environment under experiments/:
 
 ```powershell
+cd experiments
 python -m pip install -e ".[formal,analysis,dev]"
 python -m pytest -q
 python scripts/run_study.py --profile smoke --device cpu
