@@ -3,6 +3,9 @@ from __future__ import annotations
 import gc
 import json
 import math
+import platform
+import sys
+import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Protocol, Sequence
@@ -188,6 +191,16 @@ def build_mocheg_pair_features(
     encoder: MochegEncoder,
 ) -> dict[str, object]:
     """Build matched item-level features without exposing verdict labels to inputs."""
+    started = time.perf_counter()
+    encoder_identity = encoder.identity()
+    peak_gpu_memory_bytes: int | None = None
+    try:
+        import torch
+
+        if torch.cuda.is_available():
+            torch.cuda.reset_peak_memory_stats()
+    except ImportError:
+        torch = None
     packets = _read_packets(packet_paths)
     claim_texts = list(dict.fromkeys(str(row["claim"]) for row in packets))
     text_contents = list(
@@ -279,7 +292,7 @@ def build_mocheg_pair_features(
             "log_claim_token_count",
             "log_available_candidate_count",
         ],
-        "encoder": encoder.identity(),
+        "encoder": encoder_identity,
         "packet_files": {
             str(path): sha256_file(path) for path in packet_paths
         },
@@ -290,6 +303,10 @@ def build_mocheg_pair_features(
         json.dumps(sidecar_payload, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
+    if torch is not None and torch.cuda.is_available():
+        peak_gpu_memory_bytes = int(torch.cuda.max_memory_allocated())
+    implementation_path = Path(__file__).resolve()
+    data_implementation_path = implementation_path.parent / "data" / "mocheg.py"
     manifest = {
         "status": "pass",
         "rows": len(metadata),
@@ -297,10 +314,37 @@ def build_mocheg_pair_features(
         "claims": len({row["claim_id"] for row in metadata}),
         "feature_width": len(features[0]) if features else 0,
         "features_sha256": sha256_file(output_path),
+        "features_bytes": output_path.stat().st_size,
         "sidecar_sha256": sha256_file(sidecar),
+        "sidecar_bytes": sidecar.stat().st_size,
+        "encoder": encoder_identity,
+        "packet_files": {
+            str(path): {"bytes": path.stat().st_size, "sha256": sha256_file(path)}
+            for path in packet_paths
+        },
+        "implementation_files": {
+            str(implementation_path): sha256_file(implementation_path),
+            str(data_implementation_path): sha256_file(data_implementation_path),
+        },
+        "runtime": {
+            "wall_seconds": time.perf_counter() - started,
+            "peak_gpu_memory_bytes": peak_gpu_memory_bytes,
+        },
+        "environment": {
+            "python": sys.version,
+            "platform": platform.platform(),
+            "numpy": np.__version__,
+            "torch": getattr(torch, "__version__", None),
+            "torch_cuda": getattr(getattr(torch, "version", None), "cuda", None),
+            "cuda_device": (
+                torch.cuda.get_device_name(0)
+                if torch is not None and torch.cuda.is_available()
+                else None
+            ),
+        },
         "formal_test_annotations_accessed": False,
         "scientific_results_allowed": (
-            encoder.identity().get("scientific_results_allowed", True)
+            encoder_identity.get("scientific_results_allowed", True)
         ),
     }
     output_path.with_suffix(".manifest.json").write_text(

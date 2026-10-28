@@ -73,6 +73,10 @@ def test_pair_features_preserve_matched_candidate_identity(tmp_path: Path) -> No
     assert manifest["rows"] == 2
     assert manifest["gold_rows"] == 1
     assert values["features"].shape == (2, 7)
+    assert manifest["encoder"] == {"name": "fake"}
+    assert manifest["features_bytes"] == output.stat().st_size
+    assert manifest["packet_files"][str(packet)]["sha256"]
+    assert manifest["runtime"]["wall_seconds"] >= 0.0
     assert [row["evidence_id"] for row in sidecar["records"]] == [
         "text:1-2-0",
         "image:a.png",

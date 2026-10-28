@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-28
 
-Active study status: **CEFES selector implementation, public-data preparation, and software smoke checks are complete. The pinned BGE-M3/SigLIP2 development pilot and matched verifier are pending. The official MOCHEG test set must remain untouched until the complete development gate passes and the protocol is frozen.**
+Active study status: **CEFES selector implementation, public-data preparation, software smoke checks, and the RTX 4090 workstation preflight are complete. The pinned BGE-M3/SigLIP2 development pilot and matched verifier are pending. The official MOCHEG test set must remain untouched until the complete development gate passes and the protocol is frozen.**
 
 Target quality: a defensible strong-journal or A* conference study. Q1/Q2 placement and acceptance are objectives, never guaranteed outcomes.
 
@@ -690,19 +690,40 @@ Exit criterion: audited formal archive and an explicit positive/negative decisio
 | MOCHEG license/statistics | checked from official paper/repository | CC BY 4.0; 15,601 claims; official splits | none for metadata | preserve authority record |
 | MOCHEG transport | 400-claim packet gate passed | pinned train/dev mirrors; 91,822-row corpus; 1,612/1,612 pilot images readable; zero missing pilot gold candidates | full media integrity not measured; 3 train gold images unresolved outside pilot | scale acquisition on 4090 workstation |
 | MOCHEG data quality | sentence candidate gate passed | all 378,864 distinct train/dev qrel sentence IDs recovered; 4,556 blank non-qrel train evidence texts retained; duplicate policy audited | image-candidate integrity pending | finish bounded media pilot |
-| CEFES concept | real runner implemented; software smoke checked | exact decoder, calibration, bounded candidate pool, scorer, three seeds, paired bootstrap; 76 tests | pinned semantic feature run absent | run 4090 development pilot |
+| CEFES concept | real runner implemented; software smoke checked | exact decoder, calibration, bounded candidate pool, scorer, three seeds, paired bootstrap; 79 tests after workstation hardening | pinned semantic feature run absent | run 4090 development pilot |
 | exact expected-F1 decoder | implemented and checked | dynamic program matches brute-force enumeration; edge policies tested | independence/calibration behavior unmeasured | connect to calibrated candidate probabilities |
 | MOCHEG adapter | implemented and checked | both schemas normalized; candidate records deduplicated; 378,864/378,864 sentence IDs resolved; matched 400-claim packet passes; test sealed | encoder features pending | build pilot feature store |
-| development claim | scientifically unmeasured | CPU hash smoke completed end to end; +0.00083 F1 is non-scientific and fails the gate | pinned BGE-M3/SigLIP2 effect unknown | three-seed 4090 pilot |
+| development claim | scientifically unmeasured | CPU hash smoke completed end to end; +0.00083 F1 is non-scientific and fails the gate; RTX 4090 preflight passed | pinned BGE-M3/SigLIP2 effect unknown | three-seed 4090 pilot |
 | formal positive claim | unavailable | official test sealed | pilot/protocol not frozen | do not evaluate test |
 | CEFES manuscript | implemented as pre-results draft | conventional IEEE structure synchronized with this plan; no scientific performance claim | GPU pilot, matched verifier, formal results, generated result figures pending | update only from checked artifacts |
 
+### 22.1 RTX 4090 workstation execution record (2026-10-28)
+
+The destination environment now uses Python 3.13.14 and PyTorch
+2.14.1+cu130. Strict preflight measured 32 logical CPU threads, 63.82 GiB RAM,
+1,298.77 GiB free storage, and an NVIDIA GeForce RTX 4090 with 24,564 MiB
+VRAM. CUDA is available and the preflight status is `pass`.
+
+The first setup attempt installed the default CPU-only PyTorch 2.14.1 wheel.
+The preflight correctly returned failure, but Windows PowerShell continued and
+printed a false success because native exit codes were not checked. This
+recoverable orchestration defect was fixed by a shared fail-closed native-command
+guard used by both workstation scripts, and a regression test now exercises a
+nonzero child-process exit. No scientific experiment was run under the failed
+environment. The full suite passes after the fix.
+
+The selector export was also hardened before the semantic run to retain every
+bounded per-seed candidate record, raw and calibrated probabilities, ranks,
+selection flags, complete bootstrap samples and resampling seeds, code/config
+hashes, artifact hashes, and runtime/environment metadata. These changes affect
+auditability only; they do not change the frozen selector, candidate ceilings,
+seeds, fixed-budget family, or numeric gate.
+
 ## 23. Immediate next action
 
-Move the committed repository to the RTX 4090 workstation using the Git bundle
-or source ZIP in Section 0. Run setup_workstation.ps1 and then
-run_workstation_pilot.ps1. Audit the pinned semantic feature manifest and the
-three-seed selector outputs. Do not download the 69.2 GiB archive unless a
+The RTX 4090 environment and strict preflight now pass. Run
+run_workstation_pilot.ps1, then audit the pinned semantic feature manifest and
+the three-seed selector outputs. Do not download the 69.2 GiB archive unless a
 required released asset cannot be recovered selectively, and do not inspect
 formal-test annotations. A passing selector numeric gate authorizes work on the
 matched verifier and full-corpus development comparison, not the formal test.

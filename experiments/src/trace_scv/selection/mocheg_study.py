@@ -3,6 +3,9 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import platform
+import sys
+import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from statistics import fmean
@@ -227,7 +230,7 @@ def _paired_bootstrap(
     *,
     samples: int,
     seed: int,
-) -> dict[str, float]:
+) -> dict[str, object]:
     right_by_id = {str(row["claim_id"]): row for row in right}
     differences = np.asarray(
         [
@@ -249,7 +252,25 @@ def _paired_bootstrap(
         "lower": float(np.quantile(values, 0.025)),
         "median": float(np.quantile(values, 0.5)),
         "upper": float(np.quantile(values, 0.975)),
+        "sample_count": samples,
+        "resampling_seed": seed,
+        "resampling_unit": "claim",
+        "samples": values,
     }
+
+
+def _rank_by_claim(
+    records: Sequence[dict[str, object]], probabilities: Sequence[float]
+) -> dict[int, int]:
+    grouped: dict[str, list[int]] = {}
+    for index, record in enumerate(records):
+        grouped.setdefault(str(record["claim_id"]), []).append(index)
+    ranks: dict[int, int] = {}
+    for indices in grouped.values():
+        order = sorted(indices, key=lambda index: (-float(probabilities[index]), index))
+        for rank, index in enumerate(order, start=1):
+            ranks[index] = rank
+    return ranks
 
 
 def run_mocheg_selector_pilot(
@@ -258,6 +279,7 @@ def run_mocheg_selector_pilot(
     *,
     config: MochegSelectorConfig = MochegSelectorConfig(),
 ) -> dict[str, object]:
+    run_started = time.perf_counter()
     arrays = np.load(feature_path)
     features = np.asarray(arrays["features"], dtype=np.float64)
     labels = np.asarray(arrays["gold"], dtype=np.int8)
@@ -297,6 +319,7 @@ def run_mocheg_selector_pilot(
     seed_results: list[dict[str, object]] = []
     output_dir.mkdir(parents=True, exist_ok=True)
     for seed in config.seeds:
+        seed_started = time.perf_counter()
         calibration_claims = _claim_partition(
             (str(records[index]["claim_id"]) for index in train_indices),
             seed,
@@ -359,13 +382,13 @@ def run_mocheg_selector_pilot(
             method="cefes",
             maximum_selected_items=config.maximum_selected_items,
         )
-        raw_cefes_metrics, _ = _evaluate_claims(
+        raw_cefes_metrics, raw_cefes_claims = _evaluate_claims(
             validation_records,
             validation_raw,
             method="cefes",
             maximum_selected_items=config.maximum_selected_items,
         )
-        threshold_metrics, _ = _evaluate_claims(
+        threshold_metrics, threshold_claims = _evaluate_claims(
             validation_records,
             validation_calibrated,
             method="threshold",
@@ -415,12 +438,10 @@ def run_mocheg_selector_pilot(
                 "calibration": calibration_metrics,
                 "cefes_minus_fixed_bootstrap": paired,
             },
+            "runtime": {"wall_seconds": time.perf_counter() - seed_started},
         }
-        seed_results.append(result)
-        (output_dir / f"seed_{seed}.json").write_text(
-            json.dumps(result, indent=2) + "\n", encoding="utf-8"
-        )
-        with (output_dir / f"seed_{seed}_claim_records.jsonl").open(
+        claim_records_path = output_dir / f"seed_{seed}_claim_records.jsonl"
+        with claim_records_path.open(
             "w", encoding="utf-8"
         ) as handle:
             fixed_by_id = {str(row["claim_id"]): row for row in fixed_claims}
@@ -439,6 +460,89 @@ def run_mocheg_selector_pilot(
                     + "\n"
                 )
 
+        validation_rank = _rank_by_claim(validation_records, validation_calibrated)
+        validation_positions = {
+            global_index: local_index
+            for local_index, global_index in enumerate(validation_indices)
+        }
+        cefes_selected = {
+            (str(row["claim_id"]), str(evidence_id))
+            for row in cefes_claims
+            for evidence_id in row["selected_evidence_ids"]
+        }
+        fixed_selected = {
+            (str(row["claim_id"]), str(evidence_id))
+            for row in fixed_claims
+            for evidence_id in row["selected_evidence_ids"]
+        }
+        raw_cefes_selected = {
+            (str(row["claim_id"]), str(evidence_id))
+            for row in raw_cefes_claims
+            for evidence_id in row["selected_evidence_ids"]
+        }
+        threshold_selected = {
+            (str(row["claim_id"]), str(evidence_id))
+            for row in threshold_claims
+            for evidence_id in row["selected_evidence_ids"]
+        }
+        candidate_records_path = output_dir / f"seed_{seed}_candidate_records.jsonl"
+        with candidate_records_path.open("w", encoding="utf-8") as handle:
+            for global_index in [*train_indices, *validation_indices]:
+                record = records[global_index]
+                claim_id = str(record["claim_id"])
+                evidence_id = str(record["evidence_id"])
+                split = str(record["split"])
+                role = (
+                    "validation"
+                    if split == "validation"
+                    else "calibration"
+                    if claim_id in calibration_claims
+                    else "fit"
+                )
+                validation_local_index = (
+                    validation_positions.get(global_index)
+                )
+                key = (claim_id, evidence_id)
+                handle.write(
+                    json.dumps(
+                        {
+                            "seed": seed,
+                            "role": role,
+                            **record,
+                            "raw_probability": float(raw_probabilities[global_index]),
+                            "calibrated_probability": float(
+                                calibrated_probabilities[global_index]
+                            ),
+                            "calibrated_rank": (
+                                validation_rank[validation_local_index]
+                                if validation_local_index is not None
+                                else None
+                            ),
+                            "selected_cefes": key in cefes_selected,
+                            "selected_fixed": key in fixed_selected,
+                            "selected_uncalibrated_cefes": key in raw_cefes_selected,
+                            "selected_threshold_0_5": key in threshold_selected,
+                        }
+                    )
+                    + "\n"
+                )
+        result["artifacts"] = {
+            "claim_records": {
+                "path": str(claim_records_path),
+                "bytes": claim_records_path.stat().st_size,
+                "sha256": sha256_file(claim_records_path),
+            },
+            "candidate_records": {
+                "path": str(candidate_records_path),
+                "bytes": candidate_records_path.stat().st_size,
+                "sha256": sha256_file(candidate_records_path),
+            },
+        }
+        seed_results.append(result)
+        (output_dir / f"seed_{seed}.json").write_text(
+            json.dumps(result, indent=2) + "\n", encoding="utf-8"
+        )
+
     gains = [
         float(row["validation"]["cefes"]["f1"])
         - float(row["validation"]["fixed"]["f1"])
@@ -455,6 +559,17 @@ def run_mocheg_selector_pilot(
         and brier_not_worse
     )
     selector_gate = scientific_features and selector_criteria_met
+    implementation_path = Path(__file__).resolve()
+    package_root = implementation_path.parents[1]
+    config_path = Path.cwd() / "configs" / "mocheg_development.yaml"
+    implementation_files = {
+        str(path): sha256_file(path)
+        for path in (
+            implementation_path,
+            implementation_path.parent / "calibration.py",
+            package_root / "cefes.py",
+        )
+    }
     summary: dict[str, object] = {
         "profile": (
             "mocheg_selector_development_pilot"
@@ -465,6 +580,21 @@ def run_mocheg_selector_pilot(
         "feature_sha256": sha256_file(feature_path),
         "feature_sidecar_sha256": sha256_file(sidecar_path),
         "feature_manifest_sha256": sha256_file(feature_manifest_path),
+        "implementation_files": implementation_files,
+        "development_config": (
+            {
+                "path": str(config_path.resolve()),
+                "sha256": sha256_file(config_path),
+            }
+            if config_path.is_file()
+            else None
+        ),
+        "environment": {
+            "python": sys.version,
+            "platform": platform.platform(),
+            "numpy": np.__version__,
+        },
+        "runtime": {"wall_seconds": time.perf_counter() - run_started},
         "scientific_feature_backend": scientific_features,
         "bounded_candidate_rows": {
             "train": len(train_indices),
