@@ -15,3 +15,9 @@ def test_ranking_metrics_penalize_unretrieved_gold() -> None:
     assert result["recall_at_5"] == 2.0 / 3.0
     assert result["map_at_60"] < 1.0
     assert result["ndcg_at_60"] < 1.0
+
+
+def test_ranking_metrics_use_full_gold_denominator() -> None:
+    result = _ranking_metrics(["a", "b"], {"a", "b", "c", "d"})
+    assert result["recall_at_50"] == 0.5
+    assert result["map_at_60"] == 0.5

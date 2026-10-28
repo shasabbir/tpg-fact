@@ -92,6 +92,12 @@ def audit_mocheg_selector_pilot(
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
     feature_manifest = json.loads(feature_manifest_path.read_text(encoding="utf-8"))
     sidecar = json.loads(sidecar_path.read_text(encoding="utf-8"))
+    full_gold = {
+        str(claim_id): {str(evidence_id) for evidence_id in evidence_ids}
+        for claim_id, evidence_ids in sidecar.get(
+            "full_gold_evidence_ids_by_claim", {}
+        ).items()
+    }
     arrays = np.load(feature_path, allow_pickle=False)
 
     discrepancies: list[str] = []
@@ -181,7 +187,10 @@ def audit_mocheg_selector_pilot(
         cefes_f1: list[float] = []
         fixed_f1: list[float] = []
         for claim_id, rows in grouped.items():
-            gold = {str(row["evidence_id"]) for row in rows if row["gold"]}
+            gold = full_gold.get(
+                claim_id,
+                {str(row["evidence_id"]) for row in rows if row["gold"]},
+            )
             cefes = {
                 str(row["evidence_id"]) for row in rows if row["selected_cefes"]
             }
@@ -264,7 +273,14 @@ def audit_mocheg_selector_pilot(
                             for row in rows
                             if row["selected_cefes"]
                         },
-                        {str(row["evidence_id"]) for row in rows if row["gold"]},
+                        full_gold.get(
+                            claim_id,
+                            {
+                                str(row["evidence_id"])
+                                for row in rows
+                                if row["gold"]
+                            },
+                        ),
                     ),
                     float(claim_by_id[claim_id]["f1"]),
                 ),

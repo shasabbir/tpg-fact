@@ -150,7 +150,7 @@ def _claims_from_pilot(processed_root: Path) -> list[dict[str, str]]:
     return [
         {"claim_id": str(row["claim_id"]), "claim": str(row["claim"]), "split": str(row["split"])}
         for row in packets
-        if row["candidates"]
+        if any(bool(candidate["available"]) for candidate in row["candidates"])
     ]
 
 
@@ -426,6 +426,11 @@ def build_full_corpus_features(
         "unique_image_basenames": len(image_names),
         "feature_rows": len(records),
         "gold_feature_rows": sum(labels),
+        "rows": len(records),
+        "claims": len(claims),
+        "features_sha256": sha256_file(output_path),
+        "sidecar_sha256": sha256_file(sidecar_path),
+        "scientific_results_allowed": True,
         "retrieval_metrics": metrics,
         "tokenizer": tokenizer_identity,
         "artifacts": {
