@@ -688,7 +688,7 @@ Exit criterion: audited formal archive and an explicit positive/negative decisio
 |---|---|---|---|---|
 | SciVer DACS result | checked, negative | `dacs-scv-formal-outputs.zip` and independent audit | none; test consumed | preserve only |
 | MOCHEG license/statistics | checked from official paper/repository | CC BY 4.0; 15,601 claims; official splits | none for metadata | preserve authority record |
-| MOCHEG transport | 400-claim packet gate passed | pinned train/dev mirrors; 91,822-row corpus; 1,612/1,612 pilot images readable; zero missing pilot gold candidates | full media integrity not measured; 3 train gold images unresolved outside pilot | scale acquisition on 4090 workstation |
+| MOCHEG transport | full development media gate passed | pinned train/dev mirrors; 91,822-row corpus; 90,270/90,270 images readable; 62,548 unique SHA-256 values | 27,722 exact duplicate occurrences retained; 3 train gold proof IDs remain absent from mirror filenames as previously audited | build full-corpus features |
 | MOCHEG data quality | sentence candidate gate passed | all 378,864 distinct train/dev qrel sentence IDs recovered; 4,556 blank non-qrel train evidence texts retained; duplicate policy audited | image-candidate integrity pending | finish bounded media pilot |
 | CEFES concept | Trial 2 selector and matched verifier checked | exact decoder, guarded calibration, shared verifier checkpoint per seed, three seeds, paired bootstrap | threshold control remains stronger for evidence F1; verifier seed 13 is negative; full-corpus/clean rerun pending | run full-corpus comparison |
 | exact expected-F1 decoder | implemented and checked | dynamic program matches brute-force enumeration; edge policies tested | independence/calibration behavior unmeasured | connect to calibrated candidate probabilities |
@@ -842,6 +842,17 @@ The full-corpus shared-verifier comparison and clean reproduction will be
 preserved even if the full-corpus selector gate fails, as diagnostics of the
 same frozen configuration. Such diagnostics cannot rescue a failed selector
 condition or authorize formal-test access.
+
+Full train/development media acquisition is complete. All 90,270 released image
+paths (78,010 train and 12,260 development) are present and readable; there are
+62,548 unique SHA-256 values and 27,722 exact duplicate occurrences. No basename
+collision with conflicting content was found, no download failure remains, and
+the final manifest records zero formal-test repository listings or annotation
+accesses. Transport used resumable per-file HTTPS followed by pinned-revision
+Git LFS. One LFS CDN authorization failure left a single unique OID absent; the
+same pinned object was recovered through the ordinary mirror resolve endpoint,
+its bytes matched the expected LFS SHA-256 OID, and a complete path-to-OID walk
+then found 78,010/78,010 train and 12,260/12,260 development paths present.
 
 ## 23. Immediate next action
 
