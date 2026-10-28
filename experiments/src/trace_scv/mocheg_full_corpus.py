@@ -173,6 +173,22 @@ def acquire_full_development_image_corpus(
     basename_collisions = {
         name: paths for name, paths in basename_paths.items() if len(paths) > 1
     }
+    transport_artifacts = {}
+    for name in ("full_media_lfs_import.json", "full_media_transport_log.json"):
+        path = media_root / name
+        if path.is_file():
+            transport_artifacts[name] = {
+                "bytes": path.stat().st_size,
+                "sha256": sha256_file(path),
+            }
+    source_commit = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=Path.cwd(),
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    implementation_path = Path(__file__).resolve()
     result: dict[str, object] = {
         "profile": "mocheg_full_development_image_corpus",
         "status": "pass" if not failures and not image_audit["unreadable"] else "failed",
@@ -184,6 +200,12 @@ def acquire_full_development_image_corpus(
         "failures": failures,
         "image_audit": image_audit,
         "basename_collisions": basename_collisions,
+        "transport_artifacts": transport_artifacts,
+        "implementation": {
+            "path": str(implementation_path),
+            "sha256": sha256_file(implementation_path),
+            "source_commit": source_commit,
+        },
         "runtime": {"wall_seconds": time.perf_counter() - started},
         "formal_test_repository_listed": False,
         "formal_test_annotations_accessed": False,
@@ -343,6 +365,14 @@ def build_full_corpus_features(
     """Retrieve a bounded packet from all released train/development corpus units."""
     assert_mocheg_development_sealed(dataset_root)
     started = time.perf_counter()
+    peak_gpu_memory_bytes: int | None = None
+    try:
+        import torch
+
+        if torch.cuda.is_available():
+            torch.cuda.reset_peak_memory_stats()
+    except ImportError:
+        torch = None
     media_manifest_path = dataset_root / "media" / "full_development_media_manifest.json"
     media_manifest = json.loads(media_manifest_path.read_text(encoding="utf-8"))
     if media_manifest["status"] != "pass":
@@ -537,6 +567,20 @@ def build_full_corpus_features(
         }
         for modality in ("text", "image")
     }
+    if torch is not None and torch.cuda.is_available():
+        peak_gpu_memory_bytes = int(torch.cuda.max_memory_allocated())
+    implementation_path = Path(__file__).resolve()
+    feature_implementation_path = implementation_path.parent / "mocheg_features.py"
+    data_implementation_path = implementation_path.parent / "data" / "mocheg.py"
+    selector_implementation_path = implementation_path.parent / "selection" / "mocheg_study.py"
+    development_config_path = Path.cwd() / "configs" / "mocheg_development.yaml"
+    source_commit = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=Path.cwd(),
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.strip()
     manifest = {
         "profile": "mocheg_full_corpus_label_blind_retrieval",
         "status": "pass",
@@ -564,8 +608,43 @@ def build_full_corpus_features(
             "media_manifest": {"path": str(media_manifest_path), "bytes": media_manifest_path.stat().st_size, "sha256": sha256_file(media_manifest_path)},
         },
         "encoder": encoder.identity(),
-        "runtime": {"wall_seconds": time.perf_counter() - started},
-        "environment": {"python": sys.version, "platform": platform.platform(), "numpy": np.__version__},
+        "implementation_files": {
+            str(path): sha256_file(path)
+            for path in (
+                implementation_path,
+                feature_implementation_path,
+                data_implementation_path,
+                selector_implementation_path,
+            )
+        },
+        "development_config": {
+            "path": str(development_config_path.resolve()),
+            "sha256": sha256_file(development_config_path),
+        },
+        "source_commit": source_commit,
+        "packet_files": {
+            str(path): {"bytes": path.stat().st_size, "sha256": sha256_file(path)}
+            for path in (
+                processed_root / "train_pilot_packets.jsonl",
+                processed_root / "validation_pilot_packets.jsonl",
+            )
+        },
+        "runtime": {
+            "wall_seconds": time.perf_counter() - started,
+            "peak_gpu_memory_bytes": peak_gpu_memory_bytes,
+        },
+        "environment": {
+            "python": sys.version,
+            "platform": platform.platform(),
+            "numpy": np.__version__,
+            "torch": getattr(torch, "__version__", None),
+            "torch_cuda": getattr(getattr(torch, "version", None), "cuda", None),
+            "cuda_device": (
+                torch.cuda.get_device_name(0)
+                if torch is not None and torch.cuda.is_available()
+                else None
+            ),
+        },
         "claim_association_used_as_model_input": False,
         "gold_loaded_after_rankings_computed": True,
         "formal_test_repository_listed": False,
