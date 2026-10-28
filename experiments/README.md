@@ -1,47 +1,49 @@
-# Experiment package
+# DACS-SCV experiment package
 
-This package contains reusable code for TRACE-SCV. Notebooks orchestrate and inspect runs; scientific logic remains in `src/trace_scv`.
+Reusable scientific logic lives in `src/trace_scv`; the Kaggle notebook only installs and orchestrates it.
 
-## What is implemented now
+## Implemented
 
-- immutable claim/evidence/prediction schemas;
-- citation and verdict metrics;
-- deterministic evidence interventions;
-- official public-release accessibility checks;
-- public Hugging Face snapshot download helper;
-- synthetic end-to-end smoke run;
-- unit tests for metrics and interventions;
-- Kaggle-safe install path (regular wheel install, not editable install from `/kaggle/input`).
+- pinned SciVer download and deterministic source-paper-grouped development splits;
+- frozen BGE-small semantic features for every evidence item and masked CLIP visual features for recoverable media;
+- batched, deduplicated feature extraction reused across all seeds;
+- claim-only, all-pool, relevance, flat-selector, and graph-selector verifiers;
+- fixed top-one, top-two, and top-three citation outputs from one frozen graph ranking;
+- a decoupled cardinality head trained after the matched graph verifier is frozen;
+- exact safeguards for base-checkpoint hash, feature width, claim order, evidence ranking, and verdict-record identity;
+- verdict, ranking, citation, cardinality, calibration, modality, runtime, and grouped-bootstrap outputs;
+- input/code/configuration hashes, fingerprint-bound checkpoints, per-claim records, manifests, and artifact inventories;
+- cardinality-head ablations that remove the valid-candidate or visual-candidate count;
+- 34 unit/integration tests, including a complete clean smoke run and checkpoint-reuse rerun.
 
-The deep multimodal model is intentionally not represented as finished. It is milestone M3 in `../plan.md` and must be implemented after dataset schema and license gates pass.
+The former causal counterfactual objective remains in historical code for auditability but is not part of the frozen formal matrix or manuscript contribution.
 
-## Local setup
+## Local setup and checks
 
 ```powershell
 cd D:\1.msc\ET2\experiments
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
-python -m pip install -e ".[dev,data]"
-```
-
-Run checks:
-
-```powershell
-python scripts/check_public_datasets.py --output outputs/data_preflight.json
-python scripts/run_smoke.py --output outputs/smoke
+python -m pip install -e ".[formal,analysis,dev]"
 python -m pytest -q
+python scripts/run_study.py --profile smoke --device cpu
 ```
 
-Download a public Hugging Face snapshot after preflight:
+Smoke data are synthetic and cannot support scientific claims. The corrected validation pilot is already frozen and audited; repeating it is unnecessary.
+
+## Frozen formal run
+
+The only remaining scientific execution is:
 
 ```powershell
-python scripts/download_public_data.py --dataset sciver --root data/public
-python scripts/download_public_data.py --dataset musciclaims --root data/public
+python scripts/run_study.py --profile formal --download --device auto
 ```
 
-The downloader pins revisions from `src/trace_scv/data/registry.py`. Update a revision only through a documented study-plan decision.
+Formal mode downloads the pinned SciVer release, uses the official test once, trains five predetermined seeds for the controlled learned variants, derives fixed-budget and DACS-SCV outputs from the matched graph ranking, and runs 10,000 source-paper-grouped bootstrap samples. MuSciClaims is disabled because the inspected main release lacks authoritative reuse-license metadata.
 
-## Output rule
+Use Kaggle rather than this CPU-only workstation for the formal run. Preserve the returned output archive unchanged and audit it before editing the results section.
 
-`outputs/`, `data/`, `cache/`, and `checkpoints/` are ignored. Preserve formal run outputs separately with their config, environment, code commit, and dataset manifest before writing results into the paper.
+## Output policy
+
+`outputs/`, `data/`, `cache/`, and checkpoints are ignored by Git. A result claim is admissible only when linked to a saved prediction/comparison record, exact configuration, dataset revision, checkpoint fingerprint, and successful artifact audit. Published numbers from other papers are context, not entries in the paired formal comparison.

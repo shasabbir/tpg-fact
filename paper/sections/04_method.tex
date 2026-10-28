@@ -1,48 +1,86 @@
 \section{Method}
 \label{sec:method}
 
-Figure~\ref{fig:architecture} summarizes \method. The central design choice is that verdict prediction and explanation generation share the same selected evidence set.
+\subsection{Overview}
+
+The method separates two decisions that are usually entangled: how a claim is verified and how many evidence items are shown to a reader. Given claim $c$ and candidate packet $E=\{e_i\}_{i=1}^{n}$, a base verifier computes verdict distribution $p_{\theta}(y\mid c,E)$ and evidence scores $s_1,\ldots,s_n$. After the base checkpoint is selected, all of its parameters are frozen. A separate cardinality head $g_{\phi}$ observes only the frozen score profile and packet-level availability counts, predicts citation count $\hat{k}$, and returns the first $\hat{k}$ identifiers from the unchanged ranking. It cannot modify the ranking or verdict.
+
+Figure~\ref{fig:architecture} shows the frozen semantic and visual encoders, trainable base verifier, explicit freeze boundary, and downstream cardinality head.
 
 \begin{figure*}[t]
 \centering
-\input{figures/architecture}
-\caption{TRACE-SCV. A heterogeneous graph represents document-local multimodal evidence. A sparse selector produces auditable evidence identifiers shared by the verdict and citation-constrained explanation heads. Paired evidence interventions supervise sensitivity to decisive evidence and invariance to irrelevant or duplicated evidence.}
+\resizebox{0.98\textwidth}{!}{\input{figures/architecture}}
+\caption{Implemented \method{} pipeline. Stage 1 learns the verifier and complete evidence ranking. Stage 2 freezes that path and learns only citation-set cardinality from the sorted selector probabilities and availability counts. Fixed-budget and adaptive outputs therefore share the same ranking and verdict vector.}
 \label{fig:architecture}
 \end{figure*}
 
-\subsection{Multimodal Evidence Graph}
+\subsection{Candidate Packets and Frozen Features}
 
-The graph contains a claim node and evidence nodes for text blocks, tables, figures, images, and captions. Typed edges encode document co-membership, caption relations, textual references, adjacency, and retrieval links. Frozen encoders produce initial node features. A compact relation-aware message-passing module yields contextual node representations $\mathbf{h}_i$ without merging their identifiers.
+Each packet contains a claim, binary verdict, at most $n_{\max}=12$ evidence items, validity mask, stable evidence identifiers, modality types, and gold evidence indicators. The modalities are text, caption, table, figure, and image. Stable identifiers are retained throughout preprocessing so citation predictions can be evaluated as sets without interpreting generated prose.
 
-\subsection{Sparse Citation Bottleneck}
+Formal experiments use frozen BGE-small-en-v1.5 text features and CLIP ViT-B/32 image features. Claim text and the semantic content of every evidence item, including captions and serialized tables, are encoded by BGE. A recoverable table, figure, or image is additionally encoded by the CLIP image tower. Transparent PNG content is composited onto a white canvas before both CLIP encoding and perceptual-duplicate auditing, preventing alpha-only storage differences from collapsing distinct figures. Missing media produces an unavailable visual channel rather than suppressing the semantic channel. Unique text and media inputs are batched and cached before model training; deterministic hash features are restricted to synthetic software tests.
 
-For each evidence node, a claim-conditioned selector predicts
-\begin{equation}
-s_i=f_{\theta}([\mathbf{h}_c;\mathbf{h}_i;\mathbf{h}_c\odot\mathbf{h}_i]).
-\end{equation}
-A straight-through top-$k$ or hard-concrete gate produces $z_i\in\{0,1\}$. The selected set is $S=\{e_i:z_i=1\}$. Both downstream heads receive only representations with $z_i=1$. A sparsity term discourages citing every item.
-
-\subsection{Verdict Prediction}
-
-Selected evidence is aggregated with claim-conditioned attention. The verdict head predicts
-\begin{equation}
-p(y\mid c,S)=\operatorname{softmax}(W_y[\mathbf{h}_c;\mathbf{h}_S]+b_y).
-\end{equation}
-Datasets retain their official label spaces. Shared-label cross-dataset transfer is reported separately from within-dataset training.
-
-\subsection{Citation-Constrained Explanation}
-
-The decoder receives the claim and selected evidence with stable identifiers. Its output vocabulary is augmented with the identifiers in $S$ only. Each explanatory sentence must terminate with at least one identifier token. This constraint prevents invented citations but does not by itself prove that a valid identifier supports the sentence; support is evaluated separately.
-
-\subsection{Counterfactual Citation Grounding}
-
-For clean packet $E$, decisive-deletion packet $E^{-}$, irrelevant-addition packet $E^{+}$, duplicate packet $E^{d}$, and modality-swap packet $E^{s}$, the objective is
+Let $\mathbf{x}_c\in\mathbb{R}^{d}$ be the claim feature, $\mathbf{x}^{s}_i$ the semantic evidence feature, $\mathbf{x}^{v}_i$ the visual feature, and $m^{v}_i\in\{0,1\}$ its availability indicator. Separate projections produce $\mathbf{s}_i$ and $\mathbf{v}_i$. The fused evidence state is
 \begin{align}
-\mathcal{L}={}&\mathcal{L}_{\mathrm{ver}}+\lambda_e\mathcal{L}_{\mathrm{sel}}
-+\lambda_r\mathcal{L}_{\mathrm{exp}}+\lambda_0\|\mathbf{z}\|_0 \nonumber\\
-&+\lambda_-\mathcal{L}_{\mathrm{delete}}
-+\lambda_+\mathcal{L}_{\mathrm{irrelevant}}
-+\lambda_d\mathcal{L}_{\mathrm{duplicate}}
-+\lambda_s\mathcal{L}_{\mathrm{swap}}.
+\mathbf{h}_c &= \operatorname{LN}\!\left(\operatorname{GELU}(W_c\mathbf{x}_c+b_c)\right),\\
+\alpha_i &= m_i^v\,\sigma\!\left(\mathbf{w}_g^{\top}[\mathbf{s}_i;\mathbf{v}_i;\mathbf{s}_i\odot\mathbf{v}_i]+b_g\right),\\
+\mathbf{h}^{(0)}_i &= \operatorname{LN}\!\left(\mathbf{s}_i+\alpha_i\mathbf{v}_i+\mathbf{u}_{t_i}\right),
 \end{align}
-Deletion applies a margin loss so removal of all decisive evidence lowers the correct-label score. Irrelevant and duplicate terms penalize divergence from the clean verdict distribution and citation set. Swap targets depend on whether the replaced modality belongs to the gold evidence set. Training interventions are generated only from training packets; independently generated counterparts are used for evaluation.
+where $\mathbf{u}_{t_i}$ is a learned modality embedding and the hidden width is 192.
+
+\subsection{Graph Verifier and Frozen Ranking}
+
+Valid evidence items form a dense packet graph. Nodes retain their modality type; padded positions are masked. For layer $\ell$, masked self-attention is
+\begin{align}
+Q &= H^{(\ell)}W_Q,\quad K=H^{(\ell)}W_K,\quad V=H^{(\ell)}W_V,\\
+A &= \operatorname{softmax}\!\left(QK^{\top}/\sqrt{h}+M\right),\\
+H^{(\ell+1)} &= \operatorname{LN}\!\left(H^{(\ell)}+\operatorname{Dropout}(AVW_O)\right),
+\end{align}
+where $M$ masks invalid node pairs. The formal graph has two layers.
+
+For contextual state $\mathbf{h}_i$ and claim state $\mathbf{h}_c$, the selector computes
+\begin{align}
+\mathbf{q}_i &= [\mathbf{h}_c;\mathbf{h}_i;\mathbf{h}_c\odot\mathbf{h}_i],\\
+s_i &= \mathbf{w}_2^{\top}\operatorname{Dropout}
+\left(\operatorname{GELU}(W_1\mathbf{q}_i+\mathbf{b}_1)\right)+b_2.
+\end{align}
+Invalid positions receive a large negative logit. The base verifier selects the three highest valid scores with a straight-through gate. If $z_i$ is the hard top-three indicator and $a_i=\sigma(s_i)$, the training gate is
+\begin{equation}
+g_i=z_i+a_i-\operatorname{stopgrad}(a_i).
+\end{equation}
+The selected representation $\mathbf{h}_S=\sum_i g_i\mathbf{h}_i/\max(1,\sum_i g_i)$ is concatenated with $\mathbf{h}_c$ and passed through a two-layer verdict head. After development selection, the checkpoint and the complete ordering $\pi=\operatorname{argsort}(-s)$ are frozen.
+
+The base loss is
+\begin{equation}
+\mathcal{L}_{\mathrm{base}}=
+\mathcal{L}_{\mathrm{ver}}+0.50\mathcal{L}_{\mathrm{sel}}+0.02\mathcal{L}_{\mathrm{sp}},
+\end{equation}
+where $\mathcal{L}_{\mathrm{ver}}$ is verdict cross-entropy, $\mathcal{L}_{\mathrm{sel}}$ is evidence-label binary cross-entropy over valid positions, and $\mathcal{L}_{\mathrm{sp}}$ is the mean valid sigmoid selector activation. The checkpoint maximizes the unweighted mean of validation verdict macro-F1 and citation macro-F1.
+
+\subsection{Decoupled Adaptive Citation-Set Prediction}
+
+The cardinality input preserves score magnitude but discards evidence identity and order beyond rank. For maximum packet width $n_{\max}$, define
+\begin{equation}
+\mathbf{r}=\bigl(\operatorname{sort}_{\downarrow}(\sigma(s_i)m_i)_{i=1}^{n_{\max}},
+\frac{\sum_i m_i}{n_{\max}},
+\frac{\sum_i m_i m_i^v}{n_{\max}}\bigr).
+\end{equation}
+The two final components are the normalized valid-candidate and visual-candidate counts. A two-layer multilayer perceptron with hidden width 32 and GELU activation predicts
+\begin{equation}
+p_{\phi}(k\mid\mathbf{r})=\operatorname{softmax}\!\left(g_{\phi}(\mathbf{r})\right),
+\end{equation}
+for $k\in\{1,\ldots,K_{\mathrm{train}}\}$, where $K_{\mathrm{train}}$ is the largest gold citation count in the training split. The target is the clipped training-set gold count, and $\phi$ is optimized by cross-entropy. Only $\phi$ changes in this stage. Early stopping selects the epoch with maximum validation citation macro-F1.
+
+At inference, $\hat{k}=\arg\max_k p_{\phi}(k\mid\mathbf{r})$ and the cited set is
+\begin{equation}
+S_{\mathrm{DACS}}=\{e_{\pi_1},\ldots,e_{\pi_{\hat{k}}}\}.
+\end{equation}
+The verdict is copied from the matched frozen verifier rather than recomputed through a new evidence aggregate. The evaluator rejects a run if the base-checkpoint hash differs, the feature width differs, any claim identifier is misaligned, or any ranked identifier changes. Thus, for each claim,
+\begin{equation}
+p_{\mathrm{DACS}}(y\mid c,E)=p_{\mathrm{fixed}}(y\mid c,E)
+\end{equation}
+is an enforced implementation invariant, not an empirical approximation.
+
+\subsection{Citation Rendering and Complexity}
+
+The output contains every identifier in $S_{\mathrm{DACS}}$. For readability, an extractive text field includes normalized snippets from at most the first two cited items; it cannot invent an identifier. The cardinality head adds $O(n_{\max}h_c)$ work after sorting, where $h_c=32$. Its cost is negligible relative to frozen feature extraction and graph inference. Fixed top-one, top-two, and top-three outputs are generated from the same ranking, providing controlled global-budget comparisons without retraining the verifier.

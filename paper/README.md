@@ -1,8 +1,8 @@
 # Manuscript
 
-`paper.tex` is the IEEE journal-mode main document. Section prose is kept in `sections/`, the system diagram is in `figures/`, and citations are in `references.bib`.
+`paper.tex` is the IEEE journal-mode main document. Section prose is kept in `sections/`, generated result tables are in `tables/`, figures are in `figures/`, and citations are in `references.bib`.
 
-The current manuscript is deliberately pre-results. Do not replace the Results section with numerical claims unless each value is generated from a frozen experiment artifact and entered in `../research/claim_evidence_register.csv`.
+Formal values are generated from `../dacs-scv-formal-outputs.zip` by `../research/build_formal_paper_assets.py`. The independent audit is implemented in `../research/audit_formal_outputs.py`; its checked findings are recorded in `../research/formal_results_audit_2026-10-28.md` and the claim--evidence register. Do not edit generated numerical tables by hand.
 
 Compile locally from this directory with:
 
@@ -13,4 +13,4 @@ pdflatex paper.tex
 pdflatex paper.tex
 ```
 
-The built-in Codex LaTeX compiler successfully compiled the manuscript on 2026-10-26.
+The built-in Codex LaTeX compiler is used after material manuscript changes.

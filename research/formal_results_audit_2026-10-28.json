@@ -1,0 +1,56 @@
+{
+  "status": "pass",
+  "failures": [],
+  "artifact_checks": {
+    "declared_files": 252,
+    "hash_failures": 0,
+    "code_files": 29
+  },
+  "protocol": {
+    "seeds": [
+      13,
+      37,
+      73,
+      101,
+      137
+    ],
+    "test_claims": 2000,
+    "source_groups": 786,
+    "bootstrap_samples": 10000,
+    "release_gate_pass": true
+  },
+  "record_checks": {
+    "variant_seed_runs": 50,
+    "endpoint_records_recomputed": 100000,
+    "paired_identity_rows_checked": 50000,
+    "verdict_and_ranking_identity": true
+  },
+  "primary_fixed_budget_effects": {
+    "fixed_top1": {
+      "mean": 0.006658101945026954,
+      "lower": 0.0013332424870128102,
+      "upper": 0.012012348916398423,
+      "p_raw": 0.0143985601439856,
+      "p_holm": 0.0287971202879712,
+      "p_holm_fixed_budget_family": 0.0143985601439856
+    },
+    "fixed_top2": {
+      "mean": -0.010764030740322221,
+      "lower": -0.016309694315148473,
+      "upper": -0.005218360547727454,
+      "p_raw": 0.00019998000199980003,
+      "p_holm": 0.0017998200179982003,
+      "p_holm_fixed_budget_family": 0.0005999400059994001
+    },
+    "trace_no_cf": {
+      "mean": 0.013324504644083066,
+      "lower": 0.004945764556792096,
+      "upper": 0.02193944649302343,
+      "p_raw": 0.0027997200279972004,
+      "p_holm": 0.008399160083991601,
+      "p_holm_fixed_budget_family": 0.005599440055994401
+    }
+  },
+  "adaptive_superiority_pass": false,
+  "interpretation": "The prespecified adaptive-superiority claim fails because at least one fixed budget has a non-positive DACS-SCV effect."
+}

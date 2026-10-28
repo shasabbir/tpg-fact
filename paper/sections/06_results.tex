@@ -1,15 +1,45 @@
 \section{Results}
 \label{sec:results}
 
-This section is intentionally reserved for audited experiment outputs. The final version will report:
+\subsection{Data and Artifact Audit}
 
-\begin{enumerate}
-    \item public-data audit and modality coverage;
-    \item main verdict and citation results;
-    \item gold-versus-retrieved evidence results;
-    \item counterfactual robustness;
-    \item ablations and resource cost;
-    \item cross-dataset transfer and error analysis.
-\end{enumerate}
+Table~\ref{tab:data-audit} reports the realized partitions. The official test contains 2,000 claims from 786 source-paper identifiers; 996 claims have at least one gold table or figure. All 3,000 records retain at least one gold item, and every referenced figure required by a claim is recoverable. Training, validation, and test have no source-paper intersection, exact media-SHA overlap, corrected-perceptual-hash overlap, or exact content overlap involving gold evidence. Ten low-Hamming-distance visual pairs remain logged across partitions, but their source identifiers, nonidentical fingerprints, and serialized figure/table descriptions differ. The release gate therefore passes without deleting official-test records.
 
-No numerical placeholder is a result. The manuscript will be updated only from frozen output artifacts linked in the claim--evidence register.
+\input{tables/dataset_statistics}
+
+The returned archive contains 252 declared artifacts. Every byte count and SHA-256 digest matches its inventory, and all 29 recorded code hashes match the frozen implementation. Independent recomputation reproduces the primary endpoints for 100,000 variant--seed claim records and every deterministic comparison. Across 50,000 paired rows, the derived outputs preserve claim order, full evidence ranking, verdict probability vector, and predicted verdict exactly.
+
+\subsection{Controlled Official-Test Comparison}
+
+Table~\ref{tab:main-results} reports the controlled comparison. Graph-fixed top-three achieves mean verdict macro-F1 0.5112 and ranking MAP@10 0.6486. The three fixed-budget outputs and all DACS variants inherit those values because their verifier and complete ranking are identical. Relative to claim-only, evidence-aware variants improve verdict F1 only modestly; the paired grouped intervals for the DACS verdict difference against the other learned baselines include zero. This study therefore does not establish a verdict-accuracy advantage.
+
+The citation results separate precision, recall, and set size. All-pool reaches recall 1.0000 by emitting an average 11.46 items, but its citation F1 is only 0.2464. Fixed top-one favors precision, whereas top-three favors recall. Fixed top-two provides the best observed balance at 0.4810 citation macro-F1. \method{} predicts 1.4925 citations on average and reaches 0.4702 citation F1. It improves count MAE and exact count match to 0.4954 and 0.5565, respectively, but those count gains do not translate into the highest set F1.
+
+\input{tables/main_results}
+
+\subsection{Prespecified Adaptive-Sizing Test}
+
+Table~\ref{tab:fixed-effects} gives the three prespecified paired effects. \method{} improves over fixed top-one by 0.0067 citation F1 and over Graph-fixed top-three by 0.0133. Against fixed top-two, however, the effect is -0.0108, and its 95\% grouped-bootstrap interval is entirely negative. Holm correction over the three fixed-budget tests does not change these directions. Because the protocol required a positive effect against every fixed budget, the adaptive-superiority hypothesis fails.
+
+\input{tables/primary_effects}
+
+The failure is not caused by a changed verdict or ranking: their byte-level values are paired invariants. It instead exposes a difference between predicting annotation count and optimizing citation-set utility. With an imperfect order, returning the gold number of items can omit a lower-ranked gold item, whereas a slightly larger fixed set can recover it. Consistent with this explanation, applying the true gold count to the frozen ranking yields only 0.4673 citation F1, also below fixed top-two.
+
+\subsection{Ablations, Seeds, and Evidence-Count Strata}
+
+Removing the normalized valid-candidate count raises citation F1 from 0.4702 to 0.4747. The full-minus-ablation effect is -0.0044 with a grouped 95\% interval of [-0.0068, -0.0021], so that feature does not support a positive contribution claim. Removing the visual-candidate count produces 0.4685 citation F1; the full-model effect is +0.0017 [-0.0002, +0.0037] and remains unresolved. The same ablation nevertheless gives the best count MAE (0.4388) and exact match (0.6126), reinforcing that count accuracy and citation F1 are different objectives.
+
+Figure~\ref{fig:formal-analysis} shows two failure patterns. Fixed top-two exceeds \method{} in four of five seeds. The adaptive head's mean predicted count also varies from approximately one to two across seeds despite identical split and feature identities. By gold count, \method{} is competitive on two-item claims, but fixed top-two is stronger for one-item claims and fixed top-three is stronger for the 153 claims requiring at least three items. These strata are descriptive because the protocol did not allocate a separate multiplicity-controlled subgroup family.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.96\textwidth]{figures/formal_analysis.pdf}
+    \caption{Citation behavior under the frozen evidence ranking. (a) Official-test citation macro-F1 for each predetermined seed. (b) Mean seed-level citation F1 by gold evidence count; the three-or-more bin combines counts 3, 4, 5, and 7. The fixed top-two rule is the strongest overall comparator, while the preferred budget changes with required evidence count.}
+    \label{fig:formal-analysis}
+\end{figure*}
+
+\subsection{Verifier Diagnostics and Computation}
+
+The Graph-fixed verifier has mean Brier score 0.5765, negative log-likelihood 0.8152, and 10-bin expected calibration error 0.1504, so its probabilities should not be interpreted as calibrated confidence. On the 996 visually grounded claims, removing the visual channel changes verdict macro-F1 from 0.5130 to 0.5089; visual-swap probability sensitivity averages 0.0423. These are small diagnostic effects rather than evidence that the model causally uses the correct image.
+
+With BGE and CLIP features already cached, one Graph-fixed training run averages 14.6 seconds and peaks at 784 MB of GPU memory on a Tesla T4. The separate cardinality head averages 0.67 seconds to train. These measurements exclude feature extraction and data preparation and therefore do not support an end-to-end efficiency claim.

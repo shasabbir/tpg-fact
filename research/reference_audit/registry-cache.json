@@ -1,0 +1,1278 @@
+{
+  "10.1016/j.ipm.2026.104988": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1016/j.ipm.2026.104988",
+      "title": "M-RAV: Multimodal retrieve-augment-verify framework for boosting zero-shot fact verification system with large language models",
+      "authors": [
+        "Luu",
+        "Vo",
+        "Nguyen"
+      ],
+      "years": [
+        2027
+      ],
+      "venues": [
+        "Information Processing &amp; Management"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1016/j.ipm.2026.104988",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2026.eacl-long.242": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2026.eacl-long.242",
+      "title": "MEVER: Multi-Modal and Explainable Claim Verification with Graph-based Evidence Retrieval",
+      "authors": [
+        "Zhang",
+        "Cui",
+        "Chu",
+        "Zhang",
+        "Lee"
+      ],
+      "years": [
+        2026
+      ],
+      "venues": [
+        "Proceedings of the 19th Conference of the European Chapter of the Association for Computational Linguistics (Volume 1: Long Papers)"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2026.eacl-long.242",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1145/3539618.3591879": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1145/3539618.3591879",
+      "title": "End-to-End Multimodal Fact-Checking and Explanation Generation: A Challenging Dataset and Models",
+      "authors": [
+        "Yao",
+        "Shah",
+        "Sun",
+        "Cho",
+        "Huang"
+      ],
+      "years": [
+        2023
+      ],
+      "venues": [
+        "Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.1145/3539618.3591879",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2025.acl-long.420": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2025.acl-long.420",
+      "title": "SciVer: Evaluating Foundation Models for Multimodal Scientific Claim Verification",
+      "authors": [
+        "Wang",
+        "Shen",
+        "Kuang",
+        "Cohan",
+        "Zhao"
+      ],
+      "years": [
+        2025
+      ],
+      "venues": [
+        "Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2025.acl-long.420",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2025.ijcnlp-long.175": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2025.ijcnlp-long.175",
+      "title": "MuSciClaims: Multimodal Scientific Claim Verification",
+      "authors": [
+        "Lal",
+        "Bandham",
+        "Hasan",
+        "Kashi",
+        "Koupaee",
+        "Balasubramanian"
+      ],
+      "years": [
+        2025
+      ],
+      "venues": [
+        "Proceedings of the 14th International Joint Conference on Natural Language Processing and the 4th Conference of the Asia-Pacific Chapter of the Association for Computational Linguistics"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2025.ijcnlp-long.175",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2025.naacl-long.282": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2025.naacl-long.282",
+      "title": "Evaluating Evidence Attribution in Generated Fact Checking Explanations",
+      "authors": [
+        "Xing",
+        "Baldwin",
+        "Lau"
+      ],
+      "years": [
+        2025
+      ],
+      "venues": [
+        "Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2025.naacl-long.282",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2025.findings-acl.1345": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2025.findings-acl.1345",
+      "title": "M2-TabFact: Multi-Document Multi-Modal Fact Verification with Visual and Textual Representations of Tabular Data",
+      "authors": [
+        "Zhou",
+        "Zhang",
+        "Horng",
+        "Chen",
+        "Huang",
+        "Chang"
+      ],
+      "years": [
+        2025
+      ],
+      "venues": [
+        "Findings of the Association for Computational Linguistics: ACL 2025"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2025.findings-acl.1345",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2026.acl-long.1620": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2026.acl-long.1620",
+      "title": "Utility-Oriented Visual Evidence Selection for Multimodal Retrieval-Augmented Generation",
+      "authors": [
+        "Luo",
+        "Hu",
+        "Wang",
+        "Yu",
+        "Zhang",
+        "Huang"
+      ],
+      "years": [
+        2026
+      ],
+      "venues": [
+        "Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2026.acl-long.1620",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2026.fever-1.10": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2026.fever-1.10",
+      "title": "Selective Multimodal Retrieval for Automated Verification of Image–Text Claims",
+      "authors": [
+        "Tsoneva",
+        "Feig",
+        "Li",
+        "Solopova",
+        "Foroutan",
+        "Hilbert",
+        "Schmitt"
+      ],
+      "years": [
+        2026
+      ],
+      "venues": [
+        "Proceedings of the Ninth Fact Extraction and VERification Workshop (FEVER)"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2026.fever-1.10",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1016/j.ipm.2022.103120": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1016/j.ipm.2022.103120",
+      "title": "Multimodal fake news detection via progressive fusion networks",
+      "authors": [
+        "Jing",
+        "Wu",
+        "Sun",
+        "Fang",
+        "Zhang"
+      ],
+      "years": [
+        2023
+      ],
+      "venues": [
+        "Information Processing &amp; Management"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1016/j.ipm.2022.103120",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1016/j.inffus.2023.101944": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1016/j.inffus.2023.101944",
+      "title": "MFIR: Multimodal fusion and inconsistency reasoning for explainable fake news detection",
+      "authors": [
+        "Wu",
+        "Long",
+        "Gao",
+        "Wang",
+        "Zhang"
+      ],
+      "years": [
+        2023
+      ],
+      "venues": [
+        "Information Fusion"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1016/j.inffus.2023.101944",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1016/j.ins.2024.120310": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1016/j.ins.2024.120310",
+      "title": "Multimodal matching-aware co-attention networks with mutual knowledge distillation for fake news detection",
+      "authors": [
+        "Hu",
+        "Zhao",
+        "Qi",
+        "Song",
+        "Nie"
+      ],
+      "years": [
+        2024
+      ],
+      "venues": [
+        "Information Sciences"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1016/j.ins.2024.120310",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1016/j.eswa.2021.115412": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1016/j.eswa.2021.115412",
+      "title": "AMFB: Attention based multimodal Factorized Bilinear Pooling for multimodal Fake News Detection",
+      "authors": [
+        "Kumari",
+        "Ekbal"
+      ],
+      "years": [
+        2021
+      ],
+      "venues": [
+        "Expert Systems with Applications"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1016/j.eswa.2021.115412",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1016/j.ins.2021.03.037": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1016/j.ins.2021.03.037",
+      "title": "HAN, image captioning, and forensics ensemble multimodal fake news detection",
+      "authors": [
+        "Meel",
+        "Vishwakarma"
+      ],
+      "years": [
+        2021
+      ],
+      "venues": [
+        "Information Sciences"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1016/j.ins.2021.03.037",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1007/s13735-023-00312-6": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1007/s13735-023-00312-6",
+      "title": "VERITE: a Robust benchmark for multimodal misinformation detection accounting for unimodal bias",
+      "authors": [
+        "Papadopoulos",
+        "Koutlis",
+        "Papadopoulos",
+        "Petrantonakis"
+      ],
+      "years": [
+        2024
+      ],
+      "venues": [
+        "International Journal of Multimedia Information Retrieval"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1007/s13735-023-00312-6",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1016/j.aej.2024.08.103": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1016/j.aej.2024.08.103",
+      "title": "FMC: Multimodal fake news detection based on multi-granularity feature fusion and contrastive learning",
+      "authors": [
+        "Yan",
+        "Zhang",
+        "Wei",
+        "Ren",
+        "Jiang"
+      ],
+      "years": [
+        2024
+      ],
+      "venues": [
+        "Alexandria Engineering Journal"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1016/j.aej.2024.08.103",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1145/3485447.3511968": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1145/3485447.3511968",
+      "title": "Cross-modal Ambiguity Learning for Multimodal Fake News Detection",
+      "authors": [
+        "Chen",
+        "Li",
+        "Zhang",
+        "Sui",
+        "Lv",
+        "Tun",
+        "Shang"
+      ],
+      "years": [
+        2022
+      ],
+      "venues": [
+        "Proceedings of the ACM Web Conference 2022"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.1145/3485447.3511968",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1609/aaai.v37i12.26648": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1609/aaai.v37i12.26648",
+      "title": "COSMOS: Catching Out-of-Context Image Misuse Using Self-Supervised Learning",
+      "authors": [
+        "Aneja",
+        "Bregler",
+        "Niessner"
+      ],
+      "years": [
+        2023
+      ],
+      "venues": [
+        "Proceedings of the AAAI Conference on Artificial Intelligence"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1609/aaai.v37i12.26648",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2021.emnlp-main.545": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2021.emnlp-main.545",
+      "title": "NewsCLIPpings: Automatic Generation of Out-of-Context Multimodal Media",
+      "authors": [
+        "Luo",
+        "Darrell",
+        "Rohrbach"
+      ],
+      "years": [
+        2021
+      ],
+      "venues": [
+        "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2021.emnlp-main.545",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1109/cvpr52733.2024.01240": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1109/cvpr52733.2024.01240",
+      "title": "Sniffer: Multimodal Large Language Model for Explainable Out-of-Context Misinformation Detection",
+      "authors": [
+        "Qi",
+        "Yan",
+        "Hsu",
+        "Lee"
+      ],
+      "years": [
+        2024
+      ],
+      "venues": [
+        "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.1109/cvpr52733.2024.01240",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1145/3664647.3681317": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1145/3664647.3681317",
+      "title": "MMDFND: Multi-modal Multi-Domain Fake News Detection",
+      "authors": [
+        "Tong",
+        "Lu",
+        "Zhao",
+        "Lai",
+        "Shi"
+      ],
+      "years": [
+        2024
+      ],
+      "venues": [
+        "Proceedings of the 32nd ACM International Conference on Multimedia"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.1145/3664647.3681317",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1109/cvpr52729.2023.00667": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1109/cvpr52729.2023.00667",
+      "title": "Detecting and Grounding Multi-Modal Media Manipulation",
+      "authors": [
+        "Shao",
+        "Wu",
+        "Liu"
+      ],
+      "years": [
+        2023
+      ],
+      "venues": [
+        "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.1109/cvpr52729.2023.00667",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1016/j.knosys.2025.113880": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1016/j.knosys.2025.113880",
+      "title": "IMFND: In-context multimodal fake news detection with large visual-language models",
+      "authors": [
+        "Jiang",
+        "Wang"
+      ],
+      "years": [
+        2025
+      ],
+      "venues": [
+        "Knowledge-Based Systems"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1016/j.knosys.2025.113880",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1007/s40747-024-01473-5": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1007/s40747-024-01473-5",
+      "title": "Multimodal fake news detection through intra-modality feature aggregation and inter-modality semantic fusion",
+      "authors": [
+        "Zhu",
+        "Hua",
+        "Tang",
+        "Tian",
+        "Xu",
+        "Cui"
+      ],
+      "years": [
+        2024
+      ],
+      "venues": [
+        "Complex &amp; Intelligent Systems"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1007/s40747-024-01473-5",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1016/j.jksuci.2023.101559": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1016/j.jksuci.2023.101559",
+      "title": "SSM: Stylometric and semantic similarity oriented multimodal fake news detection",
+      "authors": [
+        "Nadeem",
+        "Ahmed",
+        "Zheng",
+        "Li",
+        "Assam",
+        "Ghadi",
+        "Alghamedy",
+        "Eldin"
+      ],
+      "years": [
+        2023
+      ],
+      "venues": [
+        "Journal of King Saud University - Computer and Information Sciences"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1016/j.jksuci.2023.101559",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1007/s10844-022-00764-y": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1007/s10844-022-00764-y",
+      "title": "An image and text-based multimodal model for detecting fake news in OSN’s",
+      "authors": [
+        "Uppada",
+        "Patel",
+        "B."
+      ],
+      "years": [
+        2022,
+        2023
+      ],
+      "venues": [
+        "Journal of Intelligent Information Systems"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1007/s10844-022-00764-y",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1109/access.2021.3114093": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1109/access.2021.3114093",
+      "title": "Multi-Level Multi-Modal Cross-Attention Network for Fake News Detection",
+      "authors": [
+        "Ying",
+        "Yu",
+        "Wang",
+        "Ji",
+        "Qian"
+      ],
+      "years": [
+        2021
+      ],
+      "venues": [
+        "IEEE Access"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1109/access.2021.3114093",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1109/access.2021.3113981": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1109/access.2021.3113981",
+      "title": "Fake News Detection via Multi-Modal Topic Memory Network",
+      "authors": [
+        "Ying",
+        "Yu",
+        "Wang",
+        "Ji",
+        "Qian"
+      ],
+      "years": [
+        2021
+      ],
+      "venues": [
+        "IEEE Access"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1109/access.2021.3113981",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1111/lnc3.12438": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1111/lnc3.12438",
+      "title": "Automated fact‐checking: A survey",
+      "authors": [
+        "Zeng",
+        "Abumansour",
+        "Zubiaga"
+      ],
+      "years": [
+        2021
+      ],
+      "venues": [
+        "Language and Linguistics Compass"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1111/lnc3.12438",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.7717/peerj-cs.518": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.7717/peerj-cs.518",
+      "title": "Fake news detection: a survey of evaluation datasets",
+      "authors": [
+        "D’Ulizia",
+        "Caschera",
+        "Ferri",
+        "Grifoni"
+      ],
+      "years": [
+        2021
+      ],
+      "venues": [
+        "PeerJ Computer Science"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.7717/peerj-cs.518",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1007/s13278-022-00995-5": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1007/s13278-022-00995-5",
+      "title": "A systematic literature review and existing challenges toward fake news detection models",
+      "authors": [
+        "Nirav Shah",
+        "Ganatra"
+      ],
+      "years": [
+        2022
+      ],
+      "venues": [
+        "Social Network Analysis and Mining"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1007/s13278-022-00995-5",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1007/s13278-020-00696-x": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1007/s13278-020-00696-x",
+      "title": "Deep learning for misinformation detection on online social networks: a survey and new perspectives",
+      "authors": [
+        "Islam",
+        "Liu",
+        "Wang",
+        "Xu"
+      ],
+      "years": [
+        2020
+      ],
+      "venues": [
+        "Social Network Analysis and Mining"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1007/s13278-020-00696-x",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1109/access.2021.3129329": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1109/access.2021.3129329",
+      "title": "A Comprehensive Review on Fake News Detection With Deep Learning",
+      "authors": [
+        "Mridha",
+        "Keya",
+        "Hamid",
+        "Monowar",
+        "Rahman"
+      ],
+      "years": [
+        2021
+      ],
+      "venues": [
+        "IEEE Access"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1109/access.2021.3129329",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1145/3395046": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1145/3395046",
+      "title": "A Survey of Fake News",
+      "authors": [
+        "Zhou",
+        "Zafarani"
+      ],
+      "years": [
+        2020,
+        2021
+      ],
+      "venues": [
+        "ACM Computing Surveys"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1145/3395046",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1007/s10207-022-00625-3": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1007/s10207-022-00625-3",
+      "title": "A review on fake news detection 3T’s: typology, time of detection, taxonomies",
+      "authors": [
+        "Rastogi",
+        "Bansal"
+      ],
+      "years": [
+        2022,
+        2023
+      ],
+      "venues": [
+        "International Journal of Information Security"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1007/s10207-022-00625-3",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1007/s13278-023-01028-5": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1007/s13278-023-01028-5",
+      "title": "Fake news, disinformation and misinformation in social media: a review",
+      "authors": [
+        "Aïmeur",
+        "Amri",
+        "Brassard"
+      ],
+      "years": [
+        2023
+      ],
+      "venues": [
+        "Social Network Analysis and Mining"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1007/s13278-023-01028-5",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1007/s44443-025-00317-7": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1007/s44443-025-00317-7",
+      "title": "Multi-modal fake news detection: A comprehensive survey on deep learning technology, advances, and challenges",
+      "authors": [
+        "Lv",
+        "Gao",
+        "Li",
+        "Shi",
+        "Li"
+      ],
+      "years": [
+        2025
+      ],
+      "venues": [
+        "Journal of King Saud University Computer and Information Sciences"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1007/s44443-025-00317-7",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2020.emnlp-main.609": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2020.emnlp-main.609",
+      "title": "Fact or Fiction: Verifying Scientific Claims",
+      "authors": [
+        "Wadden",
+        "Lin",
+        "Lo",
+        "Wang",
+        "van Zuylen",
+        "Cohan",
+        "Hajishirzi"
+      ],
+      "years": [
+        2020
+      ],
+      "venues": [
+        "Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2020.emnlp-main.609",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2020.findings-emnlp.309": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2020.findings-emnlp.309",
+      "title": "HoVer: A Dataset for Many-Hop Fact Extraction And Claim Verification",
+      "authors": [
+        "Jiang",
+        "Bordia",
+        "Zhong",
+        "Dognin",
+        "Singh",
+        "Bansal"
+      ],
+      "years": [
+        2020
+      ],
+      "venues": [
+        "Findings of the Association for Computational Linguistics: EMNLP 2020"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2020.findings-emnlp.309",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2021.acl-long.165": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2021.acl-long.165",
+      "title": "COVID-Fact: Fact Extraction and Verification of Real-World Claims on COVID-19 Pandemic",
+      "authors": [
+        "Saakyan",
+        "Chakrabarty",
+        "Muresan"
+      ],
+      "years": [
+        2021
+      ],
+      "venues": [
+        "Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers)"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2021.acl-long.165",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2021.acl-short.86": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2021.acl-short.86",
+      "title": "X-Fact: A New Benchmark Dataset for Multilingual Fact Checking",
+      "authors": [
+        "Gupta",
+        "Srikumar"
+      ],
+      "years": [
+        2021
+      ],
+      "venues": [
+        "Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 2: Short Papers)"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2021.acl-short.86",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2020.acl-main.656": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2020.acl-main.656",
+      "title": "Generating Fact Checking Explanations",
+      "authors": [
+        "Atanasova",
+        "Simonsen",
+        "Lioma",
+        "Augenstein"
+      ],
+      "years": [
+        2020
+      ],
+      "venues": [
+        "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2020.acl-main.656",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2020.acl-main.408": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2020.acl-main.408",
+      "title": "ERASER: A Benchmark to Evaluate Rationalized NLP Models",
+      "authors": [
+        "DeYoung",
+        "Jain",
+        "Rajani",
+        "Lehman",
+        "Xiong",
+        "Socher",
+        "Wallace"
+      ],
+      "years": [
+        2020
+      ],
+      "venues": [
+        "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2020.acl-main.408",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2020.acl-main.409": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2020.acl-main.409",
+      "title": "Learning to Faithfully Rationalize by Construction",
+      "authors": [
+        "Jain",
+        "Wiegreffe",
+        "Pinter",
+        "Wallace"
+      ],
+      "years": [
+        2020
+      ],
+      "venues": [
+        "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2020.acl-main.409",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2023.emnlp-main.398": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2023.emnlp-main.398",
+      "title": "Enabling Large Language Models to Generate Text with Citations",
+      "authors": [
+        "Gao",
+        "Yen",
+        "Yu",
+        "Chen"
+      ],
+      "years": [
+        2023
+      ],
+      "venues": [
+        "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2023.emnlp-main.398",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.18653/v1/2024.acl-long.585": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2024.acl-long.585",
+      "title": "RAGTruth: A Hallucination Corpus for Developing Trustworthy Retrieval-Augmented Language Models",
+      "authors": [
+        "Niu",
+        "Wu",
+        "Zhu",
+        "Xu",
+        "Shum",
+        "Zhong",
+        "Song",
+        "Zhang"
+      ],
+      "years": [
+        2024
+      ],
+      "venues": [
+        "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2024.acl-long.585",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1016/j.eswa.2023.119656": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1016/j.eswa.2023.119656",
+      "title": "A computational approach for real-time detection of fake news",
+      "authors": [
+        "Zhang",
+        "Gupta",
+        "Qin",
+        "Zhou"
+      ],
+      "years": [
+        2023
+      ],
+      "venues": [
+        "Expert Systems with Applications"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1016/j.eswa.2023.119656",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1016/j.inffus.2024.102500": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1016/j.inffus.2024.102500",
+      "title": "Escaping the neutralization effect of modality features fusion in multimodal Fake News Detection",
+      "authors": [
+        "Wang",
+        "Li",
+        "Li",
+        "Wang",
+        "Gao"
+      ],
+      "years": [
+        2024
+      ],
+      "venues": [
+        "Information Fusion"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1016/j.inffus.2024.102500",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1016/j.ipm.2023.103564": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1016/j.ipm.2023.103564",
+      "title": "Not all fake news is semantically similar: Contextual semantic representation learning for multimodal fake news detection",
+      "authors": [
+        "Peng",
+        "Jian",
+        "Kan",
+        "Qiao",
+        "Li"
+      ],
+      "years": [
+        2024
+      ],
+      "venues": [
+        "Information Processing &amp; Management"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1016/j.ipm.2023.103564",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  },
+  "10.1016/j.inffus.2025.103469": {
+    "retrieved_at": "2026-10-26",
+    "source": "crossref",
+    "record": {
+      "doi": "10.1016/j.inffus.2025.103469",
+      "title": "Semantic space aligned multimodal fake news detection",
+      "authors": [
+        "Shang",
+        "Song",
+        "Ji",
+        "Yi",
+        "Cai",
+        "Li"
+      ],
+      "years": [
+        2026
+      ],
+      "venues": [
+        "Information Fusion"
+      ],
+      "type": "journal-article",
+      "url": "https://doi.org/10.1016/j.inffus.2025.103469",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
+  }
+}

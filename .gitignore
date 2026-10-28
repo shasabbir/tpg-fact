@@ -26,6 +26,8 @@ experiments/outputs/*
 # Notebook execution products
 experiments/notebooks/.ipynb_checkpoints/
 kaggle/.ipynb_checkpoints/
+kaggle/.validation/
+kaggle/*.executed.ipynb
 
 # LaTeX build products
 *.aux

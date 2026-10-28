@@ -1,33 +1,40 @@
 \section{Problem Formulation and Datasets}
 \label{sec:data}
 
-Let a claim be $c$, its candidate evidence packet be $E=\{e_1,\ldots,e_n\}$, and its verdict be $y$. Each item has an immutable identifier and a modality in \{text, table, figure, image, caption\}. The system predicts a verdict distribution $p(y\mid c,E)$, an ordered citation set $S\subseteq E$, and an explanation $r$ whose factual sentences cite one or more elements of $S$.
+\subsection{Task Definition}
 
-Evidence attribution is evaluated against dataset-provided evidence identifiers. For datasets with multiple valid evidence sets, a citation is correct when it belongs to any admissible set. A model is evidence-traceable only when its cited set is accurate and its prediction behaves appropriately when that evidence is changed.
+Let a claim be $c$, its candidate evidence packet be $E=\{e_1,\ldots,e_n\}$, and its verdict be $y\in\{\textsc{supported},\textsc{refuted}\}$. Each candidate has an immutable identifier, a source-document identifier, a modality in \{text, caption, table, figure, image\}, and a binary gold-evidence indicator when supplied by the benchmark. The system returns a verdict distribution $p(y\mid c,E)$, an ordered citation set $S\subseteq E$, and an extractive rationale $r$ that can quote only elements of $S$.
 
-\subsection{Public Datasets}
+Evidence attribution is evaluated directly against dataset-provided evidence identifiers. If a dataset supplies multiple admissible evidence sets, a prediction is credited when it matches an item in any admissible set. The central comparison holds $p(y\mid c,E)$ and the complete evidence order fixed, then compares a global citation budget with a predicted claim-specific budget. Citation precision, recall, and F1 measure set quality; count error measures whether the output length matches the annotated evidence requirement.
 
-Table~\ref{tab:datasets} lists the planned datasets. SciVer is the primary benchmark because it supplies expert evidence and rationales under a CC BY 4.0 release \cite{wang2025sciver}. MuSciClaims provides an external scientific test \cite{wang2025musciclaims}. MOCHEG supplies general-domain transfer and direct comparability with the base papers \cite{yao2023mocheg}. AIChartClaim is optional and enters the main study only if its use terms and split audit pass.
+\subsection{Public Data Sources}
+
+The formal pipeline uses the openly downloadable SciVer benchmark, which supplies expert evidence linked to passages, tables, or figures under a CC BY 4.0 release \cite{wang2025sciver}. MuSciClaims is a relevant figure-grounded resource \cite{lal2025musciclaims}, but its main Hugging Face release does not currently provide authoritative license metadata. The current pipeline therefore disables that adapter. It can be enabled as a separately reported transfer test only if the release terms are confirmed before the formal data freeze. No web scraping, private corpus, or manually labelled data is required for the formal experiment.
 
 \begin{table}[t]
 \centering
-\caption{Planned public datasets. Final counts are frozen from downloaded manifests.}
+\caption{Dataset roles in the implemented formal pipeline. MuSciClaims is excluded from the reported experiment.}
 \label{tab:datasets}
 \small
-\begin{tabular}{lrrll}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{0.21\columnwidth}p{0.14\columnwidth}p{0.23\columnwidth}p{0.21\columnwidth}@{}}
 \toprule
-Dataset & Claims & Documents & Modalities & Role \\
+Dataset & Modal. & Gold fields & Role \\
 \midrule
-SciVer & 3,000 & 1,113 & T/Tab/Fig & primary \\
-MuSciClaims & audit & audit & T/Fig & external \\
-MOCHEG & 15,601 & -- & T/Img & transfer \\
-AIChartClaim & 1,200 & 300 charts & T/Chart & optional \\
+SciVer & T/Tab/Fig & label, evidence & primary \\
+MuSciClaims & T/Fig & label, figure & {\raggedright conditional; disabled\par} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-No new web corpus is collected. Official splits are retained unless leakage auditing requires a grouped split; any replacement split is released as an identifier manifest rather than by redistributing source media.
+The SciVer release contains 3,000 claim--evidence instances from 1,113 papers \cite{wang2025sciver}. Before partitioning the 1,000-example development file, the pipeline removes every development record whose source-paper identifier occurs in the official test file. The remaining development records are divided into training and validation partitions using a deterministic hash of the source-paper identifier with an 80/20 target ratio; all claims from one paper remain in one partition. The bounded pilot uses only these development train/validation partitions. The official 2,000-example test file is never used for model selection and is evaluated only after the configuration is frozen. Each release file, processed JSONL file, and split manifest receives a SHA-256 digest. If MuSciClaims is later licensed and enabled, it will be used only through its released test file at a pinned public revision and will never be merged into SciVer training.
 
-\subsection{Dataset Audit}
+\subsection{Evidence-Packet Construction}
 
-Before training, each release is checked for access terms, missing modalities, exact hashes, perceptual image duplicates, claim overlap, label balance, evidence-ID integrity, and leakage through paths or metadata. A dataset is excluded from primary tables if fewer than 90\% of selected examples retain the modalities required by its task or if unresolved leakage makes the endpoint uninterpretable.
+For SciVer, every annotated section becomes a gold text item. A claim associated with a table receives a serialized table and caption; a claim associated with a chart receives its figure caption and available image. Non-gold sections from the same paper are shuffled by a deterministic claim-specific seed and added as distractors until the packet reaches 12 items. Duplicate evidence identifiers are removed. If a source paper lacks every referenced item, its abstract or title is used only as a recoverability fallback and the condition is recorded in the manifest.
+
+The dormant MuSciClaims adapter associates the released figure with the gold item and uses other available figures from the same paper as deterministic distractors. If enabled after a license check, its two-class labels are mapped to the same supported/refuted vocabulary and samples without a two-class label are excluded. Neither adapter infers gold evidence from model similarity or uses test labels to choose distractors.
+
+\subsection{Data Integrity Checks}
+
+Before training, the release revisions, licenses or terms, file hashes, missing-media rates, label distributions, evidence-ID integrity, and group intersections are audited. The preprocessing code rejects any train--validation, train--test, or validation--test source-paper overlap. Every packet must contain a nonempty claim, a permitted label, unique evidence identifiers, no more than 12 candidates, and at least one gold item for supervised evidence evaluation. External results are withheld if reuse terms cannot be confirmed or if fewer than 90\% of retained examples preserve the modalities required by the task. These gates protect the validity of the reported endpoint; they are not tuned to improve model performance.

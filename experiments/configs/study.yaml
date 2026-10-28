@@ -1,34 +1,81 @@
 study:
-  name: trace-scv
-  task: evidence_traceable_multimodal_claim_verification
+  name: dacs-scv
+  task: decoupled_adaptive_citation_set_scientific_claim_verification
   seeds: [13, 37, 73, 101, 137]
 
 datasets:
   primary: sciver
+  primary_revision: 5695ac384d247ae5df2a7b73568dc63d189296b0
   external_scientific: musciclaims
-  external_general: mocheg
-  optional: aichartclaim
+  external_revision: 9134142d05fb473e0a10c4c05f0c2d5a2af51099
+  external_enabled: false
+  external_gate_reason: main_release_has_no_authoritative_license_metadata
 
 model:
-  backbone: Qwen/Qwen2.5-VL-3B-Instruct
-  quantization_bits: 4
-  use_lora: true
+  text_encoder: BAAI/bge-small-en-v1.5
+  vision_encoder: openai/clip-vit-base-patch32
+  encoders_frozen: true
+  evidence_representation:
+    semantic_channel: all_evidence_content_including_captions_and_serialized_tables
+    pixel_channel: recoverable_media_only
+    visual_availability_mask: true
+    fusion: learned_scalar_gate
+  hidden_dim: 192
+  graph_layers: 2
   maximum_evidence_items: 12
-  citation_budget: 4
-  selector: straight_through_topk
+  verifier_citation_budget: 3
+  selector: supervised_graph_ranking
+  cardinality_head:
+    input: sorted_selector_probabilities_plus_valid_and_visual_counts
+    hidden_dim: 32
+    maximum_count: training_split_maximum
+    decoupled_from_verdict: true
 
 loss:
   verdict: 1.0
   evidence_selection: 0.5
-  explanation: 0.5
-  sparsity: 0.05
-  decisive_deletion: 0.3
-  irrelevant_invariance: 0.2
-  duplicate_invariance: 0.2
-  modality_swap: 0.2
+  sparsity: 0.02
+  cardinality_cross_entropy: 1.0
+
+profiles:
+  smoke:
+    feature_backend: hash
+    seeds: [13]
+    epochs: 2
+  pilot:
+    purpose: validation-only feasibility with the formal frozen encoders
+    feature_backend: huggingface
+    train_validation_test_limits: [600, 150, 0]
+    evaluation_split: validation
+    seeds: [13]
+    epochs: 12
+  formal:
+    feature_backend: huggingface
+    evaluation_split: official_test
+    external_musciclaims: false
+    external_gate_reason: main_release_has_no_authoritative_license_metadata
+    seeds: [13, 37, 73, 101, 137]
+    epochs: 25
+    deterministic_baselines:
+      - majority
+    experiments:
+      - claim_only
+      - all_pool
+      - relevance
+      - flat
+      - trace_no_cf
+      - dacs_scv
+    posthoc_frozen_ranking_outputs:
+      - fixed_top1
+      - fixed_top2
+      - fixed_top3
+    cardinality_ablations:
+      - dacs_no_valid_count
+      - dacs_no_visual_count
 
 evaluation:
   bootstrap_samples: 10000
   confidence_level: 0.95
   multiplicity: holm
-  verdict_drop_tolerance_points: 1.0
+  dacs_verdict_identity_required: true
+  pilot_minimum_citation_f1_gain: 0.01

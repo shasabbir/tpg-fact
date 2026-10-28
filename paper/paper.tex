@@ -10,10 +10,8 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,fit,positioning}
 
-\newcommand{\method}{TRACE-SCV}
-\newcommand{\todoresult}{\textcolor{red}{[RESULT PENDING]}}
-
-\title{Evidence-Traceable Multimodal Claim Verification with Counterfactual Citation Grounding}
+\newcommand{\method}{DACS-SCV}
+\title{Decoupling Citation-Set Size from Verification: A Controlled Study of Multimodal Scientific Claims}
 
 \author{Sabbir Hossain\\
 Department of Computer Science\\
@@ -25,11 +23,11 @@ Dhaka, Bangladesh\\
 \maketitle
 
 \begin{abstract}
-Multimodal claim-verification systems are usually evaluated by verdict accuracy and the surface quality of generated explanations. These measurements do not establish that a system used the evidence named in its explanation. We propose \method, a framework in which verdict prediction and explanation generation share a sparse evidence bottleneck over text, tables, figures, and images. The framework emits evidence identifiers with each explanatory statement and is trained with counterfactual interventions that delete decisive evidence, add irrelevant evidence, duplicate an item, or swap one modality. The study uses only publicly released datasets and evaluates verdict quality together with evidence attribution, sufficiency, comprehensiveness, robustness, and computation. This pre-results manuscript defines the method and frozen evaluation protocol; empirical claims will be added only from audited experiment artifacts.
+Multimodal scientific claim verification requires both a verdict and a concise evidence set. A fixed citation budget ignores variation in evidential requirements, but jointly learning the budget and verifier confounds citation sizing with changes to the ranking and verdict representation. We introduce \method, a decoupled cardinality predictor applied after a multimodal graph verifier is frozen. The head selects only how many items to emit from an unchanged ranking; therefore, its verdict probabilities, predictions, and ranked evidence identifiers are exactly matched to fixed-budget controls. We evaluate five frozen seeds on SciVer's 2,000-claim official test after source-paper-grouped development splitting and cross-split duplicate auditing. \method{} reduces citation-count mean absolute error to 0.4954 and raises exact count match to 0.5565, compared with 0.5725 and 0.4480 for fixed top-two. This improvement in count accuracy does not produce the best evidence set: citation macro-F1 is 0.4702 for \method{} and 0.4810 for fixed top-two. Paired source-paper-grouped bootstrap effects are positive against top-one (+0.0067, 95\% CI [0.0013, 0.0120]) and top-three (+0.0133, [0.0049, 0.0219]) but negative against top-two (-0.0108, [-0.0163, -0.0052]). The prespecified adaptive-superiority hypothesis therefore fails. Ablations and a gold-cardinality diagnostic show that count accuracy is misaligned with citation F1 when the frozen ranking is imperfect. The study provides a controlled negative result and an auditable protocol for separating evidence-set sizing from verification.
 \end{abstract}
 
 \begin{IEEEkeywords}
-automated fact-checking, multimodal reasoning, evidence attribution, scientific claim verification, grounded explanation
+scientific claim verification, multimodal reasoning, evidence selection, citation prediction, negative results
 \end{IEEEkeywords}
 
 \input{sections/01_introduction}
@@ -42,6 +40,7 @@ automated fact-checking, multimodal reasoning, evidence attribution, scientific 
 \input{sections/08_limitations_ethics}
 \input{sections/09_conclusion}
 
+\IEEEtriggeratref{48}
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 

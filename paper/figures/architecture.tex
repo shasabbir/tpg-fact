@@ -1,23 +1,38 @@
 \begin{tikzpicture}[
-  font=\footnotesize,
-  node distance=7mm and 8mm,
-  box/.style={draw, rounded corners, align=center, minimum height=9mm, minimum width=24mm, fill=blue!5},
-  head/.style={draw, rounded corners, align=center, minimum height=9mm, minimum width=25mm, fill=green!8},
-  intervention/.style={draw, rounded corners, align=center, minimum height=10mm, text width=49mm, fill=orange!10},
+  font=\scriptsize,
+  node distance=5mm and 5mm,
+  input/.style={draw, rounded corners, align=center, minimum height=9mm, text width=21mm, fill=blue!6},
+  frozen/.style={draw, rounded corners, align=center, minimum height=9mm, text width=23mm, fill=gray!14},
+  learned/.style={draw, rounded corners, align=center, minimum height=10mm, text width=25mm, fill=green!9},
+  output/.style={draw, rounded corners, align=center, minimum height=9mm, text width=23mm, fill=orange!10},
+  invariant/.style={draw, dashed, rounded corners, inner sep=3mm},
   arrow/.style={-{Latex[length=2mm]}, thick}
 ]
-\node[box] (claim) {Claim};
-\node[box, below=of claim] (evidence) {Text, tables,\\figures, images};
-\node[box, right=of claim, yshift=-5mm] (graph) {Heterogeneous\\evidence graph};
-\node[box, right=of graph] (selector) {Sparse citation\\bottleneck};
-\node[head, above right=4mm and 11mm of selector] (verdict) {Verdict head};
-\node[head, below right=4mm and 11mm of selector] (explanation) {Citation-constrained\\explanation};
-\node[intervention, below=13mm of selector, xshift=-12mm] (interventions) {Delete decisive $\mid$ add irrelevant\\Duplicate $\mid$ swap modality};
-\draw[arrow] (claim) -- (graph);
-\draw[arrow] (evidence) -- (graph);
-\draw[arrow] (graph) -- (selector);
-\draw[arrow] (selector) -- node[above, sloped]{selected IDs} (verdict);
-\draw[arrow] (selector) -- node[below, sloped]{same IDs} (explanation);
-\draw[arrow] (interventions.north east) -- node[left]{paired training} (selector.south);
-\node[draw, dashed, rounded corners, fit=(verdict)(explanation), inner sep=4mm, label=above:{Shared evidence path}] {};
+\node[input] (claim) {Claim};
+\node[input, below=of claim] (evidence) {Text, table, figure,\\and image candidates};
+
+\node[frozen, right=of claim] (textenc) {Frozen BGE\\semantic features};
+\node[frozen, right=of evidence] (visionenc) {Frozen CLIP\\visual features + mask};
+
+\node[learned, right=7mm of textenc, yshift=-7mm] (graph) {Stage 1: modality fusion,\\evidence graph, selector};
+\node[output, right=of graph, yshift=8mm] (verdict) {Frozen verdict\\probability vector};
+\node[output, right=of graph, yshift=-8mm] (ranking) {Frozen complete\\evidence ranking $\pi$};
+
+\node[learned, right=11mm of ranking, yshift=-7mm] (head) {Stage 2: cardinality head\\sorted scores + counts};
+\node[output, right=of head] (citations) {Adaptive citations\\$\pi_{1:\hat{k}}$};
+
+\draw[arrow] (claim) -- (textenc);
+\draw[arrow] (evidence) -- (textenc);
+\draw[arrow] (evidence) -- (visionenc);
+\draw[arrow] (textenc) -- (graph);
+\draw[arrow] (visionenc) -- (graph);
+\draw[arrow] (graph) -- (verdict);
+\draw[arrow] (graph) -- (ranking);
+\draw[arrow] (ranking) -- node[above, sloped]{scores} (head);
+\draw[arrow] (ranking.east) to[bend left=25] node[above]{unchanged order} (citations.north west);
+\draw[arrow] (head) -- node[above]{$\hat{k}$ only} (citations);
+
+\node[invariant, fit=(graph)(verdict)(ranking), label=above:{frozen after base training}] {};
+\node[draw, very thick, red!65!black, dashed, fit=(verdict)(ranking), inner sep=4mm,
+      label=below:{verdict and ranking invariant}] {};
 \end{tikzpicture}

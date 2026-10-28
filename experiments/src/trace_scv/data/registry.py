@@ -32,7 +32,7 @@ DATASETS: dict[str, DatasetSpec] = {
         provider="huggingface",
         identifier="StonyBrookNLP/MuSciClaims",
         revision="9134142d05fb473e0a10c4c05f0c2d5a2af51099",
-        required=True,
+        required=False,
         license_expected=None,
         homepage="https://huggingface.co/datasets/StonyBrookNLP/MuSciClaims",
     ),

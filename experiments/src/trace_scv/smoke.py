@@ -13,7 +13,7 @@ def build_synthetic_packets() -> tuple[ClaimPacket, ...]:
         ClaimPacket(
             claim_id="c1",
             claim_text="Model A scores higher than Model B in the table.",
-            label="entailed",
+            label="supported",
             split="test",
             dataset="synthetic",
             group_id="paper-1",
@@ -41,8 +41,8 @@ def run_smoke(output: Path) -> dict:
     output.mkdir(parents=True, exist_ok=True)
     packets = build_synthetic_packets()
     predictions = (
-        Prediction("c1", "entailed", {"entailed": 0.9, "refuted": 0.1}, ("t1",), "A is higher [t1]."),
-        Prediction("c2", "refuted", {"entailed": 0.2, "refuted": 0.8}, ("f1",), "The curve rises [f1]."),
+        Prediction("c1", "supported", {"supported": 0.9, "refuted": 0.1}, ("t1",), "A is higher [t1]."),
+        Prediction("c2", "refuted", {"supported": 0.2, "refuted": 0.8}, ("f1",), "The curve rises [f1]."),
     )
 
     deleted = [delete_evidence(packet, packet.gold_evidence_ids) for packet in packets]
@@ -60,7 +60,7 @@ def run_smoke(output: Path) -> dict:
     )
     deletion_score = comprehensiveness(
         [prediction.probabilities for prediction in predictions],
-        [{"entailed": 0.5, "refuted": 0.5}, {"entailed": 0.5, "refuted": 0.5}],
+        [{"supported": 0.5, "refuted": 0.5}, {"supported": 0.5, "refuted": 0.5}],
         [packet.label for packet in packets],
     )
     result = {

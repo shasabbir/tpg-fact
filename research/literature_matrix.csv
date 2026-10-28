@@ -1,14 +1,51 @@
-key,year,venue,problem,method,data,main_metric,closest_overlap,decision
-luu_mrav,2026,Information Processing and Management,"multimodal zero-shot fact verification","retrieve-verbalize-rank-verify","MOCHEG; FACTIFY; Fin-Fact",macro-F1,"base paper; relevance and verbalization",required baseline
-zhang_mever,2026,EACL,"retrieval verification and explanation","two-layer multimodal graph plus FiD","AIChartClaim; ChartCheck; MOCHEG; MR2","MAP; macro-F1; ROUGE-L","base paper; graph and explanations",required baseline
-wang_sciver,2025,ACL,"scientific multimodal verification benchmark","expert evidence and rationale annotation",SciVer,accuracy,"primary public data",core dataset
-xing_attribution,2025,NAACL,"evidence attribution in fact-checking explanations","citation masking and recovery",text fact-checking data,recovery accuracy,"attribution evaluation",extend to multimodal training
-wang_musciclaims,2025,AACL-IJCNLP,"scientific figure claim verification","benchmark and diagnostics",MuSciClaims,F1,"external scientific data",core transfer set
-schlichtkrull_averitec,2024,NeurIPS,"real-world web evidence verification","static knowledge store benchmark",AVeriTeC,"verdict and evidence metrics","realistic evidence evaluation",related work
-braun_defame,2025,ICML,"open-domain multimodal fact checking","dynamic tool-using multimodal experts","MOCHEG; VERITE; ClaimReview2024+",accuracy,"dynamic retrieval and reports",strong external baseline
-zhou_m2tabfact,2025,ACL Findings,"multi-document multimodal tabular verification","generated multi-source claims",M2-TabFact,accuracy,"multi-evidence structured reasoning",related dataset if access verified
-wan_murgat,2026,arXiv,"multimodal fact-level attribution","citation benchmark and evaluator",multimodal long-form data,attribution score,"citation grounding",novelty boundary
-ni_safemr,2026,arXiv,"selective multimodal rumor detection","sufficiency head and interventions","NewsCLIPpings; VERITE; XFacta","macro-F1; AURC","interventions and sufficiency",do not claim abstention novelty
-luo_utility,2026,ACL,"visual evidence utility for multimodal RAG","information-gain selection",MRAG-Bench; Visual-RAG,retrieval quality,"evidence utility",do not claim utility novelty
-jung_amufc,2026,arXiv,"adaptive visual evidence use","analyzer and verifier agents","three fact-checking datasets",verification performance,"modality necessity",do not claim adaptive-image novelty
-xu_rwpost,2026,CVPR Workshops,"auditable real-world multimodal fact checking","RW-Post and AgentFact",RW-Post,"accuracy; faithfulness","evidence grounding",compare discussion
+key,year,venue,type,problem,approach,data_or_setting,relevance,decision
+luu2027mrav,2027,"Information Processing & Management",journal,"zero-shot multimodal fact verification","retrieve; consistency verbalization; relevance ranking; LLM verification","MOCHEG; FACTIFY; Fin-Fact","closest end-to-end base paper","published context"
+zhang2026mever,2026,EACL,conference,"multimodal retrieval; verification; explanation","graph evidence retriever and fusion-in-decoder generation","AIChartClaim; ChartCheck; MOCHEG; MR2","closest graph/explanation base paper","published context"
+yao2023mocheg,2023,SIGIR,conference,"joint multimodal fact checking and explanation","benchmark plus joint retrieval/verdict/explanation models",MOCHEG,"establishes joint task and public benchmark","related benchmark"
+wang2025sciver,2025,ACL,conference,"multimodal scientific claim verification","expert claim-evidence benchmark and foundation-model evaluation",SciVer,"primary public dataset","core dataset"
+lal2025musciclaims,2025,AACL-IJCNLP,conference,"figure-grounded scientific claim verification","multimodal benchmark with controlled claim variants",MuSciClaims,"conditional external scientific evaluation","core external dataset"
+xing2025attribution,2025,NAACL,conference,"evidence attribution in generated fact-check explanations","citation masking and recovery tests","fact-checking explanations","closest attribution evaluation","novelty anchor"
+zhou2025m2tabfact,2025,"Findings of ACL",conference,"multi-document multimodal table verification","visual/text table evidence with multi-source reasoning",M2-TabFact,"structured scientific evidence setting","related benchmark"
+luo2026utility,2026,ACL,conference,"visual-evidence utility in multimodal RAG","utility-oriented evidence selection","multimodal RAG benchmarks","bounds visual-selection novelty","novelty boundary"
+tsoneva2026selective,2026,FEVER,workshop,"when visual retrieval is necessary","selective multimodal retrieval","image-text verification","bounds modality-necessity novelty","novelty boundary"
+jing2023mpfn,2023,"Information Processing & Management",journal,"multimodal fake-news detection","progressive multi-level fusion","multimodal news datasets","strong recent fusion model","related method"
+wu2023mfir,2023,"Information Fusion",journal,"explainable multimodal fake-news detection","local/global fusion and inconsistency reasoning","multimodal news datasets","inconsistency reasoning","related method"
+hu2024matching,2024,"Information Sciences",journal,"matching-aware multimodal fake-news detection","co-attention with mutual knowledge distillation","multimodal news datasets","alignment-conditioned fusion","related method"
+kumari2021amfb,2021,"Expert Systems with Applications",journal,"multimodal fake-news detection","attention-based factorized bilinear pooling","multimodal social/news data","bilinear fusion baseline family","related method"
+meel2021han,2021,"Information Sciences",journal,"multimodal fake-news detection","hierarchical attention; captioning; forensics ensemble","multimodal news data","multi-signal fusion baseline family","related method"
+papadopoulos2024verite,2024,"International Journal of Multimedia Information Retrieval",journal,"robust multimodal misinformation evaluation","benchmark controlling unimodal bias",VERITE,"shows need for bias-controlled evaluation","related benchmark"
+yan2024fmc,2024,"Alexandria Engineering Journal",journal,"multimodal fake-news detection","multi-granularity fusion and contrastive learning","multimodal news datasets","recent contrastive fusion","related method"
+chen2022cafe,2022,"The Web Conference",conference,"cross-modal ambiguity in fake-news detection","ambiguity-aware multimodal learning","multimodal news datasets","models uncertain modality agreement","related method"
+aneja2023cosmos,2023,AAAI,conference,"out-of-context image misuse","self-supervised contextual consistency",COSMOS,"image reuse and context verification","related task"
+luo2021newsclippings,2021,EMNLP,conference,"out-of-context multimodal media","automatic hard-negative generation",NewsCLIPpings,"canonical image-caption mismatch benchmark","related benchmark"
+qi2024sniffer,2024,CVPR,conference,"explainable out-of-context misinformation","multimodal LLM reasoning and explanation","out-of-context image-text data","recent A* explainable system","related method"
+tong2024mmdfnd,2024,"ACM Multimedia",conference,"multi-domain multimodal fake news","domain-aware multimodal detection","multiple news domains","cross-domain comparison","related method"
+shao2023dgm4,2023,CVPR,conference,"multimodal manipulation detection and grounding","joint detection and localization",DGM4,"grounds manipulated regions/tokens","related task"
+jiang2025imfnd,2025,"Knowledge-Based Systems",journal,"in-context multimodal fake-news detection","large vision-language model prompting","multimodal news datasets","recent VLM comparison","related method"
+zhu2024ifis,2024,"Complex & Intelligent Systems",journal,"multimodal fake-news detection","intra-modality aggregation and inter-modality fusion","multimodal news datasets","entity/semantic fusion","related method"
+nadeem2023ssm,2023,"Journal of King Saud University - Computer and Information Sciences",journal,"multimodal fake-news detection","stylometric and semantic similarity fusion","multimodal social data","similarity-driven baseline family","related method"
+uppada2022imagetext,2022,"Journal of Intelligent Information Systems",journal,"image-text fake-news detection","joint image and text classification","online social networks","standard content fusion","related method"
+ying2021crossattention,2021,"IEEE Access",journal,"multimodal fake-news detection","multi-level cross-attention","multimodal news datasets","cross-attention baseline family","related method"
+ying2021topicmemory,2021,"IEEE Access",journal,"multimodal fake-news detection","topic memory network","multimodal news datasets","topic-conditioned fusion","related method"
+zeng2021automated,2021,"Language and Linguistics Compass",journal,"automated fact-checking survey","pipeline and research taxonomy","fact-checking literature","defines evidence-based pipeline","review foundation"
+dulizia2021datasets,2021,"PeerJ Computer Science",journal,"fake-news dataset evaluation survey","dataset taxonomy and comparison","published datasets","supports dataset-quality discussion","review foundation"
+shah2022systematic,2022,"Social Network Analysis and Mining",journal,"fake-news detection challenges","systematic literature review","detection literature","supports unresolved challenge discussion","review foundation"
+islam2020survey,2020,"Social Network Analysis and Mining",journal,"deep misinformation detection","survey and future directions","online social networks","supports task taxonomy","review foundation"
+mridha2021review,2021,"IEEE Access",journal,"deep fake-news detection","comprehensive review","fake-news literature","supports generalization limitations","review foundation"
+zhou2020survey,2020,"ACM Computing Surveys",journal,"fake-news research","multidisciplinary survey","fake-news literature","high-quality survey anchor","review foundation"
+rastogi2022threet,2022,"International Journal of Information Security",journal,"fake-news typology and detection","3T review framework","fake-news literature","supports taxonomy and timing issues","review foundation"
+aimeur2023review,2023,"Social Network Analysis and Mining",journal,"fake news; misinformation; disinformation","social-media review","social-media literature","supports terminology and scope","review foundation"
+lv2025survey,2025,"Journal of King Saud University Computer and Information Sciences",journal,"multimodal fake-news detection","deep-learning survey","multimodal detection literature","recent modality-specific survey","review foundation"
+wadden2020scifact,2020,EMNLP,conference,"scientific claim verification","claim/evidence benchmark and verifier",SciFact,"scientific evidence lineage","related benchmark"
+jiang2020hover,2020,"Findings of EMNLP",conference,"many-hop fact verification","multi-document evidence benchmark",HoVer,"multi-item evidence reasoning","related benchmark"
+saakyan2021covidfact,2021,ACL-IJCNLP,conference,"COVID-19 fact verification","real-world claim/evidence benchmark",COVID-Fact,"domain-specific external evidence","related benchmark"
+gupta2021xfact,2021,ACL-IJCNLP,conference,"multilingual fact checking","multilingual multi-domain benchmark",X-Fact,"documents domain/language variation","related benchmark"
+atanasova2020explanations,2020,ACL,conference,"fact-check explanation generation","explanation generation models","fact-checking data","explanation-generation predecessor","related method"
+deyoung2020eraser,2020,ACL,conference,"rationale evaluation","benchmark and rationale metrics",ERASER,"item-level rationale evaluation","methodological foundation"
+jain2020faithful,2020,ACL,conference,"faithful rationalization","predictor constrained to selected evidence","rationalized NLP tasks","shared-bottleneck precedent","methodological foundation"
+gao2023alce,2023,EMNLP,conference,"citation-grounded generation","automatic citation evaluation and generation","long-form QA","citation evaluation precedent","methodological foundation"
+niu2024ragtruth,2024,ACL,conference,"hallucination in retrieval-augmented generation","human-annotated hallucination corpus",RAGTruth,"shows retrieval does not ensure support","methodological foundation"
+zhang2023realtime,2023,"Expert Systems with Applications",journal,"real-time fake-news detection","current legitimate-news evidence","news evidence setting","retrieval/freshness motivation","related method"
+wang2024neutralization,2024,"Information Fusion",journal,"modality neutralization in fusion","conflict-aware multimodal representation","multimodal news datasets","fusion failure mode","related method"
+peng2024contextual,2024,"Information Processing & Management",journal,"semantic heterogeneity of fake news","contextual semantic representation learning","multimodal news datasets","cluster-aware representation","related method"
+shang2026semantic,2026,"Information Fusion",journal,"semantic alignment for multimodal fake news","multi-level semantic-space alignment","multimodal news datasets","recent high-quality fusion model","related method"
