@@ -4,8 +4,20 @@ from trace_scv.selection.mocheg_reproduction import _numeric_close
 
 
 def test_reproduction_comparison_ignores_runtime_and_artifact_paths() -> None:
-    left = {"metric": 0.5, "runtime": {"wall_seconds": 1}, "artifacts": {"path": "a"}}
-    right = {"metric": 0.50000001, "runtime": {"wall_seconds": 2}, "artifacts": {"path": "b"}}
+    left = {
+        "metric": 0.5,
+        "runtime": {"wall_seconds": 1},
+        "artifacts": {"path": "a"},
+        "feature_manifest_sha256": "old-container",
+        "selector_summary_sha256": "old-selector-container",
+    }
+    right = {
+        "metric": 0.50000001,
+        "runtime": {"wall_seconds": 2},
+        "artifacts": {"path": "b"},
+        "feature_manifest_sha256": "new-container",
+        "selector_summary_sha256": "new-selector-container",
+    }
     assert _numeric_close(left, right, tolerance=1e-6)
 
 

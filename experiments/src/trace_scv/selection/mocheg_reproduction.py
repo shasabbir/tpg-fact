@@ -23,7 +23,18 @@ def _numeric_close(left: object, right: object, *, tolerance: float) -> bool:
             _numeric_close(a, b, tolerance=tolerance) for a, b in zip(left, right, strict=True)
         )
     if isinstance(left, dict) and isinstance(right, dict):
-        ignored = {"runtime", "artifacts", "path", "bytes", "sha256"}
+        ignored = {
+            "runtime",
+            "artifacts",
+            "path",
+            "bytes",
+            "sha256",
+            # These container hashes legitimately differ when only recorded
+            # provenance (for example, a documentation-only commit) changes.
+            # Their scientific contents are compared directly below.
+            "feature_manifest_sha256",
+            "selector_summary_sha256",
+        }
         keys = (set(left) | set(right)) - ignored
         return all(
             key in left and key in right and _numeric_close(left[key], right[key], tolerance=tolerance)
@@ -39,6 +50,8 @@ def compare_mocheg_clean_reproduction(
     rerun_selector: Path,
     reference_verifier: Path,
     rerun_verifier: Path,
+    reference_dacs: Path,
+    rerun_dacs: Path,
     output_path: Path,
     *,
     tolerance: float = 1e-6,
@@ -59,6 +72,20 @@ def compare_mocheg_clean_reproduction(
         discrepancies.append("feature record identities differ")
     if reference_sidecar["full_gold_evidence_ids_by_claim"] != rerun_sidecar["full_gold_evidence_ids_by_claim"]:
         discrepancies.append("full gold maps differ")
+    reference_manifest = json.loads(
+        reference_feature.with_suffix(".manifest.json").read_text(encoding="utf-8")
+    )
+    rerun_manifest = json.loads(
+        rerun_feature.with_suffix(".manifest.json").read_text(encoding="utf-8")
+    )
+    for identity_key in ("encoder", "retrieval_config", "tokenizer", "implementation_files"):
+        if reference_manifest[identity_key] != rerun_manifest[identity_key]:
+            discrepancies.append(f"feature {identity_key} identity differs")
+    if (
+        reference_manifest["development_config"]["sha256"]
+        != rerun_manifest["development_config"]["sha256"]
+    ):
+        discrepancies.append("development configuration identity differs")
     reference_rankings = _read_jsonl(reference_feature.with_suffix(".rankings.jsonl"))
     rerun_rankings = _read_jsonl(rerun_feature.with_suffix(".rankings.jsonl"))
     if len(reference_rankings) != len(rerun_rankings):
@@ -83,11 +110,17 @@ def compare_mocheg_clean_reproduction(
     rerun_verifier_summary = json.loads((rerun_verifier / "summary.json").read_text(encoding="utf-8"))
     if not _numeric_close(reference_verifier_summary, rerun_verifier_summary, tolerance=tolerance):
         discrepancies.append("verifier development table differs")
+    reference_dacs_summary = json.loads((reference_dacs / "summary.json").read_text(encoding="utf-8"))
+    rerun_dacs_summary = json.loads((rerun_dacs / "summary.json").read_text(encoding="utf-8"))
+    if not _numeric_close(reference_dacs_summary, rerun_dacs_summary, tolerance=tolerance):
+        discrepancies.append("DACS development table differs")
     formal_flags = [
         reference_selector_summary["formal_test_annotations_accessed"],
         rerun_selector_summary["formal_test_annotations_accessed"],
         reference_verifier_summary["formal_test_annotations_accessed"],
         rerun_verifier_summary["formal_test_annotations_accessed"],
+        reference_dacs_summary["formal_test_annotations_accessed"],
+        rerun_dacs_summary["formal_test_annotations_accessed"],
     ]
     if any(formal_flags):
         discrepancies.append("a reproduction artifact reports formal-test access")
@@ -100,11 +133,13 @@ def compare_mocheg_clean_reproduction(
             "features_sha256": sha256_file(reference_feature),
             "selector_summary_sha256": sha256_file(reference_selector / "summary.json"),
             "verifier_summary_sha256": sha256_file(reference_verifier / "summary.json"),
+            "dacs_summary_sha256": sha256_file(reference_dacs / "summary.json"),
         },
         "rerun": {
             "features_sha256": sha256_file(rerun_feature),
             "selector_summary_sha256": sha256_file(rerun_selector / "summary.json"),
             "verifier_summary_sha256": sha256_file(rerun_verifier / "summary.json"),
+            "dacs_summary_sha256": sha256_file(rerun_dacs / "summary.json"),
         },
         "formal_test_annotations_accessed": False,
     }

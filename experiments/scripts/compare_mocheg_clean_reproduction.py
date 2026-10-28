@@ -15,12 +15,15 @@ def main() -> None:
     parser.add_argument("--rerun-selector", type=Path, default=Path("outputs/mocheg/clean_rerun/selector_trial_002"))
     parser.add_argument("--reference-verifier", type=Path, default=Path("outputs/mocheg/full_corpus_verifier_trial_002"))
     parser.add_argument("--rerun-verifier", type=Path, default=Path("outputs/mocheg/clean_rerun/verifier_trial_002"))
+    parser.add_argument("--reference-dacs", type=Path, default=Path("outputs/mocheg/full_corpus_dacs_trial_002"))
+    parser.add_argument("--rerun-dacs", type=Path, default=Path("outputs/mocheg/clean_rerun/dacs_trial_002"))
     parser.add_argument("--output", type=Path, default=Path("outputs/mocheg/clean_rerun/audit.json"))
     args = parser.parse_args()
     result = compare_mocheg_clean_reproduction(
         args.reference_feature, args.rerun_feature,
         args.reference_selector, args.rerun_selector,
-        args.reference_verifier, args.rerun_verifier, args.output,
+        args.reference_verifier, args.rerun_verifier,
+        args.reference_dacs, args.rerun_dacs, args.output,
     )
     print(json.dumps({"status": result["status"], "discrepancies": result["discrepancies"]}, indent=2))
     if result["status"] != "pass":
