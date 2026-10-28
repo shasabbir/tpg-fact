@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 
@@ -11,6 +13,7 @@ from trace_scv.mocheg_full_corpus import (
     _ranking_metrics,
     _top_indices,
     build_full_corpus_features,
+    import_full_media_from_lfs_cache,
 )
 
 
@@ -110,3 +113,26 @@ def test_full_corpus_builder_keeps_unretrieved_gold_in_denominator(
     sidecar = json.loads(output.with_suffix(".json").read_text(encoding="utf-8"))
     assert manifest["claims"] == 2
     assert sidecar["full_gold_evidence_ids_by_claim"]["1"] == ["image:a.jpg", "text:source-doc-0"]
+
+
+def test_lfs_import_uses_content_addressed_objects(tmp_path: Path, monkeypatch) -> None:
+    dataset = tmp_path / "dataset"
+    cache = tmp_path / "cache"
+    payload = b"image-bytes"
+    oid = hashlib.sha256(payload).hexdigest()
+    for mirror in ("train", "validation"):
+        source = cache / f"{mirror}.git" / "lfs" / "objects" / oid[:2] / oid[2:4] / oid
+        source.parent.mkdir(parents=True)
+        source.write_bytes(payload)
+
+    monkeypatch.setattr(
+        "trace_scv.mocheg_full_corpus.subprocess.run",
+        lambda *args, **kwargs: SimpleNamespace(
+            stdout=f"{oid} - images/folder/example.jpg\n"
+        ),
+    )
+    result = import_full_media_from_lfs_cache(dataset, cache)
+    assert result["status"] == "pass"
+    assert result["imported"] == 2
+    assert result["missing_count"] == 0
+    assert len(list((dataset / "media").rglob("*.jpg"))) == 2

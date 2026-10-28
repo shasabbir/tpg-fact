@@ -689,7 +689,8 @@ def run_mocheg_selector_pilot(
         "selector_development_gate_pass": selector_gate,
         "full_development_gate_pass": False,
         "reason_full_gate_not_passed": (
-            "matched verifier and verdict noninferiority are not yet evaluated"
+            "full gate requires external audited aggregation of selector, verifier, "
+            "full-corpus retrieval, and clean-rerun artifacts"
         ),
         "scientific_results_validated": False,
         "formal_test_annotations_accessed": False,

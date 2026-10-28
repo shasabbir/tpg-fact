@@ -5,6 +5,7 @@ import hashlib
 import json
 import math
 import platform
+import subprocess
 import sys
 import threading
 import time
@@ -192,6 +193,76 @@ def acquire_full_development_image_corpus(
     assert_mocheg_development_sealed(dataset_root)
     if result["status"] != "pass":
         raise RuntimeError(f"full development media acquisition failed; inspect {target}")
+    return result
+
+
+def import_full_media_from_lfs_cache(
+    dataset_root: Path, cache_root: Path
+) -> dict[str, object]:
+    """Hard-link pinned LFS objects into portable source-path-derived filenames."""
+    import os
+    import shutil
+
+    from trace_scv.data.mocheg import _portable_media_path
+
+    assert_mocheg_development_sealed(dataset_root)
+    imported = 0
+    reused = 0
+    missing: list[dict[str, str]] = []
+    inventories: dict[str, dict[str, object]] = {}
+    for mirror_key in ("train", "validation"):
+        mirror = MOCHEG_MIRRORS[mirror_key]
+        repository = cache_root / f"{mirror_key}.git"
+        completed = subprocess.run(
+            ["git", "-C", str(repository), "lfs", "ls-files", "-l", mirror.revision],
+            check=True,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+        )
+        listed = 0
+        mirror_imported = 0
+        for line in completed.stdout.splitlines():
+            if not line.strip():
+                continue
+            oid, marker, relative = line.split(" ", 2)
+            if marker != "-" or not relative.startswith("images/"):
+                continue
+            listed += 1
+            source = repository / "lfs" / "objects" / oid[:2] / oid[2:4] / oid
+            if not source.is_file():
+                missing.append({"mirror": mirror_key, "path": relative, "oid": oid})
+                continue
+            target = _portable_media_path(dataset_root / "media", mirror_key, relative)
+            if target.is_file() and target.stat().st_size > 0:
+                reused += 1
+                continue
+            target.parent.mkdir(parents=True, exist_ok=True)
+            try:
+                os.link(source, target)
+            except OSError:
+                shutil.copy2(source, target)
+            imported += 1
+            mirror_imported += 1
+        inventories[mirror_key] = {
+            "revision": mirror.revision,
+            "listed_image_lfs_objects": listed,
+            "imported": mirror_imported,
+        }
+    result = {
+        "profile": "mocheg_full_media_lfs_import",
+        "status": "pass" if not missing else "incomplete",
+        "cache_root": str(cache_root),
+        "inventories": inventories,
+        "imported": imported,
+        "reused": reused,
+        "missing_count": len(missing),
+        "missing": missing,
+        "formal_test_repository_listed": False,
+        "formal_test_annotations_accessed": False,
+    }
+    target = dataset_root / "media" / "full_media_lfs_import.json"
+    target.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     return result
 
 

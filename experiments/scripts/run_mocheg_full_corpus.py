@@ -9,6 +9,7 @@ from trace_scv.mocheg_full_corpus import (
     FullCorpusRetrievalConfig,
     acquire_full_development_image_corpus,
     build_full_corpus_features,
+    import_full_media_from_lfs_cache,
 )
 
 
@@ -18,12 +19,22 @@ def main() -> None:
     parser.add_argument("--processed-root", type=Path, default=Path("data/processed/mocheg_development"))
     parser.add_argument("--output", type=Path, default=Path("outputs/mocheg/full_corpus_features.npz"))
     parser.add_argument("--download-media", action="store_true")
+    parser.add_argument("--import-lfs-cache", action="store_true")
+    parser.add_argument(
+        "--lfs-cache-root",
+        type=Path,
+        default=Path("data/public/mocheg/lfs_cache"),
+    )
     parser.add_argument("--build-features", action="store_true")
     parser.add_argument("--max-download-workers", type=int, default=12)
     parser.add_argument("--text-batch-size", type=int, default=32)
     parser.add_argument("--image-batch-size", type=int, default=64)
     args = parser.parse_args()
     result: dict[str, object] = {}
+    if args.import_lfs_cache:
+        result["lfs_import"] = import_full_media_from_lfs_cache(
+            args.dataset_root, args.lfs_cache_root
+        )
     if args.download_media:
         result["media"] = acquire_full_development_image_corpus(
             args.dataset_root, max_workers=args.max_download_workers
