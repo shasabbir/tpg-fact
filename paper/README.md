@@ -2,7 +2,7 @@
 
 paper.tex is the IEEE journal-mode pre-results manuscript for:
 
-**Adaptive Evidence-Set Selection for Multimodal Fact-Checking by Expected F1**
+**Rethinking Evidence Selection in Multimodal Fact-Checking: Calibrated Adaptive Set Optimization Beyond Fixed Top-\(k\) Retrieval**
 
 The source is intentionally synchronized with the active CEFES/MOCHEG study in
 ../plan.md. Section prose is in sections/, the editable method diagram is

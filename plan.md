@@ -162,7 +162,7 @@ The new study tests a method that directly optimizes the expected quality of the
 
 Working title:
 
-**Adaptive Evidence-Set Selection for Multimodal Fact-Checking by Expected F1**
+**Rethinking Evidence Selection in Multimodal Fact-Checking: Calibrated Adaptive Set Optimization Beyond Fixed Top-\(k\) Retrieval**
 
 Working method name:
 
