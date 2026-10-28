@@ -16,17 +16,9 @@ def _git_commit(root: Path) -> str:
     ).stdout.strip()
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Freeze the checked full-corpus MOCHEG development study.")
-    parser.add_argument("--archive", type=Path, default=Path("outputs/mocheg/archives/full_corpus_development_trial_002.zip"))
-    parser.add_argument("--manifest", type=Path, default=Path("outputs/mocheg/archives/full_corpus_development_trial_002.freeze.json"))
-    args = parser.parse_args()
-    root = Path.cwd().resolve()
-    gate_path = root / "outputs/mocheg/development_gate.json"
-    gate = json.loads(gate_path.read_text(encoding="utf-8"))
-    if gate["formal_test_annotations_accessed"]:
-        raise RuntimeError("refusing development artifacts that accessed formal-test annotations")
-    paths = [
+def collect_freeze_paths(root: Path) -> list[Path]:
+    """Return every artifact required to preserve the full development decision."""
+    return [
         root / "configs/mocheg_development.yaml",
         root / "configs/workstation_4090.yaml",
         root / "outputs/preflight/workstation.json",
@@ -40,13 +32,33 @@ def main() -> None:
         root / "outputs/mocheg/full_corpus_features.manifest.json",
         root / "outputs/mocheg/full_corpus_features.rankings.jsonl",
         root / "outputs/mocheg/full_corpus_features.audit.json",
+        root / "outputs/mocheg/clean_rerun/full_corpus_features.npz",
+        root / "outputs/mocheg/clean_rerun/full_corpus_features.json",
+        root / "outputs/mocheg/clean_rerun/full_corpus_features.manifest.json",
+        root / "outputs/mocheg/clean_rerun/full_corpus_features.rankings.jsonl",
+        root / "outputs/mocheg/clean_rerun/full_corpus_features.audit.json",
         root / "outputs/mocheg/clean_rerun/audit.json",
-        gate_path,
+        root / "outputs/mocheg/development_gate.json",
         *sorted((root / "outputs/mocheg/full_corpus_selector_trial_002").glob("*")),
         *sorted((root / "outputs/mocheg/full_corpus_verifier_trial_002").glob("*")),
+        *sorted((root / "outputs/mocheg/full_corpus_dacs_trial_002").glob("*")),
         *sorted((root / "outputs/mocheg/clean_rerun/selector_trial_002").glob("*")),
         *sorted((root / "outputs/mocheg/clean_rerun/verifier_trial_002").glob("*")),
+        *sorted((root / "outputs/mocheg/clean_rerun/dacs_trial_002").glob("*")),
     ]
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Freeze the checked full-corpus MOCHEG development study.")
+    parser.add_argument("--archive", type=Path, default=Path("outputs/mocheg/archives/full_corpus_development_trial_002.zip"))
+    parser.add_argument("--manifest", type=Path, default=Path("outputs/mocheg/archives/full_corpus_development_trial_002.freeze.json"))
+    args = parser.parse_args()
+    root = Path.cwd().resolve()
+    gate_path = root / "outputs/mocheg/development_gate.json"
+    gate = json.loads(gate_path.read_text(encoding="utf-8"))
+    if gate["formal_test_annotations_accessed"]:
+        raise RuntimeError("refusing development artifacts that accessed formal-test annotations")
+    paths = collect_freeze_paths(root)
     missing = [str(path) for path in paths if not path.is_file()]
     if missing:
         raise FileNotFoundError(f"missing full-development freeze inputs: {missing}")
