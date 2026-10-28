@@ -1,0 +1,27 @@
+study:
+  name: cefes-mocheg
+  phase: formal_locked_template
+  enabled: false
+  unlock_requires_development_gate: true
+  seeds: [13, 37, 73, 101, 137]
+
+dataset:
+  name: MOCHEG
+  sealed_test_revision: a72342a67b6bb5e930f8a2aa5fc3b051690c0f74
+  test_download_before_protocol_freeze: forbidden
+  test_metric_runs: 1
+
+success_rule:
+  minimum_mean_evidence_f1_gain_over_best_fixed: 0.01
+  evidence_f1_confidence_interval_lower_bound: 0.0
+  verdict_macro_f1_noninferiority_margin: -0.01
+
+freeze_requirements:
+  - code_hash
+  - configuration_hash
+  - dataset_manifest_hash
+  - feature_store_hash
+  - candidate_ranking_hash
+  - checkpoint_hashes
+  - validation_selected_fixed_budget
+  - calibration_temperature

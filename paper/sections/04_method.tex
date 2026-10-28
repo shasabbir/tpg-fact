@@ -3,84 +3,67 @@
 
 \subsection{Overview}
 
-The method separates two decisions that are usually entangled: how a claim is verified and how many evidence items are shown to a reader. Given claim $c$ and candidate packet $E=\{e_i\}_{i=1}^{n}$, a base verifier computes verdict distribution $p_{\theta}(y\mid c,E)$ and evidence scores $s_1,\ldots,s_n$. After the base checkpoint is selected, all of its parameters are frozen. A separate cardinality head $g_{\phi}$ observes only the frozen score profile and packet-level availability counts, predicts citation count $\hat{k}$, and returns the first $\hat{k}$ identifiers from the unchanged ranking. It cannot modify the ranking or verdict.
-
-Figure~\ref{fig:architecture} shows the frozen semantic and visual encoders, trainable base verifier, explicit freeze boundary, and downstream cardinality head.
+\method{} separates candidate retrieval, evidence-membership estimation, calibration, set decoding, and verdict prediction. Figure~\ref{fig:architecture} distinguishes the implemented selector pilot from the planned matched verifier. Every controlled selector receives the same bounded packet and feature artifact. The adaptive rule changes only which evidence identifiers are emitted; it receives no additional corpus, label, or tuning access.
 
 \begin{figure*}[t]
 \centering
 \resizebox{0.98\textwidth}{!}{\input{figures/architecture}}
-\caption{Implemented \method{} pipeline. Stage 1 learns the verifier and complete evidence ranking. Stage 2 freezes that path and learns only citation-set cardinality from the sorted selector probabilities and availability counts. Fixed-budget and adaptive outputs therefore share the same ranking and verdict vector.}
+\caption{CEFES study pipeline. Solid blocks are implemented for the development selector pilot. The dashed matched-verifier branch is the next required implementation before the complete development gate can pass. Fixed-budget, threshold, count, and CEFES selectors share candidate packets and frozen feature artifacts.}
 \label{fig:architecture}
 \end{figure*}
 
-\subsection{Candidate Packets and Frozen Features}
+\subsection{Frozen Multimodal Features}
 
-Each packet contains a claim, binary verdict, at most $n_{\max}=12$ evidence items, validity mask, stable evidence identifiers, modality types, and gold evidence indicators. The modalities are text, caption, table, figure, and image. Stable identifiers are retained throughout preprocessing so citation predictions can be evaluated as sets without interpreting generated prose.
+The text branch uses BGE-M3 at the immutable revision recorded in the development configuration. Mean-pooled, attention-masked claim and evidence embeddings are normalized before cosine similarity is calculated. The image branch uses a likewise pinned SigLIP2-base-patch16-224 revision. Claim text and recoverable images are encoded separately and normalized. Both models are frozen, cached, and shared across seeds and selector families.
 
-Formal experiments use frozen BGE-small-en-v1.5 text features and CLIP ViT-B/32 image features. Claim text and the semantic content of every evidence item, including captions and serialized tables, are encoded by BGE. A recoverable table, figure, or image is additionally encoded by the CLIP image tower. Transparent PNG content is composited onto a white canvas before both CLIP encoding and perceptual-duplicate auditing, preventing alpha-only storage differences from collapsing distinct figures. Missing media produces an unavailable visual channel rather than suppressing the semantic channel. Unique text and media inputs are batched and cached before model training; deterministic hash features are restricted to synthetic software tests.
-
-Let $\mathbf{x}_c\in\mathbb{R}^{d}$ be the claim feature, $\mathbf{x}^{s}_i$ the semantic evidence feature, $\mathbf{x}^{v}_i$ the visual feature, and $m^{v}_i\in\{0,1\}$ its availability indicator. Separate projections produce $\mathbf{s}_i$ and $\mathbf{v}_i$. The fused evidence state is
-\begin{align}
-\mathbf{h}_c &= \operatorname{LN}\!\left(\operatorname{GELU}(W_c\mathbf{x}_c+b_c)\right),\\
-\alpha_i &= m_i^v\,\sigma\!\left(\mathbf{w}_g^{\top}[\mathbf{s}_i;\mathbf{v}_i;\mathbf{s}_i\odot\mathbf{v}_i]+b_g\right),\\
-\mathbf{h}^{(0)}_i &= \operatorname{LN}\!\left(\mathbf{s}_i+\alpha_i\mathbf{v}_i+\mathbf{u}_{t_i}\right),
-\end{align}
-where $\mathbf{u}_{t_i}$ is a learned modality embedding and the hidden width is 192.
-
-\subsection{Graph Verifier and Frozen Ranking}
-
-Valid evidence items form a dense packet graph. Nodes retain their modality type; padded positions are masked. For layer $\ell$, masked self-attention is
-\begin{align}
-Q &= H^{(\ell)}W_Q,\quad K=H^{(\ell)}W_K,\quad V=H^{(\ell)}W_V,\\
-A &= \operatorname{softmax}\!\left(QK^{\top}/\sqrt{h}+M\right),\\
-H^{(\ell+1)} &= \operatorname{LN}\!\left(H^{(\ell)}+\operatorname{Dropout}(AVW_O)\right),
-\end{align}
-where $M$ masks invalid node pairs. The formal graph has two layers.
-
-For contextual state $\mathbf{h}_i$ and claim state $\mathbf{h}_c$, the selector computes
-\begin{align}
-\mathbf{q}_i &= [\mathbf{h}_c;\mathbf{h}_i;\mathbf{h}_c\odot\mathbf{h}_i],\\
-s_i &= \mathbf{w}_2^{\top}\operatorname{Dropout}
-\left(\operatorname{GELU}(W_1\mathbf{q}_i+\mathbf{b}_1)\right)+b_2.
-\end{align}
-Invalid positions receive a large negative logit. The base verifier selects the three highest valid scores with a straight-through gate. If $z_i$ is the hard top-three indicator and $a_i=\sigma(s_i)$, the training gate is
+The implemented pilot feature vector for claim--candidate pair $(c,e_i)$ is
 \begin{equation}
-g_i=z_i+a_i-\operatorname{stopgrad}(a_i).
+\begin{aligned}
+x_i=[&s_i,s_i^2,m_i^{t},m_i^{v},\\
+&\log(1+\ell_i)/10,\log(1+\ell_c)/10,\\
+&\log(1+n_c)/10],
+\end{aligned}
+\label{eq:features}
 \end{equation}
-The selected representation $\mathbf{h}_S=\sum_i g_i\mathbf{h}_i/\max(1,\sum_i g_i)$ is concatenated with $\mathbf{h}_c$ and passed through a two-layer verdict head. After development selection, the checkpoint and the complete ordering $\pi=\operatorname{argsort}(-s)$ are frozen.
+where $s_i$ is the modality-appropriate semantic similarity, $m_i^{t}$ and $m_i^{v}$ are text and image indicators, $\ell_i$ is text length (zero for images), $\ell_c$ is claim length, and $n_c$ is the number of available candidates. Candidate truncation is label-blind: candidates are ordered by $s_i$ and capped at 40 text and 20 image items.
 
-The base loss is
+\subsection{Evidence-Membership Scorer}
+
+A lightweight logistic scorer estimates an uncalibrated inclusion probability
 \begin{equation}
-\mathcal{L}_{\mathrm{base}}=
-\mathcal{L}_{\mathrm{ver}}+0.50\mathcal{L}_{\mathrm{sel}}+0.02\mathcal{L}_{\mathrm{sp}},
+q_i=\sigma(w^\top \tilde{x}_i+b),
+\label{eq:scorer}
 \end{equation}
-where $\mathcal{L}_{\mathrm{ver}}$ is verdict cross-entropy, $\mathcal{L}_{\mathrm{sel}}$ is evidence-label binary cross-entropy over valid positions, and $\mathcal{L}_{\mathrm{sp}}$ is the mean valid sigmoid selector activation. The checkpoint maximizes the unweighted mean of validation verdict macro-F1 and citation macro-F1.
+where $\tilde{x}_i$ is standardized using fitting-fold statistics. Class-balanced binary cross-entropy compensates for the small proportion of gold items, and fixed $L_2$ regularization is applied to $w$. The learning rate, epoch count, and regularization are fixed by the development configuration rather than altered after observing formal-test results.
 
-\subsection{Decoupled Adaptive Citation-Set Prediction}
+This scorer is intentionally simple. It tests the selection rule without making an architectural-capacity claim. A stronger graph scorer may be evaluated only as a declared ablation under the same development budget and cannot replace the frozen main scorer after the official test is inspected.
 
-The cardinality input preserves score magnitude but discards evidence identity and order beyond rank. For maximum packet width $n_{\max}$, define
+\subsection{Claim-Grouped Calibration}
+
+For each predetermined seed, 20\% of training claim identifiers are assigned deterministically to a calibration fold. The scorer is fit on the remaining claims. A binary temperature parameter is fit on the calibration probabilities and labels, producing
 \begin{equation}
-\mathbf{r}=\bigl(\operatorname{sort}_{\downarrow}(\sigma(s_i)m_i)_{i=1}^{n_{\max}},
-\frac{\sum_i m_i}{n_{\max}},
-\frac{\sum_i m_i m_i^v}{n_{\max}}\bigr).
+p_i=\sigma(\operatorname{logit}(q_i)/T).
+\label{eq:temperature}
 \end{equation}
-The two final components are the normalized valid-candidate and visual-candidate counts. A two-layer multilayer perceptron with hidden width 32 and GELU activation predicts
-\begin{equation}
-p_{\phi}(k\mid\mathbf{r})=\operatorname{softmax}\!\left(g_{\phi}(\mathbf{r})\right),
-\end{equation}
-for $k\in\{1,\ldots,K_{\mathrm{train}}\}$, where $K_{\mathrm{train}}$ is the largest gold citation count in the training split. The target is the clipped training-set gold count, and $\phi$ is optimized by cross-entropy. Only $\phi$ changes in this stage. Early stopping selects the epoch with maximum validation citation macro-F1.
+Calibration is evaluated separately using Brier score, negative log-likelihood, expected calibration error, and reliability plots. Temperature scaling is the default; a more flexible calibrator is not selected post hoc.
 
-At inference, $\hat{k}=\arg\max_k p_{\phi}(k\mid\mathbf{r})$ and the cited set is
-\begin{equation}
-S_{\mathrm{DACS}}=\{e_{\pi_1},\ldots,e_{\pi_{\hat{k}}}\}.
-\end{equation}
-The verdict is copied from the matched frozen verifier rather than recomputed through a new evidence aggregate. The evaluator rejects a run if the base-checkpoint hash differs, the feature width differs, any claim identifier is misaligned, or any ranked identifier changes. Thus, for each claim,
-\begin{equation}
-p_{\mathrm{DACS}}(y\mid c,E)=p_{\mathrm{fixed}}(y\mid c,E)
-\end{equation}
-is an enforced implementation invariant, not an empirical approximation.
+\subsection{Exact Expected-F1 Decoder}
 
-\subsection{Citation Rendering and Complexity}
+Candidates are sorted by decreasing calibrated $p_i$, with stable input order breaking probability ties. For a prefix of length $k$, let $TP_k$ be the number of gold items inside the prefix and let $G$ be the total number of gold candidates in the packet. Under independent Bernoulli membership variables, the utility of the prefix is
+\begin{equation}
+U(k)=\mathbb{E}\left[\frac{2TP_k}{k+G}\middle|p_1,\ldots,p_n\right].
+\label{eq:utility}
+\end{equation}
+The implementation computes the distributions of gold counts inside and outside every prefix with Poisson-binomial recurrences and sums their joint mass exactly. It does not substitute a ratio of expectations. The selected size is
+\begin{equation}
+k^*=\arg\max_{k\in\mathcal{K}}U(k),
+\qquad S=\{e_{(1)},\ldots,e_{(k^*)}\}.
+\label{eq:decision}
+\end{equation}
+MOCHEG development claims in the audited packet have at least one released positive candidate, so the frozen policy disallows an empty selection. The maximum is 60 items, and ties choose the smaller set. Unit tests compare the dynamic program with brute-force enumeration on small probability vectors and cover invalid probabilities, empty inputs, maximum budgets, and tie behavior.
 
-The output contains every identifier in $S_{\mathrm{DACS}}$. For readability, an extractive text field includes normalized snippets from at most the first two cited items; it cannot invent an identifier. The cardinality head adds $O(n_{\max}h_c)$ work after sorting, where $h_c=32$. Its cost is negligible relative to frozen feature extraction and graph inference. Fixed top-one, top-two, and top-three outputs are generated from the same ranking, providing controlled global-budget comparisons without retraining the verifier.
+\subsection{Matched Controls and Verifier}
+
+Fixed selectors return the first $k$ candidates for $k\in\{1,2,3,5,10,20,40,60\}$. The best fixed budget is chosen only on permitted calibration data. Additional controls use a calibrated global threshold, the uncalibrated expected-F1 decoder, and a count-classification head. All controls use the same candidate probabilities and order.
+
+The complete study additionally requires a shared verifier that consumes each selected evidence set and predicts the three MOCHEG labels. The verifier checkpoint, candidate features, and decoding inputs must be identical across selector comparisons. This branch is specified but has not yet been executed in the active implementation. Consequently, verdict non-inferiority remains an unavailable result rather than an assumed property.

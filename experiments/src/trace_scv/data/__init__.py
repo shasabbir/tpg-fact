@@ -1,3 +1,40 @@
 from .registry import DATASETS, DatasetSpec
+from .mocheg import (
+    MOCHEG_EXPECTED,
+    MOCHEG_MIRRORS,
+    MochegCandidate,
+    MochegClaim,
+    MochegQrel,
+    MochegSentenceText,
+    MochegTextEvidence,
+    assert_mocheg_development_sealed,
+    build_mocheg_pilot_packets,
+    build_mocheg_candidate_sets,
+    load_mocheg_claims,
+    load_mocheg_qrels,
+    parse_mocheg_sentence_document_id,
+    prepare_mocheg_sentence_text_candidates,
+    reconstruct_mocheg_sentence_texts,
+    run_mocheg_development_preflight,
+)
 
-__all__ = ["DATASETS", "DatasetSpec"]
+__all__ = [
+    "DATASETS",
+    "DatasetSpec",
+    "MOCHEG_EXPECTED",
+    "MOCHEG_MIRRORS",
+    "MochegCandidate",
+    "MochegClaim",
+    "MochegQrel",
+    "MochegSentenceText",
+    "MochegTextEvidence",
+    "assert_mocheg_development_sealed",
+    "build_mocheg_pilot_packets",
+    "build_mocheg_candidate_sets",
+    "load_mocheg_claims",
+    "load_mocheg_qrels",
+    "parse_mocheg_sentence_document_id",
+    "prepare_mocheg_sentence_text_candidates",
+    "reconstruct_mocheg_sentence_texts",
+    "run_mocheg_development_preflight",
+]

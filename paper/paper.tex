@@ -1,6 +1,7 @@
 \documentclass[journal]{IEEEtran}
 
 \usepackage{amsmath,amssymb}
+\usepackage{array}
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{microtype}
@@ -10,8 +11,8 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,fit,positioning}
 
-\newcommand{\method}{DACS-SCV}
-\title{Decoupling Citation-Set Size from Verification: A Controlled Study of Multimodal Scientific Claims}
+\newcommand{\method}{CEFES}
+\title{Adaptive Evidence-Set Selection for Multimodal Fact-Checking by Expected F1}
 
 \author{Sabbir Hossain\\
 Department of Computer Science\\
@@ -23,11 +24,11 @@ Dhaka, Bangladesh\\
 \maketitle
 
 \begin{abstract}
-Multimodal scientific claim verification requires both a verdict and a concise evidence set. A fixed citation budget ignores variation in evidential requirements, but jointly learning the budget and verifier confounds citation sizing with changes to the ranking and verdict representation. We introduce \method, a decoupled cardinality predictor applied after a multimodal graph verifier is frozen. The head selects only how many items to emit from an unchanged ranking; therefore, its verdict probabilities, predictions, and ranked evidence identifiers are exactly matched to fixed-budget controls. We evaluate five frozen seeds on SciVer's 2,000-claim official test after source-paper-grouped development splitting and cross-split duplicate auditing. \method{} reduces citation-count mean absolute error to 0.4954 and raises exact count match to 0.5565, compared with 0.5725 and 0.4480 for fixed top-two. This improvement in count accuracy does not produce the best evidence set: citation macro-F1 is 0.4702 for \method{} and 0.4810 for fixed top-two. Paired source-paper-grouped bootstrap effects are positive against top-one (+0.0067, 95\% CI [0.0013, 0.0120]) and top-three (+0.0133, [0.0049, 0.0219]) but negative against top-two (-0.0108, [-0.0163, -0.0052]). The prespecified adaptive-superiority hypothesis therefore fails. Ablations and a gold-cardinality diagnostic show that count accuracy is misaligned with citation F1 when the frozen ranking is imperfect. The study provides a controlled negative result and an auditable protocol for separating evidence-set sizing from verification.
+Multimodal fact-checking systems must retrieve useful text and image evidence as well as predict a verdict. Most retrieval pipelines expose a fixed number of evidence items for every claim, although the number and quality of relevant items vary. A preceding controlled study in this project found that predicting citation count more accurately did not improve evidence-set F1 when the underlying ranking was imperfect. This manuscript specifies \method{} (Calibrated Expected-F1 Evidence Selection), which assigns calibrated gold-membership probabilities to a shared multimodal candidate packet and selects the prefix with maximum exact expected set-F1 under an explicit Bernoulli approximation. The study uses the public MOCHEG train, development, and sealed test partitions. All adaptive and fixed-budget selectors share the same candidates, features, and downstream verifier, allowing the selection rule to be isolated. The implemented development pipeline includes pinned BGE-M3 and SigLIP2 feature extraction, temperature calibration, an exact Poisson-binomial dynamic program, fixed-budget and threshold controls, three predetermined seeds, and paired bootstrap analysis. Data-access, sentence-recovery, media, and 400-claim packet audits have passed, and software tests verify the decoder against brute-force enumeration. The real semantic development run and matched-verifier experiment have not yet been executed; therefore, this draft reports no scientific performance claim and the official test remains sealed. The prespecified development gate determines whether the study advances to a single frozen formal evaluation.
 \end{abstract}
 
 \begin{IEEEkeywords}
-scientific claim verification, multimodal reasoning, evidence selection, citation prediction, negative results
+multimodal fact-checking, evidence selection, calibrated retrieval, expected F1, selective prediction
 \end{IEEEkeywords}
 
 \input{sections/01_introduction}
@@ -40,7 +41,6 @@ scientific claim verification, multimodal reasoning, evidence selection, citatio
 \input{sections/08_limitations_ethics}
 \input{sections/09_conclusion}
 
-\IEEEtriggeratref{48}
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 

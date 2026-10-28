@@ -1,0 +1,35 @@
+profile:
+  name: workstation-4090
+  operating_system: windows_or_linux
+  execution_role: development_and_formal_after_unlock
+
+minimum_resources:
+  logical_cpu_threads: 16
+  system_ram_gib: 48
+  free_storage_gib: 300
+  cuda_gpu_required: true
+  gpu_vram_gib: 20
+
+target_resources:
+  gpu: NVIDIA GeForce RTX 4090
+  gpu_vram_gib: 24
+  system_ram_gib: 64
+  free_storage_gib: 1000
+
+runtime:
+  python: "3.13"
+  data_loader_workers: 12
+  download_workers: 12
+  text_embedding_batch_size: 32
+  image_embedding_batch_size: 64
+  gradient_accumulation_steps: 2
+  automatic_mixed_precision: true
+  allow_tf32: true
+  cache_features: true
+  resume_downloads: true
+
+transfer_policy:
+  copy_source_code_and_small_manifests: true
+  redownload_pinned_public_data_on_workstation: true
+  copy_large_media_cache: false
+  formal_test_locked_until_development_gate: true

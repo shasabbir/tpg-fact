@@ -1,62 +1,36 @@
 \section{Experimental Setup}
 \label{sec:experiments}
 
-\subsection{Controlled Comparisons}
+\subsection{Research Questions}
 
-The majority baseline predicts the training-set majority label and emits no citation. Claim-only removes the evidence path. All-pool mean-pools every valid candidate. Relevance ranks candidates by scaled claim--evidence dot product. Flat uses the learned selector without graph layers. Graph-fixed uses the full graph selector and emits its top three items; this is the matched verifier from which \method{} is derived. Fixed top-one and top-two outputs cut the same Graph-fixed ranking without retraining. \method{} uses that identical ranking but predicts a claim-specific count with its separately trained cardinality head.
+The primary question is whether \method{} improves claim-level evidence-set F1 over the strongest fixed budget selected on development data. Secondary questions test whether expected-F1 decoding improves on count prediction, whether calibration contributes to selection quality, and whether the selected evidence preserves verdict macro-F1 under a shared verifier.
 
-M-RAV, MEVER, and MOCHEG are discussed as published context \cite{luu2027mrav,zhang2026mever,yao2023mocheg}; their published values are not entered into significance tests because they use different datasets, candidate pools, and label spaces.
+\subsection{Development and Formal Protocols}
 
-\subsection{Frozen Configuration}
+The development pilot uses seeds 13, 37, and 73. A maximum of 20 declared configurations may be evaluated using train and development data. The official test is unavailable throughout this phase. A formal evaluation, if unlocked, uses seeds 13, 37, 73, 101, and 137 exactly once with the frozen code, data, features, configurations, and checkpoints.
 
-Table~\ref{tab:configuration} records the formal settings. Hyperparameters and the development-selected cardinality checkpoints are frozen before official-test evaluation.
+The first GPU run uses the validated 400-claim packet to check the semantic feature path and selector mechanism. It is a feasibility experiment because its candidates come from the released judgment universe. Before a final claim, the same comparison must be repeated with label-blind retrieval from the full public corpus. The formal test is not unlocked by a qrel-packet result alone.
 
-\begin{table}[t]
-\centering
-\caption{Formal-run configuration.}
-\label{tab:configuration}
-\small
-\begin{tabular}{@{}p{0.42\columnwidth}p{0.53\columnwidth}@{}}
-\toprule
-Component & Setting \\
-\midrule
-Semantic encoder & BGE-small-en-v1.5 (frozen) \\
-Visual encoder & CLIP ViT-B/32 (frozen) \\
-Feature / graph width & 512 / 192 \\
-Graph layers / dropout & 2 / 0.15 \\
-Maximum candidates & 12 \\
-Base citation budget & 3 \\
-Cardinality-head width & 32 \\
-Base / head optimizer & AdamW / AdamW \\
-Base / head learning rate & $3\!\times\!10^{-4}$ / $10^{-3}$ \\
-Maximum epochs & 25 base; 100 head \\
-Early-stop patience & 4 base; 12 head \\
-Seeds & 13, 37, 73, 101, 137 \\
-Bootstrap replicates & 10,000 \\
-\bottomrule
-\end{tabular}
-\end{table}
+\subsection{Baselines and Fairness}
 
-\subsection{Evaluation Measures}
+Controlled baselines are fixed top-$k$ selection, a calibrated 0.5 probability threshold, uncalibrated expected-F1 decoding, and a learned count head. The official MOCHEG baseline is reproduced where compatible. Published M-RAV and MEVER values are contextual because their candidate construction, model access, and tuning conditions differ \cite{luu2027mrav,zhang2026mever}; they are not entered into paired significance tests. Every rerun selector receives the same bounded candidates, features, supervision, and configuration budget.
 
-The co-primary endpoints are verdict macro-F1 and claim-level citation macro-F1. Citation precision, recall, and F1 are computed from predicted and gold evidence-ID sets for each claim and then averaged. The main method comparison is \method{} versus its matched Graph-fixed top-three output. Exact equality of their verdict probabilities and predictions is a mandatory integrity condition.
+\subsection{Metrics and Uncertainty}
 
-Secondary verdict measures are accuracy, balanced accuracy, per-class precision, recall and F1, multiclass Brier score, negative log-likelihood, and 10-bin expected calibration error. Ranking quality is measured by MAP@10, Recall@10, and nDCG@10. Citation-cardinality measures are mean absolute count error, exact count match, mean predicted count, and mean gold count. Citation precision, recall, and F1 are stratified by gold evidence count and by text-only versus visually grounded claims. Applying the gold count to the frozen ranking is reported only as an oracle-cardinality diagnostic, not as a deployable baseline.
+Primary evidence metrics are claim-level macro precision, recall, and F1. Secondary evidence metrics are exact set match, Jaccard score, selected count, count mean absolute error, Recall@$k$, MAP, and nDCG. Calibration is measured with Brier score, negative log-likelihood, and expected calibration error. Verdict quality is measured by macro-F1 and class-wise F1.
 
-Runtime, throughput, peak training GPU memory, and checkpoint size document computation. The existing channel-removal and perturbation outputs are retained as diagnostics for the base verifier but are not contributions or success criteria for \method{}.
+Main selector effects use 10,000 paired bootstrap resamples. Source, event, or fact-check article is the preferred resampling unit when reliable grouping metadata are available; otherwise claims are resampled and that limitation is stated. Seed-aligned records are averaged before the main interval, while seed dispersion is reported separately. Holm correction is applied to the prespecified selector family. Verdict preservation uses a paired non-inferiority interval with margin $-0.01$.
 
-\subsection{Model Selection and Statistical Analysis}
+\subsection{Development Gate}
 
-Base checkpoints maximize the unweighted mean of development verdict and citation macro-F1. With the base checkpoint frozen, the cardinality head is selected by development citation macro-F1. Neither selection step uses the official test. The formal experiment runs all learned configurations with five predetermined seeds and identical feature stores within a seed.
+The test remains sealed unless all of the following hold: the data and software gates pass; mean \method-minus-best-fixed evidence F1 is at least $+0.015$ over the three development seeds; the effect is positive for every seed; calibrated Brier score is no worse than the uncalibrated score; verdict macro-F1 is no more than 0.01 below the fixed control; matched comparisons share identical candidate and verifier artifacts; and a clean rerun regenerates the development table. The current selector runner evaluates only the evidence and calibration portions of this gate. It deliberately reports the full gate as failed until the verifier condition is implemented.
 
-Uncertainty is estimated with 10,000 paired bootstrap samples over source-paper groups, preserving every claim from a sampled paper. For each resample, the paired metric difference is computed within each shared seed and averaged across seeds. The analysis reports the mean difference, percentile 95\% confidence interval, and two-sided bootstrap $p$ value. An exact seed-level sign-flip test is included as a descriptive stability check; with five seeds, its resolution is coarse. Holm adjustment is applied separately to the prespecified verdict and citation comparison families.
+The positive formal claim requires a mean official-test evidence-F1 effect of at least $+0.01$ with a positive 95\% paired interval, together with a verdict-effect lower bound above $-0.01$. A gain against an arbitrarily weak fixed budget does not satisfy this rule.
 
-The adaptive-sizing improvement claim requires a positive official-test citation effect for \method{} relative to each prespecified fixed top-one, top-two, and top-three rule, with all three grouped-bootstrap intervals reported and Holm correction applied to this comparison family, while every paired verdict output remains identical. If any comparison is non-positive, no adaptive superiority claim is made. Subgroup claims are limited to strata with adequate support and are labeled exploratory otherwise.
+\subsection{Ablations and Robustness}
 
-\subsection{Ablations and Diagnostic Comparisons}
+Prespecified ablations remove calibration, replace exact expected-F1 with a global threshold or ratio approximation, replace set decoding with count prediction, and remove modality or duplicate-cluster features. Robustness tests inject repeated evidence, vary packet width without retuning, remove each modality, and corrupt top-ranked candidates with irrelevant items. Subgroup analyses cover verdict, gold-set size, source, and whether image evidence is required. These analyses explain a primary result but cannot rescue a failed main comparison.
 
-All-pool, relevance, flat, and Graph-fixed isolate evidence use, learned ranking, and graph contextualization. Fixed top-one, top-two, and top-three isolate the best global citation budget. The joint adaptive model, evaluated only during development, is retained as a negative design diagnostic because it changes the verifier representation; it is not part of the official-test comparison family. For the decoupled head, removing the valid-candidate count or visual-availability count tests whether those packet summaries add value beyond sorted selector scores. Gold-cardinality ranking performance estimates how much remaining error belongs to ordering rather than set size.
+\subsection{Implementation and Resources}
 
-\subsection{Reproducibility Controls}
-
-Dataset revisions, raw and processed hashes, split manifests, feature hashes, configuration, fingerprint-bound checkpoints, predictions, complete frozen rankings, gold/prediction comparison records, confidence intervals, training histories, code hashes, artifact inventories, and environment metadata are stored with each run. The release gate rejects source-paper overlap, exact visual overlap, or exact gold-evidence content overlap across splits. The finalization gate rejects missing seeds or configurations, non-finite metrics, incomplete prediction files, checkpoint-input mismatches, altered DACS rankings, or any difference between DACS and matched verdict records. Smoke and development-pilot outputs cannot be promoted into the manuscript.
+The main execution host is an RTX 4090 with 24~GiB device memory, 64~GiB system memory, an Intel i9 processor, and approximately 1~TiB free storage. Feature extraction uses mixed precision, cached frozen encoders, text batch size 32, and image batch size 64. The Python package, configurations, tests, data preparation, feature builder, selector runner, and PowerShell orchestration are version controlled. Raw predictions, calibration values, selected identifiers, histories, hashes, and environment metadata are retained for independent recomputation.

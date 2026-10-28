@@ -1,40 +1,52 @@
-\section{Problem Formulation and Datasets}
+\section{Task and Data}
 \label{sec:data}
 
 \subsection{Task Definition}
 
-Let a claim be $c$, its candidate evidence packet be $E=\{e_1,\ldots,e_n\}$, and its verdict be $y\in\{\textsc{supported},\textsc{refuted}\}$. Each candidate has an immutable identifier, a source-document identifier, a modality in \{text, caption, table, figure, image\}, and a binary gold-evidence indicator when supplied by the benchmark. The system returns a verdict distribution $p(y\mid c,E)$, an ordered citation set $S\subseteq E$, and an extractive rationale $r$ that can quote only elements of $S$.
+For claim $c$ and public multimodal corpus $D$, retrieval produces a bounded packet $E=\{e_1,\ldots,e_n\}$ of text and image candidates. Each candidate has an immutable modality-qualified identifier, modality, content or media path, retrieval features, and a binary released relevance judgment when the split permits supervision. The system returns an evidence set $S\subseteq E$ and a verdict in \{\textsc{supported}, \textsc{refuted}, \textsc{not enough information}\}. Evidence is correct only when its released identifier matches an official gold item under the benchmark's evaluation rule. Explanation generation is outside the primary contribution.
 
-Evidence attribution is evaluated directly against dataset-provided evidence identifiers. If a dataset supplies multiple admissible evidence sets, a prediction is credited when it matches an item in any admissible set. The central comparison holds $p(y\mid c,E)$ and the complete evidence order fixed, then compares a global citation budget with a predicted claim-specific budget. Citation precision, recall, and F1 measure set quality; count error measures whether the output length matches the annotated evidence requirement.
+For a predicted set $S$ and gold set $G$, claim-level evidence F1 is
+\begin{equation}
+F_1(S,G)=
+\begin{cases}
+1, & |S|+|G|=0,\\
+\dfrac{2|S\cap G|}{|S|+|G|}, & \text{otherwise}.
+\end{cases}
+\label{eq:set-f1}
+\end{equation}
+The primary selector endpoint is the mean of this claim-level score. Verdict macro-F1 is a co-primary operational safeguard because a selector is not useful if its evidence causes a material loss in verification performance.
 
-\subsection{Public Data Sources}
+\subsection{Public MOCHEG Release}
 
-The formal pipeline uses the openly downloadable SciVer benchmark, which supplies expert evidence linked to passages, tables, or figures under a CC BY 4.0 release \cite{wang2025sciver}. MuSciClaims is a relevant figure-grounded resource \cite{lal2025musciclaims}, but its main Hugging Face release does not currently provide authoritative license metadata. The current pipeline therefore disables that adapter. It can be enabled as a separately reported transfer test only if the release terms are confirmed before the formal data freeze. No web scraping, private corpus, or manually labelled data is required for the formal experiment.
+MOCHEG provides end-to-end multimodal fact-checking data under CC BY 4.0 and associated code under Apache 2.0 \cite{yao2023mocheg}. The official paper reports 11,669 train claims, 1,490 development claims, and 2,442 test claims, together with 91,822 corpus documents and 122,246 images. The released labels are Supported, Refuted, and Not Enough Information.
+
+The authoritative archive is retained as the recovery source, while routine development uses public transport mirrors whose schemas and counts have been reconciled with the official release. Full immutable revisions for the train, development, shared-corpus, and sealed-test transports are recorded in the released configuration and study plan. Test annotations are not downloaded during development.
 
 \begin{table}[t]
 \centering
-\caption{Dataset roles in the implemented formal pipeline. MuSciClaims is excluded from the reported experiment.}
-\label{tab:datasets}
+\caption{Official MOCHEG split statistics reported by the dataset paper.}
+\label{tab:mocheg-splits}
 \small
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}p{0.21\columnwidth}p{0.14\columnwidth}p{0.23\columnwidth}p{0.21\columnwidth}@{}}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrr@{}}
 \toprule
-Dataset & Modal. & Gold fields & Role \\
+Split & Claims & Text evidence & Image evidence \\
 \midrule
-SciVer & T/Tab/Fig & label, evidence & primary \\
-MuSciClaims & T/Fig & label, figure & {\raggedright conditional; disabled\par} \\
+Train & 11,669 & 23,545 & 8,927 \\
+Development & 1,490 & 4,067 & 1,178 \\
+Test & 2,442 & 6,268 & 2,007 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The SciVer release contains 3,000 claim--evidence instances from 1,113 papers \cite{wang2025sciver}. Before partitioning the 1,000-example development file, the pipeline removes every development record whose source-paper identifier occurs in the official test file. The remaining development records are divided into training and validation partitions using a deterministic hash of the source-paper identifier with an 80/20 target ratio; all claims from one paper remain in one partition. The bounded pilot uses only these development train/validation partitions. The official 2,000-example test file is never used for model selection and is evaluated only after the configuration is frozen. Each release file, processed JSONL file, and split manifest receives a SHA-256 digest. If MuSciClaims is later licensed and enabled, it will be used only through its released test file at a pinned public revision and will never be merged into SciVer training.
+\subsection{Development Packet}
 
-\subsection{Evidence-Packet Construction}
+The current feasibility packet samples 200 train and 200 development claims using a deterministic seed. Candidate text is reconstructed from the public 91,822-row corpus using the release-compatible sentence preprocessing. Candidate images are downloaded selectively and audited for byte identity and Pillow readability. Duplicate modality-qualified judgment rows are collapsed only when relevance labels agree; a conflicting duplicate is treated as a release error.
 
-For SciVer, every annotated section becomes a gold text item. A claim associated with a table receives a serialized table and caption; a claim associated with a chart receives its figure caption and available image. Non-gold sections from the same paper are shuffled by a deterministic claim-specific seed and added as distractors until the packet reaches 12 items. Duplicate evidence identifiers are removed. If a source paper lacks every referenced item, its abstract or title is used only as a recoverability fallback and the condition is recorded in the manifest.
+The packet contains 15,823 candidate records, of which 15,289 are available. All missing records are negative distractors, so every retained claim has its released gold evidence available. The 1,612 downloaded image files are readable; they contain 1,255 unique byte hashes and 357 exact duplicate occurrences. These counts establish packet integrity, not model performance. The feasibility experiment ranks the released judgment candidate universe by label-blind semantic similarity and retains at most 40 text and 20 image items. A positive result on this restricted universe must later be repeated with candidates retrieved from the full released corpus.
 
-The dormant MuSciClaims adapter associates the released figure with the gold item and uses other available figures from the same paper as deterministic distractors. If enabled after a license check, its two-class labels are mapped to the same supported/refuted vocabulary and samples without a two-class label are excluded. Neither adapter infers gold evidence from model similarity or uses test labels to choose distractors.
+\subsection{Split Integrity and Test Seal}
 
-\subsection{Data Integrity Checks}
+Train data are divided by claim identifier into fitting and calibration folds; all configuration selection uses train and official development only. Development code refuses test annotations. A formal run requires a frozen protocol containing code, configuration, dataset, feature, and checkpoint identities plus an explicit formal-test flag. No test metric may be printed by data preparation, feature extraction, or pilot execution. If a method changes after formal evaluation, the existing test result becomes exploratory and cannot be presented as fresh confirmation.
 
-Before training, the release revisions, licenses or terms, file hashes, missing-media rates, label distributions, evidence-ID integrity, and group intersections are audited. The preprocessing code rejects any train--validation, train--test, or validation--test source-paper overlap. Every packet must contain a nonempty claim, a permitted label, unique evidence identifiers, no more than 12 candidates, and at least one gold item for supervised evidence evaluation. External results are withheld if reuse terms cannot be confirmed or if fewer than 90\% of retained examples preserve the modalities required by the task. These gates protect the validity of the reported endpoint; they are not tuned to improve model performance.
+Data audits record source revisions, release counts, labels, hashes, missing media, exact duplicates, perceptual image duplicates, and any source or event grouping available from the release. Learned preprocessing and calibration are fit only on the permitted training fold. The complete access and identity audit is maintained outside the manuscript in the project research records.

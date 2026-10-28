@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "trace-scv"
-version = "0.3.2"
-description = "Decoupled adaptive citation-set scientific claim verification research code"
+version = "0.4.1"
+description = "Controlled adaptive evidence-set selection for multimodal fact verification"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
@@ -17,6 +17,7 @@ dependencies = [
 data = [
   "datasets>=3.0,<5",
   "huggingface-hub>=0.26,<2",
+  "nltk==3.9.2",
   "pillow>=10,<13",
 ]
 ml = [
@@ -24,6 +25,7 @@ ml = [
 ]
 formal = [
   "huggingface-hub>=0.26,<2",
+  "nltk==3.9.2",
   "pillow>=10,<13",
   "torch>=2.3,<3",
   "transformers>=4.46,<5",
@@ -41,6 +43,7 @@ dev = [
 ]
 all = [
   "huggingface-hub>=0.26,<2",
+  "nltk==3.9.2",
   "pillow>=10,<13",
   "torch>=2.3,<3",
   "transformers>=4.46,<5",

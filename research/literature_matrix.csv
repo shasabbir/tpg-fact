@@ -1,5 +1,5 @@
 key,year,venue,type,problem,approach,data_or_setting,relevance,decision
-luu2027mrav,2027,"Information Processing & Management",journal,"zero-shot multimodal fact verification","retrieve; consistency verbalization; relevance ranking; LLM verification","MOCHEG; FACTIFY; Fin-Fact","closest end-to-end base paper","published context"
+luu2027mrav,2026,"Information Processing & Management",journal,"zero-shot multimodal fact verification","retrieve; consistency verbalization; relevance ranking; LLM verification","MOCHEG; FACTIFY; Fin-Fact","closest end-to-end base paper","published online 2026; issue dated 2027"
 zhang2026mever,2026,EACL,conference,"multimodal retrieval; verification; explanation","graph evidence retriever and fusion-in-decoder generation","AIChartClaim; ChartCheck; MOCHEG; MR2","closest graph/explanation base paper","published context"
 yao2023mocheg,2023,SIGIR,conference,"joint multimodal fact checking and explanation","benchmark plus joint retrieval/verdict/explanation models",MOCHEG,"establishes joint task and public benchmark","related benchmark"
 wang2025sciver,2025,ACL,conference,"multimodal scientific claim verification","expert claim-evidence benchmark and foundation-model evaluation",SciVer,"primary public dataset","core dataset"
@@ -49,3 +49,4 @@ zhang2023realtime,2023,"Expert Systems with Applications",journal,"real-time fak
 wang2024neutralization,2024,"Information Fusion",journal,"modality neutralization in fusion","conflict-aware multimodal representation","multimodal news datasets","fusion failure mode","related method"
 peng2024contextual,2024,"Information Processing & Management",journal,"semantic heterogeneity of fake news","contextual semantic representation learning","multimodal news datasets","cluster-aware representation","related method"
 shang2026semantic,2026,"Information Fusion",journal,"semantic alignment for multimodal fake news","multi-level semantic-space alignment","multimodal news datasets","recent high-quality fusion model","related method"
+liu2025minimal,2025,"Information Sciences",journal,"minimal evidence-set mining for claim verification","neural-symbolic search for all irreducible supporting or refuting evidence sets","enhanced FEVER; SemEval; Wiki80","closest set-valued evidence competitor; text-only and not calibrated multimodal expected-F1 decoding","novelty boundary"

@@ -42,4 +42,24 @@ The literature search was expanded across Crossref DOI records, ACL Anthology, A
 
 Inclusion required a peer-reviewed journal, conference, or archival workshop version; a resolvable DOI; and direct relevance to task definition, multimodal fusion, evidence retrieval, scientific verification, or faithful attribution. arXiv-only manuscripts, duplicate preprints, DOI-less candidate papers, and works without a supportable role in the review were excluded. The final manuscript bibliography contains 50 DOI-identified peer-reviewed sources: 27 journal articles and 23 conference/workshop papers. Crossref relation fields exposed no `updated-by` or `update-to` notices for the retained records at the time of the audit. Claim-level support is recorded in `reference_ledger.csv`; paywalled papers are used only for claims supportable from authoritative titles/abstracts and bibliographic records.
 
-The automated reference gate verified 48 records without a finding. Two records were manually resolved rather than silently altered: M-RAV is an Elsevier version of record whose issue year is 2027 even though its DOI and publisher PDF were available in 2026, and the Crossref creator fields for Shah and Ganatra (2022) split the first author's name differently from the Springer version-of-record PDF. Both exceptions and their authoritative locators are recorded in `reference_ledger.csv` and remain visible in `reference_audit/audit.md`.
+The supplied M-RAV version of record states that it was available online on 25 June 2026 and assigned to volume 64 (2027). The bibliography therefore cites the 2026 online publication and records the 2027 issue in a note. The Crossref cache used by the helper splits the first author's name for Shah and Ganatra (2022), while the live Crossref record and inspected publisher identity give Minal Nirav Shah and Amit Ganatra; that automated name warning remains documented rather than silently ignored.
+
+## Positive-study pivot audit (2026-10-28)
+
+The completed SciVer experiment was treated as a closed negative study rather than retuned after its official test was consumed. A new benchmark and method were selected so that any later confirmatory claim can be evaluated on untouched data.
+
+Verified benchmark sources:
+
+- MOCHEG version of record: https://doi.org/10.1145/3539618.3591879
+- MOCHEG official repository: https://github.com/PLUM-Lab/Mocheg
+- MOCHEG official access form: https://docs.google.com/forms/d/e/1FAIpQLScAGehM6X9ARZWW3Fgt7fWMhc_Cec6iiAAN4Rn1BHAk6KOfbw/viewform?usp=sf_link
+
+The paper and repository establish a public CC BY 4.0 benchmark of 15,601 claims with official train/development/test partitions, multimodal evidence, and supported/refuted/not-enough-information labels. The release archive is not yet local, so schema inspection and test-identity sealing remain mandatory preflight gates.
+
+Focused novelty queries covered `adaptive evidence set size fact checking`, `expected F1 decoding evidence selection`, `minimal evidence claim verification`, `utility-oriented visual evidence selection`, `MOCHEG top k evidence`, and `calibrated set prediction information retrieval`. Closest verified works were:
+
+- Utility-Oriented Visual Evidence Selection: https://doi.org/10.18653/v1/2026.acl-long.1620
+- Learning to mine all minimal evidences for unverified claims: https://doi.org/10.1016/j.ins.2025.122505
+- M-RAV: https://doi.org/10.1016/j.ipm.2026.104988
+
+The retained novelty boundary is narrow: CEFES selects a variable multimodal evidence set by maximizing exact expected set-F1 under calibrated candidate probabilities. It is not presented as the first adaptive retriever, the first helpfulness ranker, or the first minimal-evidence method. The primary comparison is against a development-selected fixed top-k selector with identical candidates, ranking features, and verifier. The MOCHEG official test remains sealed until the development gate in `plan.md` passes and the protocol is frozen.

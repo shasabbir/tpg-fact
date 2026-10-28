@@ -1,340 +1,702 @@
 # Living Study Plan
 
 Last updated: 2026-10-28
-Study status: **formal five-seed SciVer run complete and independently audited; the frozen release gate, artifacts, endpoints, invariants, and grouped-bootstrap comparisons pass; the prespecified adaptive-superiority hypothesis fails because DACS-SCV underperforms fixed top-two; the ten-page IEEE manuscript is synchronized, compiled, and visually verified as a controlled negative study with no post-test tuning**
-Primary venue class: strong Q1 journal or A* conference extension; no quartile or acceptance is guaranteed.
 
-## 1. Study identity
+Active study status: **CEFES selector implementation, public-data preparation, and software smoke checks are complete. The pinned BGE-M3/SigLIP2 development pilot and matched verifier are pending. The official MOCHEG test set must remain untouched until the complete development gate passes and the protocol is frozen.**
+
+Target quality: a defensible strong-journal or A* conference study. Q1/Q2 placement and acceptance are objectives, never guaranteed outcomes.
+
+## 0. New-PC handoff contract
+
+This section is the entry point for a new computer or a new ChatGPT session. It
+must be read before running code or editing the paper.
+
+### 0.1 Sources of truth
+
+Use these files in this order:
+
+1. plan.md: scientific protocol, current state, gates, stop rules, and next action.
+2. paper/paper.tex and paper/sections/: the active IEEE pre-results manuscript.
+3. experiments/configs/mocheg_development.yaml: frozen development choices.
+4. experiments/configs/workstation_4090.yaml: hardware and execution profile.
+5. research/mocheg_access_audit_2026-10-28.md: data identity and access evidence.
+6. RUN_ON_4090_WORKSTATION.md: concise operator instructions.
+
+If prose conflicts with executable code or configuration, stop and reconcile the
+conflict before treating any result as valid. paper/ now belongs to the active
+CEFES/MOCHEG study. The old SciVer/DACS manuscript is recoverable from Git
+history and its frozen archives, but it is not the active paper.
+
+### 0.2 State vocabulary
+
+- **Proposed**: specified in this plan but not yet implemented.
+- **Implemented**: code exists and targeted software tests pass.
+- **Measured**: a declared run produced saved outputs.
+- **Checked**: measurements were independently recomputed and linked to exact
+  code, configuration, data, and feature identities.
+
+At handoff, the exact CEFES decoder, calibration, MOCHEG adapter, packet builder,
+pinned feature builder, and selector runner are implemented. The CPU hash smoke
+is measured for software behavior only and is prohibited from supporting a
+scientific claim. The pinned BGE-M3/SigLIP2 pilot, matched verifier, full-corpus
+retrieval study, and active-study formal test are not measured.
+
+### 0.3 Hardware and data assumptions
+
+The destination PC has an RTX 4090 with 24 GiB VRAM, 64 GiB RAM, an Intel i9,
+and about 1 TiB free storage. No paid API is required. MOCHEG and model weights
+are public. A read-only Hugging Face token is optional for rate limits and must
+be supplied through the destination environment or credential store, never
+written into this repository, a notebook, a configuration file, or a commit.
+
+The 69.2 GiB authoritative MOCHEG archive is a recovery source, not the default
+download. The development runner uses pinned public mirrors and selectively
+downloads the validated packet. Do not copy the old partial data cache to the
+new PC.
+
+### 0.4 Transfer options
+
+After the handoff commit, the preferred complete transfer is the Git bundle
+dist/cefes-study-handoff.bundle. Copy it to the new PC and run:
+
+    git clone D:\Transfer\cefes-study-handoff.bundle D:\cefes-study
+    cd D:\cefes-study
+    git status
+    git log -1 --oneline
+
+The source-only alternative is dist/cefes-workstation-source.zip. It contains
+the paper, plan, code, research records, and reference PDFs but no Git history,
+public data, outputs, virtual environments, credentials, or old ZIP archives.
+Extract it to a short path such as D:\cefes-study.
+
+The GitHub remote is https://github.com/shasabbir/tpg-fact.git, branch main.
+The handoff commit is local unless it is explicitly pushed later. A normal clone
+from GitHub will not contain the handoff commit until that push occurs.
+
+### 0.5 Exact first run on the destination PC
+
+Open PowerShell:
+
+    cd D:\cefes-study\experiments
+    powershell -ExecutionPolicy Bypass -File scripts\setup_workstation.ps1
+
+The setup creates .venv-workstation, installs the formal, analysis, and
+development dependencies, runs the complete test suite, and fails unless CUDA,
+VRAM, RAM, and storage checks pass. If PyTorch is installed without CUDA, obtain
+the current Windows/Pip/CUDA index URL from the official PyTorch selector and
+rerun:
+
+    powershell -ExecutionPolicy Bypass -File scripts\setup_workstation.ps1 -TorchIndexUrl "OFFICIAL_PYTORCH_INDEX_URL"
+
+Then run the real semantic development pilot:
+
+    powershell -ExecutionPolicy Bypass -File scripts\run_workstation_pilot.ps1
+
+Expected audit targets:
+
+- experiments/outputs/preflight/workstation.json
+- experiments/outputs/mocheg/pilot_features.npz
+- experiments/outputs/mocheg/pilot_features.manifest.json
+- experiments/outputs/mocheg/selector_pilot/summary.json
+- one per-seed JSON and claim-record JSONL file for seeds 13, 37, and 73.
+
+Do not run a formal-test command. The current runner intentionally sets
+full_development_gate_pass to false because the matched verifier has not been
+evaluated.
+
+### 0.6 Decision immediately after the run
+
+First audit feature identities, scientific_feature_backend, candidate counts,
+per-seed effects, calibration metrics, and raw claim records. If the selector
+numeric gate fails, keep the test sealed and either use the remaining declared
+development trials or stop this direction. If it passes, implement and run the
+shared matched verifier, full-corpus retrieval comparison, and clean
+reproduction. Only the complete Section 13 gate can authorize protocol freeze
+and formal evaluation.
+
+Never choose a favorable fixed budget after seeing the formal test, replace the
+best fixed comparator with a weaker one, hide a failed seed, or describe the
+hash smoke as a scientific pilot.
+
+### 0.7 Continuation prompt for ChatGPT on the new PC
+
+Use this prompt after opening the transferred repository:
+
+> Continue the CEFES/MOCHEG study from this repository. Read plan.md in full,
+> then read paper/paper.tex, every included paper section,
+> RUN_ON_4090_WORKSTATION.md, experiments/configs/mocheg_development.yaml, and
+> research/mocheg_access_audit_2026-10-28.md. Inspect Git status and the actual
+> code before acting. Preserve the official MOCHEG test seal. Run the workstation
+> preflight, tests, pinned BGE-M3/SigLIP2 400-claim development pilot, and audit
+> its saved artifacts. Do not claim scientific success from the CPU hash smoke.
+> Do not access formal-test annotations or rewrite pending results as completed.
+> If the selector numeric gate passes, implement the shared matched verifier and
+> full-corpus development comparison, then apply every Section 13 gate. Keep
+> plan.md and the manuscript synchronized, generate numerical tables from frozen
+> outputs, compile and inspect the PDF after manuscript changes, and commit only
+> secret-free reproducible source.
+
+### 0.8 Known handoff limitations
+
+The active manuscript is a pre-results draft, not a submission-ready paper.
+The automated bibliography audit records 48 references as verified and two as
+pending automated metadata reconciliation. M-RAV was available online in 2026
+but is assigned to a 2027 issue; the bibliography cites the online year and
+notes the issue year. The Shah and Ganatra record has a creator-name parsing
+difference in the helper cache even though the live Crossref record identifies
+Minal Nirav Shah and Amit Ganatra. These documented warnings do not change the
+scientific protocol, but they must be rechecked before submission readiness is
+claimed.
+
+## 1. Executive decision
+
+The completed SciVer study is preserved as a checked negative result. Its formal five-seed archive passed artifact, code-hash, prediction, invariant, and grouped-bootstrap audits, but DACS-SCV obtained 0.4702 evidence-set F1 versus 0.4810 for fixed top-two. Predicting the gold citation count more accurately did not improve the selected evidence set.
+
+That result is not retuned, hidden, or rewritten as a positive finding. It establishes the design problem for the new study:
+
+> Citation-count accuracy is not the same objective as evidence-set utility.
+
+The new study tests a method that directly optimizes the expected quality of the selected evidence set on a fresh public benchmark. The old SciVer official test is closed and cannot provide confirmatory evidence for the new method.
+
+## 2. Study identity
 
 Working title:
 
-**Decoupling Citation-Set Size from Verification: A Controlled Study of Multimodal Scientific Claims**
+**Adaptive Evidence-Set Selection for Multimodal Fact-Checking by Expected F1**
 
-Working method name: **DACS-SCV** (Decoupled Adaptive Citation-Set Scientific Claim Verification).
+Working method name:
 
-Central claim to test:
+**CEFES** -- Calibrated Expected-F1 Evidence Selection.
 
-> Separating verdict prediction from citation-set sizing can improve evidence-item citation quality without changing the verifier's decision or evidence ranking.
+Primary research question:
 
-This replaces the former US-TPMFC/decision-time-provenance study. The old private pilot, ClaimReview collection path, and temporal benchmark construction are out of scope.
+> Can a calibrated selector that chooses the evidence-set size by exact expected set-F1 outperform the strongest validation-selected fixed evidence budget while preserving fact-verification performance?
 
-## 2. Why this direction
+Primary contribution type: an evidence-selection and decoding method, supported by a controlled positive or falsifying experiment on the untouched MOCHEG test set.
 
-The two supplied base papers are strong but leave the same unresolved problem.
+## 3. Scientific rationale and novelty boundary
 
-- **M-RAV** retrieves text and images, verbalizes image--text consistency, ranks by relevance, and prompts an LLM to verify a claim. Its free-form verbalizations are not tied to explicit evidence identifiers, retrieval quality for images is weak, and its relevance module is neutral or harmful in some reported ablations.
-- **MEVER** jointly retrieves, verifies, and explains with a multimodal graph. Its consistency regularizer aligns the explanation with the predicted label, but label consistency is not evidence attribution. Mean aggregation can also conceal which evidence actually caused a decision. Explanation evaluation is dominated by lexical overlap and a VLM judge.
+### 3.1 Evidence-backed problem
 
-The reviewed peer-reviewed literature already covers multimodal fusion, out-of-context detection, evidence retrieval, scientific claim verification, generated explanations, citation evaluation, and visual-evidence utility. The corrected pilots falsified the planned causal-grounding mechanism but exposed a separate design problem: a shared fixed top-$k$ bottleneck couples verdict computation to citation length even though required evidence-set sizes vary by claim. DACS-SCV therefore freezes the verifier and ranking path and learns citation-set cardinality separately. The literature baseline contains 50 DOI-verified works and excludes arXiv-only sources.
+MOCHEG defines end-to-end multimodal evidence retrieval, verdict prediction, and explanation generation. Its official baseline retrieves a fixed top-$K$ set. The supplied M-RAV paper also tunes a global top-$K$ on MOCHEG development data and uses a fixed top-five evidence/alignment budget. These designs impose the same evidence count on claims whose evidence requirements differ.
 
-## 3. Research questions and hypotheses
+The completed SciVer study supplies direct project evidence that count-prediction loss is misaligned with evidence-set F1. Fixed top-two beat the learned cardinality head even though the head had better count mean absolute error and exact match.
 
-### RQ1: fixed-budget limitation
+### 3.2 Closest competing ideas
 
-How much citation precision and recall are lost when every claim receives the same citation budget?
+- **MOCHEG**: separate text/image retrieval followed by fixed top-$K$ evidence and multimodal verification. DOI: `10.1145/3539618.3591879`.
+- **M-RAV**: BGE/CLIP retrieval, image-text verbalization, relevance filtering, and fixed top-five evidence on MOCHEG. DOI: `10.1016/j.ipm.2026.104988`.
+- **Utility-Oriented Visual Evidence Selection**: estimates visual helpfulness for multimodal RAG but still hands a fixed top-$K$ visual set to the main model and does not optimize a fact-checking evidence-set metric. DOI: `10.18653/v1/2026.acl-long.1620`.
+- **Learning to Mine All Minimal Evidences**: searches for irreducible textual evidence sets with neural-symbolic reasoning, but does not address calibrated adaptive multimodal evidence-set decoding. DOI: `10.1016/j.ins.2025.122505`.
+- **DACS-SCV**: predicts citation count from a frozen ranking; the audited SciVer result shows why matching count is insufficient.
 
-**H1.** Fixed top-$k$ selection over-cites claims requiring short evidence sets and under-cites claims requiring longer sets.
+### 3.3 Proposed distinction
 
-### RQ2: decoupled adaptive selection
+CEFES does not predict a count class and does not use a global fixed budget. It estimates a calibrated probability that each text or image candidate belongs in the gold evidence set, then chooses the prefix whose **exact expected set-F1** is maximal. The decoder therefore optimizes the evaluation target rather than a surrogate count target.
 
-Does a separately trained citation-cardinality head improve evidence-item citation F1 over the same frozen graph ranking?
+The intended novelty is the combination of:
 
-**H2.** DACS-SCV improves citation macro-F1 over each prespecified fixed top-one, top-two, and top-three selection rule while preserving identical verdict probabilities and predictions by construction.
+1. calibrated item-level gold-evidence probabilities;
+2. exact expected-F1 decoding over variable evidence-set sizes;
+3. a matched frozen-verifier comparison that isolates evidence selection;
+4. multimodal fact-checking evaluation under an untouched official test;
+5. duplicate, modality, evidence-count, and calibration analyses.
 
-### RQ3: ranking and cardinality
+Novelty remains provisional until the focused literature update and implementation-equivalence audit are complete. No claim of being the first is allowed without that audit.
 
-Are gains attributable to adaptive set sizing rather than a changed evidence ranking or verifier?
+## 4. Public data and access
 
-**H3.** With ranking and verdicts held fixed, adaptive sizing improves the precision--recall balance and citation F1 relative to fixed budgets.
+### 4.1 Primary dataset: MOCHEG
 
-### RQ4: subgroup robustness
+Official release and code: `https://github.com/PLUM-Lab/Mocheg`
 
-Do attribution gains persist across unseen SciVer source papers and across text-only versus visual-required claim strata?
+Authoritative archive: `http://nlplab1.cs.vt.edu/~menglong/project/multimodal/fact_checking/MOCHEG/dataset/latest_dataset/mocheg_with_tweet_2023_03.tar.gz`
 
-**H4.** DACS-SCV's citation effect is reported separately for text-only and visually grounded claims and across gold evidence-set sizes, with rare strata treated as exploratory.
+Dataset license: CC BY 4.0. Associated code license: Apache 2.0.
 
-## 4. Public datasets only
+Official paper statistics:
 
-No new claims, articles, images, or labels will be collected from the web. Official public releases are used through download scripts; copyrighted source papers or images are not republished beyond their licenses.
+| Partition | Claims | Text evidence | Image evidence |
+|---|---:|---:|---:|
+| Train | 11,669 | 23,545 | 8,927 |
+| Development | 1,490 | 4,067 | 1,178 |
+| Test | 2,442 | 6,268 | 2,007 |
 
-### Formal datasets
+Labels are Supported, Refuted, and Not Enough Information. The released corpus described by the paper contains 91,822 documents and 122,246 images.
 
-1. **SciVer** -- 3,000 expert-annotated examples from 1,113 papers with text, tables, figures, supporting evidence, and rationales. Official Hugging Face release `chengyewang/SciVer`, public, ungated, CC BY 4.0. This is the primary dataset.
-2. **MuSciClaims (conditional, disabled)** -- a relevant public Hugging Face release with multimodal scientific claims, but the main release currently lacks authoritative license metadata. Its adapter remains off unless reuse terms are confirmed before the formal freeze.
-MOCHEG and AIChartClaim remain related-work resources rather than formal datasets. They are not downloaded or evaluated by the frozen pipeline.
+The form-exposed official archive is one 74,304,681,291-byte gzip stream. It is retained as the authoritative recovery source, but it is not the default transport because keeping both it and a full extraction would exceed a safe local storage budget.
 
-### Dataset gates
+Development uses pinned public mirrors only after identity checks. Train revision `985e4206cf9990ff0a875473616be204cfbd09c3` and development revision `9dabf73ad41ddecafb3b525fb82a3de018e3e378` reproduce the official claim, text-evidence, and gold-image-evidence counts. The shared `Corpus3.csv` mirror at revision `d9b15bf2b7d2be790c40efa960e8f05a58487ce2` has exactly 91,822 rows. The sealed test transport is pinned at `a72342a67b6bb5e930f8a2aa5fc3b051690c0f74`, but its annotations are not downloaded during development. The complete access audit is in `research/mocheg_access_audit_2026-10-28.md`.
 
-A dataset enters the main tables only if:
+### 4.2 Dataset roles
 
-- its official release is publicly accessible when the experiment is frozen;
-- the license or author usage terms permit research use;
-- all required modalities are present for at least 90% of the selected split;
-- exact and perceptual duplicate checks are reported;
-- claim/evidence identifiers and official splits can be frozen in a manifest;
-- no test labels or explanations leak through file names, URLs, or prompt fields.
+- **MOCHEG train**: model fitting and an internal calibration partition.
+- **MOCHEG development**: model/configuration selection and the development pilot gate.
+- **MOCHEG official test**: one confirmatory evaluation after protocol freeze.
+- **SciVer**: completed retrospective diagnostic only; never used to select or confirm CEFES.
+- **MuSciClaims**: excluded while its release lacks authoritative license metadata and provides only an evaluation split.
+- **AIChartClaim/ChartCheck**: optional future external evaluation only after license and split terms are verified.
 
-If MuSciClaims reuse terms cannot be confirmed, it is omitted and the formal study is limited to SciVer.
+### 4.3 Execution resources
 
-## 5. Task definition
+The primary execution host is a user-provided workstation with an RTX 4090
+(24 GiB), 64 GiB system RAM, an i9 CPU, and approximately 1 TiB free storage.
+This meets the declared full-run resource floor. The source project and small
+manifests are transferred; pinned public data and model weights are downloaded
+directly on that workstation. Kaggle remains an optional independent rerun, not
+the main execution path.
 
-For claim `c` and candidate evidence set `E`, the system outputs:
+### 4.4 Access and release gates
 
-1. verdict probabilities over the dataset's official label set;
-2. an ordered set of cited evidence identifiers `S`;
-3. a deterministic extractive rationale composed only from selected evidence identifiers and bounded snippets.
+Before any model fitting, the MOCHEG snapshot must pass all of the following:
 
-An evidence identifier refers to an immutable dataset item: a text block, table, figure, image, or linked caption. A citation is correct only when it points to an official gold evidence item for that claim or passes the dataset-specific support rule.
+- authoritative archive identity, headers, and license source preserved;
+- every transport mirror pinned by immutable revision and treated as non-authoritative for licensing;
+- SHA-256 and byte-count manifest recorded;
+- official split identities preserved;
+- claim, text, and image counts reconciled with the release documentation;
+- missing-media rates reported;
+- exact claim/text/image duplicate checks completed;
+- perceptual image duplicate checks completed;
+- fact-check URL/source/event overlap across splits reported where metadata permit;
+- verdict strings mapped deterministically to the three official labels;
+- gold evidence identifiers verified against the released corpus;
+- test labels, explanations, and gold evidence excluded from all development code paths.
 
-## 6. Proposed method
+If the release lacks the corpus or gold identifiers needed for controlled evidence selection, stop and document the gap before redesigning the task.
 
-### 6.1 Frozen dual-channel features and evidence graph
+## 5. Test-sealing policy
 
-Encode the claim and the semantic content of every evidence item with frozen BGE-small-en-v1.5; this includes passages, captions, and serialized tables. Encode recoverable media separately with frozen CLIP ViT-B/32 and store an explicit pixel-availability mask. Separate trainable projections and a learned scalar gate fuse the semantic and pixel channels before adding the modality-type embedding. Missing media leaves the pixel channel unavailable and never suppresses the semantic channel. The claim is projected separately and is **not** inserted as a graph node. The graph contains at most 12 valid evidence nodes and uses two masked self-attention layers over a complete within-packet adjacency matrix. The implementation is modality-typed at the node level, not relation-typed at the edge level.
+The official MOCHEG test is treated as unavailable during development even if its file is physically present.
 
-### 6.2 Frozen verifier and evidence ranking
+Implementation requirements:
 
-A claim-conditioned MLP scores `[claim; evidence; claim*evidence]`. The matched base verifier uses its fixed top-three aggregate for verdict prediction. After training, this verifier and its complete ranked evidence list are frozen. DACS-SCV never changes the base checkpoint, verdict probabilities, or evidence order.
+1. `development` profiles may load only train and development annotations; the shared unlabeled retrieval corpus may be indexed only after columns that reveal claim association are removed from model inputs.
+2. Formal test evaluation requires a frozen-protocol file containing code, configuration, dataset, feature, and checkpoint hashes.
+3. Test evaluation requires an explicit `--formal-test` flag and refuses unfrozen checkpoints.
+4. No test metric is printed during data preparation, feature extraction, or pilot execution.
+5. Test annotations are downloaded only after the development gate and protocol freeze; test results are produced once for the frozen five-seed matrix and retained in full.
+6. Any later method change makes the old test result exploratory; it cannot be presented as a fresh confirmation.
 
-### 6.3 Decoupled adaptive citation cardinality
+## 6. Task definition
 
-For each claim, DACS-SCV sorts the frozen selector probabilities and appends normalized counts of valid and pixel-backed candidates. A two-layer MLP predicts a citation count from one through the maximum gold count observed in training. It is trained only on training labels and selected on the grouped development validation split. Inference returns the predicted number of identifiers from the unchanged ranking. The renderer normalizes whitespace, truncates cited snippets to 180 characters, and emits stable identifiers; invented identifiers are impossible by construction.
+For a claim $c$ and multimodal corpus $D$, the system must:
 
-### 6.4 Training and inference separation
+1. retrieve a bounded candidate packet $E=\{e_1,\ldots,e_n\}$ containing text paragraphs and images;
+2. predict an ordered evidence set $S\subseteq E$;
+3. predict a verdict in {Supported, Refuted, NEI};
+4. optionally render an extractive evidence summary using only selected identifiers and bounded released text.
 
-The base verifier is trained with verdict cross-entropy, supervised evidence-selection BCE, and a small sigmoid sparsity penalty. The cardinality head is then trained with cross-entropy while the verifier is frozen. Development validation chooses the cardinality checkpoint by citation macro-F1; the official test is evaluated once after the full protocol is frozen. Because citation sizing is downstream of the verifier, DACS-SCV and its matched fixed-budget baseline must have identical verdict-probability records.
+An evidence item is correct only when its immutable released identifier matches an official gold evidence item under the dataset's evaluation rule. Explanation fluency is not a primary contribution and no LLM-generated explanation is treated as proof of attribution.
 
-### 6.5 Resource profile
+## 7. Proposed method: CEFES
 
-The reference implementation uses frozen BGE-small text features and frozen CLIP ViT-B/32 image features with a compact graph/selection head. Pilot and formal encoding batch unique text and media inputs and reuse one encoder instance across all splits. A deterministic hash/text-caption backend is restricted to synthetic smoke tests. Validation-only pilots run locally on CPU; the frozen full-data, five-seed matrix will run once on Kaggle and reuse fingerprint-bound feature stores and checkpoints.
+### 7.1 Candidate retrieval
 
-## 7. Comparisons
+Use the same candidate pool for every controlled selector:
 
-### Required baselines
+- frozen BGE-family text embeddings for first-stage paragraph retrieval;
+- frozen CLIP/SigLIP-family image embeddings for first-stage visual retrieval;
+- reciprocal-rank fusion only when a unified candidate order is required;
+- deterministic reranking to a bounded packet, initially at most 40 text and 20 image items;
+- immutable evidence IDs, raw retrieval scores, modality, source, and duplicate-cluster metadata stored in the feature artifact.
 
-1. majority label;
-2. claim-only text model;
-3. mean pooling over all candidate evidence without selection;
-4. scaled dot-product relevance over trainable claim/evidence projections with top-$k$ evidence;
-5. learned flat selector without graph message passing;
-6. graph selector with fixed top one, top two, and top three outputs;
-7. graph selector with training-mode citation count;
-8. DACS-SCV with a learned, decoupled citation count.
+The exact encoder revisions and candidate widths are selected on development data within the declared tuning budget, then frozen. Retrieval Recall@10/50 and gold-set ceiling coverage are reported separately from selection quality.
 
-M-RAV and MEVER remain published context because their original tasks, data variants, and resource profiles are not controlled comparisons on the grouped SciVer protocol. Their published values must not enter paired statistical tests against local runs.
+The 400-claim feasibility run is explicitly a **controlled selector pilot**: it
+ranks the released qrel candidate universe by label-blind semantic similarity,
+then retains at most 40 text and 20 image candidates. The final end-to-end run
+must repeat the comparison on candidates retrieved from the full released
+corpus. A positive qrel-candidate pilot alone is not a final scientific claim.
 
-## 8. Evaluation
+### 7.2 Shared evidence encoder and verifier
 
-### Primary endpoints
+Reuse the checked dual-channel representation where practical:
 
-- evidence-item citation macro-F1;
-- verdict macro-F1.
+- semantic claim/evidence features;
+- separate pixel features with an availability mask;
+- modality embeddings;
+- claim-conditioned evidence scoring;
+- compact evidence interaction layers;
+- a verifier consuming the selected evidence representation.
 
-Both are required. A method is not declared better if attribution improves by sacrificing more than one absolute verdict-F1 point.
+The same verifier checkpoint, evidence features, and candidate packet are used for CEFES and all matched fixed/threshold/count baselines. This prevents a larger verifier from masquerading as a selection improvement.
 
-### Secondary endpoints
+### 7.3 Calibrated item inclusion probabilities
 
-- evidence Recall@k, MAP, and nDCG@k;
-- accuracy, per-class F1, and balanced accuracy;
-- citation coverage and bounded extractive-rationale coverage;
-- citation-count mean absolute error, exact match, and predicted versus gold mean;
-- citation precision and recall by gold evidence-set size;
-- text-only and visually grounded citation macro-F1;
-- diagnostic fixed-ranking oracle-cardinality performance, clearly labeled as an upper bound;
-- runtime, examples per second, peak GPU memory, and selected evidence count.
+For each candidate $e_i$, a lightweight head predicts
 
-### Statistical protocol
+$$
+p_i=P(y_i=1\mid c,e_i,E),
+$$
 
-- tune once on validation data, then freeze configuration;
-- five seeds for trained systems after the pilot;
-- paired bootstrap over aligned predictions, grouped by source paper and averaged over shared seeds, 10,000 samples;
-- 95% confidence intervals;
-- exact seed-level sign-flip effects as a complementary stability check;
-- Holm correction within the verdict and attribution comparison families;
-- group resampling by source paper when multiple claims share one paper;
-- report effect sizes and intervals, not only p-values.
+where $y_i$ indicates official gold-evidence membership. Inputs may include the frozen selector score, local score gaps, modality, visual availability, claim-verdict entropy, and duplicate-cluster features.
 
-## 9. Ablations
+The default head is trained using class-balanced binary cross-entropy with fixed
+$L_2$ regularization. A soft set-F1 term is reserved for a declared ablation and
+cannot be added after inspecting formal-test results. Calibration uses a
+claim-grouped fold carved from the official training partition. Temperature
+scaling is the default; isotonic calibration is allowed only as a prespecified
+ablation because it can overfit small strata.
 
-Remove or replace one component at a time:
+### 7.4 Exact expected-F1 decoding
 
-- evidence graph layers (flat evidence set);
-- graph evidence encoder versus flat selection;
-- fixed versus adaptive citation count;
-- joint versus decoupled adaptive selection;
-- selector-score profile without visual-availability count;
-- selector-score profile without valid-candidate count;
-- text-only and pixel-disabled evidence features.
+Sort candidates by calibrated $p_i$. For every allowed prefix $S_k$, compute
 
-## 10. Falsification and stop rules
+$$
+U(k)=\mathbb{E}\left[\frac{2\,TP_k}{k+G}\middle|p_1,\ldots,p_n\right],
+$$
 
-- DACS-SCV and the matched fixed-ranking verifier must have identical verdict outputs; any mismatch invalidates the decoupling claim.
-- If the five-seed official-test citation effect is non-positive against any of the matched fixed top-one, top-two, or top-three rules, do not claim adaptive improvement; report the method as unsuccessful. Report all three paired grouped-bootstrap intervals and apply the prespecified Holm correction to this comparison family.
-- If gains occur only in one-item claims or disappear in visually grounded claims, narrow the contribution accordingly.
-- If automatic attribution metrics fail validation against an existing gold field, drop them from primary evaluation.
-- If a public dataset has unresolved leakage or license ambiguity, exclude it from the main study.
-- If MEVER or M-RAV cannot be reproduced fairly, compare against a matched local reimplementation and clearly separate published numbers.
-- No result placeholder may be converted into a factual claim before the corresponding artifact and audit entry exist.
+where $TP_k$ is the number of gold items inside $S_k$ and $G$ is the total number of gold items in the packet. The expectation is calculated exactly under the declared independent-Bernoulli approximation using a Poisson-binomial dynamic program; it is not replaced by a ratio of expectations.
 
-## 11. Project layout
+CEFES returns
+
+$$
+k^*=\arg\max_{k\in\mathcal{K}} U(k),\qquad S=S_{k^*}.
+$$
+
+Ties select the smaller set. The admissible set $\mathcal{K}$ and whether an empty set is allowed are determined from MOCHEG's official evidence semantics before the development pilot and then frozen.
+
+The metadata audit found at least one positive qrel candidate for every official development claim. The development protocol therefore freezes `empty_selection_allowed: false`; train claims without any released qrel candidates are excluded from selector fitting but remain counted in the data audit. The evaluated evidence identity is the modality-qualified qrel `DOCUMENT#`, with identical duplicate rows collapsed and conflicting relevance treated as a release error.
+
+The development evidence-count audit found a median of 6 and mean of 11.875
+gold items in the sampled development claims, with 75 of 200 claims above ten.
+Accordingly, the label-blind candidate ceiling is 60 and the fixed-budget family
+is frozen at {1, 2, 3, 5, 10, 20, 40, 60} before the pinned semantic run. CEFES
+uses the identical 60-item ceiling. This revision was made from train/development
+statistics only; the formal test remained sealed.
+
+### 7.5 Why this can address the observed failure
+
+DACS minimizes count-classification loss. CEFES instead uses each item's calibrated probability and the expected set-F1 consequence of adding another item. It can reject a seemingly correct count when the next ranked item is unlikely to be gold, and it can select an additional item when the expected recall gain exceeds the precision cost.
+
+This is a mechanistic hypothesis, not a promised result.
+
+## 8. Research questions and hypotheses
+
+### RQ1: evidence-set superiority
+
+Does CEFES improve evidence-set macro-F1 over the strongest fixed evidence budget selected on MOCHEG development data?
+
+**H1.** On the untouched official test, CEFES has a positive paired evidence-set F1 effect over the validation-selected fixed top-$k$ baseline, with a practically relevant mean improvement of at least 0.01.
+
+### RQ2: count versus set-utility alignment
+
+Does expected-F1 decoding outperform count prediction when both use the same candidate scores and verifier?
+
+**H2.** CEFES improves evidence-set F1 over DACS while count MAE may be equal or worse, confirming that set utility rather than count accuracy explains the gain.
+
+### RQ3: verification preservation
+
+Does better evidence selection preserve downstream verdict quality?
+
+**H3.** CEFES is non-inferior to the best fixed-budget baseline in verdict macro-F1 with a prespecified margin of 0.01.
+
+### RQ4: robustness and modality
+
+Where does adaptive selection help?
+
+**H4.** Effects are reported by verdict, gold evidence count, text/image requirement, and duplicate/noise condition. Consistency across every subgroup is not required for the primary claim; rare strata remain exploratory.
+
+## 9. Claim-test map
+
+| Intended claim | Required comparison | Measurement | Unit and uncertainty | Failure action |
+|---|---|---|---|---|
+| CEFES improves evidence selection | CEFES vs validation-selected best fixed top-$k$ | evidence-set macro-F1 | paired claim/source-group bootstrap, five seeds | do not write a positive superiority paper |
+| Set utility is better than count prediction | CEFES vs DACS on identical rankings/features | F1, precision, recall, count MAE | paired grouped bootstrap | narrow/drop mechanism claim |
+| Verdict quality is preserved | CEFES vs best fixed top-$k$ with same verifier | verdict macro-F1 difference | paired grouped non-inferiority interval | drop preservation claim or method |
+| Calibration matters | calibrated vs uncalibrated CEFES | F1, Brier, ECE | paired claims and seed variation | remove calibration contribution |
+| Exact expected-F1 decoding matters | exact dynamic program vs ratio approximation/global threshold | evidence F1 | paired claims | simplify method and contribution |
+| Multimodal behavior is credible | modality removal/swap and text/image strata | evidence/verdict effects | stratum-specific intervals | narrow multimodal claims |
+| Duplicate robustness improves | injected syndicated/near-duplicate items | F1 and selected duplicate count | paired claims at each injection level | remove robustness claim |
+
+## 10. Baselines and comparison fairness
+
+Required controlled baselines:
+
+1. official MOCHEG retrieval/verifier baseline where reproducible;
+2. semantic relevance with fixed top-1, top-2, top-3, top-5, and top-10;
+3. the single best fixed top-$k$ selected once on development data;
+4. calibrated global probability threshold;
+5. DACS count-classification head;
+6. uncalibrated expected-F1 selector;
+7. CEFES;
+8. oracle ranking-cardinality and gold-evidence verifier diagnostics, explicitly labeled as upper bounds.
+
+Flat and graph evidence scorers may both be evaluated, but the main selector comparison must use one shared frozen ranking/verifier family. M-RAV, MEVER, and other published numbers appear in a separate author-reported context table unless their exact data, inputs, and tuning access can be matched.
+
+All trainable selector families receive the same development access and a maximum of 20 declared configuration trials. No baseline is intentionally under-tuned.
+
+## 11. Metrics
+
+### Primary
+
+- evidence-set macro precision, recall, and F1;
+- verdict macro-F1 for the non-inferiority requirement.
+
+### Secondary
+
+- joint verdict-plus-complete-evidence accuracy;
+- per-class verdict F1 and balanced accuracy;
+- Recall@5/10/50, MAP, and nDCG for candidate retrieval;
+- evidence-set exact match and Jaccard score;
+- selected evidence count, count MAE, and count exact match as diagnostics only;
+- probability Brier score, negative log-likelihood, ECE, and reliability plots;
+- text-only, image-involving, and mixed-evidence performance;
+- performance by gold-set size and claim source;
+- runtime, examples per second, peak GPU memory, and selected items per claim.
+
+The manuscript must not use count accuracy as a substitute for evidence-set quality.
+
+## 12. Statistical protocol
+
+- Development pilot: seeds 13, 37, and 73.
+- Frozen formal run: seeds 13, 37, 73, 101, and 137.
+- Paired bootstrap with 10,000 samples.
+- Group by fact-check source/event/article when reliable grouping metadata exist; otherwise use claim-level resampling and state the limitation.
+- Average aligned seed-level records before the main grouped bootstrap and report seed dispersion separately.
+- Report 95% confidence intervals and effect sizes.
+- Apply Holm correction within the prespecified selector-comparison family.
+- For H3, report a paired non-inferiority interval against the fixed-budget baseline with margin -0.01.
+- Do not interpret non-significance as equivalence.
+
+## 13. Development gate before consuming the test
+
+The official test may be evaluated only if all conditions pass on the development set:
+
+1. dataset and cross-split release gates pass or any retained limitation is explicitly accepted before training;
+2. all scientific-logic unit and integration tests pass;
+3. CEFES exceeds the validation-selected best fixed top-$k$ evidence F1 by at least 0.015 on average over seeds 13, 37, and 73;
+4. the CEFES-minus-fixed effect is positive for all three pilot seeds;
+5. verdict macro-F1 is no more than 0.01 below the best fixed baseline;
+6. calibrated probabilities improve or preserve Brier score relative to the uncalibrated head;
+7. no verifier checkpoint, candidate ranking, or feature artifact differs across matched selector comparisons;
+8. a clean end-to-end rerun reproduces the development table from saved artifacts.
+
+If the gate fails, do not inspect the test. Development may continue within the fixed 20-trial budget. If the budget is exhausted without passing, preserve the failed pilot and stop this direction instead of forcing a positive paper.
+
+## 14. Formal success rule
+
+The study supports the positive primary claim only when both conditions hold on the untouched official test:
+
+1. CEFES minus the validation-selected best fixed top-$k$ has a positive 95% paired interval for evidence-set macro-F1 and a mean effect of at least +0.01;
+2. the lower bound of the CEFES-minus-fixed verdict macro-F1 interval is above -0.01.
+
+H2 and the ablations explain the gain but cannot replace H1. A favorable result against fixed top-one or top-five does not count if the validation-selected best fixed budget is stronger.
+
+## 15. Ablations
+
+Minimum required ablations:
+
+- no calibration;
+- global calibrated threshold instead of expected-F1 decoding;
+- ratio-of-expectations approximation instead of exact decoding;
+- BCE-only training without the soft set-F1 term;
+- DACS count prediction instead of set decoding;
+- no modality indicator;
+- no duplicate-cluster feature;
+- flat evidence scorer instead of graph interaction;
+- text-only and image-disabled features.
+
+Only ablations tied to a retained claim enter the main paper.
+
+## 16. Robustness analyses
+
+- inject 1, 5, and 10 duplicate evidence items from one source cluster;
+- vary candidate-packet width without retuning the selector;
+- remove all image candidates and all text candidates separately;
+- corrupt a controlled fraction of top-ranked candidates with irrelevant items;
+- report official full-test results and a label-independent de-duplicated subset if cross-split duplicates are found;
+- analyze errors by evidence count, verdict, source, and modality requirement.
+
+These analyses are secondary. They cannot rescue a failed primary comparison.
+
+## 17. Implementation plan
+
+Reusable scientific logic remains in Python modules; PowerShell and Python
+scripts orchestrate setup, data preparation, feature extraction, and the pilot.
+The internal package name trace_scv is retained to avoid a risky mechanical
+rename before the development gate.
+
+Implemented active paths:
 
 ```text
-ET2/
-├── Base papers/                 # the two user-supplied anchor papers
-├── Reference_good_papers/       # retained source archive
-├── plan.md                      # this living source of truth
-├── README.md
-├── research/                    # literature, novelty, dataset and claim registers
-├── experiments/                 # reusable Python package, configs, tests, notebooks
-├── kaggle/                      # Kaggle entry notebook and instructions
-└── paper/                       # LaTeX manuscript and its direct supporting assets only
+experiments/
+|-- configs/
+|   |-- mocheg_development.yaml
+|   |-- mocheg_formal.yaml
+|   `-- workstation_4090.yaml
+|-- src/trace_scv/
+|   |-- cefes.py
+|   |-- data/mocheg.py
+|   |-- mocheg_features.py
+|   `-- selection/
+|       |-- calibration.py
+|       `-- mocheg_study.py
+|-- scripts/
+|   |-- prepare_mocheg.py
+|   |-- build_mocheg_features.py
+|   |-- run_mocheg_selector_pilot.py
+|   |-- check_workstation.py
+|   |-- setup_workstation.ps1
+|   `-- run_workstation_pilot.ps1
+`-- tests/
+    |-- test_mocheg.py
+    |-- test_mocheg_features.py
+    |-- test_cefes.py
+    |-- test_calibration.py
+    `-- test_mocheg_study.py
 ```
 
-Generated datasets, checkpoints, caches, and outputs remain ignored by Git.
+Still to implement after a passing selector numeric gate:
 
-## 12. Milestones
+- the shared matched verifier and verdict non-inferiority runner;
+- full-corpus label-blind retrieval evaluation;
+- protocol-freeze and formal-test commands with hash enforcement;
+- formal five-seed aggregation, robustness, and manuscript asset generation.
 
-### M0 -- completed: reset and replan
+A Kaggle notebook is deferred because the RTX 4090 workstation is the primary
+host. It may be added later as an independent rerun wrapper around the same
+Python package; core scientific logic must not exist only in a notebook.
 
-- inspect the two base papers page by page;
-- audit current 2025--2026 closest work;
-- reject overlapping old novelty;
-- remove the obsolete pilot, Kaggle bundles, virtual environment, outputs, and manuscript;
-- create the public-data study plan, new implementation scaffold, and pre-results manuscript.
+## 18. Reproducibility outputs
 
-### M1 -- completed: data feasibility implementation
+Every run must preserve:
 
-- [completed 2026-10-26] run the public dataset preflight notebook;
-- [completed] pin exact revisions and implement dataset manifests;
-- [completed] verify the real SciVer schema and preserve its official test file;
-- [implemented; outcome pending formal download] run modality coverage, missing-media, exact content/media duplicate, perceptual duplicate, and license gates as part of the split manifest.
+- dataset archive identity and license record;
+- raw/processed manifests and split hashes;
+- exact encoder/model revisions;
+- feature-store hashes;
+- configuration and code hashes;
+- seed and environment metadata;
+- training histories and selected checkpoints;
+- complete candidate rankings;
+- calibrated per-item probabilities;
+- selected evidence IDs and verdict probabilities;
+- raw per-claim comparison records;
+- derived metrics, bootstrap samples/seeds, and tables;
+- artifact inventory with byte counts and SHA-256 values.
 
-### M2 -- completed in code and synthetic integration
+All paper tables and figures must be generated from frozen output artifacts. The archive's internal `scientific_results_validated` flag remains false until an independent recomputation audit passes.
 
-- implement evidence-item citation scoring;
-- validate citation-only sufficiency and selected-citation deletion comprehensiveness, with gold-evidence deletion retained as a diagnostic;
-- run deterministic intervention unit tests;
-- establish claim-only and relevance-only baselines.
+## 19. Manuscript policy
 
-### M3 -- current: encoder-valid public-data pilot
+The active paper is now the CEFES/MOCHEG pre-results manuscript in paper/.
+It uses the conventional structure Introduction, Related Work, Task and Data,
+Method, Experimental Setup, Results, Discussion, Limitations and Ethical
+Considerations, and Conclusion. It records checked readiness facts and explicit
+pending work but makes no active-study performance claim.
 
-- [completed 2026-10-26] run and audit the v4 one-seed hash-feature engineering pilot;
-- [completed] confirm end-to-end execution, T4 fit, checkpoint loading, aligned predictions, and non-degenerate citation selection;
-- [completed] record that the v4 archive is not independently recomputable and that its ordered 300-row official-test slice is label-skewed;
-- [completed] replace unsafe prefix sampling, add full audit exports, bind checkpoints to input/configuration fingerprints, and enforce zero source-paper overlap across splits;
-- [completed 2026-10-26] run and independently audit the v5 one-seed pilot with frozen BGE/CLIP features and real media on 600 training and 150 validation examples; the official test was not evaluated;
-- [passed mechanically] verify the complete artifact inventory, code/input hashes, checkpoint fingerprints, zero group overlap, aligned predictions, and exact metric/bootstrap recomputation;
-- [passed provisionally] against TRACE-no-CF, improve citation macro-F1 by 1.73 points while limiting the verdict macro-F1 decrease to 0.79 points;
-- [failed mechanism gate] selected-citation comprehensiveness remains negative, visual removal improves the verdict, and the full model is less sensitive to visual swaps than TRACE-no-CF;
-- [completed in v6 code] align training and evaluation on exact selected-citation deletion, make visual swaps modality-matched, report swap coverage, add modality/duplicate audits, and disable the unlicensed MuSciClaims path by default;
-- [completed 2026-10-27] independently audit the returned v7 pilot archive; all artifact, code, checkpoint, alignment, primary-metric, seed-comparison, and grouped-bootstrap checks pass;
-- [failed readiness gate] TRACE-SCV gains 1.73 citation-F1 points over TRACE-no-CF but loses 1.94 verdict-F1 points, has negative selected-citation comprehensiveness, has lower visual-swap sensitivity, and improves when visual evidence is removed;
-- [completed 2026-10-27] implement separate semantic-text and pixel-visual evidence channels with masked learned fusion;
-- [completed] make pixel swaps/removal preserve semantic content, identifiers, node types, and graph nodes;
-- [completed] export per-claim clean, selected-deleted, gold-deleted, sufficient, irrelevant, duplicate, swapped, semantic-removed, and pixel-removed probabilities plus swap and visual-grounding flags;
-- [completed] export item-level cross-split duplicate records with fingerprint, claim, group, evidence ID, modality, and gold role, and add a formal data-release gate;
-- [completed] update the methodology, architecture figure, configuration, tests, Kaggle discovery/version guard, and run instructions for v8;
-- [completed 2026-10-27] mechanically audit the returned v8 pilot: all archive, code, checkpoint, alignment, and metric checks pass, but the data-release gate detects six cross-split gold-content overlaps;
-- [invalidated] trace the overlaps to hierarchical section matching that returned empty parents before exact annotated children; v8 diagnostic metrics cannot support any manuscript claim;
-- [completed] implement v9 exact-first subsection recovery, a flagged gold fallback for genuinely missing annotations, split-level fallback counts, and two regression tests;
-- [completed] reconstruct the identical 600/150 selection locally with all 363 paper records and 357 referenced images: visual-media coverage is 165/165 train and 44/44 validation, fallback count is zero, and group/content/exact-visual/near-visual overlap checks all pass;
-- [hard stop] run one corrected v9 validation-only pilot; if its causal/visual gates fail, retire the causal-grounding claim and pivot to a narrower citation-selection study.
-- [completed 2026-10-27] run the corrected v9 pilot locally on CPU using the frozen BGE/CLIP features; preserve the output archive and independently reproduce checkpoint fingerprints and primary metrics;
-- [passed] corrected data-release gate, artifact inventory, claim alignment, and metric recomputation;
-- [failed scientific gate] causal TRACE-SCV loses 1.33 verdict-F1 points, gains only 0.51 citation-F1 points, retains negative comprehensiveness, is less swap-sensitive, and improves after visual removal;
-- [decision] retire the causal-grounding hypothesis and do not run its formal matrix;
-- [completed] test a joint adaptive citation selector; it predicts count accurately but fails the citation/verdict gate because it changes ranking and representation;
-- [completed] implement and independently audit DACS-SCV, which freezes the verifier/ranking and learns citation count downstream;
-- [passed pilot gate] validation citation macro-F1 rises from 0.4851 to 0.5303 while every verdict-probability vector remains unchanged; grouped-bootstrap uncertainty still includes zero, so this is a feasibility signal only;
-- [freeze] no further method tuning on the validation split; complete final-path integration, tests, audit exports, manuscript synchronization, and Kaggle packaging.
+The old SciVer/DACS manuscript is preserved by Git history and its audited
+archives. Its negative result may motivate CEFES, but its consumed official test
+cannot confirm or tune the new method.
 
-### M4 -- completed: frozen main experiments
+After each checked experimental milestone:
 
-- [completed] freeze configuration, inputs, code hashes, and output inventory;
-- [completed] run five seeds, baselines, and ablations on SciVer;
-- [completed] run grouped SciVer subgroup and intervention analyses; omit cross-dataset transfer because no external release cleared the frozen license gate;
-- [completed] generate all numerical tables and the formal analysis figure from the frozen archive.
+1. update result prose only from frozen artifacts and independent recomputation;
+2. preserve negative, failed, and inconclusive comparisons;
+3. generate numerical tables and plots from scripts rather than manual copying;
+4. keep method, configuration, diagram, outputs, and claims synchronized;
+5. compile and visually inspect the current PDF;
+6. run reference, requirement, and clean-package audits before any readiness claim.
 
-### M5 -- completed: paper construction
+For a Q1-level journal claim, one positive untouched benchmark may still be insufficient. A second licensed external evaluation is desirable, but it must not delay or contaminate the MOCHEG confirmatory test. Q1/Q2 status is verified against the chosen ranking database and year at submission time.
 
-- [completed] replace pre-results statements with audited outputs and preserve the failed primary hypothesis;
-- [completed] complete limitations, reproducibility, ethics, discussion, and conclusion;
-- [completed] compile and visually inspect the ten-page main paper; no supplement is required for the current study artifact;
-- [submission task] verify the selected venue's current requirements and quartile, then add its required declarations and forms.
+## 20. Risks and fallbacks
 
-## 13. Current decisions and next action
+| Risk | Consequence | Planned response |
+|---|---|---|
+| MOCHEG archive unavailable or incomplete | cannot run controlled retrieval | stop and request the official archive; do not rebuild from live web pages |
+| official test overlaps train/dev | inflated benchmark result | report overlap, use label-independent de-duplicated analysis, narrow claims |
+| first-stage retrieval misses gold evidence | selection ceiling dominates | improve retrieval on development within budget; report oracle ceiling |
+| expected-F1 independence approximation is poor | decoder miscalibrated | compare exact decoder with threshold/count baselines and calibration diagnostics |
+| development gain fails | no reason to consume test | revise only within budget or stop direction |
+| test gain fails | no positive superiority paper | preserve result; do not retune on test |
+| verdict degrades | evidence set not operationally useful | fail non-inferiority gate |
+| effect exists only in one subgroup | weak generalization | narrow claim and seek external validation |
+| compute exceeds Kaggle limits | incomplete five-seed matrix | cache frozen features, reduce batch size, never reduce required seeds silently |
 
-Decisions:
+## 21. Milestones
 
-- public datasets only;
-- no ClaimReview/GDELT/Common Crawl collection;
-- no new benchmark claim without a released dataset manifest;
-- no generic sufficiency/abstention novelty claim;
-- paper uses conventional section names;
-- notebook orchestrates experiments, while reusable logic remains in `.py` modules.
+### M0 - completed: direction and protocol
 
-Next action:
+- preserve the audited SciVer negative result;
+- select MOCHEG as the fresh public benchmark;
+- verify MOCHEG paper statistics and CC BY 4.0 release terms;
+- define CEFES, closest-work boundary, hypotheses, metrics, gates, and stop rules;
+- update the living plan and dataset registry.
 
-> Freeze the audited study and manuscript. The remaining work is venue selection and submission administration: verify the venue's current requirements and quartile, add required funding/conflict/data-and-code declarations, and build the final venue-specific source package. Preserve the failed adaptive-superiority result. Do not tune a revised cardinality method on the consumed SciVer official test or present any such revision as confirmatory.
+### M1 - completed: obtain and audit MOCHEG
 
-## 14. Validation record
+- submit the official researcher form and obtain the dataset link;
+- store the untouched archive outside generated experiment outputs;
+- record archive identity and license;
+- implement schema inspection and preflight;
+- create train/development/test manifests;
+- implement test sealing and duplicate/media audits.
 
-Verified through 2026-10-28:
+Exit criterion met for the development packet: pinned metadata, reconstructed
+sentence text, and bounded media pass the declared gates. Full-corpus and
+formal-test identities remain governed by later milestones.
 
-- all 37 unit/integration tests pass after the transparency-safe correction, including fixed top-one/top-two exports, DACS count-feature ablations, checkpoint/ranking safeguards, transient-rate-limit retry behavior, referenced-file selection, transparent-image compositing, a clean complete smoke run, and checkpoint reuse;
-- the returned executed notebook proves the v1 formal attempt stopped during the initial SciVer snapshot at an HTTP 429 from Hugging Face's Xet token endpoint; no preprocessing, feature extraction, training, or official-test inference ran;
-- runner v2 requires an authenticated `HF_TOKEN`, disables Xet, downloads only release-referenced SciVer assets, caps Hub concurrency, retries transient failures with a bounded wait, and persists data/features/checkpoints/outputs outside the replaceable source checkout so same-session reruns resume safely;
-- the second Kaggle attempt reached deterministic dataset preparation but stopped before feature extraction because three distinct transparent `LA` figures collapsed to the same zero dHash; their raw SHA-256 values, captions, papers, and white-composited dHashes differ;
-- runner v3 composites transparent images onto white before both dHash auditing and CLIP encoding; a full local 3,000-row reconstruction then passes the unchanged release gate with zero group overlap, zero exact visual overlap, and zero exact gold-content overlap;
-- the frozen v3 upload was rediscovered from a renamed nested input in an isolated workspace, verified as package `0.3.2`, and completed all 11 smoke variants with a 56-file output inventory; its exact external archive identity is recorded in `research/final_protocol_freeze_2026-10-27.md`;
-- the returned formal archive is 86,517,243 bytes with SHA-256 `06FE5026B871197B9768DDF31027A7FD47E3F050882084166374229A6B567F7C`; all eight notebook code cells completed without errors;
-- all 252 declared artifacts, 29 code hashes, 100,000 recomputed endpoint records, 50,000 matched invariant rows, seed comparisons, and 10,000-sample grouped-bootstrap comparisons pass independent audit;
-- DACS-SCV citation F1 is 0.4702: effects are +0.0067 versus fixed top-one, -0.0108 versus fixed top-two, and +0.0133 versus fixed top-three; the required all-budget superiority condition therefore fails;
-- DACS-SCV improves count MAE/exact match to 0.4954/0.5565, but fixed top-two obtains the best citation F1 (0.4810), establishing a count-accuracy/set-utility mismatch under the frozen ranking;
-- generated manuscript tables and the formal analysis figure derive directly from the frozen archive; the Results, Discussion, Limitations, Conclusion, title, and abstract have been synchronized to the negative finding;
-- `dacs-scv-paper-source-2026-10-28.zip` (SHA-256 `9AE061A4EB93E75A3C9426704F94DC4A0FE40AE1AF33799D449C205C5F316ED6`) contains only the manuscript source, direct figures/tables, bibliography, README, and compiled PDF; a clean extraction rebuilds to ten pages without LaTeX warnings or overfull boxes;
-- the DACS-SCV validation pilot is preserved as `dacs-scv-local-pilot-outputs.zip` (17,549 bytes; SHA-256 `c17c12299235f361fa96e55c56cb049bc3ba15a03f1d6a66ca07bd4d51f32713`);
-- the decoupled head improves validation citation macro-F1 by 4.52 points with identical verdict vectors; its 10,000-sample grouped-bootstrap interval for the citation difference is [-0.0089, 0.0991], so the official-test confirmation remains essential;
-- a frozen-ranking cutoff audit finds fixed top one at 0.5236 and fixed top two at 0.5047; DACS-SCV's validation advantage over the best fixed budget is only 0.0067 with interval [-0.0077, 0.0219], so formal adaptive superiority requires beating the best fixed cutoff, not merely top three;
-- the validation gain is positive in text-only and visually grounded strata but negative in the small three- and four-gold-item strata; these are recorded diagnostics, not final subgroup claims;
-- the corrected v9 local pilot is preserved as `trace-scv-v9-local-pilot-outputs.zip` (13,309,503 bytes; SHA-256 `7ff604d7cde6615889aeb6343302a2c836f24abbd6629200674a3e7d7fc66449`);
-- all 36 declared pilot artifacts match their byte counts and hashes, all six checkpoint fingerprints independently recompute, and all primary per-variant metrics reproduce exactly;
-- the causal readiness gate fails four checks on corrected data, so the counterfactual causal-grounding claim and formal causal ablation matrix are retired rather than retuned;
-- local pilot execution is feasible on the Ryzen 7 7700 CPU with 15.19 GB RAM: corrected feature extraction took about nine minutes and all six training runs together took under thirty seconds; no CUDA device is available, so the full five-seed study remains allocated to Kaggle;
-- pilot execution policy changed at the user's request: iterative validation-only pilots run locally, while Kaggle is reserved for the frozen final matrix; the current host has 16 GB RAM, CPU-only PyTorch 2.14.1, and no CUDA device, so local encoder extraction is expected to be slower but remains methodologically equivalent;
-- the returned v8 pilot archive (13,292,553 bytes; SHA-256 `a733f4727bfafab3761de85bd00e3047b8b51eacdae293827f1d5ced36bc8f3d`) is mechanically reproducible, but its data-release gate fails because six gold-content fingerprints cross train and validation;
-- item-level audit traces those overlaps to the v8 section resolver returning generic parent headings before exact annotated subsections, so all v8 scientific metrics are invalidated and excluded from the manuscript;
-- v9 uses exact-first subsection matching, never falls upward from a requested child, flags missing-annotation abstract fallbacks, and reports fallback counts;
-- the corrected identical 600/150 local dataset reconstruction has zero fallback gold items, complete required visual media (165/165 train and 44/44 validation), zero group/content/exact-visual/near-perceptual cross-split overlaps, and a passing release gate;
-- all 29 unit/integration tests pass after the v9 parser and audit corrections;
-- `trace-scv-kaggle-v9.zip` (75,422 bytes; SHA-256 `7595a825ffdf4bc8174e57fd6f3276b31687f1a05dfc0e5fa9b8709fc5c769e6`) contains 40 Python files, requires package version 0.2.1, contains the exact-section fix, has no cache/build artifacts, and had zero workspace-file mismatches at packaging time;
-- the v9 notebook completed all cells from a randomly renamed ZIP nested below a simulated Kaggle input tree; its schema-4 smoke archive contained a complete 37-file inventory with zero byte-count or SHA-256 mismatches and remained explicitly non-scientific;
-- v8 stores BGE semantic features for every evidence item and separately stores CLIP pixel features plus an availability mask; a learned gate fuses the independently projected channels;
-- v8 pixel removal and same-modality swapping preserve semantic features, identifiers, node types, validity masks, and graph nodes; the intervention behavior is covered by dedicated unit tests;
-- evaluation exports all nine clean/intervention probability vectors, swap-applied and visual-grounding flags for every claim, visual-grounded subset metrics, and artifact schema version 4;
-- the SciVer manifest now exports item-level exact/near duplicate records and a release gate over group overlap, exact visual overlap, and exact gold-content overlap;
-- all 27 unit/integration tests pass after the v8 representation, intervention, evaluation, and data-audit changes, including a distinct-channel feature-store test for media-backed evidence;
-- `trace-scv-kaggle-v8.zip` (74,067 bytes; SHA-256 `1c7b7f502166f8c3b94fa7888758abce952fbf893fd7576b01d98035d5e2a104`) contains 40 Python source/test/script files with zero workspace hash mismatches and no bytecode/cache files;
-- the v8 notebook executes all 16 cells from a deeply nested, randomly renamed ZIP in a clean Kaggle-like working directory, verifies package version 0.2.0, produces a schema-4 smoke archive with a complete 37-file inventory and zero hash mismatches, and exports all required per-claim intervention fields;
-- the notebook comparison plot was visually inspected and is legible without clipping or overlapping labels;
-- the final controlled-negative-study IEEE manuscript compiles successfully with both the built-in editor and local `latexmk`; its ten-page PDF has no LaTeX warnings or overfull boxes, and its architecture, formal-results figure, tables, and all pages pass visual inspection;
-- SciVer is public, ungated, licensed, reachable, and pinned; MuSciClaims is reachable but disabled because the main release does not provide authoritative license metadata;
-- MOCHEG and the MEVER/AIChartClaim repositories are publicly reachable but remain optional pending data-term audits;
-- all 25 unit/integration tests passed after the earlier v6 intervention and data-audit corrections;
-- the deterministic synthetic end-to-end smoke check passes;
-- the one-notebook Kaggle workflow executes all 16 cells without an error and its comparison plot was visually inspected;
-- the v4 Kaggle package preserves the nested `experiments/src/trace_scv/data` source package when Kaggle exposes the upload as a directory, rejects incomplete uploads, clears stale modules, and pins imports to the uploaded source tree;
-- the uploaded v4 pilot archive passes mechanical prediction/checkpoint integrity checks but fails the superiority gate on its non-scientific hash-feature slice; the complete audit is recorded in `research/pilot_audit_2026-10-26.md`;
-- the v5 pipeline exports gold/prediction comparison records, dataset/configuration/code/feature hashes, preflight evidence, and a complete artifact inventory; stale checkpoints are rejected by fingerprint;
-- the v5 pilot uses formal BGE/CLIP features and real media on development train/validation data only, with deterministic bounded sampling;
-- all 21 automated tests pass after the v5 changes, and the notebook executes end to end from a clean extraction of `trace-scv-kaggle-v5.zip`; its smoke export contains every required audit artifact;
-- the returned v5 encoder-valid pilot archive (SHA-256 `8bf2843ffc2cf952afabfed642d718561e9ea1f718bf08317e482af84769bc19`) passes every integrity and recomputation check; its matched F1 feasibility gate passes, but its causal deletion and visual-swap behavior do not, so the formal run remains blocked;
-- v6 deletes the exact selected citation set used by the clean prediction, trains/evaluates visual swaps only against same-modality replacements, records swap coverage, and emits split-level modality, missing-media, exact-duplicate, perceptual-duplicate, and cross-split overlap audits;
-- the replacement upload `trace-scv-kaggle-v6.zip` (68,163 bytes; SHA-256 `df9d04f8ac834d11b4044c140a9cddf1987a89c5920a6d0fc9b245324ccbdfca`) contains the complete source tree and was validated by executing its notebook from a clean extraction in smoke mode; the exported 37-file inventory had zero hash or byte-count mismatches;
-- after Kaggle failed to expose v6 at the assumed filename/layout, v7 changed discovery to search every nested extracted repository and every ZIP independent of its filename, added safe ZIP-member validation and actionable visible-file diagnostics, and was executed successfully in simulations of both a renamed deeply nested ZIP and a deeply nested extracted dataset tree;
-- `trace-scv-kaggle-v7.zip` (68,888 bytes; SHA-256 `2f5b7a0048a45ae724289378a5f84a9fb1acdfc04e14e1a383a7a33026e4e6ee`) is the only active Kaggle upload; its bundled notebook, imports, smoke study, output export, and comparison plot were verified from both simulated Kaggle layouts;
-- the returned v7 pilot archive (10,916,361 bytes; SHA-256 `c07364083c062cc5c4e9f738af9a1eab7ffad6f16c23c9c7c8e14d04450e13ca`) has a complete 37-file inventory with zero mismatches; all primary metrics and grouped-bootstrap comparisons recompute exactly, but the readiness gate fails four of seven checks and the formal run remains blocked;
-- the v7 data audit finds zero group or visual-media overlap but six exact content fingerprints shared by train and validation; the archive lacks item-level duplicate details, so their gold/non-gold role remains unresolved;
-- formal feature extraction and grouped-bootstrap evaluation are batched/vectorized, and completed checkpoints are reused on rerun;
-- a pinned real-SciVer miniature run downloaded 8 train, 4 validation, and 4 official-test examples and completed normalization, training, checkpoint reload, and evaluation;
-Where a check is explicitly identified as a pilot diagnostic, it is not a final scientific result and does not support a manuscript performance claim. The main numerical claims derive only from the independently audited frozen formal archive.
+### M2 - completed: implementation and synthetic verification
+
+- implement MOCHEG adapter and candidate artifacts;
+- implement exact expected-F1 dynamic program with brute-force small-case tests;
+- implement calibration and CEFES selection;
+- integrate fixed, threshold, and DACS baselines;
+- pass unit tests and a miniature end-to-end run.
+
+Exit criterion met: 76 tests pass and the end-to-end hash smoke is explicitly
+non-scientific with no official-test metrics.
+
+### M3 - development pilot
+
+- extract/cache real MOCHEG features;
+- run three development seeds;
+- use no more than 20 declared selection configurations;
+- analyze retrieval ceiling, calibration, selector effects, runtime, and errors;
+- apply the full development gate.
+
+Exit criterion: frozen-protocol recommendation of `advance` or `stop`.
+
+### M4 - frozen formal run
+
+- freeze code/config/data/features/checkpoints and test identities;
+- run five seeds once on the official test;
+- export complete artifacts and inventory;
+- independently recompute all endpoints and comparisons.
+
+Exit criterion: audited formal archive and an explicit positive/negative decision under Section 14.
+
+### M5 - manuscript construction
+
+- proceed only after an audited positive formal result;
+- rewrite the paper around CEFES and MOCHEG;
+- retain the SciVer count-utility mismatch as motivation/diagnostic, not confirmation;
+- complete literature, reference, claim-evidence, render, and clean-package audits.
+
+## 22. Current state table
+
+| Item | State | Evidence/version | Unresolved issue | Next action |
+|---|---|---|---|---|
+| SciVer DACS result | checked, negative | `dacs-scv-formal-outputs.zip` and independent audit | none; test consumed | preserve only |
+| MOCHEG license/statistics | checked from official paper/repository | CC BY 4.0; 15,601 claims; official splits | none for metadata | preserve authority record |
+| MOCHEG transport | 400-claim packet gate passed | pinned train/dev mirrors; 91,822-row corpus; 1,612/1,612 pilot images readable; zero missing pilot gold candidates | full media integrity not measured; 3 train gold images unresolved outside pilot | scale acquisition on 4090 workstation |
+| MOCHEG data quality | sentence candidate gate passed | all 378,864 distinct train/dev qrel sentence IDs recovered; 4,556 blank non-qrel train evidence texts retained; duplicate policy audited | image-candidate integrity pending | finish bounded media pilot |
+| CEFES concept | real runner implemented; software smoke checked | exact decoder, calibration, bounded candidate pool, scorer, three seeds, paired bootstrap; 76 tests | pinned semantic feature run absent | run 4090 development pilot |
+| exact expected-F1 decoder | implemented and checked | dynamic program matches brute-force enumeration; edge policies tested | independence/calibration behavior unmeasured | connect to calibrated candidate probabilities |
+| MOCHEG adapter | implemented and checked | both schemas normalized; candidate records deduplicated; 378,864/378,864 sentence IDs resolved; matched 400-claim packet passes; test sealed | encoder features pending | build pilot feature store |
+| development claim | scientifically unmeasured | CPU hash smoke completed end to end; +0.00083 F1 is non-scientific and fails the gate | pinned BGE-M3/SigLIP2 effect unknown | three-seed 4090 pilot |
+| formal positive claim | unavailable | official test sealed | pilot/protocol not frozen | do not evaluate test |
+| CEFES manuscript | implemented as pre-results draft | conventional IEEE structure synchronized with this plan; no scientific performance claim | GPU pilot, matched verifier, formal results, generated result figures pending | update only from checked artifacts |
+
+## 23. Immediate next action
+
+Move the committed repository to the RTX 4090 workstation using the Git bundle
+or source ZIP in Section 0. Run setup_workstation.ps1 and then
+run_workstation_pilot.ps1. Audit the pinned semantic feature manifest and the
+three-seed selector outputs. Do not download the 69.2 GiB archive unless a
+required released asset cannot be recovered selectively, and do not inspect
+formal-test annotations. A passing selector numeric gate authorizes work on the
+matched verifier and full-corpus development comparison, not the formal test.

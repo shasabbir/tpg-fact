@@ -6,7 +6,7 @@ Recorded automatic gate passed: False
 
 | Key | Year | DOI | State | Findings |
 |---|---:|---|---|---|
-| luu2027mrav | 2027 | 10.1016/j.ipm.2026.104988 | excluded | publication year outside eligible range |
+| luu2027mrav | 2026 | 10.1016/j.ipm.2026.104988 | pending | year differs from registry publication dates |
 | zhang2026mever | 2026 | 10.18653/v1/2026.eacl-long.242 | verified_recorded |  |
 | yao2023mocheg | 2023 | 10.1145/3539618.3591879 | verified_recorded |  |
 | wang2025sciver | 2025 | 10.18653/v1/2025.acl-long.420 | verified_recorded |  |

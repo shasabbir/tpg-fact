@@ -43,7 +43,7 @@ DATASETS: dict[str, DatasetSpec] = {
         identifier="PLUM-Lab/Mocheg",
         revision=None,
         required=False,
-        license_expected="author terms; repository Apache-2.0",
+        license_expected="cc-by-4.0",
         homepage="https://github.com/PLUM-Lab/Mocheg",
     ),
     "aichartclaim": DatasetSpec(
