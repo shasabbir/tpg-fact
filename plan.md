@@ -863,6 +863,14 @@ that requirement, and the unchanged pinned configuration is rerun from the
 start. This recoverable environment failure remains part of the execution
 record.
 
+That rerun completed the BGE stages and then exposed a second slow-processor
+compatibility defect: the pinned Gemma tokenizer advertises an effectively
+unbounded generic tokenizer length, so `padding=max_length` did not pad a batch
+and tensor construction failed. The pinned SigLIP2 text configuration declares
+64 position embeddings. The encoder now records and passes this exact
+`vision_max_text_tokens: 64` value, with a regression test. No result artifact
+or metric was emitted by either failed attempt.
+
 ## 23. Immediate next action
 
 Trial 2 passes the selector numeric criteria and the checked shared verifier

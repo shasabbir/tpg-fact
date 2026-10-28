@@ -26,6 +26,7 @@ class MochegEncoderConfig:
     text_batch_size: int = 32
     image_batch_size: int = 64
     max_text_tokens: int = 512
+    vision_max_text_tokens: int = 64
     device: str = "auto"
     vision_use_fast_processor: bool = False
 
@@ -44,6 +45,16 @@ def _normalize(values: np.ndarray) -> np.ndarray:
     values = np.asarray(values, dtype=np.float32)
     norms = np.linalg.norm(values, axis=1, keepdims=True)
     return values / np.maximum(norms, 1e-8)
+
+
+def _prepare_siglip_text_batch(processor, texts: Sequence[str], max_length: int):
+    return processor(
+        text=list(texts),
+        padding="max_length",
+        truncation=True,
+        max_length=max_length,
+        return_tensors="pt",
+    )
 
 
 class TransformersMochegEncoder:
@@ -114,11 +125,10 @@ class TransformersMochegEncoder:
         ).to(device).eval()
         text_rows: list[np.ndarray] = []
         for start in range(0, len(texts), self.config.text_batch_size):
-            batch = processor(
-                text=list(texts[start : start + self.config.text_batch_size]),
-                padding="max_length",
-                truncation=True,
-                return_tensors="pt",
+            batch = _prepare_siglip_text_batch(
+                processor,
+                texts[start : start + self.config.text_batch_size],
+                self.config.vision_max_text_tokens,
             ).to(device)
             with torch.inference_mode():
                 embedded = model.get_text_features(**batch)
