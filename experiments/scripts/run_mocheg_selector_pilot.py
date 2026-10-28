@@ -19,8 +19,12 @@ def main() -> None:
         "--output-dir", type=Path, default=Path("outputs/mocheg/selector_pilot")
     )
     parser.add_argument("--bootstrap-samples", type=int, default=10_000)
+    parser.add_argument("--calibration-safety-guard", action="store_true")
     args = parser.parse_args()
-    config = MochegSelectorConfig(bootstrap_samples=args.bootstrap_samples)
+    config = MochegSelectorConfig(
+        bootstrap_samples=args.bootstrap_samples,
+        calibration_safety_guard=args.calibration_safety_guard,
+    )
     result = run_mocheg_selector_pilot(
         args.features, args.output_dir, config=config
     )

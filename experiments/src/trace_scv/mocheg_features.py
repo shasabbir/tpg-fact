@@ -27,6 +27,7 @@ class MochegEncoderConfig:
     image_batch_size: int = 64
     max_text_tokens: int = 512
     device: str = "auto"
+    vision_use_fast_processor: bool = False
 
 
 class MochegEncoder(Protocol):
@@ -102,7 +103,9 @@ class TransformersMochegEncoder:
     ) -> tuple[np.ndarray, np.ndarray]:
         torch, AutoModel, AutoProcessor, _, device = self._runtime()
         processor = AutoProcessor.from_pretrained(
-            self.config.vision_model, revision=self.config.vision_revision
+            self.config.vision_model,
+            revision=self.config.vision_revision,
+            use_fast=self.config.vision_use_fast_processor,
         )
         model = AutoModel.from_pretrained(
             self.config.vision_model,

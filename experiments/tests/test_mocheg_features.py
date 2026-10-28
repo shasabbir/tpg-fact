@@ -5,7 +5,11 @@ from pathlib import Path
 
 import numpy as np
 
-from trace_scv.mocheg_features import HashMochegEncoder, build_mocheg_pair_features
+from trace_scv.mocheg_features import (
+    MochegEncoderConfig,
+    HashMochegEncoder,
+    build_mocheg_pair_features,
+)
 
 
 class FakeEncoder:
@@ -90,3 +94,7 @@ def test_hash_encoder_is_explicitly_smoke_only(tmp_path: Path) -> None:
 
     assert np.allclose(text[0], text[1])
     assert encoder.identity()["scientific_results_allowed"] is False
+
+
+def test_siglip_processor_choice_is_explicitly_frozen() -> None:
+    assert MochegEncoderConfig().vision_use_fast_processor is False

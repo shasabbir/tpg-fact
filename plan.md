@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-28
 
-Active study status: **CEFES selector implementation, public-data preparation, software smoke checks, and the RTX 4090 workstation preflight are complete. The pinned BGE-M3/SigLIP2 development pilot and matched verifier are pending. The official MOCHEG test set must remain untouched until the complete development gate passes and the protocol is frozen.**
+Active study status: **The first pinned BGE-M3/SigLIP2 development pilot is measured, independently checked, and frozen. It beats the validation-selected fixed budget in every seed, but fails the selector numeric gate because calibrated Brier worsens for seed 37; the matched verifier and full-corpus study are therefore not yet authorized. Development Trial 2 is declared below. The official MOCHEG test set remains untouched.**
 
 Target quality: a defensible strong-journal or A* conference study. Q1/Q2 placement and acceptance are objectives, never guaranteed outcomes.
 
@@ -690,10 +690,10 @@ Exit criterion: audited formal archive and an explicit positive/negative decisio
 | MOCHEG license/statistics | checked from official paper/repository | CC BY 4.0; 15,601 claims; official splits | none for metadata | preserve authority record |
 | MOCHEG transport | 400-claim packet gate passed | pinned train/dev mirrors; 91,822-row corpus; 1,612/1,612 pilot images readable; zero missing pilot gold candidates | full media integrity not measured; 3 train gold images unresolved outside pilot | scale acquisition on 4090 workstation |
 | MOCHEG data quality | sentence candidate gate passed | all 378,864 distinct train/dev qrel sentence IDs recovered; 4,556 blank non-qrel train evidence texts retained; duplicate policy audited | image-candidate integrity pending | finish bounded media pilot |
-| CEFES concept | real runner implemented; software smoke checked | exact decoder, calibration, bounded candidate pool, scorer, three seeds, paired bootstrap; 79 tests after workstation hardening | pinned semantic feature run absent | run 4090 development pilot |
+| CEFES concept | first semantic trial checked; numeric gate failed | exact decoder, calibration, bounded candidate pool, scorer, three seeds, paired bootstrap; 81 tests after Trial 2 declaration | calibration Brier worsens for seed 37; threshold control is stronger | run declared calibration-safety Trial 2 |
 | exact expected-F1 decoder | implemented and checked | dynamic program matches brute-force enumeration; edge policies tested | independence/calibration behavior unmeasured | connect to calibrated candidate probabilities |
 | MOCHEG adapter | implemented and checked | both schemas normalized; candidate records deduplicated; 378,864/378,864 sentence IDs resolved; matched 400-claim packet passes; test sealed | encoder features pending | build pilot feature store |
-| development claim | scientifically unmeasured | CPU hash smoke completed end to end; +0.00083 F1 is non-scientific and fails the gate; RTX 4090 preflight passed | pinned BGE-M3/SigLIP2 effect unknown | three-seed 4090 pilot |
+| development claim | checked mixed result; no advance decision | Trial 1 mean CEFES-minus-fixed F1 +0.06608, positive all seeds; independent audit passes | seed 37 calibrated Brier +0.00019784 worse; threshold beats CEFES all seeds | Trial 2 within 20-trial budget |
 | formal positive claim | unavailable | official test sealed | pilot/protocol not frozen | do not evaluate test |
 | CEFES manuscript | implemented as pre-results draft | conventional IEEE structure synchronized with this plan; no scientific performance claim | GPU pilot, matched verifier, formal results, generated result figures pending | update only from checked artifacts |
 
@@ -719,11 +719,53 @@ hashes, artifact hashes, and runtime/environment metadata. These changes affect
 auditability only; they do not change the frozen selector, candidate ceilings,
 seeds, fixed-budget family, or numeric gate.
 
+### 22.2 M3 development Trial 1: pinned temperature scaling
+
+Trial 1 used the frozen BGE-M3 revision
+`5617a9f61b028005a4858fdac845db406aefb181` and SigLIP2 revision
+`75de2d55ec2d0b4efc50b3e9ad70dba96a7b2fa2` on the checked 400-claim packet.
+The feature artifact has SHA-256
+`c4ad754255cec61c7988b5ac9ca84bbd286b40e6c48a79157cb896d982a32c8a`,
+15,289 rows, 4,156 gold rows, and 367 claims with at least one available
+candidate. Feature construction took 626.16 seconds and recorded peak allocated
+GPU memory of 1,714,396,672 bytes.
+
+The independently recomputed selector results are:
+
+| Seed | selected fixed k | CEFES F1 | fixed F1 | difference | raw Brier | calibrated Brier | paired 95% interval |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 13 | 20 | 0.71273 | 0.65313 | +0.05961 | 0.150434 | 0.149620 | [0.04134, 0.07877] |
+| 37 | 20 | 0.71811 | 0.65603 | +0.06208 | 0.150813 | 0.151011 | [0.04331, 0.08124] |
+| 73 | 10 | 0.72176 | 0.64519 | +0.07657 | 0.152813 | 0.151061 | [0.05118, 0.10209] |
+
+Mean CEFES F1 is 0.71753, mean fixed F1 is 0.65145, and the mean paired
+difference is +0.06608. The effect is positive in all seeds, but calibrated
+Brier worsens by 0.00019784 for seed 37. The selector numeric gate therefore
+fails. The global calibrated 0.5-threshold control also exceeds CEFES F1 in all
+three seeds (0.73351, 0.75153, and 0.73979), a negative mechanism finding that
+must remain visible even if a later trial passes the fixed-budget gate.
+
+Independent recomputation found zero discrepancies across feature/sidecar
+hashes, per-candidate probabilities, temperature transforms, candidate ranks,
+claim-level selections, aggregate F1/Brier values, and all 10,000 bootstrap
+samples per seed. The deterministic 23-member development archive has SHA-256
+`96f38d39945c5ce6951cface7d6016a9fb02245d3c097d2d7d68c17d6dfccc69`.
+It records `formal_test_annotations_accessed: false` and preserves the failed
+gate outcome.
+
+Trial budget used: 1 of 20. Trial 2 is declared before execution as a
+claim-grouped calibration safety guard. Within each seed's training calibration
+fold, one claim-disjoint subset fits the temperature and a second chooses
+between that temperature and identity scaling by Brier score. Validation labels
+do not choose the scaler. Candidates, features, scorer settings, fixed budgets,
+seeds, and gate thresholds remain unchanged. Trial 1 remains the default-method
+result and cannot be hidden or overwritten.
+
 ## 23. Immediate next action
 
-The RTX 4090 environment and strict preflight now pass. Run
-run_workstation_pilot.ps1, then audit the pinned semantic feature manifest and
-the three-seed selector outputs. Do not download the 69.2 GiB archive unless a
-required released asset cannot be recovered selectively, and do not inspect
-formal-test annotations. A passing selector numeric gate authorizes work on the
-matched verifier and full-corpus development comparison, not the formal test.
+Trial 1 is checked and fails the selector numeric gate. Run declared Trial 2
+from the identical saved feature artifact, preserve and independently audit it,
+then decide `advance` or `stop`. Do not download the 69.2 GiB archive and do not
+inspect formal-test annotations. Only a passing selector numeric gate can
+authorize work on the matched verifier and full-corpus development comparison;
+it still cannot authorize the formal test by itself.

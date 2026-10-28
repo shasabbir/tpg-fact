@@ -5,6 +5,8 @@ from pathlib import Path
 
 import numpy as np
 
+from trace_scv.data.io import sha256_file
+from trace_scv.selection.mocheg_audit import audit_mocheg_selector_pilot
 from trace_scv.selection.mocheg_study import (
     LogisticEvidenceScorer,
     MochegSelectorConfig,
@@ -122,11 +124,26 @@ def test_selector_pilot_preserves_per_candidate_probabilities(tmp_path: Path) ->
         features=np.asarray(features, dtype=np.float32),
         gold=np.asarray(labels, dtype=np.int8),
     )
-    feature_path.with_suffix(".json").write_text(
-        json.dumps({"records": records}), encoding="utf-8"
+    sidecar_path = feature_path.with_suffix(".json")
+    sidecar_path.write_text(
+        json.dumps(
+            {"records": records, "formal_test_annotations_accessed": False}
+        ),
+        encoding="utf-8",
     )
     feature_path.with_suffix(".manifest.json").write_text(
-        json.dumps({"scientific_results_allowed": True}), encoding="utf-8"
+        json.dumps(
+            {
+                "rows": len(records),
+                "claims": 12,
+                "features_sha256": sha256_file(feature_path),
+                "sidecar_sha256": sha256_file(sidecar_path),
+                "scientific_results_allowed": True,
+                "formal_test_annotations_accessed": False,
+                "encoder": {"name": "synthetic"},
+            }
+        ),
+        encoding="utf-8",
     )
     output_dir = tmp_path / "pilot"
 
@@ -166,3 +183,65 @@ def test_selector_pilot_preserves_per_candidate_probabilities(tmp_path: Path) ->
     seed = summary["seeds"][0]
     assert seed["artifacts"]["candidate_records"]["sha256"]
     assert len(seed["validation"]["cefes_minus_fixed_bootstrap"]["samples"]) == 11
+    audit = audit_mocheg_selector_pilot(feature_path, output_dir)
+    assert audit["status"] == "pass"
+    assert audit["recomputed"]["selector_numeric_criteria_met"] is False
+
+
+def test_calibration_safety_guard_records_train_only_decision(tmp_path: Path) -> None:
+    records = []
+    features = []
+    labels = []
+    for split, claim_count in (("train", 20), ("validation", 2)):
+        for claim_number in range(claim_count):
+            claim_id = f"{split}-{claim_number}"
+            for candidate_number, gold in enumerate((True, False)):
+                records.append(
+                    {
+                        "claim_id": claim_id,
+                        "evidence_id": f"{claim_id}-{candidate_number}",
+                        "modality": "text",
+                        "split": split,
+                        "gold": gold,
+                    }
+                )
+                features.append([0.8 if gold else 0.2])
+                labels.append(int(gold))
+
+    feature_path = tmp_path / "features.npz"
+    np.savez_compressed(
+        feature_path,
+        features=np.asarray(features, dtype=np.float32),
+        gold=np.asarray(labels, dtype=np.int8),
+    )
+    feature_path.with_suffix(".json").write_text(
+        json.dumps({"records": records}), encoding="utf-8"
+    )
+    feature_path.with_suffix(".manifest.json").write_text(
+        json.dumps({"scientific_results_allowed": True}), encoding="utf-8"
+    )
+
+    result = run_mocheg_selector_pilot(
+        feature_path,
+        tmp_path / "pilot",
+        config=MochegSelectorConfig(
+            seeds=(13,),
+            calibration_fraction=0.4,
+            fixed_budgets=(1, 2),
+            maximum_text_candidates=2,
+            maximum_image_candidates=0,
+            maximum_selected_items=2,
+            epochs=25,
+            bootstrap_samples=5,
+            calibration_safety_guard=True,
+            calibration_guard_fraction=0.5,
+        ),
+    )
+
+    guard = result["seeds"][0]["calibration_guard"]
+    assert guard["strategy"] == "claim_grouped_temperature_or_identity_by_guard_brier"
+    assert guard["temperature_fit_claims"] == 4
+    assert guard["guard_claims"] == 4
+    assert guard["temperature_fit_examples"] == 8
+    assert guard["guard_examples"] == 8
+    assert guard["applied_temperature"] in {1.0, guard["candidate_temperature"]}

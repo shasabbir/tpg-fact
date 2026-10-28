@@ -36,6 +36,8 @@ class MochegSelectorConfig:
     l2: float = 1e-3
     bootstrap_samples: int = 10_000
     minimum_mean_gain: float = 0.015
+    calibration_safety_guard: bool = False
+    calibration_guard_fraction: float = 0.5
 
 
 @dataclass(frozen=True, slots=True)
@@ -343,9 +345,61 @@ def run_mocheg_selector_pilot(
             l2=config.l2,
         )
         raw_probabilities = scorer.predict_probabilities(features)
-        scaler = BinaryTemperatureScaler.fit(
-            raw_probabilities[calibration_indices], labels[calibration_indices]
-        )
+        calibration_guard: dict[str, object] | None = None
+        if config.calibration_safety_guard:
+            guard_claims = _claim_partition(
+                calibration_claims,
+                seed + 1_000_003,
+                config.calibration_guard_fraction,
+            )
+            temperature_fit_indices = [
+                index
+                for index in calibration_indices
+                if str(records[index]["claim_id"]) not in guard_claims
+            ]
+            guard_indices = [
+                index
+                for index in calibration_indices
+                if str(records[index]["claim_id"]) in guard_claims
+            ]
+            fitted_scaler = BinaryTemperatureScaler.fit(
+                raw_probabilities[temperature_fit_indices],
+                labels[temperature_fit_indices],
+            )
+            guard_raw = raw_probabilities[guard_indices]
+            guard_scaled = np.asarray(
+                fitted_scaler.transform(guard_raw), dtype=np.float64
+            )
+            guard_labels = labels[guard_indices]
+            raw_guard_brier = binary_brier_score(guard_raw, guard_labels)
+            scaled_guard_brier = binary_brier_score(guard_scaled, guard_labels)
+            temperature_retained = scaled_guard_brier <= raw_guard_brier + 1e-12
+            scaler = (
+                fitted_scaler
+                if temperature_retained
+                else BinaryTemperatureScaler(
+                    temperature=1.0,
+                    fitted_examples=len(guard_indices),
+                    base_nll=binary_nll(guard_raw, guard_labels),
+                    calibrated_nll=binary_nll(guard_raw, guard_labels),
+                )
+            )
+            calibration_guard = {
+                "strategy": "claim_grouped_temperature_or_identity_by_guard_brier",
+                "temperature_fit_claims": len(calibration_claims - guard_claims),
+                "guard_claims": len(guard_claims),
+                "temperature_fit_examples": len(temperature_fit_indices),
+                "guard_examples": len(guard_indices),
+                "candidate_temperature": fitted_scaler.temperature,
+                "guard_raw_brier": raw_guard_brier,
+                "guard_temperature_brier": scaled_guard_brier,
+                "temperature_retained": temperature_retained,
+                "applied_temperature": scaler.temperature,
+            }
+        else:
+            scaler = BinaryTemperatureScaler.fit(
+                raw_probabilities[calibration_indices], labels[calibration_indices]
+            )
         calibrated_probabilities = np.asarray(
             scaler.transform(raw_probabilities), dtype=np.float64
         )
@@ -429,6 +483,7 @@ def run_mocheg_selector_pilot(
             "selected_fixed_budget": selected_budget,
             "fixed_budget_calibration_metrics": fixed_results,
             "temperature_scaler": scaler.to_dict(),
+            "calibration_guard": calibration_guard,
             "scorer": asdict(scorer),
             "validation": {
                 "cefes": cefes_metrics,
