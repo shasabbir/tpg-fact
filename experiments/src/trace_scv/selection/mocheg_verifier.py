@@ -242,11 +242,12 @@ def run_matched_mocheg_verifier(
     output_dir: Path,
     *,
     config: MochegVerifierConfig = MochegVerifierConfig(),
+    require_passing_selector_gate: bool = True,
 ) -> dict[str, object]:
     started = time.perf_counter()
     selector_summary_path = selector_dir / "summary.json"
     selector_summary = json.loads(selector_summary_path.read_text(encoding="utf-8"))
-    if not selector_summary["selector_numeric_criteria_met"]:
+    if require_passing_selector_gate and not selector_summary["selector_numeric_criteria_met"]:
         raise RuntimeError("matched verifier requires a passing selector numeric gate")
     if selector_summary["formal_test_annotations_accessed"]:
         raise RuntimeError("refusing selector outputs that accessed formal-test annotations")
@@ -390,6 +391,9 @@ def run_matched_mocheg_verifier(
     result = {
         "profile": "mocheg_matched_verifier_development",
         "config": asdict(config),
+        "diagnostic_after_failed_selector_gate": not bool(
+            selector_summary["selector_numeric_criteria_met"]
+        ),
         "feature_sha256": sha256_file(feature_path),
         "selector_summary_sha256": sha256_file(selector_summary_path),
         "seeds": seed_results,

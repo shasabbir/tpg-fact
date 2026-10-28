@@ -31,6 +31,11 @@ def main() -> None:
         default=Path("outputs/mocheg/matched_verifier_trial_002"),
     )
     parser.add_argument("--bootstrap-samples", type=int, default=10_000)
+    parser.add_argument(
+        "--diagnostic-after-failed-selector-gate",
+        action="store_true",
+        help="Run a matched diagnostic that cannot rescue a failed selector gate.",
+    )
     args = parser.parse_args()
     result = run_matched_mocheg_verifier(
         args.features,
@@ -38,6 +43,7 @@ def main() -> None:
         args.processed_root,
         args.output_dir,
         config=MochegVerifierConfig(bootstrap_samples=args.bootstrap_samples),
+        require_passing_selector_gate=not args.diagnostic_after_failed_selector_gate,
     )
     print(
         json.dumps(

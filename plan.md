@@ -838,6 +838,11 @@ additional selector tuning trial unless its measured output is used to alter a
 selector/scorer hyperparameter. Any acquisition or implementation failure is
 retained and repaired with a regression test before rerunning.
 
+The full-corpus shared-verifier comparison and clean reproduction will be
+preserved even if the full-corpus selector gate fails, as diagnostics of the
+same frozen configuration. Such diagnostics cannot rescue a failed selector
+condition or authorize formal-test access.
+
 ## 23. Immediate next action
 
 Trial 2 passes the selector numeric criteria and the checked shared verifier
