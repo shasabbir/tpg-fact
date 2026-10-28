@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-28
 
-Active study status: **The first pinned BGE-M3/SigLIP2 development pilot is measured, independently checked, and frozen. It beats the validation-selected fixed budget in every seed, but fails the selector numeric gate because calibrated Brier worsens for seed 37; the matched verifier and full-corpus study are therefore not yet authorized. Development Trial 2 is declared below. The official MOCHEG test set remains untouched.**
+Active study status: **Pinned BGE-M3/SigLIP2 development Trial 2 and its shared matched-verifier comparison are measured and independently checked. The selector criteria pass and the verifier mean macro-F1 change is non-inferior at the declared point margin, but seed 13 is individually worse. Full-corpus label-blind retrieval and a clean rerun remain mandatory; the full development gate is false and the official MOCHEG test set remains untouched.**
 
 Target quality: a defensible strong-journal or A* conference study. Q1/Q2 placement and acceptance are objectives, never guaranteed outcomes.
 
@@ -690,10 +690,10 @@ Exit criterion: audited formal archive and an explicit positive/negative decisio
 | MOCHEG license/statistics | checked from official paper/repository | CC BY 4.0; 15,601 claims; official splits | none for metadata | preserve authority record |
 | MOCHEG transport | 400-claim packet gate passed | pinned train/dev mirrors; 91,822-row corpus; 1,612/1,612 pilot images readable; zero missing pilot gold candidates | full media integrity not measured; 3 train gold images unresolved outside pilot | scale acquisition on 4090 workstation |
 | MOCHEG data quality | sentence candidate gate passed | all 378,864 distinct train/dev qrel sentence IDs recovered; 4,556 blank non-qrel train evidence texts retained; duplicate policy audited | image-candidate integrity pending | finish bounded media pilot |
-| CEFES concept | first semantic trial checked; numeric gate failed | exact decoder, calibration, bounded candidate pool, scorer, three seeds, paired bootstrap; 81 tests after Trial 2 declaration | calibration Brier worsens for seed 37; threshold control is stronger | run declared calibration-safety Trial 2 |
+| CEFES concept | Trial 2 selector and matched verifier checked | exact decoder, guarded calibration, shared verifier checkpoint per seed, three seeds, paired bootstrap | threshold control remains stronger for evidence F1; verifier seed 13 is negative; full-corpus/clean rerun pending | run full-corpus comparison |
 | exact expected-F1 decoder | implemented and checked | dynamic program matches brute-force enumeration; edge policies tested | independence/calibration behavior unmeasured | connect to calibrated candidate probabilities |
 | MOCHEG adapter | implemented and checked | both schemas normalized; candidate records deduplicated; 378,864/378,864 sentence IDs resolved; matched 400-claim packet passes; test sealed | encoder features pending | build pilot feature store |
-| development claim | checked mixed result; no advance decision | Trial 1 mean CEFES-minus-fixed F1 +0.06608, positive all seeds; independent audit passes | seed 37 calibrated Brier +0.00019784 worse; threshold beats CEFES all seeds | Trial 2 within 20-trial budget |
+| development claim | partial advance; full gate false | selector mean gain +0.06833; verifier mean macro-F1 change -0.00013; independent audits pass | threshold beats CEFES evidence F1 all seeds; verifier seed 13 is -0.01594; full-corpus effect unknown | full-corpus retrieval, clean rerun |
 | formal positive claim | unavailable | official test sealed | pilot/protocol not frozen | do not evaluate test |
 | CEFES manuscript | implemented as pre-results draft | conventional IEEE structure synchronized with this plan; no scientific performance claim | GPU pilot, matched verifier, formal results, generated result figures pending | update only from checked artifacts |
 
@@ -761,11 +761,69 @@ do not choose the scaler. Candidates, features, scorer settings, fixed budgets,
 seeds, and gate thresholds remain unchanged. Trial 1 remains the default-method
 result and cannot be hidden or overwritten.
 
+### 22.3 M3 development Trial 2: calibration safety guard
+
+Trial 2 reused the exact Trial 1 feature artifact and changed only calibration.
+For each seed, the original training calibration claims were split again by
+claim identity. One subset fit a candidate temperature and the other retained
+that temperature only when its Brier score did not exceed identity scaling.
+No validation label selected the scaler. Seeds 13, 37, and 73 applied
+temperatures 1.0, 0.912246, and 0.756374, respectively.
+
+The independently recomputed selector results are:
+
+| Seed | selected fixed k | CEFES F1 | fixed F1 | difference | raw Brier | guarded Brier | paired 95% interval |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 13 | 20 | 0.71248 | 0.65313 | +0.05935 | 0.150434 | 0.150434 | [0.04146, 0.07779] |
+| 37 | 20 | 0.72091 | 0.65603 | +0.06489 | 0.150813 | 0.149584 | [0.04551, 0.08429] |
+| 73 | 10 | 0.72595 | 0.64519 | +0.08076 | 0.152813 | 0.150676 | [0.05485, 0.10677] |
+
+Mean CEFES F1 is 0.71978, mean fixed F1 is 0.65145, and the mean paired
+difference is +0.06833. The difference is positive in every seed and guarded
+Brier is improved or preserved in every seed, so the selector numeric criteria
+pass. Independent recomputation again found zero discrepancies. The
+deterministic 23-member Trial 2 archive has SHA-256
+`5d62d1250cc13b296a9e7e0972cd3fbdb00d3ca5e002e9f2d42ec11aab722b8e`
+and records `formal_test_annotations_accessed: false`.
+
+This is a selector-only advance, not a complete development-gate pass. The
+0.5-threshold control still exceeds guarded CEFES F1 for every seed (0.73351,
+0.75153, and 0.73979). This weakens the exact-decoder mechanism claim and must
+be carried into the matched/full-corpus decision. Trial budget used: 2 of 20.
+Section 13 conditions 5, 7, and 8 remain open because the shared verifier,
+full-corpus matched comparison, and clean end-to-end reproduction are pending.
+
+### 22.4 Shared matched verifier on the 400-claim packet
+
+The verifier uses one balanced three-class logistic checkpoint per seed for all
+selection methods. It is fitted only on claim-grouped training-fit claims; the
+method-specific input is an aggregation of the selected evidence features and
+scores. No verdict label or gold evidence flag is exposed as an input. The
+saved prediction records link every method to the same checkpoint hash within
+each seed and retain probabilities, selected evidence IDs, labels, and 10,000
+claim bootstrap samples.
+
+| Seed | CEFES macro-F1 | fixed macro-F1 | difference | threshold macro-F1 | paired 95% interval |
+|---:|---:|---:|---:|---:|---:|
+| 13 | 0.48093 | 0.49687 | -0.01594 | 0.47227 | [-0.05278, 0.02048] |
+| 37 | 0.55102 | 0.54202 | +0.00900 | 0.52089 | [-0.01665, 0.03687] |
+| 73 | 0.52184 | 0.51528 | +0.00656 | 0.48143 | [-0.03417, 0.04903] |
+
+The mean CEFES-minus-fixed macro-F1 change is -0.00013, which is above the
+declared -0.01 point non-inferiority margin. The direction is heterogeneous:
+seed 13 falls by 0.01594 and neither the mean nor any seed interval excludes
+zero. The result therefore satisfies the plan's mean point-margin check but is
+not evidence of a verdict improvement. An independent auditor recomputed every
+macro-F1/accuracy value, probability argmax, artifact hash, and bootstrap
+sample and found zero discrepancies. Formal-test annotations remain absent.
+
 ## 23. Immediate next action
 
-Trial 1 is checked and fails the selector numeric gate. Run declared Trial 2
-from the identical saved feature artifact, preserve and independently audit it,
-then decide `advance` or `stop`. Do not download the 69.2 GiB archive and do not
-inspect formal-test annotations. Only a passing selector numeric gate can
-authorize work on the matched verifier and full-corpus development comparison;
-it still cannot authorize the formal test by itself.
+Trial 2 passes the selector numeric criteria and the checked shared verifier
+passes the declared mean point non-inferiority margin without showing a verdict
+improvement. Implement the full-corpus label-blind retrieval comparison, then
+perform a clean end-to-end reproduction while preserving the stronger
+threshold-control and negative seed-13 verifier findings. Do not download the
+69.2 GiB archive unless a required public asset is otherwise unavailable, and
+do not inspect formal-test annotations. Apply every Section 13 condition before
+any protocol freeze; these partial results do not authorize the formal test.

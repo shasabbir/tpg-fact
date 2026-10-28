@@ -63,9 +63,19 @@ def main() -> None:
         type=Path,
         default=Path("outputs/mocheg/archives/selector_pilot_trial_001.freeze.json"),
     )
+    parser.add_argument(
+        "--selector-dir",
+        type=Path,
+        default=Path("outputs/mocheg/selector_pilot"),
+    )
+    parser.add_argument(
+        "--profile",
+        default="mocheg_selector_development_pilot_trial_001",
+    )
     args = parser.parse_args()
     root = Path.cwd().resolve()
-    audit_path = root / "outputs/mocheg/selector_pilot/audit.json"
+    selector_dir = args.selector_dir.resolve()
+    audit_path = selector_dir / "audit.json"
     audit = json.loads(audit_path.read_text(encoding="utf-8"))
     if audit.get("status") != "pass":
         raise RuntimeError("selector pilot must pass independent audit before freezing")
@@ -85,7 +95,7 @@ def main() -> None:
         root / "data/processed/mocheg_development/train_pilot_packets.jsonl",
         root / "data/processed/mocheg_development/validation_pilot_packets.jsonl",
         root / "data/public/mocheg/media/pilot_media_manifest.json",
-        *sorted((root / "outputs/mocheg/selector_pilot").glob("*")),
+        *sorted(selector_dir.glob("*")),
     ]
     files = sorted(set(path.resolve() for path in required if path.is_file()), key=str)
     missing = [str(path) for path in required if not path.is_file()]
@@ -103,7 +113,7 @@ def main() -> None:
         for path in files
     ]
     manifest = {
-        "profile": "mocheg_selector_development_pilot_trial_001",
+        "profile": args.profile,
         "status": "frozen_checked_development_result",
         "source_commit": _git_commit(root),
         "archive": {
