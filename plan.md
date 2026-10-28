@@ -690,10 +690,10 @@ Exit criterion: audited formal archive and an explicit positive/negative decisio
 | MOCHEG license/statistics | checked from official paper/repository | CC BY 4.0; 15,601 claims; official splits | none for metadata | preserve authority record |
 | MOCHEG transport | full development media gate passed | pinned train/dev mirrors; 91,822-row corpus; 90,270/90,270 images readable; 62,548 unique SHA-256 values | 27,722 exact duplicate occurrences retained; 3 train gold proof IDs remain absent from mirror filenames as previously audited | build full-corpus features |
 | MOCHEG data quality | sentence candidate gate passed | all 378,864 distinct train/dev qrel sentence IDs recovered; 4,556 blank non-qrel train evidence texts retained; duplicate policy audited | image-candidate integrity pending | finish bounded media pilot |
-| CEFES concept | Trial 2 selector and matched verifier checked | exact decoder, guarded calibration, shared verifier checkpoint per seed, three seeds, paired bootstrap | threshold control remains stronger for evidence F1; verifier seed 13 is negative; full-corpus/clean rerun pending | run full-corpus comparison |
+| CEFES concept | full-corpus development selector, DACS, and matched verifier checked | exact decoder, guarded calibration, full-corpus label-blind ranking, shared verifier checkpoint per seed, three seeds, paired bootstrap | CEFES loses to fixed budget and DACS for evidence F1 in every seed; clean rerun pending | finish clean reproduction and freeze failed direction |
 | exact expected-F1 decoder | implemented and checked | dynamic program matches brute-force enumeration; edge policies tested | independence/calibration behavior unmeasured | connect to calibrated candidate probabilities |
 | MOCHEG adapter | implemented and checked | both schemas normalized; candidate records deduplicated; 378,864/378,864 sentence IDs resolved; matched 400-claim packet passes; test sealed | encoder features pending | build pilot feature store |
-| development claim | partial advance; full gate false | selector mean gain +0.06833; verifier mean macro-F1 change -0.00013; independent audits pass | threshold beats CEFES evidence F1 all seeds; verifier seed 13 is -0.01594; full-corpus effect unknown | full-corpus retrieval, clean rerun |
+| development claim | full-corpus numeric gate failed | full-corpus CEFES-minus-fixed evidence F1 mean -0.04185; all three paired intervals exclude zero below zero; independent audits pass | DACS also beats CEFES; shared-verifier positive diagnostic cannot rescue failed selector gate | clean rerun, freeze artifacts, stop before formal test |
 | formal positive claim | unavailable | official test sealed | pilot/protocol not frozen | do not evaluate test |
 | CEFES manuscript | implemented as pre-results draft | conventional IEEE structure synchronized with this plan; no scientific performance claim | GPU pilot, matched verifier, formal results, generated result figures pending | update only from checked artifacts |
 
@@ -873,18 +873,38 @@ or metric was emitted by either failed attempt.
 
 After both repairs, the recorded workstation test harness passed all 97
 scientific-logic unit and integration tests in the pinned GPU environment. The
-machine-readable record is `experiments/outputs/tests/full_suite.json`. The
-third full feature attempt is running from the unchanged declared retrieval
-configuration and has entered complete train/development SigLIP2 image
-encoding; no feature or metric artifact has yet been finalized.
+machine-readable record is `experiments/outputs/tests/full_suite.json`.
+
+The third full feature attempt completed in 1,644.45 seconds with a peak of
+1,748,804,608 allocated GPU bytes. The feature artifact SHA-256 is
+`68889ae34ddbe55576725583dfd0312c71e061a2a579ff624c0885c1d590731f`;
+it contains 21,972 retained candidate rows for 367 eligible claims. The
+independent retrieval audit found zero discrepancies. Complete-gold retrieval
+was limited: text Recall@50 was 0.36160 and image Recall@50 was 0.21384.
+
+On this checked full-corpus artifact, CEFES lost to the validation-selected
+fixed budget in every seed. CEFES-minus-fixed evidence-set F1 was -0.03978,
+-0.04699, and -0.03877 for seeds 13, 37, and 73 (mean -0.04185); each 10,000-
+sample paired 95% interval excluded zero below zero. The calibration safety
+guard retained the raw probabilities in all seeds, so calibrated Brier was
+non-worse by equality. The independent selector audit found zero
+discrepancies. Conditions 3 and 4 of Section 13 therefore fail, and no later
+diagnostic can authorize formal-test access.
+
+The matched DACS count-classification control achieved mean evidence-set F1
+0.10040 versus 0.08186 for CEFES. CEFES-minus-DACS was negative in all seeds
+(mean -0.01854), and all three paired intervals excluded zero below zero. Its
+independent audit found zero discrepancies. The shared-verifier diagnostic,
+run under the explicit failed-selector flag, produced a positive mean
+CEFES-minus-fixed macro-F1 point difference of +0.05768; only seed 73's paired
+interval excluded zero. Its independent audit also found zero discrepancies.
+This secondary diagnostic does not rescue the failed primary selector gate.
 
 ## 23. Immediate next action
 
-Trial 2 passes the selector numeric criteria and the checked shared verifier
-passes the declared mean point non-inferiority margin without showing a verdict
-improvement. Implement the full-corpus label-blind retrieval comparison, then
-perform a clean end-to-end reproduction while preserving the stronger
-threshold-control and negative seed-13 verifier findings. Do not download the
-69.2 GiB archive unless a required public asset is otherwise unavailable, and
-do not inspect formal-test annotations. Apply every Section 13 condition before
-any protocol freeze; these partial results do not authorize the formal test.
+Complete and audit the clean end-to-end reproduction, compare every feature,
+ranking, selector, and verifier artifact against the first full-corpus run,
+evaluate the fail-closed Section 13 gate, and freeze the complete failed
+development record. Synchronize the manuscript with the independently checked
+negative result. Do not inspect or download formal-test annotations: the
+full-corpus selector result already fails the numeric development gate.
