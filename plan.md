@@ -854,6 +854,15 @@ same pinned object was recovered through the ordinary mirror resolve endpoint,
 its bytes matched the expected LFS SHA-256 OID, and a complete path-to-OID walk
 then found 78,010/78,010 train and 12,260/12,260 development paths present.
 
+The first full feature attempt completed the BGE document and sentence stages
+but stopped before SigLIP2 image encoding because the explicit slow processor
+requires `sentencepiece`, which was absent from the workstation dependency
+extra. No feature/result artifact was written and no metric was computed. The
+formal dependency extra now includes `sentencepiece`, a regression test checks
+that requirement, and the unchanged pinned configuration is rerun from the
+start. This recoverable environment failure remains part of the execution
+record.
+
 ## 23. Immediate next action
 
 Trial 2 passes the selector numeric criteria and the checked shared verifier
