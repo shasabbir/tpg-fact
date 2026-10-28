@@ -28,7 +28,26 @@ def main() -> None:
     result = run_mocheg_selector_pilot(
         args.features, args.output_dir, config=config
     )
-    print(json.dumps(result, indent=2))
+    print(
+        json.dumps(
+            {
+                "profile": result["profile"],
+                "mean_cefes_minus_fixed_f1": result[
+                    "mean_cefes_minus_fixed_f1"
+                ],
+                "selector_numeric_criteria_met": result[
+                    "selector_numeric_criteria_met"
+                ],
+                "full_development_gate_pass": result[
+                    "full_development_gate_pass"
+                ],
+                "formal_test_annotations_accessed": result[
+                    "formal_test_annotations_accessed"
+                ],
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":

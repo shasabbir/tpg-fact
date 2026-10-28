@@ -6,6 +6,7 @@ import json
 import math
 import platform
 import sys
+import threading
 import time
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -21,7 +22,6 @@ from trace_scv.data.io import sha256_file
 from trace_scv.data.mocheg import (
     MOCHEG_MIRRORS,
     _audit_downloaded_images,
-    _download_mocheg_media_object,
     _nltk_sentence_splitter,
     assert_mocheg_development_sealed,
     load_mocheg_qrels,
@@ -35,6 +35,59 @@ class FullCorpusRetrievalConfig:
     retained_text_candidates: int = 40
     retained_image_candidates: int = 20
     audit_ranking_depth: int = 60
+
+
+_HTTP_STATE = threading.local()
+
+
+def _download_full_media_object(
+    *, mirror_key: str, relative: str, media_root: Path, token: str | None, attempts: int = 5
+) -> Path:
+    """Download one object through a thread-local persistent HTTP session."""
+    import requests
+    from urllib.parse import quote
+
+    from trace_scv.data.mocheg import _portable_media_path
+
+    mirror = MOCHEG_MIRRORS[mirror_key]
+    target = _portable_media_path(media_root, mirror_key, relative)
+    if target.is_file() and target.stat().st_size > 0:
+        return target
+    target.parent.mkdir(parents=True, exist_ok=True)
+    partial = target.with_suffix(target.suffix + ".partial")
+    session = getattr(_HTTP_STATE, "session", None)
+    if session is None:
+        session = requests.Session()
+        adapter = requests.adapters.HTTPAdapter(pool_connections=4, pool_maxsize=4, max_retries=0)
+        session.mount("https://", adapter)
+        _HTTP_STATE.session = session
+    headers = {"User-Agent": "trace-scv/0.4.1"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    url = (
+        f"https://huggingface.co/datasets/{mirror.repo_id}/resolve/"
+        f"{mirror.revision}/{quote(relative, safe='/')}"
+    )
+    for attempt in range(attempts):
+        try:
+            with session.get(url, headers=headers, timeout=(30, 180), stream=True) as response:
+                response.raise_for_status()
+                with partial.open("wb") as handle:
+                    for chunk in response.iter_content(chunk_size=1024 * 1024):
+                        if chunk:
+                            handle.write(chunk)
+            if partial.stat().st_size <= 0:
+                raise RuntimeError(f"empty media response for {relative}")
+            partial.replace(target)
+            return target
+        except requests.RequestException as error:
+            status = getattr(error.response, "status_code", None)
+            retryable = status in {None, 429} or (status is not None and 500 <= status < 600)
+            if not retryable or attempt + 1 >= attempts:
+                partial.unlink(missing_ok=True)
+                raise
+        time.sleep(min(30.0, 2**attempt))
+    raise RuntimeError(f"unreachable download state for {relative}")
 
 
 def _read_jsonl(path: Path) -> list[dict[str, object]]:
@@ -81,10 +134,9 @@ def acquire_full_development_image_corpus(
     with ThreadPoolExecutor(max_workers=max(1, max_workers)) as executor:
         futures = {
             executor.submit(
-                _download_mocheg_media_object,
-                mirror=MOCHEG_MIRRORS[mirror_key],
+                _download_full_media_object,
                 mirror_key=mirror_key,
-                source_relative_path=relative,
+                relative=relative,
                 media_root=media_root,
                 token=token,
             ): (mirror_key, relative)

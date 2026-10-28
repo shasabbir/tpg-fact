@@ -19,6 +19,7 @@ data = [
   "huggingface-hub>=0.26,<2",
   "nltk==3.9.2",
   "pillow>=10,<13",
+  "requests>=2.32,<3",
 ]
 ml = [
   "torch>=2.3,<3",
@@ -27,6 +28,7 @@ formal = [
   "huggingface-hub>=0.26,<2",
   "nltk==3.9.2",
   "pillow>=10,<13",
+  "requests>=2.32,<3",
   "torch>=2.3,<3",
   "transformers>=4.46,<5",
   "accelerate>=1.0,<2",
@@ -45,6 +47,7 @@ all = [
   "huggingface-hub>=0.26,<2",
   "nltk==3.9.2",
   "pillow>=10,<13",
+  "requests>=2.32,<3",
   "torch>=2.3,<3",
   "transformers>=4.46,<5",
   "accelerate>=1.0,<2",
