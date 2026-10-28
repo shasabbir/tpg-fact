@@ -817,6 +817,27 @@ not evidence of a verdict improvement. An independent auditor recomputed every
 macro-F1/accuracy value, probability argmax, artifact hash, and bootstrap
 sample and found zero discrepancies. Formal-test annotations remain absent.
 
+### 22.5 Declared full-corpus development comparison
+
+Before full-corpus execution, the retrieval protocol is fixed as follows. Text
+first-stage retrieval embeds all 91,822 released `Corpus3.csv` document rows
+with the pinned BGE-M3 revision, retrieves 50 documents per claim, applies the
+official NLTK sentence segmentation recipe, and reranks their sentences with
+the same BGE-M3 representation. Image retrieval embeds every file in the pinned
+train and development image mirrors with the pinned SigLIP2 revision. It does
+not list or access the test mirror. The final shared packet retains 40 text and
+20 image units, while rankings through depth 60 are saved for Recall@5/10/50,
+MAP, nDCG, and ceiling audits. Claim-association and relevance columns are not
+model inputs; complete train/development qrels are joined only after rankings
+are computed. Evidence metrics use the complete gold sets, so gold units missed
+by retrieval remain false negatives. Duplicate and conflicting corpus rows are
+retained with stable row/content identities during first-stage retrieval.
+
+This is the first declared full-corpus configuration and does not consume an
+additional selector tuning trial unless its measured output is used to alter a
+selector/scorer hyperparameter. Any acquisition or implementation failure is
+retained and repaired with a regression test before rerunning.
+
 ## 23. Immediate next action
 
 Trial 2 passes the selector numeric criteria and the checked shared verifier

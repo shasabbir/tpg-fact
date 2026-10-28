@@ -62,6 +62,23 @@ def test_cefes_and_fixed_use_same_candidate_records() -> None:
     assert cefes["f1"] >= fixed["f1"]
 
 
+def test_evaluate_claims_scores_gold_missed_by_retrieval() -> None:
+    records = [
+        {"claim_id": "1", "evidence_id": "text:a", "gold": True},
+        {"claim_id": "1", "evidence_id": "text:b", "gold": False},
+    ]
+    metrics, rows = _evaluate_claims(
+        records,
+        [0.9, 0.1],
+        method="fixed",
+        fixed_k=1,
+        full_gold_evidence_ids_by_claim={"1": {"text:a", "text:missing"}},
+    )
+    assert metrics["recall"] == 0.5
+    assert metrics["f1"] == 2.0 / 3.0
+    assert rows[0]["gold_evidence_ids"] == ["text:a", "text:missing"]
+
+
 def test_candidate_bound_uses_similarity_not_gold() -> None:
     records = [
         {"claim_id": "1", "evidence_id": "a", "modality": "text", "gold": True},

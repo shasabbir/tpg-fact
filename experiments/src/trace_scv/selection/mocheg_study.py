@@ -167,6 +167,7 @@ def _evaluate_claims(
     method: str,
     fixed_k: int | None = None,
     maximum_selected_items: int = 10,
+    full_gold_evidence_ids_by_claim: dict[str, set[str]] | None = None,
 ) -> tuple[dict[str, float], list[dict[str, object]]]:
     grouped: dict[str, list[int]] = {}
     for index, record in enumerate(records):
@@ -198,11 +199,15 @@ def _evaluate_claims(
             raise ValueError(f"unknown selection method: {method}")
         evidence_ids = [str(records[index]["evidence_id"]) for index in indices]
         selected = {evidence_ids[index] for index in selected_local}
-        gold = {
-            evidence_ids[index]
-            for index, global_index in enumerate(indices)
-            if bool(records[global_index]["gold"])
-        }
+        gold = (
+            set(full_gold_evidence_ids_by_claim[claim_id])
+            if full_gold_evidence_ids_by_claim is not None
+            else {
+                evidence_ids[index]
+                for index, global_index in enumerate(indices)
+                if bool(records[global_index]["gold"])
+            }
+        )
         scores = _set_scores(selected, gold)
         claim_rows.append(
             {
@@ -295,6 +300,16 @@ def run_mocheg_selector_pilot(
         feature_manifest.get("scientific_results_allowed", True)
     )
     records = list(sidecar["records"])
+    full_gold_evidence_ids_by_claim = (
+        {
+            str(claim_id): {str(evidence_id) for evidence_id in evidence_ids}
+            for claim_id, evidence_ids in sidecar[
+                "full_gold_evidence_ids_by_claim"
+            ].items()
+        }
+        if "full_gold_evidence_ids_by_claim" in sidecar
+        else None
+    )
     if len(records) != len(features) or len(labels) != len(features):
         raise ValueError("feature arrays and sidecar records are misaligned")
     bounded_indices = set(
@@ -414,6 +429,7 @@ def run_mocheg_selector_pilot(
                 method="fixed",
                 fixed_k=budget,
                 maximum_selected_items=config.maximum_selected_items,
+                full_gold_evidence_ids_by_claim=full_gold_evidence_ids_by_claim,
             )[0]
         selected_budget = min(
             config.fixed_budgets,
@@ -429,24 +445,28 @@ def run_mocheg_selector_pilot(
             method="fixed",
             fixed_k=selected_budget,
             maximum_selected_items=config.maximum_selected_items,
+            full_gold_evidence_ids_by_claim=full_gold_evidence_ids_by_claim,
         )
         cefes_metrics, cefes_claims = _evaluate_claims(
             validation_records,
             validation_calibrated,
             method="cefes",
             maximum_selected_items=config.maximum_selected_items,
+            full_gold_evidence_ids_by_claim=full_gold_evidence_ids_by_claim,
         )
         raw_cefes_metrics, raw_cefes_claims = _evaluate_claims(
             validation_records,
             validation_raw,
             method="cefes",
             maximum_selected_items=config.maximum_selected_items,
+            full_gold_evidence_ids_by_claim=full_gold_evidence_ids_by_claim,
         )
         threshold_metrics, threshold_claims = _evaluate_claims(
             validation_records,
             validation_calibrated,
             method="threshold",
             maximum_selected_items=config.maximum_selected_items,
+            full_gold_evidence_ids_by_claim=full_gold_evidence_ids_by_claim,
         )
         calibration_metrics = {
             "raw": {
