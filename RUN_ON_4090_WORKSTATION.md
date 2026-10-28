@@ -1,7 +1,9 @@
 # Run the CEFES development pilot on the RTX 4090 PC
 
-This is the next real experiment. It uses only MOCHEG train and development
-annotations. The official test remains locked.
+This workflow uses only MOCHEG train and development annotations. The 400-claim
+semantic packet and shared verifier have been checked; the full-corpus
+development comparison and clean reproduction are the current stage. The
+official test remains locked.
 
 ## 1. Move the complete project
 
@@ -61,14 +63,33 @@ calibrates them, runs 10,000 paired bootstrap samples, and writes:
 
     experiments\outputs\mocheg\selector_pilot\summary.json
 
-## 4. What to do after it finishes
+## 4. Audit the packet result
 
 Keep the complete experiments/outputs/mocheg/selector_pilot folder and the three
 pilot_features files. Audit scientific_feature_backend, encoder revisions,
 feature hashes, bounded candidate counts, every seed, calibration values, and
 claim records.
 
-Do not run or download formal-test annotations. A selector result cannot unlock
-the test by itself because the shared matched verifier and full-corpus
-development comparison are still pending. Apply every gate in plan.md Section
-13 before formal protocol freeze.
+Do not run or download formal-test annotations. The checked Trial 2 selector
+and verifier outputs are preserved separately; they do not unlock the test.
+
+## 5. Run the full-corpus development comparison
+
+The portable downloader is resumable and never lists the test mirror:
+
+    .venv-workstation\Scripts\python.exe scripts\run_mocheg_full_corpus.py --download-media --max-download-workers 64
+    .venv-workstation\Scripts\python.exe scripts\run_mocheg_full_corpus.py --build-features
+    .venv-workstation\Scripts\python.exe scripts\audit_mocheg_full_corpus.py
+    .venv-workstation\Scripts\python.exe scripts\run_mocheg_selector_pilot.py --features outputs\mocheg\full_corpus_features.npz --output-dir outputs\mocheg\full_corpus_selector_trial_002 --calibration-safety-guard
+    .venv-workstation\Scripts\python.exe scripts\audit_mocheg_selector_pilot.py --features outputs\mocheg\full_corpus_features.npz --output-dir outputs\mocheg\full_corpus_selector_trial_002 --audit-output outputs\mocheg\full_corpus_selector_trial_002\audit.json
+    .venv-workstation\Scripts\python.exe scripts\run_mocheg_matched_verifier.py --features outputs\mocheg\full_corpus_features.npz --selector-dir outputs\mocheg\full_corpus_selector_trial_002 --output-dir outputs\mocheg\full_corpus_verifier_trial_002
+    .venv-workstation\Scripts\python.exe scripts\audit_mocheg_matched_verifier.py --output-dir outputs\mocheg\full_corpus_verifier_trial_002
+
+If the full-corpus selector gate fails, the verifier command may add
+`--diagnostic-after-failed-selector-gate`; that diagnostic cannot rescue the
+failed condition. A second end-to-end run writes under
+`outputs\mocheg\clean_rerun`, after which
+`compare_mocheg_clean_reproduction.py` and
+`evaluate_mocheg_development_gate.py` apply every condition in plan.md Section
+13. Only a passing aggregate gate can authorize a later protocol freeze. It
+does not itself download or evaluate formal-test annotations.
