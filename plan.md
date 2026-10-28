@@ -871,6 +871,13 @@ and tensor construction failed. The pinned SigLIP2 text configuration declares
 `vision_max_text_tokens: 64` value, with a regression test. No result artifact
 or metric was emitted by either failed attempt.
 
+After both repairs, the recorded workstation test harness passed all 97
+scientific-logic unit and integration tests in the pinned GPU environment. The
+machine-readable record is `experiments/outputs/tests/full_suite.json`. The
+third full feature attempt is running from the unchanged declared retrieval
+configuration and has entered complete train/development SigLIP2 image
+encoding; no feature or metric artifact has yet been finalized.
+
 ## 23. Immediate next action
 
 Trial 2 passes the selector numeric criteria and the checked shared verifier
