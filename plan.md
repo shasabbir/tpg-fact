@@ -1,8 +1,8 @@
 # Living Study Plan
 
-Last updated: 2026-10-28
+Last updated: 2026-10-29
 
-Active study status: **Pinned BGE-M3/SigLIP2 development Trial 2 and its shared matched-verifier comparison are measured and independently checked. The selector criteria pass and the verifier mean macro-F1 change is non-inferior at the declared point margin, but seed 13 is individually worse. Full-corpus label-blind retrieval and a clean rerun remain mandatory; the full development gate is false and the official MOCHEG test set remains untouched.**
+Active study status: **The full-corpus BGE-M3/SigLIP2 development comparison, DACS control, shared verifier, independent audits, and clean reproduction are complete and frozen. CEFES trails the validation-selected fixed budget in every seed (mean evidence-F1 difference -0.04185), so Section 13 conditions 3 and 4 fail. The formal test is locked and untouched; this direction stops as a checked negative development result.**
 
 Target quality: a defensible strong-journal or A* conference study. Q1/Q2 placement and acceptance are objectives, never guaranteed outcomes.
 
@@ -16,7 +16,7 @@ must be read before running code or editing the paper.
 Use these files in this order:
 
 1. plan.md: scientific protocol, current state, gates, stop rules, and next action.
-2. paper/paper.tex and paper/sections/: the active IEEE pre-results manuscript.
+2. paper/paper.tex and paper/sections/: the active IEEE negative-development manuscript.
 3. experiments/configs/mocheg_development.yaml: frozen development choices.
 4. experiments/configs/workstation_4090.yaml: hardware and execution profile.
 5. research/mocheg_access_audit_2026-10-28.md: data identity and access evidence.
@@ -36,10 +36,10 @@ history and its frozen archives, but it is not the active paper.
   code, configuration, data, and feature identities.
 
 At handoff, the exact CEFES decoder, calibration, MOCHEG adapter, packet builder,
-pinned feature builder, and selector runner are implemented. The CPU hash smoke
-is measured for software behavior only and is prohibited from supporting a
-scientific claim. The pinned BGE-M3/SigLIP2 pilot, matched verifier, full-corpus
-retrieval study, and active-study formal test are not measured.
+pinned feature builder, selector, DACS control, shared verifier, full-corpus
+retrieval, clean reproduction, independent audits, and failed development gate
+are checked. The CPU hash smoke remains software validation only. The formal
+test was not measured and is explicitly locked.
 
 ### 0.3 Hardware and data assumptions
 
@@ -96,27 +96,30 @@ Then run the real semantic development pilot:
 
     powershell -ExecutionPolicy Bypass -File scripts\run_workstation_pilot.ps1
 
-Expected audit targets:
+Primary frozen audit targets now include:
 
 - experiments/outputs/preflight/workstation.json
 - experiments/outputs/mocheg/pilot_features.npz
 - experiments/outputs/mocheg/pilot_features.manifest.json
-- experiments/outputs/mocheg/selector_pilot/summary.json
-- one per-seed JSON and claim-record JSONL file for seeds 13, 37, and 73.
+- experiments/outputs/mocheg/full_corpus_features.audit.json
+- experiments/outputs/mocheg/full_corpus_selector_trial_002/audit.json
+- experiments/outputs/mocheg/full_corpus_dacs_trial_002/audit.json
+- experiments/outputs/mocheg/full_corpus_verifier_trial_002/audit.json
+- experiments/outputs/mocheg/clean_rerun/audit.json
+- experiments/outputs/mocheg/development_gate.json
+- experiments/outputs/mocheg/archives/full_corpus_development_trial_002.freeze.json
 
-Do not run a formal-test command. The current runner intentionally sets
-full_development_gate_pass to false because the matched verifier has not been
-evaluated.
+Do not run a formal-test command. The complete Section 13 record sets
+`formal_test_unlocked` to false because the full-corpus primary selector gate
+failed.
 
 ### 0.6 Decision immediately after the run
 
-First audit feature identities, scientific_feature_backend, candidate counts,
-per-seed effects, calibration metrics, and raw claim records. If the selector
-numeric gate fails, keep the test sealed and either use the remaining declared
-development trials or stop this direction. If it passes, implement and run the
-shared matched verifier, full-corpus retrieval comparison, and clean
-reproduction. Only the complete Section 13 gate can authorize protocol freeze
-and formal evaluation.
+Audit feature identities, candidate counts, per-seed effects, calibration
+metrics, raw claim records, clean-reproduction output, and the frozen archive.
+The numeric gate has failed and this declared direction is stopped. Any future
+method or retrieval revision is a new development study; it cannot unlock or
+reinterpret the sealed formal test for this frozen protocol.
 
 Never choose a favorable fixed budget after seeing the formal test, replace the
 best fixed comparator with a weaker one, hide a failed seed, or describe the
@@ -133,18 +136,18 @@ Use this prompt after opening the transferred repository:
 > RUN_ON_4090_WORKSTATION.md, experiments/configs/mocheg_development.yaml, and
 > research/mocheg_access_audit_2026-10-28.md. Inspect Git status and the actual
 > code before acting. Preserve the official MOCHEG test seal. Run the workstation
-> preflight, tests, pinned BGE-M3/SigLIP2 400-claim development pilot, and audit
-> its saved artifacts. Do not claim scientific success from the CPU hash smoke.
-> Do not access formal-test annotations or rewrite pending results as completed.
-> If the selector numeric gate passes, implement the shared matched verifier and
-> full-corpus development comparison, then apply every Section 13 gate. Keep
-> plan.md and the manuscript synchronized, generate numerical tables from frozen
-> outputs, compile and inspect the PDF after manuscript changes, and commit only
+> preflight and tests, then verify the frozen full-corpus development archive,
+> clean-reproduction audit, and fail-closed Section 13 record. Do not claim
+> scientific success from the CPU hash smoke. Do not access formal-test
+> annotations: the primary numeric gate failed and this direction is stopped.
+> Keep plan.md and the manuscript synchronized with the checked negative result,
+> compile and inspect the PDF after manuscript changes, and commit only
 > secret-free reproducible source.
 
 ### 0.8 Known handoff limitations
 
-The active manuscript is a pre-results draft, not a submission-ready paper.
+The active manuscript is a negative development-study draft, not a
+submission-ready paper.
 The automated bibliography audit records 48 references as verified and two as
 pending automated metadata reconciliation. M-RAV was available online in 2026
 but is assigned to a 2027 issue; the bibliography cites the online year and
@@ -587,11 +590,11 @@ All paper tables and figures must be generated from frozen output artifacts. The
 
 ## 19. Manuscript policy
 
-The active paper is now the CEFES/MOCHEG pre-results manuscript in paper/.
+The active paper is now the CEFES/MOCHEG negative development manuscript in paper/.
 It uses the conventional structure Introduction, Related Work, Task and Data,
 Method, Experimental Setup, Results, Discussion, Limitations and Ethical
-Considerations, and Conclusion. It records checked readiness facts and explicit
-pending work but makes no active-study performance claim.
+Considerations, and Conclusion. It records the checked full-corpus failure,
+clean reproduction, and sealed-test stop decision without a formal-test claim.
 
 The old SciVer/DACS manuscript is preserved by Git history and its audited
 archives. Its negative result may motivate CEFES, but its consumed official test
@@ -656,7 +659,7 @@ formal-test identities remain governed by later milestones.
 Exit criterion met: 76 tests pass and the end-to-end hash smoke is explicitly
 non-scientific with no official-test metrics.
 
-### M3 - development pilot
+### M3 - completed: negative development decision
 
 - extract/cache real MOCHEG features;
 - run three development seeds;
@@ -664,9 +667,10 @@ non-scientific with no official-test metrics.
 - analyze retrieval ceiling, calibration, selector effects, runtime, and errors;
 - apply the full development gate.
 
-Exit criterion: frozen-protocol recommendation of `advance` or `stop`.
+Exit criterion met: `stop`. The full-corpus selector gate fails in every seed,
+the clean rerun reproduces it, and the complete negative record is frozen.
 
-### M4 - frozen formal run
+### M4 - prohibited for this direction: frozen formal run
 
 - freeze code/config/data/features/checkpoints and test identities;
 - run five seeds once on the official test;
@@ -675,10 +679,10 @@ Exit criterion: frozen-protocol recommendation of `advance` or `stop`.
 
 Exit criterion: audited formal archive and an explicit positive/negative decision under Section 14.
 
-### M5 - manuscript construction
+### M5 - active: negative development manuscript
 
-- proceed only after an audited positive formal result;
-- rewrite the paper around CEFES and MOCHEG;
+- do not construct a positive formal-results paper;
+- report the checked negative development result transparently;
 - retain the SciVer count-utility mismatch as motivation/diagnostic, not confirmation;
 - complete literature, reference, claim-evidence, render, and clean-package audits.
 
@@ -688,14 +692,14 @@ Exit criterion: audited formal archive and an explicit positive/negative decisio
 |---|---|---|---|---|
 | SciVer DACS result | checked, negative | `dacs-scv-formal-outputs.zip` and independent audit | none; test consumed | preserve only |
 | MOCHEG license/statistics | checked from official paper/repository | CC BY 4.0; 15,601 claims; official splits | none for metadata | preserve authority record |
-| MOCHEG transport | full development media gate passed | pinned train/dev mirrors; 91,822-row corpus; 90,270/90,270 images readable; 62,548 unique SHA-256 values | 27,722 exact duplicate occurrences retained; 3 train gold proof IDs remain absent from mirror filenames as previously audited | build full-corpus features |
-| MOCHEG data quality | sentence candidate gate passed | all 378,864 distinct train/dev qrel sentence IDs recovered; 4,556 blank non-qrel train evidence texts retained; duplicate policy audited | image-candidate integrity pending | finish bounded media pilot |
-| CEFES concept | full-corpus development selector, DACS, and matched verifier checked | exact decoder, guarded calibration, full-corpus label-blind ranking, shared verifier checkpoint per seed, three seeds, paired bootstrap | CEFES loses to fixed budget and DACS for evidence F1 in every seed; clean rerun pending | finish clean reproduction and freeze failed direction |
-| exact expected-F1 decoder | implemented and checked | dynamic program matches brute-force enumeration; edge policies tested | independence/calibration behavior unmeasured | connect to calibrated candidate probabilities |
-| MOCHEG adapter | implemented and checked | both schemas normalized; candidate records deduplicated; 378,864/378,864 sentence IDs resolved; matched 400-claim packet passes; test sealed | encoder features pending | build pilot feature store |
-| development claim | full-corpus numeric gate failed | full-corpus CEFES-minus-fixed evidence F1 mean -0.04185; all three paired intervals exclude zero below zero; independent audits pass | DACS also beats CEFES; shared-verifier positive diagnostic cannot rescue failed selector gate | clean rerun, freeze artifacts, stop before formal test |
-| formal positive claim | unavailable | official test sealed | pilot/protocol not frozen | do not evaluate test |
-| CEFES manuscript | implemented as pre-results draft | conventional IEEE structure synchronized with this plan; no scientific performance claim | GPU pilot, matched verifier, formal results, generated result figures pending | update only from checked artifacts |
+| MOCHEG transport | full development media gate passed | pinned train/dev mirrors; 91,822-row corpus; 90,270/90,270 images readable; 62,548 unique SHA-256 values | 27,722 exact duplicate occurrences retained; 3 train gold proof IDs remain absent from mirror filenames as previously audited | preserve |
+| MOCHEG data quality | full development gate checked | 378,864/378,864 sentence IDs resolved; all 90,270 released train/dev image paths readable; duplicate policy audited | retrieval recall is low | report limitation |
+| CEFES concept | checked, negative full-corpus result | exact decoder, guarded calibration, label-blind ranking, shared verifier, three seeds, paired bootstrap | loses to fixed and DACS evidence F1 in every seed | stop direction |
+| exact expected-F1 decoder | implemented and checked | dynamic program matches brute-force enumeration; clean full-corpus reproduction matches | conditional-independence approximation may be poor | preserve |
+| MOCHEG adapter | implemented and checked | schemas normalized; full-corpus and packet artifacts audited; test sealed | none for development decision | preserve |
+| development claim | frozen failure | mean CEFES-minus-fixed -0.04185; independent audits and clean rerun pass | primary gate conditions 3 and 4 fail | stop before formal test |
+| formal positive claim | unavailable and locked | `formal_test_unlocked: false`; annotations untouched | development gate failed | do not evaluate test |
+| CEFES manuscript | synchronized negative draft | full-corpus result, DACS, verifier, clean rerun, and freeze recorded | submission polish and reference warnings remain | compile and inspect |
 
 ### 22.1 RTX 4090 workstation execution record (2026-10-28)
 
@@ -790,8 +794,9 @@ This is a selector-only advance, not a complete development-gate pass. The
 0.5-threshold control still exceeds guarded CEFES F1 for every seed (0.73351,
 0.75153, and 0.73979). This weakens the exact-decoder mechanism claim and must
 be carried into the matched/full-corpus decision. Trial budget used: 2 of 20.
-Section 13 conditions 5, 7, and 8 remain open because the shared verifier,
-full-corpus matched comparison, and clean end-to-end reproduction are pending.
+Those packet-stage conditions were subsequently evaluated in the full-corpus
+study. The full gate ultimately failed conditions 3 and 4 despite passing the
+verifier, matched-artifact, and clean-reproduction conditions.
 
 ### 22.4 Shared matched verifier on the 400-claim packet
 
@@ -871,7 +876,8 @@ and tensor construction failed. The pinned SigLIP2 text configuration declares
 `vision_max_text_tokens: 64` value, with a regression test. No result artifact
 or metric was emitted by either failed attempt.
 
-After both repairs, the recorded workstation test harness passed all 97
+After both repairs and the complete-freeze regression repair, the recorded
+workstation test harness passed all 98
 scientific-logic unit and integration tests in the pinned GPU environment. The
 machine-readable record is `experiments/outputs/tests/full_suite.json`.
 
@@ -900,11 +906,31 @@ CEFES-minus-fixed macro-F1 point difference of +0.05768; only seed 73's paired
 interval excluded zero. Its independent audit also found zero discrepancies.
 This secondary diagnostic does not rescue the failed primary selector gate.
 
+The clean end-to-end rerun rebuilt the full feature store in 1,621.25 seconds.
+Its feature SHA-256 (`68889ae34ddbe55576725583dfd0312c71e061a2a579ff624c0885c1d590731f`),
+sidecar SHA-256, candidate identities, complete-gold maps, rankings, selector
+metrics, DACS metrics, verifier metrics, and 10,000-sample bootstrap results
+match the first run under the declared numeric tolerance. Both retrieval and
+method-specific independent audits pass with zero discrepancies. A provenance-
+only commit changed container-manifest hashes; the reproduction comparator was
+repaired to compare encoder, configuration, implementation, and scientific
+contents directly, with a regression test, rather than treating a changed
+container hash as metric drift.
+
+The fail-closed Section 13 record passes conditions 1, 2, 5, 6, 7, and 8 and
+fails conditions 3 and 4. It records `formal_test_unlocked: false` and
+`formal_test_annotations_accessed: false`. The complete 74-member development
+archive has SHA-256
+`b7961df904fcce77e9a596b119aba342e31d51c669ce82d8a306b9465c21d00b`.
+The archive includes both feature builds, all selector/DACS/verifier seed
+records and bootstrap samples, retrieval and method audits, runtime and
+environment manifests, media acquisition records and transport failures, the
+test record, and the development-gate decision.
+
 ## 23. Immediate next action
 
-Complete and audit the clean end-to-end reproduction, compare every feature,
-ranking, selector, and verifier artifact against the first full-corpus run,
-evaluate the fail-closed Section 13 gate, and freeze the complete failed
-development record. Synchronize the manuscript with the independently checked
-negative result. Do not inspect or download formal-test annotations: the
-full-corpus selector result already fails the numeric development gate.
+Preserve the frozen negative development result and stop this direction before
+the formal test. Finalize the manuscript as a transparent negative development
+study, without claiming formal benchmark superiority or generalization. Do not
+inspect or download formal-test annotations: the full-corpus selector result
+fails the numeric development gate and the formal test is explicitly locked.

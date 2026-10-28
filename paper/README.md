@@ -1,6 +1,6 @@
 # Active manuscript
 
-paper.tex is the IEEE journal-mode pre-results manuscript for:
+paper.tex is the IEEE journal-mode negative development manuscript for:
 
 **Rethinking Evidence Selection in Multimodal Fact-Checking: Calibrated Adaptive Set Optimization Beyond Fixed Top-\(k\) Retrieval**
 
@@ -12,10 +12,11 @@ Current scientific status:
 
 - data-access, sentence-recovery, media, and 400-claim packet audits pass;
 - the exact expected-F1 decoder and calibration path are implemented and tested;
-- the pinned BGE-M3/SigLIP2 development run has not yet been completed;
-- the matched verifier and verdict non-inferiority comparison are pending;
+- the pinned BGE-M3/SigLIP2 full-corpus development run is checked and negative;
+- the DACS control, matched verifier, and clean reproduction are checked;
+- the complete Section 13 gate fails the two primary evidence-effect conditions;
 - the official MOCHEG test remains sealed;
-- no active-study performance claim is available.
+- no formal-test or superiority claim is available.
 
 The old SciVer/DACS manuscript remains recoverable from Git history and its
 audited archives. It is not the active paper.

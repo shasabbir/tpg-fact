@@ -3,12 +3,12 @@
 
 \subsection{Overview}
 
-\method{} separates candidate retrieval, evidence-membership estimation, calibration, set decoding, and verdict prediction. Figure~\ref{fig:architecture} distinguishes the implemented selector pilot from the planned matched verifier. Every controlled selector receives the same bounded packet and feature artifact. The adaptive rule changes only which evidence identifiers are emitted; it receives no additional corpus, label, or tuning access.
+\method{} separates candidate retrieval, evidence-membership estimation, calibration, set decoding, and verdict prediction. Every controlled selector in Fig.~\ref{fig:architecture} receives the same bounded packet and feature artifact. The adaptive rule changes only which evidence identifiers are emitted; it receives no additional corpus, label, or tuning access. The shared verifier is a secondary diagnostic and cannot override a failed evidence-selection gate.
 
 \begin{figure*}[t]
 \centering
 \resizebox{0.98\textwidth}{!}{\input{figures/architecture}}
-\caption{CEFES study pipeline. Solid blocks are implemented for the development selector pilot. The dashed matched-verifier branch is the next required implementation before the complete development gate can pass. Fixed-budget, threshold, count, and CEFES selectors share candidate packets and frozen feature artifacts.}
+\caption{CEFES development pipeline. Fixed-budget, threshold, count, and CEFES selectors share candidate packets and frozen feature artifacts. The dashed shared-verifier branch is a secondary diagnostic.}
 \label{fig:architecture}
 \end{figure*}
 
@@ -66,4 +66,4 @@ MOCHEG development claims in the audited packet have at least one released posit
 
 Fixed selectors return the first $k$ candidates for $k\in\{1,2,3,5,10,20,40,60\}$. The best fixed budget is chosen only on permitted calibration data. Additional controls use a calibrated global threshold, the uncalibrated expected-F1 decoder, and a count-classification head. All controls use the same candidate probabilities and order.
 
-The complete study additionally requires a shared verifier that consumes each selected evidence set and predicts the three MOCHEG labels. The verifier checkpoint, candidate features, and decoding inputs must be identical across selector comparisons. This branch is specified but has not yet been executed in the active implementation. Consequently, verdict non-inferiority remains an unavailable result rather than an assumed property.
+The shared verifier consumes each selected evidence set and predicts the three MOCHEG labels. One balanced three-class checkpoint is trained per seed and is reused unchanged across selector outputs; candidate features and decoding inputs are likewise matched. This isolates the effect of the selected set on the verdict diagnostic. Because evidence-set F1 is primary, a favorable verifier effect cannot rescue a failed selector gate.

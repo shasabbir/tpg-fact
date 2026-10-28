@@ -5,10 +5,10 @@
   frozen/.style={draw, rounded corners, align=center, minimum height=10mm, text width=24mm, fill=gray!14},
   learned/.style={draw, rounded corners, align=center, minimum height=10mm, text width=25mm, fill=green!10},
   decision/.style={draw, rounded corners, align=center, minimum height=10mm, text width=25mm, fill=orange!12},
-  planned/.style={draw, dashed, rounded corners, align=center, minimum height=10mm, text width=25mm, fill=purple!7},
+  diagnostic/.style={draw, dashed, rounded corners, align=center, minimum height=10mm, text width=25mm, fill=purple!7},
   group/.style={draw, dashed, rounded corners, inner sep=3mm},
   arrow/.style={-{Latex[length=2mm]}, thick},
-  plannedarrow/.style={-{Latex[length=2mm]}, thick, dashed}
+  diagnosticarrow/.style={-{Latex[length=2mm]}, thick, dashed}
 ]
 \node[input] (claim) {Claim text};
 \node[input, below=of claim] (corpus) {Public text and\\image candidates};
@@ -23,7 +23,7 @@
 \node[decision, right=of decoder] (set) {Selected evidence\\identifiers};
 
 \node[decision, below=11mm of decoder] (controls) {Fixed-$k$, threshold,\\and count controls};
-\node[planned, below=11mm of set] (verifier) {Planned shared verifier\\and verdict};
+\node[diagnostic, below=11mm of set] (verifier) {Shared verifier\\diagnostic};
 
 \draw[arrow] (claim) -- (bge);
 \draw[arrow] (corpus) -- (bge);
@@ -37,7 +37,7 @@
 \draw[arrow] (decoder) -- (set);
 \draw[arrow] (calibration.south) |- (controls.west);
 \draw[arrow] (controls.east) -| (set.south);
-\draw[plannedarrow] (set) -- (verifier);
+\draw[diagnosticarrow] (set) -- (verifier);
 
 \node[group, fit=(bge)(siglip)(packet), label=above:{frozen and shared across selectors}] {};
 \end{tikzpicture}
