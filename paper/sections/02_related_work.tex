@@ -35,30 +35,30 @@ The reviewed literature offers strong verdict models, multimodal fusion mechanis
 
 \begin{table*}[t]
 \centering
-\caption{Design comparison of closely related multimodal evidence-aware studies. ``Adaptive'' refers specifically to variable-size evidence-set output, not merely reranking, filtering, or modality routing. T: text; I: image; Tab: table.}
+\caption{Comparison of multimodal evidence-aware studies. ``Adaptive'' denotes variable-size evidence-set output; reranking, filtering, and modality routing are not adaptive set decoding.}
 \label{tab:related-comparison}
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.12}
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.16}
 \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.12\textwidth}
+>{\raggedright\arraybackslash}p{0.16\textwidth}
+>{\raggedright\arraybackslash}p{0.28\textwidth}
 >{\raggedright\arraybackslash}p{0.14\textwidth}
->{\raggedright\arraybackslash}p{0.08\textwidth}
->{\raggedright\arraybackslash}p{0.25\textwidth}
->{\raggedright\arraybackslash}p{0.14\textwidth}
->{\raggedright\arraybackslash}p{0.18\textwidth}@{}}
+>{\raggedright\arraybackslash}p{0.17\textwidth}@{}}
 \toprule
-Study & Setting & Evidence & Retrieval/selection mechanism & Set policy & Evaluated outputs \\
+Study & Setting & Retrieval/selection mechanism & Set policy & Evaluated outputs \\
 \midrule
-MOCHEG \cite{yao2023mocheg} & Web fact-checking & T, I & Separate neural text/image retrieval & Fixed top-$k$ & Retrieval, verdict, explanation \\
-RED-DOT \cite{papadopoulos2025reddot} & VERITE; NewsCLIPpings+ & T, I & Relevance detection and evidence reranking & Fixed pool with item masking & Item relevance, verdict \\
-SciVer \cite{wang2025sciver} & Scientific papers & T, I, Tab & Foundation-model and RAG benchmark & No adaptive set policy & Evidence, verdict \\
-MuSciClaims \cite{lal2025musciclaims} & Scientific figures & T, I & Figure localization and reasoning diagnostics & Provided figure context & Localization, verdict \\
-M$^2$-TabFact \cite{zhou2025m2tabfact} & Multi-document tables & T, I, Tab & Textual/visual table evidence reasoning & Provided multimodal evidence & Verdict \\
-M-RAV \cite{luu2027mrav} & MOCHEG; FACTIFY; Fin-Fact & T, I & BGE/CLIP retrieval, alignment, relevance scoring & Tuned global top-$k$ & Verdict with gold/retrieved evidence \\
-MEVER \cite{zhang2026mever} & MOCHEG; FACTIFY; AIChartClaim & T, I & Two-layer graph retrieval and multimodal fusion & Fixed top-$k$ & Retrieval, verdict, explanation \\
-Utility-oriented \cite{luo2026utility} & MRAG-Bench; Visual-RAG & I & Information-gain/helpfulness ranking & Fixed top-$K$ & Downstream answer utility \\
-Selective retrieval \cite{tsoneva2026selective} & AVerImaTeC & T, I & Question-type routing with hybrid/SigLIP retrieval & Fixed per-question budget & Evidence, verdict, justification \\
-\textbf{CEFES (ours)} & MOCHEG development & T, I & Calibrated membership scoring and exact expected-F1 decoding & \textbf{Adaptive prefix} & Set F1; verifier diagnostic \\
+MOCHEG \cite{yao2023mocheg} & Web fact-checking & Separate neural text/image retrieval & Fixed top-$k$ & Retrieval, verdict, explanation \\
+RED-DOT \cite{papadopoulos2025reddot} & VERITE; NewsCLIPpings+ & Relevance detection and evidence reranking & Fixed pool with item masking & Item relevance, verdict \\
+SciVer \cite{wang2025sciver} & Scientific papers & Foundation-model and RAG benchmark & No adaptive set policy & Evidence, verdict \\
+MuSciClaims \cite{lal2025musciclaims} & Scientific figures & Figure localization and reasoning diagnostics & Provided figure context & Localization, verdict \\
+M$^2$-TabFact \cite{zhou2025m2tabfact} & Multi-document tables & Textual/visual table evidence reasoning & Provided multimodal evidence & Verdict \\
+M-RAV \cite{luu2027mrav} & MOCHEG; FACTIFY; Fin-Fact & BGE/CLIP retrieval, alignment, relevance scoring & Tuned global top-$k$ & Verdict with gold/retrieved evidence \\
+MEVER \cite{zhang2026mever} & MOCHEG; FACTIFY; AIChartClaim & Two-layer graph retrieval and multimodal fusion & Fixed top-$k$ & Retrieval, verdict, explanation \\
+Utility-oriented \cite{luo2026utility} & MRAG-Bench; Visual-RAG & Information-gain/helpfulness ranking & Fixed top-$K$ & Downstream answer utility \\
+Selective retrieval \cite{tsoneva2026selective} & AVerImaTeC & Question-type routing with hybrid/SigLIP retrieval & Fixed per-question budget & Evidence, verdict, justification \\
+\midrule
+\textbf{CEFES (ours)} & \textbf{MOCHEG development} & \textbf{Calibrated membership scoring and exact expected-F1 decoding} & \textbf{Adaptive prefix} & \textbf{Set F1; verifier diagnostic} \\
 \bottomrule
 \end{tabular}
 \end{table*}

@@ -688,7 +688,7 @@ Exit criterion: audited formal archive and an explicit positive/negative decisio
   hierarchy, checked regime comparison, a ten-study design comparison, and
   expanded negative-result interpretation without changing the frozen
   findings; its SHA-256 is
-  `13d96b06c2699982fc6f39e6a99b0dd60ef68f53d7256cdcc4c4918131e2c048`;
+  `bf5d19654dee27684bff6874bbfb823b6288e14494a2583678835dbcc1556ca1`;
 - complete literature, reference, claim-evidence, render, and clean-package audits.
 
 ## 22. Current state table
