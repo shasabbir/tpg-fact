@@ -4,9 +4,9 @@
 
 \subsection{Data and Software Readiness}
 
-Table~\ref{tab:readiness} reports the evidence currently available. Pinned MOCHEG train and development metadata reproduce the official claim and evidence counts. All 378,864 distinct train/development sentence judgment identifiers are resolved to public corpus text. The deterministic 400-claim packet contains 15,823 candidates, 15,289 available candidates, and no unavailable gold candidate. All 1,612 downloaded pilot images are readable.
+The evidence available is reported in Table~\ref{tab:readiness}. Pinned MOCHEG train and development metadata reproduce the official claim and evidence counts. All 378,864 distinct train/development sentence judgment identifiers are resolved to public corpus text. The deterministic 400-claim packet includes 15,823 candidates, 15,289 available candidates and no unavailable gold candidate. All 1,612 downloaded pilot images are readable.
 
-\begin{table}[t]
+\begin{table}[!ht]
 \centering
 \caption{Current evidence state. Pending entries are not interpreted as zero or negative performance.}
 \label{tab:readiness}
@@ -34,15 +34,15 @@ Official test & Sealed & No active-study test annotation accessed \\
 
 \subsection{Software-Only Smoke Run}
 
-A dependency-light hash-feature run completed the pipeline end to end and produced a mean \method-minus-fixed evidence-F1 difference of $+0.00083$. Its feature manifest explicitly sets \texttt{scientific\_results\_allowed=false}; the selector gate therefore remains false. This value verifies serialization, training, calibration, evaluation, and export paths only. It is not a model result, does not satisfy the development threshold, and must not appear in the final abstract as evidence of effectiveness.
+The pipeline was run end to end with a dependency-light hash feature, and the mean difference between \method{} and fixed evidence F1 was $+0.00083$. Its feature manifest explicitly sets \texttt{scientific\_results\_allowed=false}; this means that the selector gate remains false. This value is used to check the serialization, training, calibration, evaluation and export paths only. It is not a model result, does not meet the development criterion and cannot be used in the final abstract as proof of effectiveness.
 
 \subsection{Scientific Performance}
 
-The pinned BGE-M3/SigLIP2 feature artifact contains 15,289 available claim--candidate pairs, including 4,156 gold rows. Feature construction took 626.16 seconds and peaked at 1.71~GB allocated GPU memory. The first temperature-scaling trial improved mean evidence F1 over the selected fixed budget but failed its calibration condition because seed 37 Brier score worsened by 0.00020. That failed trial is retained.
+The BGE-M3/SigLIP2 feature artifact has 15,289 available claim--candidate pairs, 4,156 of which are gold rows. Feature construction took 626.16 seconds and peaked at 1.71~GB of allocated GPU memory. The first temperature-scaling trial increased mean evidence F1 over the selected fixed budget but failed its calibration condition due to an increase in Brier score for seed 37 of 0.00020. This unsuccessful trial remains.
 
-The second, declared trial uses a claim-disjoint training guard to choose between a fitted temperature and identity scaling. Table~\ref{tab:selector-development} reports its independently recomputed results. Mean \method{} F1 is 0.71978 versus 0.65145 for fixed selection, a difference of 0.06833. The effect is positive in all seeds, and guarded Brier score is no worse in all seeds. However, the calibrated 0.5-threshold control obtains F1 values 0.73351, 0.75153, and 0.73979, exceeding \method{} in every seed. Thus the fixed-budget selector criteria pass, while the evidence does not support a claim that exact expected-F1 decoding is the strongest available rule.
+The second, announced trial is a claim-disjoint training guard that picks either a fitted temperature or an identity scaling. It independently recalculates its results and reports them in Table~\ref{tab:selector-development}. Mean \method{} F1 is 0.71978 versus 0.65145 for fixed selection, a difference of 0.06833. Guarded Brier score is no worse in all seeds and the effect is positive in all seeds. However, the calibrated 0.5-threshold control has F1 values of 0.73351, 0.75153 and 0.73979, which are better than \method{} for all seeds. So the criteria for a fixed-budget selector hold and the evidence does not warrant that the strongest rule available is one for exact expected-F1 decoding.
 
-\begin{table}[t]
+\begin{table}[!ht]
 \centering
 \caption{Checked 400-claim development selector results. Intervals are 10,000-sample paired claim bootstraps.}
 \label{tab:selector-development}
@@ -59,17 +59,17 @@ Seed & \method{} & Fixed & Difference & 95\% interval \\
 \end{tabular}
 \end{table}
 
-The shared verifier uses one balanced three-class checkpoint per seed for every selector. The checked \method-minus-fixed macro-F1 changes are $-0.01594$, $+0.00900$, and $+0.00656$ for seeds 13, 37, and 73. Their mean is $-0.00013$, above the declared $-0.01$ point non-inferiority margin, but all paired intervals include zero and seed 13 is individually below the margin. This supports neither a verdict improvement nor equivalence; it only passes the prespecified mean point-margin check.
+The shared verifier uses one balanced three-class checkpoint per seed for every selector. The checked \method-minus-fixed macro-F1 changes are $-0.01594$, $+0.00900$, and $+0.00656$ for seeds 13, 37, and 73. These have a mean of $-0.00013$, which is above the declared non-inferiority margin of $-0.01$, but all paired intervals contain 0 and seed 13 is individually below the non-inferiority margin. This supports neither a verdict improvement nor equivalence; it merely passes the prespecified mean point-margin check.
 
-Independent audits found no discrepancy in artifact hashes, probabilities, selections, evidence/verdict metrics, or bootstrap samples. The selector and verifier archives have SHA-256 values \texttt{5d62d125...22b8e} and \texttt{e8491d7e...abbdc}, respectively. These feasibility results motivated but did not unlock the full-corpus comparison.
+Independent audits revealed no differences in the hashes of the artifacts, probabilities, selections, evidence/verdict measures or bootstrap samples. The selector and verifier archives have SHA-256 values of \texttt{5d62d125...22b8e} and \texttt{e8491d7e...abbdc}, respectively. These feasibility results motivated but did not unlock the full-corpus comparison.
 
 \subsection{Full-Corpus Development Comparison}
 
-The label-blind builder ranks all 91,822 released text documents in a first stage, reranks sentences from the top 50 documents, and independently ranks all 90,270 train/development image paths. It retains 40 text and 20 image candidates per eligible claim before joining qrels. The resulting artifact contains 21,972 candidate rows for 367 claims and has SHA-256 \texttt{68889ae3...590731f}. Construction took 1,644.45 seconds and peaked at 1.75~GB allocated GPU memory. An independent audit recomputed the artifact identities and complete-gold retrieval metrics without discrepancy. Text Recall@50 is 0.36160 and image Recall@50 is 0.21384, indicating that the primary comparison operates under substantial retrieval error.
+The label-blind builder ranks 91,822 released text documents in the first stage, reranks sentences from the top 50 documents and ranks all 90,270 train/development image paths independently. It stores 40 text and 20 image candidates per eligible claim before joining qrels. The resulting artifact contains 21,972 candidate rows for 367 claims and has SHA-256 \texttt{68889ae3...590731f}. It took 1,644.45 seconds to build and used up to 1.75~GB of GPU memory. The complete-gold retrieval metrics and artifact identities were independently recalculated, with no differences found. The main comparison is thus under significant retrieval error: text Recall@50 = 0.36160 and image Recall@50 = 0.21384.
 
-Table~\ref{tab:regime-comparison} summarizes the experimental reversal. The packet experiment and full-corpus comparison use the same selector family and frozen semantic encoders, but answer different questions. The former asks whether the decoder can select within an assessed candidate universe; the latter asks whether the complete retrieval--selection chain supports the claimed advantage. The sign change is therefore not a contradictory duplicate measurement. It is evidence that the conclusion is conditional on how candidates enter the selector.
+The experimental reversal is summarized in Table~\ref{tab:regime-comparison}. The packet experiment and full-corpus comparison use the same family of selectors and fixed semantic encoders but answer different questions. The former asks whether the decoder can choose from an assessed universe of candidates; the latter asks whether the entire retrieval--selection chain can support the claimed advantage. This change of sign is thus not an inconsistent repetition of measurement. It is evidence that the conclusion depends on how candidates enter the selector.
 
-\begin{table}[t]
+\begin{table}[!ht]
 \centering
 \caption{Comparison of the two checked development regimes. Candidate rows are the available records supplied to the selector.}
 \label{tab:regime-comparison}
@@ -94,9 +94,9 @@ Scientific role & Feasibility & Primary development gate \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:full-corpus-selector} reports the audited selector result. \method{} loses to the validation-selected fixed budget in every seed. The mean difference is $-0.04185$, and every paired interval lies below zero. The calibration safety guard selects identity scaling in each seed, so calibrated and raw Brier scores are equal and satisfy the non-worsening condition. The prespecified mean-gain and all-seed-positive conditions nevertheless fail.
+Table~\ref{tab:full-corpus-selector} lists the result of the audited selector. \method{} is beaten by the fixed budget that the validation selects in all seeds. The mean difference is $-0.04185$ and all paired intervals are negative. The calibration safety guard chooses identity scaling in each seed, and thus calibrated and raw Brier scores are equal and the non-worsening condition is satisfied. However, the prespecified mean-gain and all-seed-positive conditions still fail.
 
-\begin{table}[t]
+\begin{table}[!ht]
 \centering
 \caption{Checked full-corpus development selector results. Intervals are 10,000-sample paired claim bootstraps.}
 \label{tab:full-corpus-selector}
@@ -113,10 +113,10 @@ Seed & \method{} & Fixed & Difference & 95\% interval \\
 \end{tabular}
 \end{table}
 
-The matched count-classification control obtains mean evidence F1 0.10040, compared with 0.08186 for \method{}. The \method-minus-count differences are negative for all seeds (mean $-0.01854$), and all three paired intervals exclude zero below zero. Count prediction itself remains inaccurate (count mean absolute error 16.15--17.87), showing that it can still outperform expected-F1 decoding on this ranking without estimating the true set size well.
+The matched count-classification control gives mean evidence F1 0.10040 whereas \method{} gives 0.08186. All \method-minus-count differences are negative, with a mean difference of $-0.01854$, and all three paired intervals exclude zero below zero. Count prediction itself is inaccurate (count mean absolute error 16.15--17.87), indicating that it can still outperform expected-F1 decoding on this ranking without estimating the true set size well.
 
-The shared-verifier diagnostic gives a mean \method-minus-fixed macro-F1 difference of $+0.05768$. The seed-specific point differences are $+0.04855$, $+0.05453$, and $+0.06995$; only seed 73's paired interval excludes zero. This diagnostic passes the declared mean point non-inferiority check but cannot rescue the failed primary evidence conditions. Independent audits of the selector, count control, and verifier report zero discrepancies and record no formal-test access.
+The shared-verifier diagnostic gives a mean \method-minus-fixed macro-F1 difference of $+0.05768$. The point differences for the three seeds are $+0.04855$, $+0.05453$, and $+0.06995$, with only seed 73's paired interval excluding 0. This diagnostic passes the declared mean point non-inferiority check, but cannot rescue the failed primary evidence conditions. The independent audits of the selector, the count control and the verifier report that there were no discrepancies and no formal-test access.
 
-A clean end-to-end rerun independently rebuilds the feature store in 1,621.25 seconds. The compressed feature SHA-256 is exactly identical to the first run, as are the sidecar, candidate identities, complete-gold maps, rankings, all selector and control metrics, and bootstrap samples under the declared tolerance. The fail-closed gate passes the data, software, verifier, calibration, matched-artifact, and clean-reproduction conditions, but fails the minimum mean evidence gain and positive-effect-in-every-seed conditions. The frozen 74-member development archive has SHA-256 \texttt{b7961df9...5c21d00b} and records \texttt{formal\_test\_unlocked=false}.
+A clean end-to-end rerun independently rebuilt the feature store in 1,621.25 seconds. The compressed feature SHA-256 is exactly the same as in the first run, as are the sidecar, candidate identities, complete-gold maps, rankings, all selector and control metrics, and bootstrap samples within the specified tolerance. The fail-closed gate meets the data, software, verifier, calibration, matched-artifact and clean-reproduction conditions, but does not meet the minimum mean evidence gain or positive-effect-in-every-seed conditions. The development archive of 74 members is frozen with a SHA-256 of \texttt{b7961df9...5c21d00b} and records \texttt{formal\_test\_unlocked=false}.
 
-The official test has not been accessed for the active study. Accordingly, no formal superiority, robustness, or generalization conclusion is reported in this draft.
+The official test has not been accessed for the current study. As a consequence, no formal superiority, robustness or generalization conclusion is reported in this draft.

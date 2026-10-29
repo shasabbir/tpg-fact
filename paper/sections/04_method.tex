@@ -10,13 +10,13 @@
 
 \subsection{Overview}
 
-\method{} separates candidate retrieval, evidence-membership estimation, calibration, set decoding, and verdict prediction. Every controlled selector in Fig.~\ref{fig:architecture} receives the same bounded packet and feature artifact. The adaptive rule changes only which evidence identifiers are emitted; it receives no additional corpus, label, or tuning access. The shared verifier is a secondary diagnostic and cannot override a failed evidence-selection gate.
+\method{} separates candidate retrieval, evidence-membership estimation, calibration, set decoding and verdict prediction. All the controlled selectors of Fig.~\ref{fig:architecture} get the same bounded packet and feature artifact. The adaptive rule only changes which evidence identifiers to emit and receives no additional corpus, label or tuning access. The shared verifier is a secondary diagnostic and is not used to override a failed evidence-selection gate.
 
 \subsection{Frozen Multimodal Features}
 
-The text branch uses BGE-M3 at the immutable revision recorded in the development configuration. Mean-pooled, attention-masked claim and evidence embeddings are normalized before cosine similarity is calculated. The image branch uses a likewise pinned SigLIP2-base-patch16-224 revision. Claim text and recoverable images are encoded separately and normalized. Both models are frozen, cached, and shared across seeds and selector families.
+The text branch is based on BGE-M3 at the immutable revision used for the development configuration. Before calculating cosine similarity, mean-pooled, attention-masked claim and evidence embeddings are normalized. The image branch is based on SigLIP2-base-patch16-224 in the same manner. Text and recoverable images are encoded individually and normalized. Both models are frozen, cached and shared amongst seeds and selector families.
 
-The implemented pilot feature vector for claim--candidate pair $(c,e_i)$ is
+The pilot feature vector implemented for claim--candidate pair $(c,e_i)$ is
 \begin{equation}
 \begin{aligned}
 x_i=[&s_i,s_i^2,m_i^{t},m_i^{v},\\
@@ -25,45 +25,45 @@ x_i=[&s_i,s_i^2,m_i^{t},m_i^{v},\\
 \end{aligned}
 \label{eq:features}
 \end{equation}
-where $s_i$ is the modality-appropriate semantic similarity, $m_i^{t}$ and $m_i^{v}$ are text and image indicators, $\ell_i$ is text length (zero for images), $\ell_c$ is claim length, and $n_c$ is the number of available candidates. Candidate truncation is label-blind: candidates are ordered by $s_i$ and capped at 40 text and 20 image items.
+in which $s_i$ is the semantic similarity appropriate to modality, $m_i^{t}$ and $m_i^{v}$ are the indicators of text and image, respectively, $\ell_i$ is the length of text (zero in the case of images), $\ell_c$ is the length of the claim and $n_c$ is the number of candidates available. The list of candidates is label-blind, meaning candidates are ranked by $s_i$, with a limit of 40 text and 20 image items.
 
 \subsection{Evidence-Membership Scorer}
 
-A lightweight logistic scorer estimates an uncalibrated inclusion probability
+The lightweight logistic scorer estimates an uncalibrated inclusion probability
 \begin{equation}
 q_i=\sigma(w^\top \tilde{x}_i+b),
 \label{eq:scorer}
 \end{equation}
-where $\tilde{x}_i$ is standardized using fitting-fold statistics. Class-balanced binary cross-entropy compensates for the small proportion of gold items, and fixed $L_2$ regularization is applied to $w$. The learning rate, epoch count, and regularization are fixed by the development configuration rather than altered after observing formal-test results.
+where $\tilde{x}_i$ is obtained by using fitting-fold statistics to standardize it. A class-balanced binary cross-entropy loss is used to address the small number of gold items and fixed $L_2$ regularization is used for $w$. The learning rate, the number of epochs and the regularization are determined by the development configuration, and are not changed based on formal-test results.
 
-This scorer is intentionally simple. It tests the selection rule without making an architectural-capacity claim. A stronger graph scorer may be evaluated only as a declared ablation under the same development budget and cannot replace the frozen main scorer after the official test is inspected.
+This scorer is intentionally simple. It is a test of the selection rule, but does not make an architectural-capacity claim. A stronger graph scorer could only be declared as an ablation under the same development budget and could not replace the frozen main scorer after the official test is reviewed.
 
 \subsection{Claim-Grouped Calibration}
 
-For each predetermined seed, 20\% of training claim identifiers are assigned deterministically to a calibration fold. The scorer is fit on the remaining claims. A binary temperature parameter is fit on the calibration probabilities and labels, producing
+For each of the predetermined seeds, 20\% of the training claim identifiers are deterministically allocated to a calibration fold. The scorer is fit on the remaining claims. A binary temperature parameter is fitted on the calibration probabilities and labels, resulting in
 \begin{equation}
 p_i=\sigma(\operatorname{logit}(q_i)/T).
 \label{eq:temperature}
 \end{equation}
-Calibration is evaluated separately using Brier score, negative log-likelihood, expected calibration error, and reliability plots. Temperature scaling is the default; a more flexible calibrator is not selected post hoc.
+Brier score, negative log-likelihood, expected calibration error and reliability plots are used separately to assess calibration. Temperature scaling is the default; a more flexible calibrator is not chosen after the fact.
 
 \subsection{Exact Expected-F1 Decoder}
 
-Candidates are sorted by decreasing calibrated $p_i$, with stable input order breaking probability ties. For a prefix of length $k$, let $TP_k$ be the number of gold items inside the prefix and let $G$ be the total number of gold candidates in the packet. Under independent Bernoulli membership variables, the utility of the prefix is
+The candidates are ranked from highest to lowest calibrated $p_i$, and if two candidates have the same calibrated $p_i$, they are ranked according to the order of the input. Let $TP_k$ be the number of gold items within a prefix of length $k$, and let $G$ be the number of gold items in the whole packet. If the Bernoulli membership variables are independent, then the utility of the prefix is
 \begin{equation}
 U(k)=\mathbb{E}\left[\frac{2TP_k}{k+G}\middle|p_1,\ldots,p_n\right].
 \label{eq:utility}
 \end{equation}
-The implementation computes the distributions of gold counts inside and outside every prefix with Poisson-binomial recurrences and sums their joint mass exactly. It does not substitute a ratio of expectations. The selected size is
+The implementation calculates the distributions of gold counts inside and outside each prefix using Poisson-binomial recurrences and sums their joint mass exactly. It does not substitute a ratio of expectations. The selected size is
 \begin{equation}
 k^*=\arg\max_{k\in\mathcal{K}}U(k),
 \qquad S=\{e_{(1)},\ldots,e_{(k^*)}\}.
 \label{eq:decision}
 \end{equation}
-MOCHEG development claims in the audited packet have at least one released positive candidate, so the frozen policy disallows an empty selection. The maximum is 60 items, and ties choose the smaller set. Unit tests compare the dynamic program with brute-force enumeration on small probability vectors and cover invalid probabilities, empty inputs, maximum budgets, and tie behavior.
+At least one positive candidate has been released for each MOCHEG development claim in the audited packet, and thus the frozen policy disallows an empty selection. The maximum is 60 items, and the smaller set is used to break ties. Unit tests compare the dynamic program with brute-force enumeration on small probability vectors, and test invalid probabilities, empty inputs, maximum budgets and tie behavior.
 
 \subsection{Matched Controls and Verifier}
 
-Fixed selectors return the first $k$ candidates for $k\in\{1,2,3,5,10,20,40,60\}$. The best fixed budget is chosen only on permitted calibration data. Additional controls use a calibrated global threshold, the uncalibrated expected-F1 decoder, and a count-classification head. All controls use the same candidate probabilities and order.
+Fixed selectors return the first $k$ candidates for $k\in\{1,2,3,5,10,20,40,60\}$. Only permitted calibration data are used to select the best fixed budget. Other controls are a calibrated global threshold, an uncalibrated expected-F1 decoder and a count-classification head. The candidate probabilities and order are the same for all controls.
 
-The shared verifier consumes each selected evidence set and predicts the three MOCHEG labels. One balanced three-class checkpoint is trained per seed and is reused unchanged across selector outputs; candidate features and decoding inputs are likewise matched. This isolates the effect of the selected set on the verdict diagnostic. Because evidence-set F1 is primary, a favorable verifier effect cannot rescue a failed selector gate.
+Each selected evidence set is fed into the shared verifier, which predicts the three MOCHEG labels. This corresponds to one balanced three-class checkpoint per seed, which is reused in all selector outputs, with the same candidate features and decoding inputs. This separates the impact of the chosen set on the verdict diagnostic. A good verifier effect is not able to compensate for a failed selector gate as evidence-set F1 is primary.

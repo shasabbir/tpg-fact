@@ -3,9 +3,9 @@
 
 \subsection{Task Definition}
 
-For claim $c$ and public multimodal corpus $D$, retrieval produces a bounded packet $E=\{e_1,\ldots,e_n\}$ of text and image candidates. Each candidate has an immutable modality-qualified identifier, modality, content or media path, retrieval features, and a binary released relevance judgment when the split permits supervision. The system returns an evidence set $S\subseteq E$ and a verdict in \{\textsc{supported}, \textsc{refuted}, \textsc{not enough information}\}. Evidence is correct only when its released identifier matches an official gold item under the benchmark's evaluation rule. Explanation generation is outside the primary contribution.
+For claim $c$ and public multimodal corpus $D$, retrieval returns a bounded set of text and image candidates $E=\{e_1,\ldots,e_n\}$. Every candidate possesses a permanent, modality-qualified identifier, modality, content or media path, retrieval features, and a binary released relevance judgment if the split allows for supervision. The system returns an evidence set $S\subseteq E$ and a verdict of \textsc{supported}, \textsc{refuted} or \textsc{not enough information}. Only evidence released with an identifier matching an official gold item under the benchmark's evaluation rule is correct. The generation of explanations is beyond the scope of the main contribution.
 
-For a predicted set $S$ and gold set $G$, claim-level evidence F1 is
+Given a predicted set $S$ and a gold set $G$, claim-level evidence F1 is
 \begin{equation}
 F_1(S,G)=
 \begin{cases}
@@ -14,25 +14,25 @@ F_1(S,G)=
 \end{cases}
 \label{eq:set-f1}
 \end{equation}
-The primary selector endpoint is the mean of this claim-level score. Verdict macro-F1 is a co-primary operational safeguard because a selector is not useful if its evidence causes a material loss in verification performance.
+The primary selector endpoint is the mean of this claim-level score. Verdict macro-F1 is a co-primary operational safeguard because a selector is not helpful if it results in a significant decrease in verification performance.
 
 \subsection{Evidence Reachability and Evaluation Regimes}
 
-Selection quality is bounded by candidate construction. Let $E_c$ be the packet exposed to a selector for claim $c$, and let $G_c$ be the complete released gold set. The reachable gold set is $G_c^{E}=G_c\cap E_c$. For a nonempty gold set, an oracle that selects every reachable gold item and no distractor has the packet-conditioned ceiling
+Candidate construction limits selection quality. Let $E_c$ be the packet that is exposed to a selector for claim $c$ and $G_c$ be the complete released gold set. The gold set that can be reached is $G_c^{E}=G_c\cap E_c$. An oracle that selects all reachable gold items and no distractors is a packet-conditioned ceiling for a nonempty gold set
 \begin{equation}
 F_{1}^{\mathrm{ceiling}}(c)=
 \frac{2|G_c^{E}|}{|G_c|+|G_c^{E}|}.
 \label{eq:ceiling-f1}
 \end{equation}
-This ceiling equals one only when the packet contains the complete gold set. It decreases whenever retrieval misses a gold item, regardless of how well the subsequent scorer is calibrated or how the set decoder operates. The ceiling is a diagnostic bound rather than a deployable result: it uses released relevance judgments after retrieval and assumes perfect identification of every reachable gold item.
+This maximum is 1 only if the packet has the complete gold set. It decreases whenever retrieval misses a gold item, irrespective of the configuration of the downstream scorer and the behavior of the set decoder. The ceiling is not a deployable result, but is diagnostic in that it relies on the released relevance judgments following retrieval and assumes that all reachable gold items are identified.
 
-This distinction motivates two evaluation regimes. A judgment-candidate packet is useful for a controlled mechanism test because it provides a dense set of assessed positives and negatives with stable identifiers. It does not measure whether the system can discover those candidates in the public corpus. A label-blind full-corpus packet instead evaluates the complete chain from corpus retrieval through evidence selection. Relevance labels are joined only after the ranking is frozen, and evidence missing from the packet remains a false negative in Eq.~\ref{eq:set-f1}. We therefore report the judgment-packet result as feasibility evidence and treat the full-corpus comparison as the primary development decision.
+This separation leads to two evaluation regimes. A good judgment-candidate packet is one that contains a ``dense'' set of assessed positives and negatives with stable identifiers, good for a controlled mechanism test. It is not a measure of whether or not the system can also find those candidates in the public corpus. A label-blind full-corpus packet, on the other hand, involves the full chain, from corpus retrieval to evidence selection. Relevance labels are only added after the ranking is frozen, and evidence missing from the packet remains a false negative in Eq.~\ref{eq:set-f1}. Hence, the result from the judgment packet is reported as feasibility evidence and the full-corpus comparison is considered the main development decision.
 
 \subsection{Public MOCHEG Release}
 
-MOCHEG provides end-to-end multimodal fact-checking data under CC BY 4.0 and associated code under Apache 2.0 \cite{yao2023mocheg}. Table~\ref{tab:mocheg-splits} summarizes the official split statistics: 11,669 train claims, 1,490 development claims, and 2,442 test claims, together with 91,822 corpus documents and 122,246 images. The released labels are Supported, Refuted, and Not Enough Information.
+MOCHEG provides end-to-end multimodal fact-checking data under CC BY 4.0 and code under Apache 2.0 \cite{yao2023mocheg}. Table~\ref{tab:mocheg-splits} summarizes the official statistics: 11,669 train claims, 1,490 development claims and 2,442 test claims, along with 91,822 corpus documents and 122,246 images. The labels are Supported, Refuted and Not Enough Information.
 
-The authoritative archive is retained as the recovery source, while routine development uses public transport mirrors whose schemas and counts have been reconciled with the official release. Full immutable revisions for the train, development, shared-corpus, and sealed-test transports are recorded in the released configuration and study plan. Test annotations are not downloaded during development.
+The authoritative archive is kept as the recovery source, and the development process is kept in step with the authoritative release by using the public transport schemas and counts as the basis for development. Complete immutable revisions for the train, development, shared-corpus and sealed-test transports are documented in the released configuration and study plan. Test annotations are not downloaded during the development process.
 
 \begin{table}[t]
 \centering
@@ -53,12 +53,12 @@ Test & 2,442 & 6,268 & 2,007 \\
 
 \subsection{Development Packet}
 
-The current feasibility packet samples 200 train and 200 development claims using a deterministic seed. Candidate text is reconstructed from the public 91,822-row corpus using the release-compatible sentence preprocessing. Candidate images are downloaded selectively and audited for byte identity and Pillow readability. Duplicate modality-qualified judgment rows are collapsed only when relevance labels agree; a conflicting duplicate is treated as a release error.
+The current feasibility packet contains 200 train and 200 development claims with a deterministic (hard-coded) seed. The sentence preprocessing is based on the public 91,822-row corpus which is used to reconstruct the candidate text. Only candidate images are downloaded, and those images are audited for byte identity and Pillow readability. Modality-qualified judgment rows are only collapsed if they have the same relevance label; otherwise, the conflict is considered a release error.
 
-The packet contains 15,823 candidate records, of which 15,289 are available. All missing records are negative distractors, so every retained claim has its released gold evidence available. The 1,612 downloaded image files are readable; they contain 1,255 unique byte hashes and 357 exact duplicate occurrences. These counts establish packet integrity, not model performance. The feasibility experiment ranks the released judgment candidate universe by label-blind semantic similarity and retains at most 40 text and 20 image items. A positive result on this restricted universe must later be repeated with candidates retrieved from the full released corpus.
+The packet includes 15,823 candidate records, of which 15,289 are available. There is no gold evidence among the missing records: all missing records are negative distractors, so all retained claims have their released gold evidence. The 1,612 downloaded image files contain 1,255 unique byte hashes, with 357 exact duplicate occurrences. These counts are indicators of packet integrity, but not model performance. In the feasibility experiment, the released judgment-candidate universe is ranked using label-blind semantic similarity and at most 40 text and 20 image items are retained. A positive result among candidates drawn from this restricted universe must be replicated with candidates drawn from the full released corpus.
 
 \subsection{Split Integrity and Test Seal}
 
-Train data are divided by claim identifier into fitting and calibration folds; all configuration selection uses train and official development only. Development code refuses test annotations. A formal run requires a frozen protocol containing code, configuration, dataset, feature, and checkpoint identities plus an explicit formal-test flag. No test metric may be printed by data preparation, feature extraction, or pilot execution. If a method changes after formal evaluation, the existing test result becomes exploratory and cannot be presented as fresh confirmation.
+Train data are split into fitting and calibration folds and only train and official development are used for all configuration selection. Development code refuses test annotations. A formal run requires a frozen protocol containing code, configuration, dataset, feature and checkpoint identities, together with an explicit formal-test flag. Data preparation, feature extraction and pilot execution may not print any test metric. Once a method has been formally evaluated and then changed, the existing test result can no longer be presented as fresh confirmation.
 
-Data audits record source revisions, release counts, labels, hashes, missing media, exact duplicates, perceptual image duplicates, and any source or event grouping available from the release. Learned preprocessing and calibration are fit only on the permitted training fold. The complete access and identity audit is maintained outside the manuscript in the project research records.
+Data audits cover changes to the data sources, release counts, labels, hashes, missing media, exact duplicates, perceptual image duplicates, and any grouping of sources or events available from the release. The allowed training fold is the only one on which learned preprocessing and calibration are done. The complete access and identity audit is kept outside the manuscript in the research records of the project.

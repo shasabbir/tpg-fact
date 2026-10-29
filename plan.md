@@ -690,7 +690,7 @@ Exit criterion: audited formal archive and an explicit positive/negative decisio
   findings; a whole-paper float audit keeps each table and figure under its
   owning section and confirms an in-text reference for every float; its
   SHA-256 is
-  `bcd3cfa25455e4c6f59c7fcefce7c3fa7a71e89d9caffa3613ed8d1bc494eb5f`;
+  `a1ac3887c06f7525c0a6c51db318385d5858460c9c8206f183d606074f3eb13f`;
 - complete literature, reference, claim-evidence, render, and clean-package audits.
 
 ## 22. Current state table
