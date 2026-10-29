@@ -41,7 +41,7 @@ The controlled baselines are fixed top-$k$ selection, a calibrated 0.5 probabili
 
 The macro precision, recall and F1 are the evidence metrics used at the claim level. The secondary evidence metrics include the exact set match, the Jaccard score, the selected count, the count mean absolute error, Recall@$k$, MAP and nDCG. Brier score, negative log-likelihood and expected calibration error are measures of calibration. Macro-F1 and class-wise F1 are used to measure verdict quality.
 
-10,000 paired bootstrap resamples are used for main selector effects. The resampling unit is the source, event or fact-check article where reliable grouping metadata are available; otherwise claims are resampled and that limitation is noted. Seed-aligned records are averaged before the main interval, and seed dispersion is reported separately. Holm correction is applied to the prespecified selector family. Verdict preservation is evaluated using a paired non-inferiority interval with margin $-0.01$.
+10,000 paired bootstrap resamples are used for each reported seed-level selector effect. The preserved full-corpus records do not contain a reliable source-group key, so claims are the resampling unit; the resulting intervals should not be read as source-cluster-robust. Seed effects are reported separately and their arithmetic mean summarizes the development decision. The fixed and count comparisons are both retained rather than selecting the more favorable result after observation. Verdict preservation uses the prespecified point non-inferiority margin of $-0.01$, while its paired intervals are reported as uncertainty diagnostics.
 
 \subsection{Development Gate}
 
@@ -51,7 +51,7 @@ The positive formal claim requires a mean official-test evidence-F1 effect of at
 
 \subsection{Ablations and Robustness}
 
-Prespecified ablations remove calibration, replace exact expected-F1 with a global threshold or ratio approximation, replace set decoding with count prediction, and remove modality or duplicate-cluster features. Robustness tests involve repeated evidence, varying the width of the packets without retuning, removing each modality and corrupting the top candidates with irrelevant items. Verdict, gold-set size, source and the need for image evidence are covered under subgroup analysis. These analyses explain a primary result but cannot rescue a failed main comparison.
+The completed development controls remove calibration, replace exact expected-F1 decoding with a global threshold and replace set decoding with count prediction. Gold-set-size and modality diagnostics are computed from the frozen claim records after the primary decision and are labelled post hoc. The broader ratio, feature-removal, packet-width, corruption and source-subgroup analyses were not run after the direction stopped at the failed development gate. They remain possible follow-up studies, but cannot be introduced as a rescue of this protocol.
 
 \subsection{Implementation and Resources}
 

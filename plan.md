@@ -941,3 +941,36 @@ the formal test. Finalize the manuscript as a transparent negative development
 study, without claiming formal benchmark superiority or generalization. Do not
 inspect or download formal-test annotations: the full-corpus selector result
 fails the numeric development gate and the formal test is explicitly locked.
+
+## 24. Results-reporting expansion (2026-10-29)
+
+The frozen development artifacts have been recomputed for a deeper manuscript
+presentation without fitting a model, changing a selector, joining new labels,
+or accessing the formal test. The reporting build is implemented in
+`experiments/scripts/build_mocheg_reporting_artifacts.py`. It records SHA-256
+values for every consumed summary, audit, claim record, count record, verdict
+record and gate file, and refuses to run unless the full-corpus retrieval audit
+passes and the formal-test seal remains intact.
+
+The generated report now exposes retrieval Recall@5/10/50, MAP@60 and nDCG@60
+by modality; claim-macro precision, recall, F1, Jaccard, exact match and selected
+count for CEFES, fixed, threshold and count selectors; Brier, NLL and ECE for
+all seeds; absolute and class-wise shared-verifier results; paired seed-level
+effect intervals; and runtime/reproduction evidence. Three figures are derived
+from the same frozen artifacts: retrieval coverage, paired development effects,
+and a set-size mechanism diagnostic.
+
+The additional gold-set-size and modality cuts are explicitly post hoc and
+descriptive. They are not added to the confirmatory gate. The set-size records
+show that CEFES selects about 39.7 items in every gold-size bin, while mean gold
+counts are 1.66, 3.89 and 18.92; the largest descriptive F1 deficits occur in
+the first two bins. This supports an over-selection hypothesis for future work
+but does not strengthen the abstract or conclusion beyond the frozen negative
+development decision.
+
+The manuscript's main Results section has been reorganized around the primary
+development outcome, retrieval coverage, matched selector metrics, calibration,
+the descriptive mechanism analysis, the shared verifier and the conjunctive
+gate. Software readiness, the non-scientific hash smoke run, per-seed detail and
+generated-artifact provenance are moved to an appendix. The formal test remains
+locked and untouched.

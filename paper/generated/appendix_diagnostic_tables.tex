@@ -1,0 +1,65 @@
+\begin{table*}[!t]
+\centering
+\caption{Per-seed full-corpus selector metrics underlying Table~\ref{tab:full-corpus-method-means}. Exact evidence-set match is zero for every listed row.}
+\label{tab:full-corpus-selector-detail}
+\small
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{@{}rlrrrrr@{}}
+\toprule
+Seed & Method & Precision & Recall & F1 & Jaccard & Mean $|\widehat{E}|$ \\
+\midrule
+13 & CEFES & 0.05827 & 0.28424 & 0.08210 & 0.04499 & 39.52 \\
+13 & Fixed & 0.12900 & 0.19064 & 0.12189 & 0.06965 & 10.00 \\
+13 & Threshold 0.5 & 0.10577 & 0.23424 & 0.10704 & 0.06116 & 23.84 \\
+13 & Count control & 0.11730 & 0.20288 & 0.09864 & 0.05690 & 19.27 \\
+37 & CEFES & 0.05757 & 0.28524 & 0.08170 & 0.04471 & 39.78 \\
+37 & Fixed & 0.18100 & 0.14626 & 0.12869 & 0.07654 & 5.00 \\
+37 & Threshold 0.5 & 0.10974 & 0.24115 & 0.10773 & 0.06139 & 24.93 \\
+37 & Count control & 0.10842 & 0.22112 & 0.10255 & 0.05838 & 22.48 \\
+73 & CEFES & 0.05765 & 0.28524 & 0.08178 & 0.04477 & 39.74 \\
+73 & Fixed & 0.12800 & 0.18864 & 0.12055 & 0.06882 & 10.00 \\
+73 & Threshold 0.5 & 0.09577 & 0.24448 & 0.10447 & 0.05923 & 25.95 \\
+73 & Count control & 0.09771 & 0.22350 & 0.10002 & 0.05620 & 21.77 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[!t]
+\centering
+\caption{Per-seed shared-verifier diagnostics underlying Table~\ref{tab:full-corpus-verifier-means}.}
+\label{tab:full-corpus-verifier-detail}
+\small
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{@{}rlrrrrr@{}}
+\toprule
+Seed & Selector & Accuracy & Supported F1 & Refuted F1 & NEI F1 & Macro-F1 \\
+\midrule
+13 & CEFES & 0.35000 & 0.26923 & 0.41667 & 0.34211 & 0.34267 \\
+13 & Fixed & 0.29500 & 0.29688 & 0.32394 & 0.26154 & 0.29412 \\
+13 & Threshold 0.5 & 0.32500 & 0.33628 & 0.30986 & 0.33103 & 0.32573 \\
+37 & CEFES & 0.35000 & 0.34783 & 0.36232 & 0.34014 & 0.35009 \\
+37 & Fixed & 0.29500 & 0.30894 & 0.28767 & 0.29008 & 0.29556 \\
+37 & Threshold 0.5 & 0.31000 & 0.33333 & 0.24806 & 0.34437 & 0.30859 \\
+73 & CEFES & 0.35000 & 0.26415 & 0.37086 & 0.39161 & 0.34221 \\
+73 & Fixed & 0.27500 & 0.27481 & 0.30667 & 0.23529 & 0.27226 \\
+73 & Threshold 0.5 & 0.30500 & 0.32258 & 0.24060 & 0.34965 & 0.30428 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[!t]
+\centering
+\caption{Post hoc descriptive analysis by gold-set size, averaged over seeds. Effects were not part of the confirmatory gate and receive no confirmatory interpretation.}
+\label{tab:gold-size-diagnostics}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+Gold size & Claims & Mean gold & CEFES selected & Fixed selected & Count selected & CEFES$-$fixed & CEFES$-$count \\
+\midrule
+1--2 & 32 & 1.66 & 39.89 & 8.33 & 21.35 & -0.08057 & -0.03963 \\
+3--5 & 57 & 3.89 & 39.88 & 8.33 & 22.11 & -0.09319 & -0.03660 \\
+6+ & 111 & 18.92 & 39.52 & 8.33 & 20.64 & -0.00432 & -0.00319 \\
+\bottomrule
+\end{tabular}
+\end{table*}

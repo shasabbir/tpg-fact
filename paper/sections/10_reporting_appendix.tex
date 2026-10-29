@@ -1,0 +1,46 @@
+\section{Detailed Reporting and Reproducibility}
+\label{app:reporting}
+
+\subsection{Data and Software Readiness}
+
+Table~\ref{tab:readiness} records the evidence state used by the study. Pinned MOCHEG train and development metadata reproduce the official claim and evidence counts. All 378,864 distinct train/development sentence judgment identifiers resolve to public corpus text. The deterministic 400-claim packet contains 15,823 candidates, including 15,289 available candidates and no unavailable gold candidate. All 1,612 downloaded pilot images are readable.
+
+\begin{table}[!t]
+\centering
+\caption{Final evidence and software state.}
+\label{tab:readiness}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.43\columnwidth}
+>{\raggedright\arraybackslash}p{0.18\columnwidth}
+>{\raggedright\arraybackslash}p{0.29\columnwidth}@{}}
+\toprule
+Component & State & Evidence \\
+\midrule
+Train/development identity & Passed & Counts and revisions match \\
+Sentence recovery & Passed & 378,864/378,864 resolved \\
+400-claim packet & Passed & No unavailable gold \\
+Exact decoder & Passed & Agrees with brute force \\
+Project test suite & Passed & 98 tests after repair \\
+Pinned semantic GPU pilot & Checked & Three audited seeds \\
+Shared verifier & Checked & One checkpoint per seed \\
+Full-corpus retrieval & Checked & 91,822 texts; 90,270 images \\
+Clean reproduction & Passed & Artifacts and tables match \\
+Official test & Sealed & No annotation accessed \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Software-Only Smoke Run}
+
+The pipeline was also run end to end with a dependency-light hash feature. Its mean \method-minus-fixed evidence-F1 difference was $+0.00083$, but its manifest explicitly records \texttt{scientific\_results\_allowed=false}. The run checks serialization, training, calibration, evaluation and export paths only. It is not a model result and is excluded from every scientific table and conclusion.
+
+\subsection{Per-Seed and Subgroup Tables}
+
+Tables~\ref{tab:full-corpus-selector-detail} and \ref{tab:full-corpus-verifier-detail} give the per-seed values aggregated in the main text. Table~\ref{tab:gold-size-diagnostics} gives the descriptive set-size analysis underlying Fig.~\ref{fig:set-size-mechanism}. These subgroup values were computed after the primary gate was frozen and are not subjected to confirmatory hypothesis tests.
+
+\input{generated/appendix_diagnostic_tables}
+
+\subsection{Generated Reporting Artifacts}
+
+All expanded tables and figures are built by \path{experiments/scripts/build_mocheg_reporting_artifacts.py}. The script reads only the frozen full-corpus retrieval audit, selector records, count-control records, verifier records and final development-gate record. It refuses to run if the retrieval audit is not passing or if the formal-test seal is not intact. Its machine-readable output records SHA-256 values for every input and exports the values used by each table and figure. No model is refitted, no selector is retuned and no new relevance judgment is introduced during reporting.

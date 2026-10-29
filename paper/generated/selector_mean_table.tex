@@ -1,0 +1,17 @@
+\begin{table*}[!t]
+\centering
+\caption{Full-corpus evidence-selection performance averaged over seeds 13, 37 and 73. Metrics are claim-macro; all methods receive the same frozen candidates within a seed.}
+\label{tab:full-corpus-method-means}
+\small
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Method & Precision & Recall & F1 & Jaccard & Mean $|\widehat{E}|$ & Exact \\
+\midrule
+CEFES & 0.05783 & 0.28491 & 0.08186 & 0.04482 & 39.68 & 0.000 \\
+Fixed & 0.14600 & 0.17518 & 0.12371 & 0.07167 & 8.33 & 0.000 \\
+Threshold 0.5 & 0.10376 & 0.23996 & 0.10642 & 0.06059 & 24.91 & 0.000 \\
+Count control & 0.10781 & 0.21583 & 0.10040 & 0.05716 & 21.17 & 0.000 \\
+\bottomrule
+\end{tabular}
+\end{table*}
