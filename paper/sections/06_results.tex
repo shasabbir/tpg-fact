@@ -66,6 +66,33 @@ Independent audits found no discrepancy in artifact hashes, probabilities, selec
 
 The label-blind builder ranks all 91,822 released text documents in a first stage, reranks sentences from the top 50 documents, and independently ranks all 90,270 train/development image paths. It retains 40 text and 20 image candidates per eligible claim before joining qrels. The resulting artifact contains 21,972 candidate rows for 367 claims and has SHA-256 \texttt{68889ae3...590731f}. Construction took 1,644.45 seconds and peaked at 1.75~GB allocated GPU memory. An independent audit recomputed the artifact identities and complete-gold retrieval metrics without discrepancy. Text Recall@50 is 0.36160 and image Recall@50 is 0.21384, indicating that the primary comparison operates under substantial retrieval error.
 
+Table~\ref{tab:regime-comparison} summarizes the experimental reversal. The packet experiment and full-corpus comparison use the same selector family and frozen semantic encoders, but answer different questions. The former asks whether the decoder can select within an assessed candidate universe; the latter asks whether the complete retrieval--selection chain supports the claimed advantage. The sign change is therefore not a contradictory duplicate measurement. It is evidence that the conclusion is conditional on how candidates enter the selector.
+
+\begin{table}[t]
+\centering
+\caption{Comparison of the two checked development regimes. Candidate rows are the available records supplied to the selector.}
+\label{tab:regime-comparison}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.27\columnwidth}
+>{\raggedright\arraybackslash}p{0.30\columnwidth}
+>{\raggedright\arraybackslash}p{0.32\columnwidth}@{}}
+\toprule
+Property & Judgment packet & Full corpus \\
+\midrule
+Eligible claims & 400 & 367 \\
+Candidate rows & 15,289 & 21,972 \\
+Candidate origin & Released judgments & Label-blind retrieval \\
+Search universe & Assessed items & 91,822 documents and 90,270 images \\
+Gold availability & All retained claim gold available & Limited by retrieval \\
+Text/image Recall@50 & Not an end-to-end retrieval measure & 0.36160 / 0.21384 \\
+Mean \method{}--fixed F1 & $+0.06833$ & $-0.04185$ \\
+Stronger matched control & Threshold & Fixed and count \\
+Scientific role & Feasibility & Primary development gate \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 Table~\ref{tab:full-corpus-selector} reports the audited selector result. \method{} loses to the validation-selected fixed budget in every seed. The mean difference is $-0.04185$, and every paired interval lies below zero. The calibration safety guard selects identity scaling in each seed, so calibrated and raw Brier scores are equal and satisfy the non-worsening condition. The prespecified mean-gain and all-seed-positive conditions nevertheless fail.
 
 \begin{table}[t]

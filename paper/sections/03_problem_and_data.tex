@@ -16,6 +16,18 @@ F_1(S,G)=
 \end{equation}
 The primary selector endpoint is the mean of this claim-level score. Verdict macro-F1 is a co-primary operational safeguard because a selector is not useful if its evidence causes a material loss in verification performance.
 
+\subsection{Evidence Reachability and Evaluation Regimes}
+
+Selection quality is bounded by candidate construction. Let $E_c$ be the packet exposed to a selector for claim $c$, and let $G_c$ be the complete released gold set. The reachable gold set is $G_c^{E}=G_c\cap E_c$. For a nonempty gold set, an oracle that selects every reachable gold item and no distractor has the packet-conditioned ceiling
+\begin{equation}
+F_{1}^{\mathrm{ceiling}}(c)=
+\frac{2|G_c^{E}|}{|G_c|+|G_c^{E}|}.
+\label{eq:ceiling-f1}
+\end{equation}
+This ceiling equals one only when the packet contains the complete gold set. It decreases whenever retrieval misses a gold item, regardless of how well the subsequent scorer is calibrated or how the set decoder operates. The ceiling is a diagnostic bound rather than a deployable result: it uses released relevance judgments after retrieval and assumes perfect identification of every reachable gold item.
+
+This distinction motivates two evaluation regimes. A judgment-candidate packet is useful for a controlled mechanism test because it provides a dense set of assessed positives and negatives with stable identifiers. It does not measure whether the system can discover those candidates in the public corpus. A label-blind full-corpus packet instead evaluates the complete chain from corpus retrieval through evidence selection. Relevance labels are joined only after the ranking is frozen, and evidence missing from the packet remains a false negative in Eq.~\ref{eq:set-f1}. We therefore report the judgment-packet result as feasibility evidence and treat the full-corpus comparison as the primary development decision.
+
 \subsection{Public MOCHEG Release}
 
 MOCHEG provides end-to-end multimodal fact-checking data under CC BY 4.0 and associated code under Apache 2.0 \cite{yao2023mocheg}. The official paper reports 11,669 train claims, 1,490 development claims, and 2,442 test claims, together with 91,822 corpus documents and 122,246 images. The released labels are Supported, Refuted, and Not Enough Information.

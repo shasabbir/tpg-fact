@@ -5,6 +5,28 @@
 
 The primary question is whether \method{} improves claim-level evidence-set F1 over the strongest fixed budget selected on development data. Secondary questions test whether expected-F1 decoding improves on count prediction, whether calibration contributes to selection quality, and whether the selected evidence preserves verdict macro-F1 under a shared verifier.
 
+Table~\ref{tab:claim-test-map} makes the claim hierarchy explicit. Only the first comparison can establish the primary selector claim. Calibration, count prediction, and verification diagnose why a selector succeeds or fails, but none can compensate for a negative primary evidence effect. This hierarchy was fixed to avoid promoting whichever secondary endpoint happens to be favorable.
+
+\begin{table}[t]
+\centering
+\caption{Prespecified claim-to-test alignment. All comparisons are paired on identical eligible claims.}
+\label{tab:claim-test-map}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.23\columnwidth}
+>{\raggedright\arraybackslash}p{0.42\columnwidth}
+>{\raggedright\arraybackslash}p{0.26\columnwidth}@{}}
+\toprule
+Question & Comparison & Role \\
+\midrule
+Set utility & \method{} versus strongest permitted fixed $k$ & Primary gate \\
+Count alignment & \method{} versus learned count head & Mechanism control \\
+Calibration & Guarded versus raw probabilities & Safety condition \\
+Verification & Shared-verifier macro-F1 difference & Non-inferiority safeguard \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Development and Formal Protocols}
 
 The development pilot uses seeds 13, 37, and 73. A maximum of 20 declared configurations may be evaluated using train and development data. The official test is unavailable throughout this phase. A formal evaluation, if unlocked, uses seeds 13, 37, 73, 101, and 137 exactly once with the frozen code, data, features, configurations, and checkpoints.
