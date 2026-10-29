@@ -63,6 +63,8 @@ MOCHEG established a joint benchmark for multimodal evidence retrieval, verdict 
 
 RED-DOT is especially relevant because it detects and reranks relevant external evidence before verdict prediction [CITE: papadopoulos2025reddot]. Its item-relevance mechanism differs from choosing a variable-size evidence set against a released set-level target. The comparison table separates these operations: fixed retrieval, relevance filtering, modality routing, utility ranking, and adaptive set decoding are not treated as interchangeable.
 
+[TABLE RETAINED UNCHANGED IN LATEX]
+
 subsection - scientific multimodal claim verification:
 
 Scientific documents create a controlled setting in which claims can be linked to stable passages, tables, and figures. SciVer contains 3,000 expert-annotated claim-evidence instances over 1,113 papers and separates several reasoning types [CITE: wang2025sciver]. MuSciClaims centers on figure-grounded claims and controlled claim perturbations that expose failures in evidence localization and cross-modal aggregation [CITE: lal2025musciclaims]. M^2-TabFact extends verification to visual and textual representations of tables distributed across documents [CITE: zhou2025m2tabfact]. These resources support item-level evidence evaluation that is difficult to obtain from open-web misinformation, but their scientific domain also limits direct generalization to political or breaking-news claims.
@@ -74,8 +76,6 @@ An explanation can be readable while citing the wrong source or reflecting a dec
 subsection - position of this study:
 
 The reviewed literature offers strong verdict models, multimodal fusion mechanisms, retrieval pipelines, explanation generators, and citation metrics, but evidence output is still commonly controlled by a global retrieval depth. Utility-oriented and selective multimodal retrieval move closer to the present question by estimating whether visual evidence is useful [CITE: luo2026utility,tsoneva2026selective]; they do not evaluate exact expected set-F1 decoding for a variable text-image evidence set under a matched fact-checking verifier. MOCHEG, M-RAV, and MEVER provide the closest task and system context [CITE: yao2023mocheg,luu2027mrav,zhang2026mever].
-
-[TABLE RETAINED UNCHANGED IN LATEX]
 
 CEFES targets this narrower gap. It calibrates item-level evidence-membership probabilities and selects the prefix that maximizes exact expected set-F1, while fixed-budget, threshold, and count controls share candidates and representations. The novelty claim is limited to this selection objective, decoder, and controlled evaluation protocol. The study does not claim to invent multimodal encoders, general graph reasoning, evidence retrieval, or explanation generation, and it does not claim empirical superiority before the sealed protocol is completed.
 
@@ -121,7 +121,7 @@ Train data are divided by claim identifier into fitting and calibration folds; a
 
 Data audits record source revisions, release counts, labels, hashes, missing media, exact duplicates, perceptual image duplicates, and any source or event grouping available from the release. Learned preprocessing and calibration are fit only on the permitted training fold. The complete access and identity audit is maintained outside the manuscript in the project research records.
 
-method:
+methodology:
 
 subsection - overview:
 

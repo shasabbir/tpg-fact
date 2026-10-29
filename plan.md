@@ -687,8 +687,10 @@ Exit criterion: audited formal archive and an explicit positive/negative decisio
 - the current 11-page PDF adds the evidence-reachability ceiling, claim-to-test
   hierarchy, checked regime comparison, a ten-study design comparison, and
   expanded negative-result interpretation without changing the frozen
-  findings; its SHA-256 is
-  `bf5d19654dee27684bff6874bbfb823b6288e14494a2583678835dbcc1556ca1`;
+  findings; a whole-paper float audit keeps each table and figure under its
+  owning section and confirms an in-text reference for every float; its
+  SHA-256 is
+  `bcd3cfa25455e4c6f59c7fcefce7c3fa7a71e89d9caffa3613ed8d1bc494eb5f`;
 - complete literature, reference, claim-evidence, render, and clean-package audits.
 
 ## 22. Current state table

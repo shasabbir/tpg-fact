@@ -21,18 +21,6 @@ MOCHEG established a joint benchmark for multimodal evidence retrieval, verdict 
 
 RED-DOT is especially relevant because it detects and reranks relevant external evidence before verdict prediction \cite{papadopoulos2025reddot}. Its item-relevance mechanism differs from choosing a variable-size evidence set against a released set-level target. Table~\ref{tab:related-comparison} separates these operations: fixed retrieval, relevance filtering, modality routing, utility ranking, and adaptive set decoding are not treated as interchangeable.
 
-\subsection{Scientific Multimodal Claim Verification}
-
-Scientific documents create a controlled setting in which claims can be linked to stable passages, tables, and figures. SciVer contains 3,000 expert-annotated claim--evidence instances over 1,113 papers and separates several reasoning types \cite{wang2025sciver}. MuSciClaims centers on figure-grounded claims and controlled claim perturbations that expose failures in evidence localization and cross-modal aggregation \cite{lal2025musciclaims}. M$^2$-TabFact extends verification to visual and textual representations of tables distributed across documents \cite{zhou2025m2tabfact}. These resources support item-level evidence evaluation that is difficult to obtain from open-web misinformation, but their scientific domain also limits direct generalization to political or breaking-news claims.
-
-\subsection{Evidence Attribution and Faithful Rationales}
-
-An explanation can be readable while citing the wrong source or reflecting a decision made from another signal. Fact-checking explanation generation initially emphasized producing useful textual justifications \cite{atanasova2020explanations}. ERASER made evidence rationales an explicit evaluation target \cite{deyoung2020eraser}, and faithful-by-construction rationalizers restricted predictors to selected evidence spans \cite{jain2020faithful}. Citation-grounded language generation evaluates whether generated statements are supported by retrieved sources \cite{gao2023alce}, while RAGTruth documents hallucinations that remain possible in retrieval-augmented output \cite{niu2024ragtruth}. Most directly, citation masking and recovery tests whether a fact-checking explanation attributes its statements to the correct evidence \cite{xing2025attribution}.
-
-\subsection{Position of This Study}
-
-The reviewed literature offers strong verdict models, multimodal fusion mechanisms, retrieval pipelines, explanation generators, and citation metrics, but evidence output is still commonly controlled by a global retrieval depth. Utility-oriented and selective multimodal retrieval move closer to the present question by estimating whether visual evidence is useful \cite{luo2026utility,tsoneva2026selective}; they do not evaluate exact expected set-F1 decoding for a variable text--image evidence set under a matched fact-checking verifier. MOCHEG, M-RAV, and MEVER provide the closest task and system context \cite{yao2023mocheg,luu2027mrav,zhang2026mever}.
-
 \begin{table*}[t]
 \centering
 \caption{Comparison of multimodal evidence-aware studies. ``Adaptive'' denotes variable-size evidence-set output; reranking, filtering, and modality routing are not adaptive set decoding.}
@@ -62,5 +50,17 @@ Selective retrieval \cite{tsoneva2026selective} & AVerImaTeC & Question-type rou
 \bottomrule
 \end{tabular}
 \end{table*}
+
+\subsection{Scientific Multimodal Claim Verification}
+
+Scientific documents create a controlled setting in which claims can be linked to stable passages, tables, and figures. SciVer contains 3,000 expert-annotated claim--evidence instances over 1,113 papers and separates several reasoning types \cite{wang2025sciver}. MuSciClaims centers on figure-grounded claims and controlled claim perturbations that expose failures in evidence localization and cross-modal aggregation \cite{lal2025musciclaims}. M$^2$-TabFact extends verification to visual and textual representations of tables distributed across documents \cite{zhou2025m2tabfact}. These resources support item-level evidence evaluation that is difficult to obtain from open-web misinformation, but their scientific domain also limits direct generalization to political or breaking-news claims.
+
+\subsection{Evidence Attribution and Faithful Rationales}
+
+An explanation can be readable while citing the wrong source or reflecting a decision made from another signal. Fact-checking explanation generation initially emphasized producing useful textual justifications \cite{atanasova2020explanations}. ERASER made evidence rationales an explicit evaluation target \cite{deyoung2020eraser}, and faithful-by-construction rationalizers restricted predictors to selected evidence spans \cite{jain2020faithful}. Citation-grounded language generation evaluates whether generated statements are supported by retrieved sources \cite{gao2023alce}, while RAGTruth documents hallucinations that remain possible in retrieval-augmented output \cite{niu2024ragtruth}. Most directly, citation masking and recovery tests whether a fact-checking explanation attributes its statements to the correct evidence \cite{xing2025attribution}.
+
+\subsection{Position of This Study}
+
+The reviewed literature offers strong verdict models, multimodal fusion mechanisms, retrieval pipelines, explanation generators, and citation metrics, but evidence output is still commonly controlled by a global retrieval depth. Utility-oriented and selective multimodal retrieval move closer to the present question by estimating whether visual evidence is useful \cite{luo2026utility,tsoneva2026selective}; they do not evaluate exact expected set-F1 decoding for a variable text--image evidence set under a matched fact-checking verifier. MOCHEG, M-RAV, and MEVER provide the closest task and system context \cite{yao2023mocheg,luu2027mrav,zhang2026mever}.
 
 \method{} targets this narrower gap. It calibrates item-level evidence-membership probabilities and selects the prefix that maximizes exact expected set-F1, while fixed-budget, threshold, and count controls share candidates and representations. The novelty claim is limited to this selection objective, decoder, and controlled evaluation protocol. The study does not claim to invent multimodal encoders, general graph reasoning, evidence retrieval, or explanation generation, and it does not claim empirical superiority before the sealed protocol is completed.

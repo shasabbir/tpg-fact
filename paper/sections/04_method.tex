@@ -1,16 +1,16 @@
-\section{Method}
-\label{sec:method}
-
-\subsection{Overview}
-
-\method{} separates candidate retrieval, evidence-membership estimation, calibration, set decoding, and verdict prediction. Every controlled selector in Fig.~\ref{fig:architecture} receives the same bounded packet and feature artifact. The adaptive rule changes only which evidence identifiers are emitted; it receives no additional corpus, label, or tuning access. The shared verifier is a secondary diagnostic and cannot override a failed evidence-selection gate.
-
 \begin{figure*}[t]
 \centering
 \resizebox{0.98\textwidth}{!}{\input{figures/architecture}}
 \caption{CEFES development pipeline. Fixed-budget, threshold, count, and CEFES selectors share candidate packets and frozen feature artifacts. The dashed shared-verifier branch is a secondary diagnostic.}
 \label{fig:architecture}
 \end{figure*}
+
+\section{Methodology}
+\label{sec:method}
+
+\subsection{Overview}
+
+\method{} separates candidate retrieval, evidence-membership estimation, calibration, set decoding, and verdict prediction. Every controlled selector in Fig.~\ref{fig:architecture} receives the same bounded packet and feature artifact. The adaptive rule changes only which evidence identifiers are emitted; it receives no additional corpus, label, or tuning access. The shared verifier is a secondary diagnostic and cannot override a failed evidence-selection gate.
 
 \subsection{Frozen Multimodal Features}
 
