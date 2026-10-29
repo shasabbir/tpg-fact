@@ -685,9 +685,10 @@ Exit criterion: audited formal archive and an explicit positive/negative decisio
 - report the checked negative development result transparently;
 - retain the SciVer count-utility mismatch as motivation/diagnostic, not confirmation;
 - the current 11-page PDF adds the evidence-reachability ceiling, claim-to-test
-  hierarchy, checked regime comparison, and expanded negative-result
-  interpretation without changing the frozen findings; its SHA-256 is
-  `f86eceabfb202be9ca63a803819f0d199be724464a905ed4efb7e5585b4f49a2`;
+  hierarchy, checked regime comparison, a ten-study design comparison, and
+  expanded negative-result interpretation without changing the frozen
+  findings; its SHA-256 is
+  `13d96b06c2699982fc6f39e6a99b0dd60ef68f53d7256cdcc4c4918131e2c048`;
 - complete literature, reference, claim-evidence, render, and clean-package audits.
 
 ## 22. Current state table
