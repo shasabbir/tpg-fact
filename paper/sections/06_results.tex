@@ -13,7 +13,7 @@ The pinned BGE-M3/SigLIP2 packet contains 15,289 available claim--candidate pair
 
 Table~\ref{tab:selector-development} reports the independently recomputed second trial. Mean \method{} F1 is 0.71978 compared with 0.65145 for the validation-selected fixed budget, a difference of 0.06833. The effect is positive in all seeds and guarded Brier score is non-worse. However, the calibrated 0.5-threshold rule obtains F1 values of 0.73351, 0.75153 and 0.73979, exceeding \method{} in every seed. The packet supports adaptive evidence-set sizing, but it does not establish expected-F1 decoding as the strongest adaptive rule.
 
-\begin{table}[!t]
+\begin{table}[H]
 \centering
 \caption{Checked 400-claim development selector results. Intervals are 10,000-sample paired claim bootstraps.}
 \label{tab:selector-development}
@@ -95,7 +95,7 @@ The seed-level \method-minus-fixed macro-F1 effects are $+0.04855$, $+0.05453$ a
 
 Table~\ref{tab:development-gate-result} makes the conjunctive stopping decision explicit. Conditions 1, 2 and 5--8 pass; the minimum mean evidence gain and positive effect in every seed fail. The formal test is therefore not unlocked.
 
-\begin{table}[!t]
+\begin{table}[H]
 \centering
 \caption{Final Section 13 development-gate record. Every condition is required.}
 \label{tab:development-gate-result}

@@ -5,7 +5,7 @@
 
 Table~\ref{tab:readiness} records the study's final evidence state. Pinned MOCHEG train and development metadata reproduce the official claim and evidence counts. All 378,864 distinct train/development sentence judgment identifiers resolve to public corpus text. The deterministic 400-claim packet contains 15,823 candidates, including 15,289 available candidates and no unavailable gold candidate. All 1,612 downloaded pilot images are readable.
 
-\begin{table}[!t]
+\begin{table}[H]
 \centering
 \caption{Final evidence and software state.}
 \label{tab:readiness}
@@ -44,3 +44,5 @@ Tables~\ref{tab:full-corpus-selector-detail} and \ref{tab:full-corpus-verifier-d
 \subsection{Generated Reporting Artifacts}
 
 The script \path{experiments/scripts/build_mocheg_reporting_artifacts.py} builds the expanded tables and figures. It reads only the frozen full-corpus retrieval audit, selector records, count-control records, verifier records and final development-gate record. The script refuses to run if the retrieval audit is not passing or if the formal-test seal is not intact. Its machine-readable output records SHA-256 values for every input and exports the values used by each table and figure. Reporting leaves model fits, selector settings and relevance judgments unchanged.
+
+\clearpage

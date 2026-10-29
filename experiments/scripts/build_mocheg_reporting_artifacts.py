@@ -347,7 +347,7 @@ def write_latex_tables(generated_dir: Path, reporting: dict[str, Any]) -> None:
             f"{row['recall_at_10']:.5f} & {row['recall_at_50']:.5f} & "
             f"{row['map_at_60']:.5f} & {row['ndcg_at_60']:.5f} \\\\"
         )
-    retrieval_table = r"""\begin{table}[!t]
+    retrieval_table = r"""\begin{table}[H]
 \centering
 \caption{Complete-gold retrieval quality for the frozen full-corpus artifact. MAP and nDCG use the retained depth of 60.}
 \label{tab:full-corpus-retrieval}
@@ -395,7 +395,7 @@ Method & Precision & Recall & F1 & Jaccard & Mean $|\widehat{E}|$ & Exact \\
             f"{row['calibrated_brier']:.5f} & {row['calibrated_nll']:.5f} & "
             f"{row['calibrated_ece']:.5f} \\\\"
         )
-    calibration_table = r"""\begin{table}[!t]
+    calibration_table = r"""\begin{table}[H]
 \centering
 \caption{Full-corpus calibration diagnostics. The training-only guard rejected temperature scaling in every seed, so calibrated and raw values are identical.}
 \label{tab:full-corpus-calibration}
@@ -418,12 +418,12 @@ Seed & Temp. & Brier & NLL & ECE \\
             f"{row['method']} & {row['accuracy']:.5f} & {row['supported_f1']:.5f} & "
             f"{row['refuted_f1']:.5f} & {row['nei_f1']:.5f} & {row['macro_f1']:.5f} \\\\"
         )
-    verifier_table = r"""\begin{table*}[!t]
+    verifier_table = r"""\begin{table}[H]
 \centering
 \caption{Shared-verifier diagnostics averaged over three seeds. One balanced checkpoint per seed is applied to every selector. These are secondary diagnostics, not replacements for evidence quality.}
 \label{tab:full-corpus-verifier-means}
 \small
-\setlength{\tabcolsep}{8pt}
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 Selector & Accuracy & Supported F1 & Refuted F1 & NEI F1 & Macro-F1 \\
@@ -431,7 +431,8 @@ Selector & Accuracy & Supported F1 & Refuted F1 & NEI F1 & Macro-F1 \\
 """ + "\n".join(verifier_lines) + r"""
 \bottomrule
 \end{tabular}
-\end{table*}
+}
+\end{table}
 """
     (generated_dir / "verifier_mean_table.tex").write_text(verifier_table, encoding="utf-8")
 
