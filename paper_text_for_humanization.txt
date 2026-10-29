@@ -1,6 +1,8 @@
-PAPER TEXT FOR HUMANIZATION
+CURRENT PAPER TEXT FOR HUMANIZATION
 
-Edit prose only. Keep all headings exactly as written so the revised text can be mapped back to LaTeX. Do not change numerical results, dataset counts, model names, seed values, thresholds, hashes, scientific conclusions, or the meaning of the formal-test seal. Keep every [CITE: ...], [REF: ...], and retained-content marker in its original paragraph. Tables, equations, figures, and bibliography entries remain unchanged in the LaTeX source and are intentionally omitted here.
+This plain-text export was regenerated from the current LaTeX manuscript on 2026-10-29.
+
+Humanize prose only. Keep every heading exactly as written so the returned text can be mapped back to LaTeX. Do not change numerical results, dataset counts, model names, seed values, thresholds, hashes, scientific conclusions, or the meaning of the formal-test seal. Keep every [CITE: ...] and [REF: ...] tag in its original paragraph. Do not add, remove, rename, or reorder sections or subsections. Tables, equations, figures, and bibliography entries remain unchanged in the LaTeX source and are intentionally omitted from this plain-text export.
 
 
 
@@ -63,7 +65,6 @@ MOCHEG established a joint benchmark for multimodal evidence retrieval, verdict 
 
 RED-DOT is especially relevant because it detects and reranks relevant external evidence before verdict prediction [CITE: papadopoulos2025reddot]. Its item-relevance mechanism differs from choosing a variable-size evidence set against a released set-level target. The comparison table separates these operations: fixed retrieval, relevance filtering, modality routing, utility ranking, and adaptive set decoding are not treated as interchangeable.
 
-[TABLE RETAINED UNCHANGED IN LATEX]
 
 subsection - scientific multimodal claim verification:
 
@@ -87,7 +88,6 @@ For claim c and public multimodal corpus D, retrieval produces a bounded packet 
 
 For a predicted set S and gold set G, claim-level evidence F1 is
 
-[EQUATION RETAINED UNCHANGED IN LATEX]
 
 The primary selector endpoint is the mean of this claim-level score. Verdict macro-F1 is a co-primary operational safeguard because a selector is not useful if its evidence causes a material loss in verification performance.
 
@@ -95,7 +95,6 @@ subsection - evidence reachability and evaluation regimes:
 
 Selection quality is bounded by candidate construction. Let E_c be the packet exposed to a selector for claim c, and let G_c be the complete released gold set. The reachable gold set is G_c^E=G_c intersect E_c. For a nonempty gold set, an oracle that selects every reachable gold item and no distractor has the packet-conditioned ceiling
 
-[EQUATION RETAINED UNCHANGED IN LATEX]
 
 This ceiling equals one only when the packet contains the complete gold set. It decreases whenever retrieval misses a gold item, regardless of how well the subsequent scorer is calibrated or how the set decoder operates. The ceiling is a diagnostic bound rather than a deployable result: it uses released relevance judgments after retrieval and assumes perfect identification of every reachable gold item.
 
@@ -107,7 +106,6 @@ MOCHEG provides end-to-end multimodal fact-checking data under CC BY 4.0 and ass
 
 The authoritative archive is retained as the recovery source, while routine development uses public transport mirrors whose schemas and counts have been reconciled with the official release. Full immutable revisions for the train, development, shared-corpus, and sealed-test transports are recorded in the released configuration and study plan. Test annotations are not downloaded during development.
 
-[TABLE RETAINED UNCHANGED IN LATEX]
 
 subsection - development packet:
 
@@ -127,7 +125,6 @@ subsection - overview:
 
 CEFES separates candidate retrieval, evidence-membership estimation, calibration, set decoding, and verdict prediction. Every controlled selector in Fig. [REF: fig:architecture] receives the same bounded packet and feature artifact. The adaptive rule changes only which evidence identifiers are emitted; it receives no additional corpus, label, or tuning access. The shared verifier is a secondary diagnostic and cannot override a failed evidence-selection gate.
 
-[FIGURE RETAINED UNCHANGED IN LATEX]
 
 subsection - frozen multimodal features:
 
@@ -135,7 +132,6 @@ The text branch uses BGE-M3 at the immutable revision recorded in the developmen
 
 The implemented pilot feature vector for claim-candidate pair (c,e_i) is
 
-[EQUATION RETAINED UNCHANGED IN LATEX]
 
 where s_i is the modality-appropriate semantic similarity, m_i^t and m_i^v are text and image indicators, l_i is text length (zero for images), l_c is claim length, and n_c is the number of available candidates. Candidate truncation is label-blind: candidates are ordered by s_i and capped at 40 text and 20 image items.
 
@@ -143,7 +139,6 @@ subsection - evidence-membership scorer:
 
 A lightweight logistic scorer estimates an uncalibrated inclusion probability
 
-[EQUATION RETAINED UNCHANGED IN LATEX]
 
 where x_i is standardized using fitting-fold statistics. Class-balanced binary cross-entropy compensates for the small proportion of gold items, and fixed L_2 regularization is applied to w. The learning rate, epoch count, and regularization are fixed by the development configuration rather than altered after observing formal-test results.
 
@@ -153,7 +148,6 @@ subsection - claim-grouped calibration:
 
 For each predetermined seed, 20% of training claim identifiers are assigned deterministically to a calibration fold. The scorer is fit on the remaining claims. A binary temperature parameter is fit on the calibration probabilities and labels, producing
 
-[EQUATION RETAINED UNCHANGED IN LATEX]
 
 Calibration is evaluated separately using Brier score, negative log-likelihood, expected calibration error, and reliability plots. Temperature scaling is the default; a more flexible calibrator is not selected post hoc.
 
@@ -161,11 +155,9 @@ subsection - exact expected-f1 decoder:
 
 Candidates are sorted by decreasing calibrated p_i, with stable input order breaking probability ties. For a prefix of length k, let TP_k be the number of gold items inside the prefix and let G be the total number of gold candidates in the packet. Under independent Bernoulli membership variables, the utility of the prefix is
 
-[EQUATION RETAINED UNCHANGED IN LATEX]
 
 The implementation computes the distributions of gold counts inside and outside every prefix with Poisson-binomial recurrences and sums their joint mass exactly. It does not substitute a ratio of expectations. The selected size is
 
-[EQUATION RETAINED UNCHANGED IN LATEX]
 
 MOCHEG development claims in the audited packet have at least one released positive candidate, so the frozen policy disallows an empty selection. The maximum is 60 items, and ties choose the smaller set. Unit tests compare the dynamic program with brute-force enumeration on small probability vectors and cover invalid probabilities, empty inputs, maximum budgets, and tie behavior.
 
@@ -183,7 +175,6 @@ The primary question is whether CEFES improves claim-level evidence-set F1 over 
 
 Table [REF: tab:claim-test-map] makes the claim hierarchy explicit. Only the first comparison can establish the primary selector claim. Calibration, count prediction, and verification diagnose why a selector succeeds or fails, but none can compensate for a negative primary evidence effect. This hierarchy was fixed to avoid promoting whichever secondary endpoint happens to be favorable.
 
-[TABLE RETAINED UNCHANGED IN LATEX]
 
 subsection - development and formal protocols:
 
@@ -221,7 +212,6 @@ subsection - data and software readiness:
 
 Table [REF: tab:readiness] reports the evidence currently available. Pinned MOCHEG train and development metadata reproduce the official claim and evidence counts. All 378,864 distinct train/development sentence judgment identifiers are resolved to public corpus text. The deterministic 400-claim packet contains 15,823 candidates, 15,289 available candidates, and no unavailable gold candidate. All 1,612 downloaded pilot images are readable.
 
-[TABLE RETAINED UNCHANGED IN LATEX]
 
 subsection - software-only smoke run:
 
@@ -233,7 +223,6 @@ The pinned BGE-M3/SigLIP2 feature artifact contains 15,289 available claim-candi
 
 The second, declared trial uses a claim-disjoint training guard to choose between a fitted temperature and identity scaling. Table [REF: tab:selector-development] reports its independently recomputed results. Mean CEFES F1 is 0.71978 versus 0.65145 for fixed selection, a difference of 0.06833. The effect is positive in all seeds, and guarded Brier score is no worse in all seeds. However, the calibrated 0.5-threshold control obtains F1 values 0.73351, 0.75153, and 0.73979, exceeding CEFES in every seed. Thus the fixed-budget selector criteria pass, while the evidence does not support a claim that exact expected-F1 decoding is the strongest available rule.
 
-[TABLE RETAINED UNCHANGED IN LATEX]
 
 The shared verifier uses one balanced three-class checkpoint per seed for every selector. The checked CEFES-minus-fixed macro-F1 changes are -0.01594, +0.00900, and +0.00656 for seeds 13, 37, and 73. Their mean is -0.00013, above the declared -0.01 point non-inferiority margin, but all paired intervals include zero and seed 13 is individually below the margin. This supports neither a verdict improvement nor equivalence; it only passes the prespecified mean point-margin check.
 
@@ -245,11 +234,9 @@ The label-blind builder ranks all 91,822 released text documents in a first stag
 
 Table [REF: tab:regime-comparison] summarizes the experimental reversal. The packet experiment and full-corpus comparison use the same selector family and frozen semantic encoders, but answer different questions. The former asks whether the decoder can select within an assessed candidate universe; the latter asks whether the complete retrieval-selection chain supports the claimed advantage. The sign change is therefore not a contradictory duplicate measurement. It is evidence that the conclusion is conditional on how candidates enter the selector.
 
-[TABLE RETAINED UNCHANGED IN LATEX]
 
 Table [REF: tab:full-corpus-selector] reports the audited selector result. CEFES loses to the validation-selected fixed budget in every seed. The mean difference is -0.04185, and every paired interval lies below zero. The calibration safety guard selects identity scaling in each seed, so calibrated and raw Brier scores are equal and satisfy the non-worsening condition. The prespecified mean-gain and all-seed-positive conditions nevertheless fail.
 
-[TABLE RETAINED UNCHANGED IN LATEX]
 
 The matched count-classification control obtains mean evidence F1 0.10040, compared with 0.08186 for CEFES. The CEFES-minus-count differences are negative for all seeds (mean -0.01854), and all three paired intervals exclude zero below zero. Count prediction itself remains inaccurate (count mean absolute error 16.15-17.87), showing that it can still outperform expected-F1 decoding on this ranking without estimating the true set size well.
 

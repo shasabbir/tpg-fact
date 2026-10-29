@@ -1,0 +1,280 @@
+title:
+Rethinking Evidence Selection in Multimodal Fact-Checking: Calibrated Adaptive Set Optimization Beyond Fixed Top-k Retrieval
+
+abstract:
+To perform evidence-based multimodal fact-checking, an evidence retrieval system is needed before making a verdict, to retrieve identifiable text and image evidence. A typical design uses the same evidence budget in the top-k of the same claims, although the amount of available evidence may vary, and the effect of precision-recall trade-off due to retrieval imperfection is also not taken into account. We study if instead evidence set size can be selected by directly optimizing the expected set-quality. We present CEFES (Calibrated Evidence-membership Probabilities: Evidence Selection of the Topmost Ranked Prefix with Maximum Exact Expected Set-F1 under Explicit Independent-Bernoulli Approximation) to estimate calibrated evidence-membership probabilities and select the topmost ranked prefix with maximum exact expected set-F1 under an explicit independent-Bernoulli approximation. Preserving candidates, frozen features, scorer inputs, and downstream verifier, the selection rule is controlled difference for both adaptive and fixed-budget selectors. The evidence F1 for CEFES on a checked judgment-candidate packet with 400 claims is 0.0683 higher than a judgment-candidate packet that was selected during the training phase with 400 claims and a fixed budget. This feasibility result flips the sign of the difference between CEFES and the chosen fixed budget for each of its 91,822 released text documents and 90,270 train/development image paths: CEFES is on average 0.0418 evidence F1 worse than the selected fixed budget for every seed, and each paired 95% interval is negative. A matched count-classification control is, on average, 0.0185 more than CEFES. The failed primary evidence criterion takes precedence over the shared-verifier diagnostic which has a macro-F1 of 0.0577 in favor of CEFES, on average. Independent audits and rerun of the retrieval and method records are congruent. Thus, the prespecified development gate is not met, the official MOCHEG test remains unopened and the study proposes candidate construction and retrieval quality as important criteria for evaluating of adaptive evidence selection instead of superiority.
+
+keywords:
+multimodal fact checking, evidence selection, calibrated retrieval, expected F1, selective prediction
+
+introduction:
+
+There are several approaches to automated fact-checking, many of which can be implemented as a pipeline: finding a claim that can be fact-checked, finding potential evidence sources, evaluating evidence and predicting a verdict [CITE: zeng2021automated,zhou2020survey]. Evidence-based systems are distinct from classifiers that rely on content alone as they require that the output be backed up by source material that can be identified from the post rather than only the linguistic style, the publisher or the appearance of the post. This distinction implies that the retrieval and evidence attribution are part of the scientific claim and that a correct verdict is not fully justified without the cited material or without a fuller material.
+
+When claims and evidence are multimodal, it is more difficult. A claim can be a caption and an image or may be a fact-check article with a passage quoted and an image or images. The modalities can be complementary, redundant or contradictory and a system needs to uphold the identity of every modality selected if the reason(s) for the selection is to be audited. MOCHEG materialises this situation as joint text–image evidence retrieval, three-way claim verification, and explanation generation [CITE: yao2023mocheg]. Subsequent systems incorporate dense retrieval, visual language, or language-model verification, or graph-based evidence reasoning [CITE: luu2027mrav,zhang2026mever]. These developments enable us to make evidence selection a measurable component, a step away from the invisible preprocessing step.
+
+The output of a correct verdict and useful evidence set are different but related. A model may produce a correct label, and yet mention irrelevant items or fail to mention an important image or produce many redundant documents. Fluently-generated explanations can also be inaccurate in attributing their statements to the evidence chosen [CITE: xing2025attribution,niu2024ragtruth]. Therefore, the evaluation should maintain the identity of the items selected and be based on how much they overlap with the released gold evidence and not be based on a verdict or a plausible explanation.
+
+Most multimodal retrieval systems still present a fixed (universal) set of top-k results. A one-budget is easy to reproduce and use, but it is assuming that each claim requires the same number of items. The higher the value of k, the more gold evidence that can be recovered but with less precision and vice versa. When the ranking is not perfect, predicting just the gold count is not enough to answer this trade-off: knowing how many items to buy doesn't tell which ranked items to buy. A previous SciVer study in this project found a negative result, where a smaller citation-set (without verification) resulted in better count accuracy than the best fixed-size evidence-set found to date (F1). The above mentioned completed benchmark is only used as motivation and provides no selection or confirmation evidence for the current study.
+
+The question in this study is whether it is possible to target evidence set utility directly by the selection rule. Calibrated Expected-F1 Evidence Selection (CEFES) estimates the probability of each candidate being in the gold evidence set, sorts the candidates by these probabilities and checks each prefix that is admissible. An exact Poisson-binomial dynamic program is used to calculate expected set-F1 under a explicitly stated independent-Bernoulli approximation and the decoder outputs the smallest prefix where the expectation is maximized. For all outputs (fixed-budget, threshold, count-prediction, CEFES), the same candidate packet, frozen features and scorer family are used; and for end-to-end comparison, the same verifier checkpoint is used. The proposed solution consequently alters the set decision, but preserves retrieval access and the capacity of downstream models.
+
+The evaluation is deliberately split into a convenient candidate universe and realistic retrieval. The ‘checked' 400-claim feasibility packet is a first test of the selector for released judgment candidates, unlabelled with relevance. All then 91,822 released text documents and the 90,270 train/development image paths are then retrieved, label-blind, by the primary development comparison. The two stages include pinned features BGE-M3 and SigLIP2, as well as three seeds, matched controls, paired bootstrap analysis and recomputed artifacts independently. CEFES outperforms the chosen fixed budget in the restricted packet, but is outperformed in full-corpus retrieval in all seeds. As a result, the main development gate comes to a failure and the official test which has not been touched is still sealed.
+
+This development study's contribution is:
+
+- a multimodal evidence selector which adaptively optimizes the exact expected set-F1 instead of the number of citations or a global retrieval depth;
+
+- a matched comparison protocol, where the same set of candidates, set of representations, inputs by the scorer, accesses to tuning, and checkpoints by the verifier are shared between the adaptive and fixed selectors;
+
+- an evaluation, calibration and evidence-count test-sealed MOCHEG development.
+
+- an auditable development gate to keep the official test from being used when the proposed selector fails to create a clear development benefit.
+
+- empirical data showing that a selector conclusion extracted from a judgment-candidate packet can be used for under label-blind full-corpus retrieval.
+
+So the paper does not make any empirical claim. It finds that adaptive evidence selection: the initial positive result on the packet does not hold true in the end-to-end development environment because of the effects of candidate construction and retrieval error. This is where reporting such a result (even the lost seeds and kept artifacts) is important to differentiate it from a real retrieval result.
+
+related work:
+
+subsection automated tools for fact checking and assessment:
+
+Recent surveys differentiate fake-news classification from evidence-based fact-checking: The former is to predict the veracity of a post and its context; the latter is normally decomposed into a series of tasks, namely claim analysis, evidence retrieval, evidence assessment, and verdict prediction [CITE: zeng2021automated,zhou2020survey,islam2020survey]. Review of datasets indicate that the reported performance is dependent on the domain and the construction of labels, as well as the modalities covered and controls for event or source overlap [CITE: dulizia2021datasets,shah2022systematic,rastogi2022threet]. Despite this, there are still persistent challenges such as cross-domain generalization, incomplete explanations, and inconsistent benchmark protocols [CITE: mridha2021review,aimeur2023review,lv2025survey]. These differences are important as CEFES is assessed as an evidence-selection and verification system, not just as a content classifier.
+
+While sentence-level scientific evidence is required for SciFact, multi-document evidence is needed for HoVer, evidence needed to address claims in real-world contexts for COVID-Fact, and multilingual variation in X-Fact [CITE: wadden2020scifact,jiang2020hover,saakyan2021covidfact,gupta2021xfact]. External-document systems can mitigate the necessity to rely on stylistic shortcuts, but they can also raise retrieval, freshness, and evidence-selection mistakes [CITE: zhang2023realtime] which led us to measure the verdict prediction and evidence attribution separately.
+
+subsection - multimodal misinformation detection:
+
+Content-based multimodal detectors learn the interaction between text and image with bilinear pooling [CITE: kumari2021amfb], with hierarchical attention [CITE: meel2021han], by incorporating topic memory [CITE: ying2021topicmemory] or using cross-attention [CITE: ying2021crossattention] or ambiguity modeling [CITE: chen2022cafe] or with multi-level fusion [CITE: jing2023mpfn]. Following systems incorporate contrastive, within-modality, stylometric and semantic-alignment signals [CITE: yan2024fmc,zhu2024ifis,nadeem2023ssm,uppada2022imagetext]. Their main target, however, is still a veracity label at the post level and not a set of evidence that is identifiable.
+
+The mismatch between local and global information, attention mechanism with matching, cluster heterogeneity, semantic-space alignment, and conflicting unimodal signals have been studied recently [CITE: wu2023mfir,hu2024matching,peng2024contextual,shang2026semantic,wang2024neutralization]. These methods can enhance the cross-modal representations, but a fused latent vector does not specify which item of concrete evidence can be used to support the verdict.
+
+There are out-of-context benchmarks like NewsCLIPpings [CITE: luo2021newsclippings], COSMOS [CITE: aneja2023cosmos] and VERITE [CITE: papadopoulos2024verite] which test misleading image-caption combinations and control unimodal bias. DGM4, SNIFFER, MMDFND, and IMFND further enhance localization, explanation, domain coverage or use of large vision-language models [CITES: shao2023dgm4, qi2024sniffer, tong2024mmdfnd, jiang2025imfnd]. In the present study, the auditable attribution unit is taken as the document evidence, which is provided in the dataset.
+
+sub-section - multi modal evidence retrieval and verification:
+
+The MOCHEG project has created a shared benchmark for multimodal evidence retrieval, verdict prediction and explanation generation [CITE: yao2023mocheg]. M-RAV uses dense retrieval, image-text consistency verbalization, relevance estimation and language-model verification [CITE: luu2027mrav] while MEVER constructs a text-image evidence graph and conducts token- and evidence-level fusion [CITE: zhang2026mever]. Based on related retrieval studies, the evidence utility and semantic similarity should be separated, as well as learning what is the need for visual retrieval [CITE: luo2026utility,tsoneva2026selective]. Overall, it is clear that retrieval and fusion are significant aspects of multimodal fact-checking. However, they typically have a “global” retrieval depth or generation procedure in place that controls their evidence output on a per-claim basis rather than having an explicit evaluated per-claim citation budget.
+
+Moreover, the relevance of external evidence, which is captured and reranked by RED-DOT, is particularly relevant for verdict prediction [CITE: papadopoulos2025reddot]. It differs from the choosing-of-a-variable-size-evidence set against a released set-level-target functionality of its item-relevance mechanism. These operations: fixed retrieval, relevance filtering, modality routing, utility ranking and adaptive set decoding are not considered interchangeable in the comparison table.
+
+
+subsection - scientific multimodal claim verification:
+
+In scientific writing, claims can be associated to stable locations such as passages, tables and figures. SciVer is a collection of 3,000 claim-evidence instances annotated by experts from 1,113 papers, which distinguishes multiple types of reasoning. MuSciClaims focuses on the figure-grounded claims and controlled perturbations of the claims that reveal the shortcomings of evidence localization and aggregation across modalities [CITE: lal2025musciclaims]. M^2-TabFact also supports verifying tables presented in images or text throughout multiple documents [CITE: zhou2025m2tabfact]. While these resources are helpful for item-level evidence evaluation, which is challenging to do in open-web misinformation, they are also constrained in their scientific domain, and thus cannot be directly applied to political or breaking news claims.
+
+subsection - evidence attribution and faithful rationales:
+
+An explanation may be understandable, but may still be wrong and/or based on another signal. Early research on fact-checking explanation generation focused on generating text-based explanations that would be helpful [CITE: atanasova2020explanations]. Previous work used evidence rationales as an explicit evaluation target [CITE: deyoung2020eraser] and faithful-by-construction rationalizers only allowed predictors to attend to a subset of evidence spans [CITE: jain2020faithful]. Citation-grounded language generation assesses if the generated statements are backed up by retrieved information [CITE: gao2023alce] and RAGTruth is a record of hallucinated statements that are still possible in retrieval-augmented output [CITE: niu2024ragtruth]. At the most basic level, citation masking and recovery evaluates if a fact-checking explanation is citing to the right evidence [CITE: xing2025attribution].
+
+subsection - place of this research:
+
+The literature studied shows strong models to make a verdict, fusion mechanisms for multimodal systems, pipelines for retrieval, explanation generators and citation metrics, but evidence output is often still determined by a global retrieval depth. Utility-oriented and selective multi-modal retrieval steps towards the current question by judging the usefulness of visual evidence [CITE: luo2026utility,tsoneva2026selective] but they do not consider the exact expected set-F1 decoding under a matched fact-checking verifier. The most similar task and system context are offered by the MOCHEG and M-RAV and the MEVER, respectively [CITE: yao2023mocheg,luu2027mrav,zhang2026mever].
+
+This is where CEFES aims at. It calibrates evidence-membership probabilities at the item level and chooses the prefix which maximizes exact expected set-F1, and fixed-budget, threshold and count controls share candidates and representations. This novel selection objective, decoder and controlled evaluation protocol is the only novelty of this invention. The study is not intended to offer novel contributions to the fields of multimodal encoders, general graph reasoning, evidence retrieval, or explanation generation, nor to make any claims of superiority until after the sealed protocol is finished.
+
+task and data:
+
+subsection - task definition:
+
+For claim c, retrieval returns a finite set of text and image candidates E = e_1,...,e_n (public multimodal corpus D). Every candidate possesses a permanent, modality qualified identifier, modality, content or media path, retrieval features, and a binary released relevance judgment (if the split allows for supervision). The returned system is a set of evidences S that is a subset of E and a verdict supported, refuted and not enough information. Only evidence that has been released with an identifier matching that of an official gold item in the benchmark's evaluation rule will be correct. The generation of explanation is beyond the scope of the main contribution.
+
+Given a predicted set S and a set of gold G, claim level evidence F1 is
+
+
+The primary selector endpoint is the mean of this claim-level score. Verdict macro-F1 is a co-primary operational safeguard because a selector isn't helpful if it results in a significant decrease in verification performance.
+
+The evidence reachability/evaluation regimes (subsection):
+
+There are limits to construction candidates which limit selection quality. Let E_c be the packet that is exposed to a selector for claim c and G_c be the full released set of golds. The gold set that can be reached is G_c^E=G_c intersect E_c. An oracle that selects all gold items that are reachable from the gold set and no distractors, is a packet-conditioned ceiling for a nonempty gold set.
+
+
+This maximum is a 1 if the packet has a full gold set. It will decrease even if the retrieval does not hit any gold item, irrespective of the configuration of the scorer located downstream and the behavior of the set decoder. The ceiling is not a deployable result, but is diagnostic in that it relies on the released relevance judgments following retrieval and assumes that all reachable gold items are identified.
+
+This separation leads to two evaluation regimes. A good judgment-candidate packet is one that contains a “dense” set of assessed positives and negatives with stable identifiers, good for a controlled mechanism test. It is not a measure of whether or not the system can also find those candidates in the public corpus. A label-blind full-corpus packet, on the other hand, involves the full chain, from the corpus retrieval to the evidence selection. Relevance labels are only added after the ranking is frozen (no update of evidence in the packet means it is still a false negative in Eq. [REF: eq:set-f1]). Hence, the result from the judgment-packet is reported as feasibility evidence and the full-corpus comparison is considered as the main development decision.
+
+subsection - mocheg release - public:
+
+MOCHEG is a system that supports end-to-end multimodal fact-checking data (CC BY 4.0) and code (Apache 2.0) [CITE: yao2023mocheg]. According to the official document, there are 11,669 train claims, 1,490 development claims and 2,442 test claims along with 91,822 Corpus documents and 122,246 images. They come out in three flavours: supported, refuted and not enough information.
+
+The authoritative archive is kept as recovery source, and the development process is kept in step with the authoritative release by using the public transport schemas and counts as basis for development. A complete immutable revision for the train, development, shared-corpus and sealed-test transports are documented in the released configuration and study plan. Test annotations do not get downloaded during the development process.
+
+
+subsection - development packet:
+
+The current feasibility packet contains 200 train and 200 development claims with a deterministic (hard-coded) seed. The sentence preprocessing is based on the public 91,822-row corpus which is used to reconstruct the candidate text. Only the images which are candidates are downloaded and those images are audited for the following two parameters: byte identity and Pillow readability. Modality qualified judgment rows are only collapsed if they are the same relevance label; if not then it is considered a release error.
+
+The packet includes 15,823 records of candidates (of which 15,289 are available). There is no gold evidence for any missing records: all missing records are negative distractors, so all retained claims have their released gold evidence. 1255 unique byte hashes are in the 1,612 downloaded image files, with 357 exact duplicate occurrences. These counts are indicators of packet integrity, but not model performance. In the feasibility experiment, the judgment candidate universe released is ranked using the label-blind semantic similarity and at most 40 text and 20 image items are retained. If one of these candidates, drawn from a restricted universe is successfully, the result should be replicated with candidates drawn from the full released Corpus.
+
+Split Integrity & Test Seal - subsection:
+
+Train data are split into fitting and calibration folds and only train and official development is used for all configuration selection. Test annotations do not work in Development code. A formal run is run with a frozen protocol (code, configuration, dataset, feature, and checkpoint identities) and a formal-test flag that is explicitly given. The data preparation, feature extraction or pilot execution may not print any test metric. Once a method has been formally evaluated and the changed, it can no longer be used to present the test result as new confirmation.
+
+Data audits are made of changes to the data sources, number of releases, labels, hashes, media not found, exact duplicates, perceptual image duplicates, and any grouping of sources or events available from the release. Allowed training fold is the only one on which learned preprocessing and calibration are done. The identity audit and full access is kept outside the manuscript in the research records of the project.
+
+methodology:
+
+subsection - overview:
+
+CEFES divides the separation of candidates, the estimation of the membership of evidence, the calibration, the decoding of the set and the prediction of the verdict. All the controlled selectors of Fig. [REF: fig:architecture] get the same bounded packet and feature artifact. The tuning, label and corpus are not passed to the adaptive rule, which only changes which evidence identifiers to emit. The shared verifier is a secondary diagnostic and not used to override a failed evidence-selection gate.
+
+
+subsection - features of frozen multimodal:
+
+The text branch is based on BGE-M3 at the revision it was set to, which is the same revision used for the development configuration and is immutable. Before calculating cosine similarity, mean-pooled claim and evidence embeddings are normalized, and attention-masked. The image branch is based on SigLIP2-base-patch16-224 in the same manner. Text and recoverable images are encoded individually and normalized. Both models are frozen and shared amongst seeds and selector families as a cache.
+
+The pilot feature vector for claim-candidate pair (c,e_i) implemented is
+
+
+In which s_i is the semantic similarity appropriate to modality, m_i^t and m_i^v are the indicators of text and image, respectively, l_i is the length of text (0 in the case of images), l_c is the length of claim and n_c is the number of candidates available. The list of candidates will be label blind, meaning candidates will be ranked by s_i, with a limit of 40 text and 20 image items.
+
+subsection - evidence-membership scorer:
+
+The logistic scorer is a light-weight version of the inclusion probability which does not require calibration.
+
+
+where x_i is obtained by using fitting-fold statistics to standardize it. A class-balanced binary cross-entropy loss is used to address the small number of gold items and fixed L_2 regularization is used for w. The learning rate, the number of epochs and the regularization are determined by the development configuration, and not changed based on formal-test results.
+
+This scorer is designed to be as easy as possible. It is a test of the selection rule, but does not make an architectural-capacity claim. If the graph scorer is stronger, then it could only be declared as an ablation and used with the same development budget and not be able to replace the frozen main scorer after the official test is reviewed.
+
+subsection - claim-grouped calibration:
+
+20% of the training claim identifiers are deterministically allocated to a calibration fold, for each of the predetermined seeds. The scorer is placed on the rest of the claims. A binary temp parameter is fitted on the calib probs and labels resulting in
+
+
+Brier score, negative log-likelihood, expected calibration error and calibration plots are used separately to assess calibration. Temperature scaling is the default – a more flexible calibrator is not chosen after the fact.
+
+subsection – exact decoder of expected f1:
+
+The candidates are ranked from highest to lowest calibrated p_i, and, if two candidates have the same calibrated p_i, ranked according to the order of the input. Let TP_k be the number of the gold items within k length prefix, and G be the number of the gold items in the whole packet. Let the Bernoulli membership variables be independent, then the utility of the prefix is
+
+
+The implementation calculates the distributions of the number of gold counts in the interior and exterior of each prefix as well as their sum exactly using Poisson-binomial recurrences. It isn't used in place of a ratio of expectations. Selected Size is
+
+
+At least one positive candidate has been released in the MOCHEG development claims in the audited packet and thus development of the policy is not empty. The largest number is 60, the smallest number is used for tying. Unit tests compare the dynamic program with brute-force enumeration on small probability vectors, and test for invalid probabilities and empty inputs, maximum budgets and tie behavior.
+
+matched controls and verifier:
+
+Fixed selectors: 1,2,3,5,10,20,40,60 candidates are returned. Only calibration data allowed is used to select the best fixed budget. Other controls are a calibrated global threshold, uncalibrated decoder of expected-F1 and a count-classification head. The candidate probabilities and order are the same for all controls.
+
+Each set of evidence selected is fed into the shared verifier which will predict the three MOCHEG labels. This corresponds to one balanced three class checkpoint per seed, which is reused in all selector outputs, and with the same candidate features and decoding inputs. This separates the impact of the chosen "set" on the verdict diagnostic. A good verifier effect is not able to compensate for a failed selector gate as evidence-set F1 is primary.
+
+experimental setup:
+
+subsection - research questions:
+
+The key question is whether CEFES is helpful in bettering the evidence-set F1 at the claim level compared to the best fixed budget that can be chosen on the development data. Secondary questions investigate: Does expected-F1 decoding help to predict count? Does calibration help to improve selection quality? Is there a preservation of verdict macro-F1 when using a shared verifier?
+
+The claim hierarchy is made explicit in table [REF: tab:claim-test-map]. The primary selector claim can only be made based on the first comparison. Calibration, count prediction and verification are diagnostic tools to see why a selector does or does not work, but they all fail to help correct a negative primary evidence effect. This hierarchy was set up to prevent the awarding of whichever secondary endpoint may be favorable.
+
+
+subsections - development and formal protocols:
+
+Seeds 13, 37 and 73 are used for the development pilot. The number of declared configurations, used for the evaluation of the train and development data, is max. 20. There is no official test during this time period. When unlocked, a formal evaluation would consist of the use of the same five seeds (13, 37, 73, 101, and 137) in the same 5 rounds of the frozen code, data, features, configurations and checkpoints.
+
+The first GPU run was done with a validated 400-claim packet to test the semantic feature path and selector mechanism. It is a feasibility experiment since it's candidates are members of the released judgment universe. The main development comparison consists of the same eligible claim sample, which is retrieved in the same way as above, from the whole public text and train/development image corpus and then re-selected by the same method. Relevance judgments are only added once the rankings are locked. Don't think that the formal test will be unlocked alone because of a qrel-packet result.
+
+subsection - baselines and fairness:
+
+The controlled baselines are the fixed top-k selection, 0.5 probability threshold, uncalibrated expected-F1 decoding, and learned count head. The official baseline for MOCHEG is reproduced as appropriate. The published M-RAV and MEVER values are context-dependent as they were modeled under different conditions and with different construction methods [CITE: luu2027mrav,zhang2026mever]; they are not put through paired significance testing. All rerun selectors are given the same budget of candidates, features, supervision and configuration parameters.
+
+subsection - metrics and uncertainty:
+
+The macro precision, recall and F1 are the evidence metrics used at the claim-level. The secondary evidence metrics include the exact set match, the Jaccard score, the selected count, the count mean absolute error, the Recall@k, the MAP and the nDCG. Brier score, negative log-likelihood and expected calibration error are measures of calibration. Macro-F1 and class-wise F1 are used to measure the verdict quality.
+
+10000 paired bootstrap re-samples are used for main selector effects. Resampling unit is source, event or fact-check article, where available reliable grouping metadata, or claims are resampled where resampling is used and that is noted. The seed-aligned records are averaged in the pre-main interval and the seed dispersion records are given separately. Prespecified selector family is corrected for Holm. Verdict preservation is done on the basis of the paired non-inferiority interval with margin -0.01.
+
+subsection - development gate:
+
+The test only becomes available if all of the following are true: All data and software gates pass, the effect is positive for all development seeds, the calibrated Brier score is not worse than the uncalibrated one, the verdict macro-F1 is not more than 0.01 below the fixed control, the matched comparisons have the same candidate and verifier artifacts and the development table is regenerated by a clean rerun. None of the seeds are positive and the mean effect of the full-corpus selector is negative. Thus, the gate is fail-closed irrespective of second diagnosis and the formal-test annotations are not available.
+
+The positive formal claim should be met by the requirement that the mean for the official-test evidence-F1 should be positive with a positive 95% paired interval, and the verdict-effect lower bound should be above -0.01. This isn't true if the gain is achieved at the expense of an arbitrary small fixed budget.
+
+subsection - ablations et robustness:
+
+Prespecified ablations are done addressing calibration, exact expected-F1 to a global threshold/ratio approximation, set decoding to count prediction, and modality or duplicate-cluster features. Robustness tests involve repeated evidence, varying the width of the packets without retuning, removing each modality and corrupting the top candidates with irrelevant items. The verdict, gold-set size, source and need of image evidence are covered under subgroup analysis. These analyses can only rescue a failing main comparison and in any case explain a primary result.
+
+In subsection – implementation and resources:
+
+The primary execution host is an RTX 4090 with 24 GiB device memory, 64 GiB system memory and an Intel i9 processor with around 1 TiB free memory. The parameters for feature extraction are mixed precision, frozen and cached encoders, batch size for text is 32 and batch size for images is 64. Version control of the Python package, configurations, tests, data preparation, feature builder, selector runner and PowerShell orchestration. Raw predictions, calibration values, selected identifiers, histories, hashes and environment metadata are stored for independent re-computation.
+
+results:
+
+subsection - readiness of data and software:
+
+The evidence available is reported in table [REF: tab:readiness] Pinned MOCHEG train and development metadata are the official claim and evidence counts. 378,864 different train/development sentence judgment identifiers are converted to public corpus text. Deterministic 400-claim packet includes 15,823 candidates, 15,289 available candidates and no unavailable gold candidate. There are no problems reading all 1612 pilot images downloaded.
+
+
+subsection - smoke run/only software:
+
+The pipeline was run end to end with a dependency-less hash-feature, and the mean difference between CEFES and fixed evidence (F1) was +0.00083. It has a feature manifest that explicitly requests that scientific_results_allowed=false; this means that the selector gate remains false. This value is used to check the serialization, training, calibration, evaluation and export paths only. It is not a model result, does not meet the development criterion and cannot be used in the final abstract as a proof of effectiveness.
+
+subsection - scientific performance:
+
+The BGE-M3/SigLIP2 feature artifact has 15,289 available claim-candidate pairs, 4,156 of which are gold rows. The construction features lasted for 626.16 seconds with a maximum of 1.71 GB allocated GPU memory. The first temperature-scaling trial had mean evidence F1 that had increased over the selected fixed budget but ended up failing its calibration condition due to an increase in Brier score for seed 37 of 0.00020. This unsuccessful trial remains.
+
+The second, announced trial is a claim-disjoint training guard that picks either a fitted temperature or an identity scaling. It independently recalculates its results and reports them in table [REF: tab:selector-development]. Mean CEFES F1 is 0.71978 versus 0.65145 for fixed selection, a difference of 0.06833. Guarded Brier score is no worse in all seeds and the effect is positive in all seeds. But, the calibrated 0.5-threshold control has F1 values of 0.73351, 0.75153 and 0.73979 which are better than CEFES for all the seeds. So the criteria for a fixed budget selector hold and the evidence does not warrant that the strongest rule available is one for exact expected-F1 decoding.
+
+
+Shared verifier: only one 3-class (balanced) checkpoint per seed for each selector. The checked CEFES-minus-fixed macro-F1 changes are -0.01594, +0.00900, and +0.00656 for seeds 13, 37, and 73. These have a mean of -0.00013 which is above the declared non-inferiority margin of -0.01, but all paired intervals contain 0 and seed 13 is individually below the non-inferiority margin. This is to neither improve a verdict nor to provide equivalence, but to merely pass the prespecified mean point-margin check.
+
+Independent audits revealed no differences in the hashes of the artifacts, probabilities, selections, evidence/verdict measures or bootstrap samples. The selector's and verifier's archive's have the SHA-256s of 5d62d125...22b8e and e8491d7e...abbdc respectively. While these feasibility results encouraged, they did not enable the full-corpus comparison.
+
+subsection development comparison using full-corpus:
+
+The label-blind builder sorts a set of 91,822 released text documents in the first stage, ranks sentences from the top 50 documents and ranks all 90,270 train/development image paths independently. It stores 40 text and 20 image candidates per claim (if the claim is eligible) before being moved to qrels. The resulting artifact contains 21,972 candidate rows for 367 claims and has SHA-256 68889ae3...590731f. It took 1644.45 seconds to build and used up to 1.75 GB of GPU memory. The complete-gold retrieval metrics and the artifact identities were independently recolculated, with no differences found. The main comparison is thus under significant retrieval error: Text Recall@50 = 0.36160 and image Recall@50 = 0.21384.
+
+The experimental reversal is summarized in Table [tables:regime-comparison]. The answers to the questions of the packet experiment and full-corpus comparison differ, and the same family of selectors and fixed semantic encoders are used. The former (decoder) poses the question of whether the decoder can choose from a tested universe of candidates, the latter (retrieval-selection) poses the question of whether the entire retrieval-selection chain can help achieve the claimed advantage. This change of sign is thus not an inconsistent repetition of measurement. It is evidence that the conclusion is dependent on the criteria for getting into the selector.
+
+
+Table [REF: tab:full-corpus-selector] lists the result of the audited selector. CEFES is beaten by the fixed budget that the validation selects in all the seeds. The mean difference is -0.04185 and all of the paired intervals are negative. It is important to note that the calibration safety guard is responsible for choosing identity scaling in each seed and thus calibrated and raw Brier scores are equal and the non-worsening condition is satisfied. However, the pre-specified mean-gain and all-seed-positive conditions still don't work.
+
+
+The matched count-classification control gives mean evidence F1 0.10040 whereas CEFES gives 0.08186. All the differences between the CEFES and the minus counts are negative (the mean of the differences is -0.01854), and the three paired differences are all below zero. Prediction of the number of counts itself is inaccurate (count mean absolute error 16.15-17.87) indicating that it can still outperform expected-F1 decoding on this ranking without estimating the number of counts in the set well.
+
+The mean difference of the shared-verifier diagnostic is +0.05768 between the CEFES-minus-fixed macro-F1 difference. The point differences for the three types of seeds are 0.04855, 0.05453, and 0.06995, with only seed 73's paired interval not containing 0. Diagonal non-inferiority test for this diagnostic is passed, but cannot save failed primary evidence conditions. The independent audits of the selector, the count control and the verifier report that there were no discrepancies and no formal-test access.
+
+An end-to-end rerun will clean and rebuild the feature store in 1,621.25 seconds. The compressed feature SHA-256 is strictly the same as the first run, as well as the sidecar, candidate identities, complete-gold maps, rankings, all selector and control metrics, and bootstrap samples within the specified tolerance. The fail-closed gate does not meet the minimum mean evidence gain or positive-effect-in-every-seed conditions, but meets the data, software, verifier, clean-reproduction and matched-artifact conditions. The development archive (74 members) is frozen with a SHA-256 of b7961df9...5c21d00b, and is formally_test_unlocked=false.
+
+The official test is not available for the current study. In this draft, as a consequence, no formal superiority or robustness or generalization conclusion is reported.
+
+
+discussion:
+
+In the conclusion, the candidate who wants to appear to be less extreme argues why his/her image would be less extreme.
+
+Using the checked packet experiment and the full-corpus comparison gives conflicting results. These significant differences suggest that adaptive calibrated selection is much superior to the best development-selected fixed budget on the released judgment-candidate packet, although the former is stronger in every seed. However, when using a label-blind full-corpus retrieval, CEFES performs worse in all the seeds than the selected fixed budget retrieval. The difficulty level of the candidate universe is therefore lower for the packet result and the end-to-end retrieval effectiveness is not guaranteed.
+
+One step in this change is accounted for by the reachability bound in Eq. [REF: eq:ceiling-f1]. A selector can't retrieve an item in his/her packet that it didn't put there. Low text and image Recall@50 lowers the potential evidence score prior to calibration and/or decoding. The rest of the candidates are also divided: assessed items in a judgment packet are related to the claim, while the high similarity distractors in a full-corpus packet are drawn from tens of thousands of documents and images. This means that both negatives are harder to distribute and positives are missed by the evidence-membership scorer.
+
+A second qualification is added with the threshold result. Calibrated thresholding outperforms exact expected-F1 decoding in all the seeds on the judgment packet, even though both methods are using the same set of probabilities. While this packet therefore does support adaptive set sizing in a general sense, it does not distinguish the best adaptive rule, that is, the expected-F1 decoder. High values of the count head on the full corpus are accompanied by poor count mean absolute error. This indicates that, accuracy of counts and set F1 are still not the same, and also that, directly decoding expected utilities is not necessarily robust to a poor rank.
+
+subsection - that which the negative result provides:
+
+The results of the calibration and control show the reason for the conjunctive nature of the gate. To some extent, unrestricted temperature scaling has a negative effect on Brier score for one packet seed despite the positive evidence-F1 effect. The declared training-only guard repairs failure, but doesn't consult validation labels. The full-corpus run, which also includes guard identity scaling, shows that expected-F1 decoding is still outperformed by the other two controls, fixed budget and count-classification. The secondary verdict effect of the shared verifier is beneficial with a positive mean point estimate but don't replace evidence quality.
+
+The formal interpretation standard can be used only once, thus making the development gate a challenging one. It also avoids the primary evaluation mistake of the previous count-prediction study, which was beating one forced fixed budget, while losing to another sensible budget. Here it is effective as intended: even with a positive feasibility packet, and a positive verifier diagnostic, the cleanly reproduced negative full-corpus effect aborts the study prior to the formal test.
+
+The result does not imply that inherent inferiority exists for decoding with expected-F1. Full-corpus Recall@50 for text and images are only 0.3616 and 0.2138, respectively, and item-membership estimates might not satisfy the conditional-independence assumption of the decoder. It does clearly state that the declared method, scorer and retrieval configuration aren't worth the use of MOCHEG's formal test. Future directions, if any, should be thought of as new studies with a new development protocol, not an a posteriori rescue of this one.
+
+It is a significant limit when assessing a negative development decision. The experiment does not prove that all adaptive selectors, scorers or retrievers will fail, it only shows that the one tested will not. On the other hand, the good packet/verifier diagnostics are not applicable outside the conditions in which they were measured. The checked conclusion is intentionally more limited: the BGE-M3 retrieval artifacts, logistic evidence scorer, calibration guard and declared decoder are pinned, meaning that there is no primary evidence advantage and in fact it is consistently negative across the three development seeds.
+
+Implications for evaluation practice - sub-section:
+
+First, any candidate construction needs to be reported as part of the system as evaluated. Selector-only experiment on judgments candidates is helpful for mechanism development but it should be identified as being conditional on the availability of candidates. End-to-end claims must be label blind; they must be retrieved and fully scored (gold), to prevent that any evidence is left out of the denominator without anybody noticing. This distinction can be made apparent by reporting retrieval Recall@k and the packet-conditioned ceiling, in addition to selector F1.
+
+Second, a common packet with good fixed comparator must be used for the selector comparisons. Permitting methods to take varying candidates is the confusion between retrieval and set decoding. After observing results, it is possible to choose a weak fixed budget, which results in an artificial adaptive gain. In this study candidate identities and features are broadcasted inside each regime, the fixed budget is chosen according to the given calibration data which is allowed, and all the seed identities which are declared are preserved. These controls help to interpret the negative effect, but do not make it better.
+
+Third, there should be no overlap between evidence selection and verdict prediction. A verifier can have other information outside of the released gold evidence which helps to confirm the gold evidence, or can use other correlations which do not confirm faithful attribution. Thus the positive mean verifier diagnostic is relevant to the behavior of the system and not evidence quality. A credible multimodal fact check evaluation should include results and provide prior indication of which one applies to the main statement being fact-checked.
+
+Finally, staged evaluation is most informative when all the various stages keep their failures. This is a unified record of the unsuccessful temperature-scaling attempt, the more potent threshold control, the negative full-corpus seeds and the good verifier diagnostic. Saving all of them helps to keep a positive feasibility result from being separated from what led to the reversed result, and provides future researchers with tangible hypotheses to work into a different protocol in terms of retrieval coverage, calibration, and evidence dependence.
+
+Limitations/ethical considerations:
+
+This manuscript is a completed decision to develop, not a completed formal-test. The 400-claim feasibility packet begins with released judgment candidates, and is clearly based on higher performance than the label-blind, full-corpus comparison. There are 367 eligible claims in the development sample, instead of all of the released train/development claims as would have been the case with the fixed exclusion policy. Conditionally independent evidence-membership variables are assumed even though documents might be dependent and duplicated images might be. A poorly ranked group of candidates cannot be "temperature scaled," and simply using the logistic scorer is not a capacity measure. Since the primary development gate failed, robustness tests, the five-seed formal matrix and external validation were not performed. MOCHEG includes professional fact-check labels that are inherited and English-language web evidence – results may not be comparable to other languages, domains or live information environments. Public counts are copies of the official counts and still second transports; claim level uncertainty is due to lack of reliable event grouping. All these limitations preclude any assertion of deployment readiness, or even a general claim to fact-checking reliability.
+
+The system is designed to aid in evidence review, not to automatically decide on the truth. Verdicts or evidence may be wrong or incomplete and result in misrepresentation of people, events and sources. The project leverages public research information, records provenance and immutable identifiers but does not pass on credentials or private user information. Fluently written explanations do not count as evidence of proper attribution and are therefore not included in the main claim. Failure results, selected identifiers, hashes, and probabilities must be retained as formal outputs to allow the unfavorable results to be auditable.
+
+conclusion:
+
+We test an adaptive selector, CEFES, which selects a multimodal evidence prefix, based on calibrated item probabilities, using expected set-F1 (exact). For positive 400-claim judgments, the full-corpus retrieval result by CEFES under-performs a baseline of a fixed budget and matched count-classification result. A clean rerun regenerates the feature store, rankings, method tables and bootstrap results and there are no discrepancies between them and independent audits. The prespecified primary evidence conditions are unfavorable, though a shared-verifier diagnostic is favorable. The whole negative development file is closed, the official test still remains closed and no claim of superiority can be made.
