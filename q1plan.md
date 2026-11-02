@@ -6,6 +6,47 @@ Status: **proposed expansion only**. Nothing in this document is a completed exp
 
 Quality objective: develop a study strong enough to target a Q1 venue, with a Q2 venue as the fallback. Quartile placement and acceptance are goals, not promises, and must be checked against the chosen venue, category, and year before submission.
 
+## Executive strategy
+
+The expansion has two linked but distinct goals:
+
+1. **Primary scientific goal:** establish when conclusions about adaptive evidence selection are valid under changing retrieval quality. This claim can remain valuable even if no adaptive selector wins everywhere.
+2. **Secondary method goal:** develop a stronger retrieval-conditioned selector that improves evidence-set F1 without obtaining its gain by returning very large evidence sets.
+
+Work proceeds in the strict order **retrieval -> evidence scoring and calibration -> set decoding -> verifier -> external replication**. A later stage does not start merely because an earlier component can be implemented. It starts only after the earlier component passes its declared audit and quality gate. This prevents spending the main budget on increasingly complicated decoders while most gold evidence is still absent from the candidate packet.
+
+The intended phase flow is:
+
+```text
+Frozen negative study
+        |
+        v
+Phase 0: synchronize claims and saved-output statistics
+        |
+        v
+Phase 1: improve and audit label-blind retrieval
+        |  retrieval gate fails -> publish/evaluate retrieval-conditioned framework only
+        v
+Phase 2A: improve item scoring and calibration
+        |  scorer gate fails -> retain simple matched scorers
+        v
+Phase 2B: compare predeclared set decoders
+        |  selector gate fails -> no superiority claim and no formal-test access
+        v
+Phase 3: robustness and controlled degradation
+        |
+        v
+Phase 4: second-benchmark replication and formal-test decision
+```
+
+### Scope control
+
+The study will not simultaneously invent a new retriever, a large multimodal verifier, a generative explanation system, and a set decoder. The required contribution is retrieval-conditioned evidence selection. Explanation generation remains out of scope, and the shared verifier remains a safeguard/diagnostic rather than the primary optimization target.
+
+### Fresh-data policy
+
+The MOCHEG development outcomes have already been inspected in the completed study. They must therefore be described as reused development evidence, not as fresh confirmation. New method choices will be made using new claim-grouped partitions of the released training split: fitting, calibration, model-selection, and an internal locked holdout. Once the Phase-2 protocol is frozen, the official MOCHEG development split may be run once as a locked benchmark check. A fresh confirmatory claim requires either the still-sealed MOCHEG test under an approved gate or an independently qualified second benchmark with an untouched evaluation split.
+
 ## 1. Stable baseline and non-negotiable boundary
 
 The completed CEFES/MOCHEG negative development study remains the stable, showable baseline:
@@ -42,6 +83,23 @@ Build a retrieval-conditioned evaluation framework that:
 5. tests whether conclusions replicate on a second independently licensed multimodal evidence benchmark.
 
 CEFES remains one investigated selector. The broader contribution is the framework and the resulting evidence about when adaptive selection succeeds or fails, not a requirement that CEFES win.
+
+### 2.4 Concrete Phase-2 method candidate
+
+The proposed improved system is provisionally called **retrieval-conditioned CEFES (RC-CEFES)**. The name is not a claim of success and should be changed if the final contribution is primarily evaluative. Its components are fixed conceptually before outcome inspection:
+
+1. **Hybrid text retrieval:** BM25 and BGE-M3 retrieve documents independently; reciprocal-rank fusion produces a broad document pool; sentence candidates are then reranked with a claim--sentence cross-encoder.
+2. **Hybrid image retrieval:** SigLIP2 visual similarity is combined with OCR text, an image-caption representation, and available article context. Exact/perceptual duplicate groups are retained in the audit and suppressed during final selection rather than silently deleted from evaluation.
+3. **Content-aware membership scoring:** replace the similarity/length-only logistic scorer with modality-specific claim--candidate cross-encoders, while keeping the logistic scorer as a required low-capacity control. Training uses hard negatives mined from frozen label-blind rankings.
+4. **Claim-grouped calibration:** calibrate text and image scores separately on a training-only calibration fold. Compare temperature scaling, Platt scaling, and one monotonic non-parametric calibrator within a fixed trial budget. Selection of a calibrator uses Brier score first, with NLL and ECE as diagnostics.
+5. **Precision-aware set decoding:** compare original expected-F1, calibrated thresholding, learned count, and a predeclared penalized decoder
+   \[
+   U_{\lambda,\gamma}(S)=\mathbb{E}[F_1(S,G)]-\lambda |S|-\gamma R(S),
+   \]
+   where $R(S)$ penalizes same-source and near-duplicate evidence. The penalties and maximum set size are selected on training-only folds.
+6. **Uncertainty behavior:** if the scorer has no sufficiently credible evidence, the selector records a low-confidence/abstention flag for analysis. Because MOCHEG claims have released evidence, abstention is not scored as a correct empty set.
+
+The key ablation order is retrieval only, then retrieval plus stronger scorer, then retrieval plus scorer plus decoder. This makes it possible to attribute any gain rather than presenting one inseparable system change.
 
 ## 3. Research questions
 
@@ -144,6 +202,21 @@ For every configuration and modality, retain:
 - exact candidate rankings before relevance joins; and
 - missing, duplicate, and unreadable media records.
 
+### 7.4 Retrieval development sequence and gate
+
+Run retrieval improvements in this order so each added source of complexity has a matched ablation:
+
+1. reproduce the frozen BGE-M3/SigLIP2 rankings;
+2. add BM25 to text retrieval and evaluate fusion;
+3. add text cross-encoder reranking with frozen hard negatives;
+4. add OCR/caption text to image retrieval;
+5. add image reranking; and
+6. evaluate the single predeclared hybrid configuration selected on training-only folds.
+
+The proposed minimum gate for investing in a new selector is an absolute Recall@50 improvement of at least `+0.10` for text and `+0.10` for images over the frozen full-corpus values, with no reduction in complete-gold claim coverage or packet-conditioned oracle F1. These values are provisional until copied into the frozen Phase-2 protocol; they may not be changed after selector outcomes are viewed. The aspirational targets are text Recall@50 `>= 0.60` and image Recall@50 `>= 0.40`.
+
+If the minimum retrieval gate fails, do not compensate by tuning the decoder. Complete the retrieval-conditioned analysis, report the failed retrieval variants, and decide whether the framework alone supports a paper.
+
 ## 8. Phase 2 — matched selector matrix
 
 Every selector must receive identical candidate identities, ranking features, training access, and configuration budget within a retriever condition.
@@ -162,6 +235,44 @@ The strongest permitted fixed comparator must be retained even when it yields an
 Primary outcome: claim-level evidence-set F1 under complete gold sets, where missed retrieval evidence remains a false negative.
 
 Secondary outcomes: precision, recall, exact match, Jaccard, selected count, count MAE, Brier score, NLL, ECE, verdict macro-F1, class-wise F1, runtime, and memory.
+
+### 8.1 Scorer gate
+
+The content-aware scorer must be evaluated before any new decoder is tuned. Compared with the frozen logistic scorer on identical retrieved packets, it must:
+
+- improve within-packet MAP or average precision on every declared seed and on average;
+- improve or preserve Brier score after training-only calibration;
+- preserve candidate order and gold joins in the audit records; and
+- avoid obtaining an apparent ranking gain through duplicate leakage or source overlap.
+
+If these conditions fail, retain the logistic scorer and treat stronger scoring as a negative ablation. Do not search for a decoder that happens to exploit one failed scorer checkpoint.
+
+### 8.2 Decoder matrix
+
+The deployable decoder comparison is limited to:
+
+1. strongest permitted fixed top-$k$;
+2. per-modality calibrated threshold;
+3. learned count with the same scorer representation;
+4. original CEFES;
+5. size-penalized CEFES; and
+6. size- plus redundancy-penalized RC-CEFES.
+
+All methods receive the same probabilities and rankings where their definitions permit. Thresholds, count classes, $\lambda$, $\gamma$, modality rules, and maximum selected size are fixed using training-only selection data. A decoder that selects more evidence may not be described as better without reporting its precision and mean/median set size.
+
+### 8.3 Superiority gate
+
+A new selector-superiority claim requires all of the following on the locked development check:
+
+- mean claim-level evidence-F1 gain of at least `+0.015` over the strongest permitted fixed budget;
+- a positive effect in every one of five frozen seeds;
+- a positive seed-aligned paired 95% interval after Holm correction for the declared primary comparisons;
+- calibrated Brier score non-worse than the uncalibrated scorer in every seed;
+- verdict macro-F1 paired non-inferiority lower bound above `-0.01`;
+- mean selected set size no more than twice the mean gold-set size unless a predeclared recall-oriented analysis explicitly justifies it; and
+- clean reproduction and independent artifact recomputation.
+
+Failure of any condition keeps the MOCHEG test sealed and changes the manuscript claim from method superiority to retrieval-conditioned evaluation or negative/mixed evidence.
 
 ## 9. Phase 3 — failure decomposition and robustness
 
@@ -213,6 +324,21 @@ If no second dataset passes this gate, report the limitation and target the stro
 - Report effect sizes and intervals, not only $p$-values.
 - Evaluate verdict preservation with a paired non-inferiority interval and margin `-0.01`.
 - Predeclare missing-data handling, exclusion rules, and the number of permitted configuration trials.
+
+### 11.1 Configuration and compute budget
+
+To prevent outcome-driven search, the expanded development budget is capped before scientific runs:
+
+- at most **6 retrieval configurations**, including the frozen baseline and all ablations;
+- at most **8 scorer/calibrator configurations**;
+- at most **8 decoder configurations**, including fixed and threshold controls;
+- one training-only model-selection pass, followed by one locked MOCHEG development check;
+- five frozen seeds only for configurations that survive the relevant single-seed screening gate; and
+- no formal-test reruns or post-test repairs presented as fresh confirmation.
+
+Single-seed screening may eliminate broken or clearly dominated configurations, but it may not support a scientific claim. The screening seed, elimination rule, and minimum effect must be written into the protocol. All eliminated configurations remain in the experiment ledger.
+
+Every run records wall-clock time, GPU-hours, peak VRAM, peak RAM, and storage. The plan should be reduced before execution if the complete declared matrix cannot be finished and audited on the available RTX 4090-class workstation.
 
 ## 12. Test-sealing and protocol freeze
 
@@ -302,11 +428,19 @@ The abstract must explicitly state the problem, proposed framework or method, ex
 - [ ] Second-benchmark access audit.
 - [ ] Trial budget, seeds, metrics, and gates frozen.
 - [ ] New configuration and output namespaces implemented and tested.
+- [ ] Training fit/calibration/selection/internal-holdout claim IDs frozen.
+- [ ] Retrieval, scorer, and decoder gates copied into a machine-readable protocol.
+- [ ] Configuration-trial and compute budgets frozen.
 
 ### M3 — MOCHEG expanded development study
 
-- [ ] Build and audit all declared retrieval artifacts.
-- [ ] Run the matched selector matrix.
+- [ ] Reproduce the frozen full-corpus rankings and metrics.
+- [ ] Build and audit the declared sparse, dense, reranked, and hybrid retrieval artifacts.
+- [ ] Apply the retrieval gate before training a new selector.
+- [ ] Train and audit the logistic and content-aware membership scorers.
+- [ ] Apply the scorer gate before tuning a new decoder.
+- [ ] Run the matched fixed, threshold, count, CEFES, and RC-CEFES matrix.
+- [ ] Apply the superiority gate without opening formal-test annotations.
 - [ ] Run decomposition and robustness analyses.
 - [ ] Independently recompute primary tables.
 
@@ -322,12 +456,34 @@ The abstract must explicitly state the problem, proposed framework or method, ex
 - [ ] Q2 fallback if the study is rigorous but remains single-benchmark or has narrower generality.
 - [ ] Retain an honest negative or mixed conclusion if that is what the evidence establishes.
 
+### Dependency-based working schedule
+
+The schedule is expressed in work blocks rather than calendar promises:
+
+| Block | Deliverable | Exit condition |
+|---|---|---|
+| A | Phase-0 corrected manuscript statistics and audit note | Frozen outputs reproduce and all wording matches implementation |
+| B | Machine-readable Phase-2 protocol and train-only split manifest | Independent review finds no outcome-dependent choice |
+| C | Retrieval index, rankings, audit, and comparison table | Retrieval gate decision recorded |
+| D | Scorer checkpoints, hard-negative manifest, and calibration report | Scorer gate decision recorded |
+| E | Matched decoder records and primary paired analysis | Superiority/no-superiority decision recorded |
+| F | Controlled degradation and qualitative error analysis | Prespecified robustness matrix complete |
+| G | Second-benchmark audit and replication | Replication result frozen or documented access failure |
+| H | Manuscript and artifact release candidate | All claims trace to immutable records |
+
+Blocks C--E must not overlap in a way that allows later outcomes to change earlier-stage configurations. Dataset-access auditing for Block G may proceed in parallel because it does not use selector outcomes.
+
 ## 16. Immediate next actions
 
-1. Finish Phase 0 using only frozen artifacts where possible.
-2. Write a short official-MOCHEG-baseline compatibility audit before running it.
-3. Audit candidate second benchmarks for license, splits, evidence identity, and corpus access.
-4. Draft the Phase-2 protocol and configuration namespace.
-5. Review the protocol for outcome-independent choices before any new scientific run.
+1. Finish Phase 0 using only frozen artifacts where possible, beginning with the aggregate paired interval, Holm correction, verifier non-inferiority interval, and reliability diagrams.
+2. Reconcile stale documentation against the completed frozen run; in particular, remove statements that still describe the GPU pilot as unfinished.
+3. Create `research/q1_phase2/protocol.md` and `experiments/configs/q1_phase2/protocol.yaml` containing the train-only split policy, trial budgets, component gates, seeds, and test lock.
+4. Add tests that prevent Phase-2 outputs from writing into the frozen namespaces and prevent test-annotation access.
+5. Write the official-MOCHEG-baseline compatibility audit before attempting reproduction.
+6. Implement and reproduce the frozen retrieval configuration through the new Phase-2 interface before adding new models.
+7. Implement BM25/BGE-M3 fusion and its audit; do not begin cross-encoder training until the label-blind rankings reproduce.
+8. Audit candidate second benchmarks for license, splits, evidence identity, and corpus access in parallel with retrieval engineering.
+9. Review and sign off the frozen protocol before any outcome-bearing Phase-2 run.
+10. Record every deviation, failed run, and eliminated configuration in `research/q1_phase2/experiment_ledger.md`.
 
 No action in this plan authorizes formal-test access, overwriting frozen artifacts, weakening the comparator, or suppressing negative findings.
