@@ -1,0 +1,19 @@
+\section{Related Work}
+
+\subsection{Evidence-Based Multimodal Fact-Checking}
+
+Automated fact-checking is commonly decomposed into claim analysis, evidence retrieval, evidence assessment, and verdict prediction \cite{zeng2021automated}. MOCHEG instantiates these stages with text and image evidence, three-way verdicts, and explanations \cite{yao2023mocheg}. This differs from multimodal misinformation classification, where a fused claim representation may predict a label without returning identifiable sources.
+
+The distinction matters because evidence retrieval and verdict prediction can improve or fail independently. A verifier may exploit additional context even when that context does not match the benchmark's released evidence. Conversely, a faithful but incomplete packet imposes a ceiling on every downstream selector. We therefore keep complete-gold evidence F1 primary and treat verdict macro-F1 as a safeguard.
+
+\subsection{Hybrid Retrieval and Reranking}
+
+Sparse lexical and dense semantic retrievers fail differently. Reciprocal-rank fusion (RRF) combines rankings without requiring comparable score scales \cite{cormack2009rrf}, while cross-encoders trade additional computation for joint query--candidate scoring. BGE-M3 supplies multilingual dense representations \cite{chen2024bgem3}; BGE reranker v2-m3 is used here at an immutable model revision \cite{bgereranker}. SigLIP2 provides frozen vision--language representations for image retrieval \cite{tschannen2025siglip2}. We evaluate every component separately because a final hybrid can improve a deep recall cutoff while degrading early precision or MAP.
+
+\subsection{Calibration and Set Prediction}
+
+Probability calibration aligns confidence with observed frequency and is commonly assessed using Brier score, log loss, and reliability diagrams \cite{guo2017calibration}. Temperature scaling preserves order but cannot recover missing candidates or repair a poor ranking. Set-valued decisions add another layer: fixed budgets, global thresholds, learned counts, and expected-utility decoders may prefer different precision--recall points even when they share the same probabilities. Our design isolates that layer by matching all upstream inputs.
+
+\subsection{External Multimodal Benchmarks}
+
+AVerImaTeC provides real-world image--text claims with question--answer evidence from the web \cite{cao2025averimatec}. MMCV provides multi-hop claims with text, image, and table evidence linked to MultiModalQA \cite{wang2025mmcv}. Both are important resources, but neither is an unchanged substitute for the frozen MOCHEG protocol: the former lacks a usable released blind test and stable shared item corpus, while the latter adds table evidence and lacks an official fit/calibration/test split. We audit these differences rather than selecting a benchmark after viewing favorable outcomes.

@@ -1,0 +1,24 @@
+\begin{table*}[t]
+\centering
+\caption{Absolute evidence F1 and expected-F1 set size under controlled perturbations. Values average the five deterministic partitions; the perturbation analysis is descriptive.}
+\label{tab:robustness-absolute}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Condition & Fixed F1 & Threshold F1 & Expected-F1 & Expected items & Difference \\
+\midrule
+Baseline & 0.1673 & 0.1807 & 0.1759 & 3.50 & +0.0085 \\
+Width 10 & 0.1487 & 0.1600 & 0.1510 & 2.51 & +0.0024 \\
+Width 20 & 0.1607 & 0.1739 & 0.1667 & 3.01 & +0.0060 \\
+Width 40 & 0.1673 & 0.1807 & 0.1759 & 3.50 & +0.0085 \\
+Text only & 0.1611 & 0.1764 & 0.1714 & 3.26 & +0.0103 \\
+Image only & 0.0260 & 0.0205 & 0.0239 & 2.06 & -0.0021 \\
+Remove 25\% gold & 0.1288 & 0.1374 & 0.1370 & 3.49 & +0.0082 \\
+Remove 50\% gold & 0.0900 & 0.0960 & 0.0964 & 3.48 & +0.0064 \\
+Promote 5 distractors & 0.0002 & 0.1300 & 0.0497 & 5.48 & +0.0494 \\
+Duplicate top 3 & 0.1333 & 0.1450 & 0.1364 & 5.25 & +0.0031 \\
+Temperature 0.5 & 0.1673 & 0.1605 & 0.1481 & 1.61 & -0.0193 \\
+Temperature 2.0 & 0.1673 & 0.1023 & 0.1452 & 17.44 & -0.0221 \\
+\bottomrule
+\end{tabular}
+\end{table*}

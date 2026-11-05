@@ -1,0 +1,278 @@
+{
+  "profile": "q1_phase2_phase0_frozen_sync",
+  "status": "pass",
+  "scope": "post-freeze recomputation only",
+  "aggregate_evidence_effects": {
+    "cefes_minus_fixed": {
+      "mean": -0.04184925617529736,
+      "lower": -0.055907792276271226,
+      "median": -0.041775730344406,
+      "upper": -0.02793152521069233,
+      "samples": 10000,
+      "sign_flip_p_raw": 9.99990000099999e-06,
+      "sign_flip_p_holm": 1.999980000199998e-05
+    },
+    "cefes_minus_count": {
+      "mean": -0.018541716913030415,
+      "lower": -0.027965653470321813,
+      "median": -0.01841398328465265,
+      "upper": -0.009465633386268962,
+      "samples": 10000,
+      "sign_flip_p_raw": 0.00013999860001399987,
+      "sign_flip_p_holm": 0.00013999860001399987
+    }
+  },
+  "verifier_seed_aligned": {
+    "mean": 0.057676246317270696,
+    "lower": 0.006069826183127134,
+    "median": 0.057360456518297215,
+    "upper": 0.1084401332210385,
+    "noninferiority_margin": -0.01,
+    "noninferiority_pass": true,
+    "samples": 10000
+  },
+  "reliability": {
+    "13": [
+      {
+        "lower": 0.0,
+        "upper": 0.1,
+        "count": 960,
+        "mean_probability": 0.08725348580556717,
+        "observed_frequency": 0.007291666666666667
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "count": 3013,
+        "mean_probability": 0.1323351952919458,
+        "observed_frequency": 0.010952538997676734
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.3,
+        "count": 179,
+        "mean_probability": 0.26192268553347375,
+        "observed_frequency": 0.027932960893854747
+      },
+      {
+        "lower": 0.3,
+        "upper": 0.4,
+        "count": 963,
+        "mean_probability": 0.36084029357385844,
+        "observed_frequency": 0.02596053997923157
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.5,
+        "count": 2099,
+        "mean_probability": 0.4528656751566191,
+        "observed_frequency": 0.0266793711291091
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.6,
+        "count": 2234,
+        "mean_probability": 0.5490074144702557,
+        "observed_frequency": 0.047448522829006266
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.7,
+        "count": 1566,
+        "mean_probability": 0.6441583682718874,
+        "observed_frequency": 0.07279693486590039
+      },
+      {
+        "lower": 0.7,
+        "upper": 0.8,
+        "count": 684,
+        "mean_probability": 0.7439929370783214,
+        "observed_frequency": 0.1388888888888889
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "count": 250,
+        "mean_probability": 0.8356377425579321,
+        "observed_frequency": 0.168
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "count": 32,
+        "mean_probability": 0.9221968070754535,
+        "observed_frequency": 0.375
+      }
+    ],
+    "37": [
+      {
+        "lower": 0.0,
+        "upper": 0.1,
+        "count": 192,
+        "mean_probability": 0.09407425932697312,
+        "observed_frequency": 0.005208333333333333
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "count": 3811,
+        "mean_probability": 0.13056040333233151,
+        "observed_frequency": 0.010233534505379166
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.3,
+        "count": 43,
+        "mean_probability": 0.27523156384520836,
+        "observed_frequency": 0.06976744186046512
+      },
+      {
+        "lower": 0.3,
+        "upper": 0.4,
+        "count": 681,
+        "mean_probability": 0.36679848912319973,
+        "observed_frequency": 0.01908957415565345
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.5,
+        "count": 2270,
+        "mean_probability": 0.4552972864755965,
+        "observed_frequency": 0.025110132158590308
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.6,
+        "count": 2656,
+        "mean_probability": 0.5492216158753404,
+        "observed_frequency": 0.04405120481927711
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.7,
+        "count": 1518,
+        "mean_probability": 0.6427516053506523,
+        "observed_frequency": 0.0862977602108037
+      },
+      {
+        "lower": 0.7,
+        "upper": 0.8,
+        "count": 613,
+        "mean_probability": 0.7422617130203489,
+        "observed_frequency": 0.14192495921696574
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "count": 176,
+        "mean_probability": 0.8360242517642646,
+        "observed_frequency": 0.23863636363636365
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "count": 20,
+        "mean_probability": 0.9259112480064191,
+        "observed_frequency": 0.25
+      }
+    ],
+    "73": [
+      {
+        "lower": 0.0,
+        "upper": 0.1,
+        "count": 59,
+        "mean_probability": 0.09346055129852489,
+        "observed_frequency": 0.0
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "count": 3924,
+        "mean_probability": 0.14101409221476666,
+        "observed_frequency": 0.010193679918450561
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.3,
+        "count": 64,
+        "mean_probability": 0.25705664928933436,
+        "observed_frequency": 0.046875
+      },
+      {
+        "lower": 0.3,
+        "upper": 0.4,
+        "count": 610,
+        "mean_probability": 0.36613991347299174,
+        "observed_frequency": 0.01639344262295082
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.5,
+        "count": 2133,
+        "mean_probability": 0.45577971531217626,
+        "observed_frequency": 0.025785278949835913
+      },
+      {
+        "lower": 0.5,
+        "upper": 0.6,
+        "count": 2686,
+        "mean_probability": 0.5499053700773118,
+        "observed_frequency": 0.043559195830230824
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.7,
+        "count": 1646,
+        "mean_probability": 0.6433409786192232,
+        "observed_frequency": 0.07776427703523693
+      },
+      {
+        "lower": 0.7,
+        "upper": 0.8,
+        "count": 650,
+        "mean_probability": 0.7401810752454291,
+        "observed_frequency": 0.14153846153846153
+      },
+      {
+        "lower": 0.8,
+        "upper": 0.9,
+        "count": 191,
+        "mean_probability": 0.8324920927324955,
+        "observed_frequency": 0.24083769633507854
+      },
+      {
+        "lower": 0.9,
+        "upper": 1.0,
+        "count": 17,
+        "mean_probability": 0.9258962192154699,
+        "observed_frequency": 0.23529411764705882
+      }
+    ]
+  },
+  "artifacts": {
+    "reliability_pdf": {
+      "path": "D:\\Sabbir\\tpg-fact\\research\\q1_phase2\\figures\\frozen_full_corpus_reliability.pdf",
+      "sha256": "34ee209a1f69d889819e8cf2a765ce1e7004fe786c80a7081ccd70a994a64fcc"
+    },
+    "reliability_png": {
+      "path": "D:\\Sabbir\\tpg-fact\\research\\q1_phase2\\figures\\frozen_full_corpus_reliability.png",
+      "sha256": "be606a678aed8e5b00da2b8cf82409dae178abec93c8cc3a8f96d1edbc10e754"
+    }
+  },
+  "source_hashes": {
+    "experiments\\outputs\\mocheg\\full_corpus_selector_trial_002\\seed_13_claim_records.jsonl": "054cb0e79c45f374bd986b8b116b78b2177f98c502447def45877b6ab5d95ada",
+    "experiments\\outputs\\mocheg\\full_corpus_dacs_trial_002\\seed_13_dacs_records.jsonl": "2d92f7cc021b41e3e99657124ada3879a39ecdf20a3dd908665a3d63c694feb7",
+    "experiments\\outputs\\mocheg\\full_corpus_selector_trial_002\\seed_13_candidate_records.jsonl": "6223d9bedf99b6b5379ae2f434fc50da0d63a2af724be913cc6f759fb495ad70",
+    "experiments\\outputs\\mocheg\\full_corpus_matched_verifier_trial_002\\seed_13_verdict_records.jsonl": "ee68cce2b41215d785347df925b95684fad2f2eefa1fb960e0f78e3f78c05245",
+    "experiments\\outputs\\mocheg\\full_corpus_selector_trial_002\\seed_37_claim_records.jsonl": "ce4f6ee5abf494291599daaf43dc2671d5ee0be5723830bd17d56cdbf751f2f1",
+    "experiments\\outputs\\mocheg\\full_corpus_dacs_trial_002\\seed_37_dacs_records.jsonl": "8b2f19a037205b27d9122675731cfeb2932110769db55ed7d8adefacedfa0ea4",
+    "experiments\\outputs\\mocheg\\full_corpus_selector_trial_002\\seed_37_candidate_records.jsonl": "61121878f7f4a8c386728e8301aba1bafbee2daa6903063a7ef1f05095a88913",
+    "experiments\\outputs\\mocheg\\full_corpus_matched_verifier_trial_002\\seed_37_verdict_records.jsonl": "cc5716eb48c848f95fd1d33e574f1ff9fcb3b33831b4b6b264992b2009fc1bde",
+    "experiments\\outputs\\mocheg\\full_corpus_selector_trial_002\\seed_73_claim_records.jsonl": "816042d30cb67777a15c8d833e3ed612de4fd1db0276e6a5540972a045d20f92",
+    "experiments\\outputs\\mocheg\\full_corpus_dacs_trial_002\\seed_73_dacs_records.jsonl": "0c8999477b2f8dcdc503038db28d725ac0f92f8e8a6210f67e962f570bb674aa",
+    "experiments\\outputs\\mocheg\\full_corpus_selector_trial_002\\seed_73_candidate_records.jsonl": "32cc0124de15d56501017e4fcc8f045d70e15c9162452c10afec6513a1955ac5",
+    "experiments\\outputs\\mocheg\\full_corpus_matched_verifier_trial_002\\seed_73_verdict_records.jsonl": "44448d8efe623d16e930a53bb18c6e1fe5bcc1e68c4c20dfdb8e8a5631606890"
+  },
+  "formal_test_unlocked": false,
+  "formal_test_annotations_accessed": false
+}

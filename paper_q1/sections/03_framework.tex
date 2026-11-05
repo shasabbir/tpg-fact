@@ -1,0 +1,29 @@
+\section{Retrieval-Conditioned Formulation}
+
+For claim $c$, a label-blind retriever maps a public corpus $D$ to candidate packet $E_c$. The released complete gold evidence is $G_c$, and a selector returns $S_c\subseteq E_c$. Claim-level evidence F1 is
+\begin{equation}
+F_1(S_c,G_c)=\frac{2|S_c\cap G_c|}{|S_c|+|G_c|},
+\label{eq:set-f1}
+\end{equation}
+with the empty--empty case defined as one. Missing retrieved evidence stays in $G_c$ and therefore remains a false negative.
+
+The reachable gold set is $G_c^E=G_c\cap E_c$. An oracle that returns every reachable gold item and no distractor has ceiling
+\begin{equation}
+F_1^{\mathrm{oracle}}(c)=\frac{2|G_c^E|}{|G_c|+|G_c^E|}.
+\label{eq:oracle}
+\end{equation}
+This separates retrieval failure from within-packet selection. Complete-gold claim coverage additionally measures the fraction of claims for which $G_c\subseteq E_c$.
+
+Our framework evaluates four ordered components:
+\begin{enumerate}
+    \item \emph{retrieval}: Recall@$k$, MAP, nDCG, oracle F1, and coverage before selector interpretation;
+    \item \emph{scoring}: within-packet average precision and calibration under identical packets;
+    \item \emph{decoding}: fixed, threshold, count, expected-F1, and penalized expected-F1 decisions under shared probabilities; and
+    \item \emph{verification}: one shared checkpoint per seed, reused across selectors.
+\end{enumerate}
+
+Each stage has a frozen gate. Failure changes the allowed interpretation of later results, but it does not erase them. In particular, a failed retrieval gate prevents a superiority claim even if a later selector happens to win.
+
+\subsection{Statistical Decision}
+
+We retain claim-level records for every seed. The main interval resamples the same validation claim indices across five seeds, averages the paired effect within a resample, and reports the 2.5th and 97.5th percentiles from 10,000 draws. Holm correction covers the five declared selector-versus-fixed comparisons. The verifier uses the same aligned bootstrap and a non-inferiority margin of $-0.01$ macro-F1.

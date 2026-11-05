@@ -1,0 +1,7 @@
+\section{Artifact and Failure Record}
+
+The embedding cache contains 13,159 claim vectors, 378,864 sentence vectors, 90,270 filename vectors, and 90,270 image vectors. It required 1,892.27 seconds. The outcome-bearing retrieval pass required 1,155.93 seconds and produced 789,540 candidate rows. Five-seed selector and verifier runs required 153.22 and 254.29 seconds, respectively, excluding the clean rerun.
+
+Two implementation defects were found before finalization and retained in the experiment ledger. The first selector launch included claims absent from the non-empty complete-gold map and failed before writing scientific results. The repair filters by split-qualified complete-gold keys and is covered by a regression test. The first verifier summary reported only per-seed intervals; saved predictions were unchanged while the protocol-required claim-aligned aggregate was added and tested. The final suite contains 115 passing tests.
+
+The complete records are stored under \texttt{experiments/outputs/q1\_phase2/}. Compact reporting artifacts, the protocol, final gate, reproduction manifest, robustness protocol, external access audit, and append-only ledger are stored under \texttt{research/q1\_phase2/}. The frozen Phase-1 manuscript and outputs are not overwritten.

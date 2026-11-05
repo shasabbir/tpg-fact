@@ -1,0 +1,192 @@
+{
+  "profile": "q1_phase2_final_results",
+  "status": "complete",
+  "retrieval": {
+    "text_recall_at_50": 0.3338100202843635,
+    "text_gain": -0.027791807367352372,
+    "image_recall_at_50": 0.31493097025715394,
+    "image_gain": 0.10108799505054236,
+    "packet_oracle_f1": 0.4631697651110971,
+    "complete_gold_claim_coverage": 0.03662892317045368
+  },
+  "evaluation_population": {
+    "candidate_rows_before_complete_gold_filter": 789540,
+    "candidate_rows": 658200,
+    "claims_before_complete_gold_filter": 13159,
+    "claims": 10970,
+    "claims_excluded_without_released_gold": 2189,
+    "policy": "exclude claims without a released non-empty complete-gold evidence set"
+  },
+  "method_means": [
+    {
+      "method": "fixed",
+      "label": "Fixed top-5",
+      "precision": 0.24601342281879196,
+      "recall": 0.17175448906804963,
+      "f1": 0.16434567094634644,
+      "jaccard": 0.09829469525808258,
+      "selected_count": 5.0
+    },
+    {
+      "method": "threshold",
+      "label": "Calibrated threshold",
+      "precision": 0.281648283221506,
+      "recall": 0.17943343026059194,
+      "f1": 0.1786323013095109,
+      "jaccard": 0.11069225680386592,
+      "selected_count": 5.531543624161074
+    },
+    {
+      "method": "count",
+      "label": "Learned count",
+      "precision": 0.0907163263241727,
+      "recall": 0.2817770056327712,
+      "f1": 0.10874545978788722,
+      "jaccard": 0.060762492887789524,
+      "selected_count": 32.83194630872483
+    },
+    {
+      "method": "cefes",
+      "label": "CEFES",
+      "precision": 0.10017732493872908,
+      "recall": 0.27923147776414614,
+      "f1": 0.12226911883151366,
+      "jaccard": 0.06884661795492544,
+      "selected_count": 26.80604026845638
+    },
+    {
+      "method": "size_penalized",
+      "label": "Size-penalized CEFES",
+      "precision": 0.1435005637867665,
+      "recall": 0.2432910842524043,
+      "f1": 0.14717871329452875,
+      "jaccard": 0.08473513048943529,
+      "selected_count": 14.886442953020133
+    },
+    {
+      "method": "rc_cefes",
+      "label": "RC-CEFES",
+      "precision": 0.1438186356328013,
+      "recall": 0.24205143278001978,
+      "f1": 0.1469755060562179,
+      "jaccard": 0.08459736339124331,
+      "selected_count": 14.731409395973154
+    }
+  ],
+  "selector_effects_vs_fixed": [
+    {
+      "method": "threshold",
+      "label": "Calibrated threshold",
+      "mean": 0.01428663036316445,
+      "lower": 0.010481832273502176,
+      "upper": 0.018136715325439666,
+      "raw_p": 0.00019998000199980003,
+      "holm_p": 0.000999900009999
+    },
+    {
+      "method": "count",
+      "label": "Learned count",
+      "mean": -0.05560021115845925,
+      "lower": -0.06227591628864555,
+      "upper": -0.04895797808620532,
+      "raw_p": 0.00019998000199980003,
+      "holm_p": 0.000999900009999
+    },
+    {
+      "method": "cefes",
+      "label": "CEFES",
+      "mean": -0.042076552114832806,
+      "lower": -0.048621537712499094,
+      "upper": -0.03548379380459629,
+      "raw_p": 0.00019998000199980003,
+      "holm_p": 0.000999900009999
+    },
+    {
+      "method": "size_penalized",
+      "label": "Size-penalized CEFES",
+      "mean": -0.017166957651817707,
+      "lower": -0.022392303311164125,
+      "upper": -0.011936495922696341,
+      "raw_p": 0.00019998000199980003,
+      "holm_p": 0.000999900009999
+    },
+    {
+      "method": "rc_cefes",
+      "label": "RC-CEFES",
+      "mean": -0.017370164890128548,
+      "lower": -0.022637925254744236,
+      "upper": -0.012222751839731615,
+      "raw_p": 0.00019998000199980003,
+      "holm_p": 0.000999900009999
+    }
+  ],
+  "mean_rc_cefes_minus_fixed_f1": -0.017370164890128555,
+  "mean_selected_to_gold_ratio": 1.180922149889708,
+  "verifier_aggregate": {
+    "mean": 0.004346442509889215,
+    "lower": -0.011262012945276598,
+    "median": 0.004324271793517032,
+    "upper": 0.02005009819866842,
+    "claims": 1490,
+    "seed_count": 5,
+    "sample_count": 10000,
+    "resampling_seed": 20261102
+  },
+  "verifier_noninferiority_margin": -0.01,
+  "gate": [
+    {
+      "key": "retrieval_text_gain",
+      "label": "Text Recall@50 gain at least +0.10",
+      "pass": false
+    },
+    {
+      "key": "retrieval_image_gain",
+      "label": "Image Recall@50 gain at least +0.10",
+      "pass": true
+    },
+    {
+      "key": "scorer_map",
+      "label": "Selected scorer improves MAP in every seed",
+      "pass": true
+    },
+    {
+      "key": "calibration",
+      "label": "Calibrated Brier score is non-worse in every seed",
+      "pass": true
+    },
+    {
+      "key": "selector_mean",
+      "label": "Mean RC-CEFES evidence-F1 gain at least +0.015",
+      "pass": false
+    },
+    {
+      "key": "selector_each_seed",
+      "label": "RC-CEFES evidence effect positive in every seed",
+      "pass": false
+    },
+    {
+      "key": "selector_interval",
+      "label": "Seed-aligned evidence interval lower bound above zero",
+      "pass": false
+    },
+    {
+      "key": "set_size",
+      "label": "Mean selected/gold evidence ratio no more than 2",
+      "pass": true
+    },
+    {
+      "key": "verifier",
+      "label": "Verifier interval lower bound above -0.01",
+      "pass": false
+    },
+    {
+      "key": "reproduction",
+      "label": "Clean end-to-end reproduction",
+      "pass": true
+    }
+  ],
+  "final_gate_pass": false,
+  "formal_test_unlocked": false,
+  "formal_test_annotations_accessed": false,
+  "conclusion": "The preregistered gate fails. Image retrieval and evidence scoring improve, but the joint retrieval, selector-superiority, and verifier non-inferiority conditions are not all satisfied."
+}

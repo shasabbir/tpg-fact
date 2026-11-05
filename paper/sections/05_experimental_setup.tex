@@ -1,58 +1,28 @@
-\section{Experimental Setup}
-\label{sec:experiments}
+\section{Experimental Design}
+\label{sec:setup}
 
-\subsection{Research Questions}
+\subsection{Frozen Protocol}
 
-The key question is whether \method{} improves claim-level evidence-set F1 compared with the strongest fixed budget selected on development data. Secondary questions investigate whether expected-F1 decoding improves on count prediction, whether calibration improves selection quality, and whether selected evidence preserves verdict macro-F1 when using a shared verifier.
+The configuration was frozen on 4 November 2026 before the outcome-bearing run. It records data and model revisions, five claim-grouped partition seeds, retrieval depths, scorer families, all calibration candidates, selector grids, evaluation metrics, bootstrap settings, and stopping rules. Prior-aware maps were included because class weighting changes the effective training prior, which a temperature-only map cannot generally repair. No locked-validation outcome was used to choose among the calibration maps.
 
-The claim hierarchy is made explicit in Table~\ref{tab:claim-test-map}. The primary selector claim can only be made based on the first comparison. Calibration, count prediction and verification are diagnostic tools to see why a selector does or does not work, but they all fail to help correct a negative primary evidence effect. This hierarchy was set up to prevent the awarding of whichever secondary endpoint may be favorable.
+The configuration permits 36 scorer-calibrator combinations: three scorer families, two loss weightings, and six calibration maps. Screening results are excluded from scientific evidence. Final model choice uses only the assigned training roles, after which every selected configuration is evaluated once on locked validation.
 
-\begin{table}[!h]
-\centering
-\caption{Prespecified claim-to-test alignment. All comparisons are paired on identical eligible claims.}
-\label{tab:claim-test-map}
-\small
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.23\columnwidth}
->{\raggedright\arraybackslash}p{0.42\columnwidth}
->{\raggedright\arraybackslash}p{0.26\columnwidth}@{}}
-\toprule
-Question & Comparison & Role \\
-\midrule
-Set utility & \method{} versus strongest permitted fixed $k$ & Primary gate \\
-Count alignment & \method{} versus learned count head & Mechanism control \\
-Calibration & Guarded versus raw probabilities & Safety condition \\
-Verification & Shared-verifier macro-F1 difference & Non-inferiority safeguard \\
-\bottomrule
-\end{tabular}
-\end{table}
+\subsection{Baselines and Outcomes}
 
-\subsection{Development and Formal Protocols}
+The selector controls are fixed top-5, calibrated thresholding, and learned count prediction. Expected-F1, size-penalized expected-F1, and size-plus-redundancy expected-F1 are the adaptive set-utility variants. The primary outcome is claim-macro complete-gold evidence F1. We also report precision, recall, Jaccard similarity, exact-set match, selected count, calibration metrics, and verdict macro-F1.
 
-Seeds 13, 37 and 73 are used for the development pilot. A maximum of 20 declared configurations may be evaluated using train and development data. There is no official test during this phase. If unlocked, a formal evaluation would use seeds 13, 37, 73, 101 and 137 exactly once with the frozen code, data, features, configurations and checkpoints.
+For each method comparison, claim-level differences are first averaged over the five deterministic partitions for a given validation claim. A claim-aligned bootstrap then resamples the 1,490 claims. Reported selector intervals use 10,000 samples. Familywise comparisons against fixed top-5 use Holm correction. Robustness intervals use 5,000 samples and are descriptive.
 
-The first GPU run was done with a validated 400-claim packet to test the semantic feature path and selector mechanism. It is a feasibility experiment since its candidates are members of the released judgment universe. The main development comparison repeats the selector on the same eligible claim sample after label-blind retrieval from the whole public text and train/development image corpus. Relevance judgments are only added once the rankings are locked. The formal test is not unlocked by a qrel-packet result alone.
+After the primary comparison, we stratify validation claims by packet reachability: no released gold item reachable, some but not all reachable, or complete gold reachable. This diagnostic is explicitly post hoc and descriptive. It localizes the source of aggregate gains without changing the fitted models or the declared decision rule.
 
-\subsection{Baselines and Fairness}
+The declared superiority condition requires a mean evidence-F1 gain of at least 0.015 over the best fixed rule, a positive effect in every partition, a corrected interval lower bound above zero, calibrated Brier performance better than the prevalence predictor, a reasonable selected-to-gold size ratio, verdict non-inferiority, and exact clean reproduction. All conditions must hold before the selector can be considered superior at the system level.
 
-The controlled baselines are fixed top-$k$ selection, a calibrated 0.5 probability threshold, uncalibrated expected-F1 decoding and a learned count head. The official baseline for MOCHEG is reproduced as appropriate. The published M-RAV and MEVER values are context-dependent because their candidate construction, model access and tuning conditions differ \cite{luu2027mrav,zhang2026mever}; they are not put through paired significance testing. All rerun selectors are given the same candidates, features, supervision and configuration budget.
+\subsection{Robustness Matrix}
 
-\subsection{Metrics and Uncertainty}
+We rerun selection under narrower packets of 10 and 20 items, the full retained width, text-only and image-only packets, deterministic removal of 25\% and 50\% of reachable gold, promotion of five distractors, duplication of the top three items, and probability-temperature perturbations of 0.5 and 2.0. Perturbations leave the fitted selector unchanged. They measure dependence on reachability, modality, ranking contamination, duplication, and probability scale.
 
-The macro precision, recall and F1 are the evidence metrics used at the claim level. The secondary evidence metrics include the exact set match, the Jaccard score, the selected count, the count mean absolute error, Recall@$k$, MAP and nDCG. Brier score, negative log-likelihood and expected calibration error are measures of calibration. Macro-F1 and class-wise F1 are used to measure verdict quality.
+\subsection{Audit and Reproduction}
 
-10,000 paired bootstrap resamples are used for each reported seed-level selector effect. The preserved full-corpus records do not contain a reliable source-group key, so claims are the resampling unit; the resulting intervals should not be read as source-cluster-robust. Seed effects are reported separately, and their arithmetic mean summarizes the development decision. We retain both the fixed and count comparisons to avoid choosing the more favorable result after seeing the data. Verdict preservation uses the prespecified point non-inferiority margin of $-0.01$, while its paired intervals are reported as uncertainty diagnostics.
+Every run saves candidate-level scores, calibrated probabilities, selected identifiers, claim-level metrics, selected hyperparameters, environment metadata, and formal-test access flags. An independent audit recomputes population sizes, calibration summaries, set metrics, paired effects, and guard conditions from saved records. A clean rerun writes to a new directory and compares core artifacts by SHA-256 rather than relying only on aggregate agreement.
 
-\subsection{Development Gate}
-
-The test only becomes available if all of the following are true: all data and software gates pass; mean \method-minus-best-fixed evidence F1 is at least $+0.015$ over the three development seeds; the effect is positive for every seed; the calibrated Brier score is not worse than the uncalibrated one; the verdict macro-F1 is not more than 0.01 below the fixed control; the matched comparisons have the same candidate and verifier artifacts; and the development table is regenerated by a clean rerun. None of the seeds are positive and the mean effect of the full-corpus selector is negative. Thus, the gate is fail-closed irrespective of secondary diagnostics and the formal-test annotations are not available.
-
-The positive formal claim requires a mean official-test evidence-F1 effect of at least $+0.01$ with a positive 95\% paired interval, and the verdict-effect lower bound should be above $-0.01$. A gain against an arbitrarily weak fixed budget does not satisfy this rule.
-
-\subsection{Ablations and Robustness}
-
-The completed development controls remove calibration, replace exact expected-F1 decoding with a global threshold and replace set decoding with count prediction. Gold-set-size and modality diagnostics are computed from the frozen claim records after the primary decision and are labelled post hoc. We did not run the broader ratio, feature-removal, packet-width, corruption and source-subgroup analyses after the development gate failed. Those analyses would require a separate follow-up protocol and cannot be used to rescue this one.
-
-\subsection{Implementation and Resources}
-
-The primary execution host is an RTX 4090 with 24~GiB device memory, 64~GiB system memory and an Intel i9 processor with around 1~TiB free storage. The parameters for feature extraction are mixed precision, frozen and cached encoders, a text batch size of 32 and an image batch size of 64. The Python package, configurations, tests, data preparation, feature builder, selector runner and PowerShell orchestration are version controlled. Raw predictions, calibration values, selected identifiers, histories, hashes and environment metadata are stored for independent recomputation.
+The reporting and selector analyses use Python 3.13.14 and NumPy 2.5.4 on Windows 11. The lightweight scorers and verifier are implemented with deterministic numerical routines; the five partition seeds govern claim-role assignment rather than stochastic neural training. Pretrained retrieval revisions, packet depths, and all decoding grids are pinned in the recorded configuration.

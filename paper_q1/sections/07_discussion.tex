@@ -1,0 +1,19 @@
+\section{Discussion}
+
+\subsection{What Improved}
+
+The new system does not merely repeat the frozen failure. Image RRF adds about ten Recall@50 points, modality-aware scoring consistently improves ranking, calibration improves Brier score, and precision penalties cut CEFES output by roughly 45\% while raising its F1 by 0.02471. These are meaningful component gains. They show that the original failure was partly addressable without increasing model access for one selector.
+
+\subsection{Why the Main Conclusion Remains Negative}
+
+The improvements do not compose into superiority. Text coverage remains below the frozen baseline and the cross-encoder trades deeper recall for much worse early ranking. Expected-F1 decoding is sensitive to the high membership probabilities assigned to distractors and to dependence among same-source items. Size penalties correct extreme over-selection, but the best precision--recall point is still a global calibrated threshold. This also demonstrates why a method should be compared with both a strong fixed budget and a simple adaptive control.
+
+The verifier reinforces the distinction between evidence and verdict endpoints. Its point effect is favorable, but uncertainty is too wide for the declared non-inferiority claim. More context can help a classifier even when it is not faithful to the released evidence set; the two outcomes should not be substituted.
+
+\subsection{When Adaptivity Helps}
+
+The controlled interventions give a narrow answer. Reducing packet width or retaining only images makes fixed and adaptive selection more similar because little useful depth remains. Duplicate pollution moves \method{} toward parity because its source penalty discourages redundant output. Deliberate top-rank distractor promotion reverses the result because fixed top-5 has no way to look below five corrupted items, whereas an adaptive set can expand. This supports a conditional claim: variable-size selection can hedge against severe early ranking corruption, but the evaluated scorer cannot reliably recognize that condition in ordinary MOCHEG retrieval.
+
+\subsection{Implications for Evaluation}
+
+Candidate construction is part of the scientific claim. Judgment-packet, full-corpus, and perturbed-packet results answer different questions and should not be pooled. Complete-gold scoring, raw ranking preservation before label joins, strong fixed/threshold controls, and chronological gates make those distinctions auditable. A negative upstream gate should narrow the manuscript claim rather than trigger unconstrained decoder search.

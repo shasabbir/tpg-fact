@@ -1,4 +1,4 @@
-\documentclass[journal]{IEEEtran}
+\documentclass[10pt,journal]{IEEEtran}
 
 \usepackage{amsmath,amssymb}
 \usepackage{array}
@@ -12,37 +12,51 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,fit,positioning}
 
-\newcommand{\method}{CEFES}
-\title{Rethinking Evidence Selection in Multimodal Fact-Checking: Calibrated Adaptive Set Optimization Beyond Fixed Top-$k$ Retrieval}
+\definecolor{accentblue}{HTML}{24557A}
+\definecolor{accentteal}{HTML}{2A7F78}
+\definecolor{accentorange}{HTML}{C56A2D}
+\definecolor{softblue}{HTML}{EAF1F7}
+\definecolor{softgray}{HTML}{F2F3F5}
+\definecolor{passgreen}{HTML}{26734D}
+\definecolor{failred}{HTML}{A23B3B}
+
+\newcommand{\method}{calibrated expected-F1}
+\newcommand{\pass}{\textcolor{passgreen}{\textbf{Pass}}}
+\newcommand{\fail}{\textcolor{failred}{\textbf{Fail}}}
+\newcommand{\theadrow}{}
+\graphicspath{{figures/}}
+\interdisplaylinepenalty=2500
+\hyphenation{multi-modal fact-check-ing re-triev-al cal-i-bra-tion}
+
+\title{Calibrated Adaptive Evidence Selection for Multimodal Fact-Checking Under Retrieval Constraints}
 
 \author{%
-\begin{tabular}{@{}c@{\hspace{3em}}c@{}}
-\begin{tabular}[t]{c}
-Sabbir Hossain\\
+\parbox[t]{0.46\textwidth}{\centering
+Sabbir Hossain\\[0.3ex]
+{\normalsize
 Department of Computer Science\\
 American International University-Bangladesh\\
 Dhaka, Bangladesh\\
-26-94030-1@student.aiub.edu
-\end{tabular}
-&
-\begin{tabular}[t]{c}
-Dr. Firoz Ahmed\\
+26-94030-1@student.aiub.edu}}
+\hspace{0.02\textwidth}%
+\parbox[t]{0.46\textwidth}{\centering
+Dr.~Firoz Ahmed\\[0.3ex]
+{\normalsize
 Professor, Faculty\\
 Department of Computer Science\\
 American International University-Bangladesh\\
-fahmed@aiub.edu
-\end{tabular}
-\end{tabular}}
+Dhaka, Bangladesh\\
+fahmed@aiub.edu}}}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-To perform evidence-based multimodal fact-checking, an evidence retrieval system is needed before making a verdict, to retrieve identifiable text and image evidence. A typical design uses the same fixed top-$k$ evidence budget for every claim, although the amount of available evidence may vary, and the precision--recall trade-off due to retrieval imperfection is also not taken into account. We study if instead evidence-set size can be selected by directly optimizing the expected set quality. We present \method{} (Calibrated Expected-F1 Evidence Selection) to estimate calibrated evidence-membership probabilities and select the topmost ranked prefix with maximum exact expected set-F1 under an explicit independent-Bernoulli approximation. By preserving candidates, frozen features, scorer inputs, and the downstream verifier, the selection rule is the controlled difference between adaptive and fixed-budget selectors. The evidence F1 for \method{} on a checked judgment-candidate packet with 400 claims is 0.0683 higher than that of the training-calibration-selected fixed budget, although a calibrated threshold is stronger. This feasibility result flips under label-blind retrieval from all 91,822 released text documents and 90,270 train/development image paths: \method{} is on average 0.0418 evidence F1 worse than the selected fixed budget in every seed, and each paired 95\% interval is negative. A matched count-classification control is, on average, 0.0185 evidence F1 higher than \method{}. The failed primary evidence criterion takes precedence over the shared-verifier diagnostic, which has a macro-F1 difference of 0.0577 in favor of \method{}, on average. Independent audits and a clean rerun of the retrieval and method records are congruent. Thus, the prespecified development gate is not met, the official MOCHEG test remains unopened, and the study identifies candidate construction and retrieval quality as important conditions for evaluating adaptive evidence selection instead of claiming superiority.
+Fact-checkers need concise evidence sets, but a selector cannot recover evidence that retrieval misses and cannot make reliable set decisions from miscalibrated scores. We separate these failure sources in a retrieval-conditioned study on MOCHEG. Every method receives the same packet of 40 text and 20 image candidates. Six probability maps and four selection policies are evaluated on 1,490 locked validation claims across five deterministic training-role partitions. Retrieval is the dominant boundary: among 10,970 claims with released complete-gold evidence, the packet oracle reaches 0.3560 evidence F1, complete gold is present for 4.39\%, and 3,086 claims contain no reachable gold item. Prior-aware calibration reduces mean Brier score from 0.0847 to 0.0330. Expected-F1 then returns 3.50 items per claim and reaches 0.1759 evidence F1, improving on fixed top-5 by 0.0085 with a claim-aligned 95\% interval of [0.0030, 0.0140]. A calibrated threshold remains stronger at 0.1807. A post hoc reachability analysis localizes the expected-F1 benefit: it reaches 0.5240 F1 when complete gold is available in the packet, but offers no gain over fixed top-5 when gold is only partially reachable. Size and redundancy penalties select zero throughout, probability perturbations reverse the adaptive gain, and a shared verifier does not establish the declared non-inferiority margin. Calibrated expected-F1 therefore provides a precision-oriented operating point. It does not establish end-to-end superiority; calibrated thresholding performs better overall, and retrieval reachability remains the main limitation.
 \end{abstract}
 
 \begin{IEEEkeywords}
-multimodal fact checking, evidence selection, calibrated retrieval, expected F1, selective prediction
+multimodal fact-checking, evidence retrieval, evidence selection, probability calibration, expected F1, reproducibility
 \end{IEEEkeywords}
 
 \input{sections/01_introduction}
@@ -57,8 +71,9 @@ multimodal fact checking, evidence selection, calibrated retrieval, expected F1,
 
 \appendices
 \input{sections/10_reporting_appendix}
+\clearpage
 
 \bibliographystyle{IEEEtran}
-\bibliography{references}
+\bibliography{references_used}
 
 \end{document}

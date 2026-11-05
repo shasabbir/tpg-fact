@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{Validation calibration averaged across modalities and deterministic partitions.}
+\label{tab:calibration}
+\begin{tabular}{lrrr}
+\toprule
+Map & Brier $\downarrow$ & NLL $\downarrow$ & ECE $\downarrow$ \\
+\midrule
+Isotonic & 0.0330 & 0.1301 & 0.0063 \\
+Platt & 0.0331 & 0.1302 & 0.0067 \\
+Prior Shift & 0.0331 & 0.1305 & 0.0076 \\
+Beta & 0.0359 & 0.3377 & 0.0198 \\
+Temperature & 0.0832 & 0.2830 & 0.1220 \\
+Identity & 0.0847 & 0.2837 & 0.1314 \\
+\bottomrule
+\end{tabular}
+\end{table}

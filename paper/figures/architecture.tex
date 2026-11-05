@@ -1,43 +1,43 @@
 \begin{tikzpicture}[
-  font=\scriptsize,
-  node distance=5mm and 5mm,
-  input/.style={draw, rounded corners, align=center, minimum height=10mm, text width=22mm, fill=blue!7},
-  frozen/.style={draw, rounded corners, align=center, minimum height=10mm, text width=24mm, fill=gray!14},
-  learned/.style={draw, rounded corners, align=center, minimum height=10mm, text width=25mm, fill=green!10},
-  decision/.style={draw, rounded corners, align=center, minimum height=10mm, text width=25mm, fill=orange!12},
-  diagnostic/.style={draw, dashed, rounded corners, align=center, minimum height=10mm, text width=25mm, fill=purple!7},
-  group/.style={draw, dashed, rounded corners, inner sep=3mm},
-  arrow/.style={-{Latex[length=2mm]}, thick},
-  diagnosticarrow/.style={-{Latex[length=2mm]}, thick, dashed}
+  font=\footnotesize,
+  node distance=3.5mm,
+  stage/.style={draw=accentblue, rounded corners=2pt, fill=softblue,
+    minimum height=12mm, text width=20mm, align=center, inner sep=3pt},
+  packet/.style={draw=accentorange, rounded corners=2pt, fill=accentorange!10,
+    minimum height=12mm, text width=20mm, align=center, inner sep=3pt},
+  decision/.style={draw=accentteal, rounded corners=2pt, fill=accentteal!9,
+    minimum height=12mm, text width=23mm, align=center, inner sep=3pt},
+  audit/.style={draw=black!45, rounded corners=2pt, fill=softgray,
+    minimum height=8mm, text width=27mm, align=center, inner sep=3pt},
+  label/.style={font=\scriptsize\bfseries, text=black!65},
+  arrow/.style={-{Latex[length=2mm]}, thick, draw=black!65}
 ]
-\node[input] (claim) {Claim text};
-\node[input, below=of claim] (corpus) {Public text and\\image candidates};
+\node[stage] (claim) {Image-text claim};
+\node[stage, right=of claim] (retrieve) {Hybrid retrieval\\dense, sparse, and RRF};
+\node[packet, right=of retrieve] (packet) {Fixed candidate packet\\40 text + 20 image};
+\node[stage, right=of packet] (score) {Membership scoring\\balanced or unweighted};
+\node[stage, right=of score] (calibrate) {Prior-aware probability calibration};
+\node[decision, right=of calibrate] (select) {Evidence-set policy\\fixed, threshold, count, or expected-F1};
 
-\node[frozen, right=of claim] (bge) {Pinned BGE-M3\\text features};
-\node[frozen, right=of corpus] (siglip) {Pinned SigLIP2\\visual features};
+\draw[arrow] (claim) -- (retrieve);
+\draw[arrow] (retrieve) -- (packet);
+\draw[arrow] (packet) -- (score);
+\draw[arrow] (score) -- (calibrate);
+\draw[arrow] (calibrate) -- (select);
 
-\node[frozen, right=7mm of bge, yshift=-7mm] (packet) {Shared bounded packet\\and feature artifact};
-\node[learned, right=of packet] (scorer) {Evidence-membership\\scorer};
-\node[learned, right=of scorer] (calibration) {Claim-grouped\\temperature scaling};
-\node[decision, right=of calibration] (decoder) {Exact expected-F1\\prefix decoder};
-\node[decision, right=of decoder] (set) {Selected evidence\\identifiers};
+\node[label, above=1.5mm of retrieve] {1. RETRIEVE};
+\node[label, above=1.5mm of score] {2. ESTIMATE};
+\node[label, above=1.5mm of calibrate] {3. CALIBRATE};
+\node[label, above=1.5mm of select] {4. DECIDE};
 
-\node[decision, below=11mm of decoder] (controls) {Fixed-$k$, threshold,\\and count controls};
-\node[diagnostic, below=11mm of set] (verifier) {Shared verifier\\diagnostic};
+\node[audit, below=7mm of packet] (oracle) {Reachability audit\\recall, oracle F1, complete-gold coverage};
+\node[audit, below=7mm of calibrate, xshift=-4mm] (roles) {Disjoint fit, calibration, and model-selection roles};
+\node[audit, below=7mm of select, xshift=-2mm] (evaluate) {Locked validation\\set metrics + shared verifier};
 
-\draw[arrow] (claim) -- (bge);
-\draw[arrow] (corpus) -- (bge);
-\draw[arrow] (claim) -- (siglip);
-\draw[arrow] (corpus) -- (siglip);
-\draw[arrow] (bge) -- (packet);
-\draw[arrow] (siglip) -- (packet);
-\draw[arrow] (packet) -- (scorer);
-\draw[arrow] (scorer) -- (calibration);
-\draw[arrow] (calibration) -- (decoder);
-\draw[arrow] (decoder) -- (set);
-\draw[arrow] (calibration.south) |- (controls.west);
-\draw[arrow] (controls.east) -| (set.south);
-\draw[diagnosticarrow] (set) -- (verifier);
+\draw[arrow] (packet.south) -- (oracle.north);
+\draw[arrow] (calibrate.south) -- (roles.north);
+\draw[arrow] (select.south) -- (evaluate.north);
 
-\node[group, fit=(bge)(siglip)(packet), label=above:{frozen and shared across selectors}] {};
+\node[draw=accentteal!60, dashed, rounded corners=3pt,
+      fit=(score)(calibrate)(roles), inner sep=2.5mm] {};
 \end{tikzpicture}

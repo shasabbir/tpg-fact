@@ -1,0 +1,20 @@
+\begin{table*}[t]
+\centering
+\caption{Complete-gold retrieval quality before packet truncation. Recall includes unretrieved released-gold items in the denominator; MAP and nDCG use the depth-100 ranked lists.}
+\label{tab:retrieval-matrix}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{llrrrrrr}
+\toprule
+Modality & Retriever & R@5 & R@10 & R@20 & R@50 & MAP@100 & nDCG@100 \\
+\midrule
+Text & Dense sentence & 0.1767 & 0.2141 & 0.2523 & 0.3028 & 0.1728 & 0.2972 \\
+Text & BM25 sentence & 0.1452 & 0.1744 & 0.2048 & 0.2478 & 0.1349 & 0.2409 \\
+Text & Dense + BM25 RRF & 0.1772 & 0.2194 & 0.2659 & 0.3224 & 0.1744 & 0.3031 \\
+Text & RRF + cross-encoder & 0.1335 & 0.1915 & 0.2574 & 0.3338 & 0.1282 & 0.2587 \\
+Image & SigLIP2 & 0.1145 & 0.1436 & 0.1782 & 0.2183 & 0.0916 & 0.1312 \\
+Image & Filename dense & 0.1408 & 0.1653 & 0.1889 & 0.2227 & 0.1154 & 0.1490 \\
+Image & SigLIP2 + filename RRF & 0.1904 & 0.2292 & 0.2663 & 0.3149 & 0.1414 & 0.1938 \\
+\bottomrule
+\end{tabular}
+\end{table*}

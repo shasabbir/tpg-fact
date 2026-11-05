@@ -1,69 +1,80 @@
-\section{Methodology}
+\section{Method}
 \label{sec:method}
 
-\subsection{Overview}
+\subsection{Fixed Retrieval Packet}
 
-\method{} separates candidate retrieval, evidence-membership estimation, calibration, set decoding and verdict prediction. All the controlled selectors of Fig.~\ref{fig:architecture} get the same bounded packet and feature artifact. The adaptive rule only changes which evidence identifiers to emit and receives no additional corpus, label or tuning access. The shared verifier is a secondary diagnostic and is not used to override a failed evidence-selection gate.
+Text retrieval combines BGE-M3 dense sentence similarity with BM25 using reciprocal-rank fusion (RRF) \cite{cormack2009rrf}. A pinned BGE reranker scores the fused text candidates. Image retrieval combines SigLIP2 image-text similarity with dense similarity between the claim and normalized image filenames, again using RRF. The exact model repositories and immutable revisions are recorded in the frozen configuration; the operational model cards are BGE-M3,\footnote{\url{https://huggingface.co/BAAI/bge-m3}} BGE-reranker-v2-m3,\footnote{\url{https://huggingface.co/BAAI/bge-reranker-v2-m3}} and SigLIP2.\footnote{\url{https://huggingface.co/google/siglip2-base-patch16-224}} The retained packet contains the highest-ranked 40 text and 20 image items. Every selector receives this identical packet.
 
-\begin{figure*}[t]
-\centering
-\resizebox{0.98\textwidth}{!}{\input{figures/architecture}}
-\caption{CEFES development pipeline. Fixed-budget, threshold, count, and CEFES selectors share candidate packets and frozen feature artifacts. The dashed shared-verifier branch is a secondary diagnostic.}
-\label{fig:architecture}
-\end{figure*}
+\subsection{Membership Scorers}
 
-\subsection{Frozen Multimodal Features}
-
-The text branch is based on BGE-M3 at the immutable revision used for the development configuration. Before calculating cosine similarity, mean-pooled, attention-masked claim and evidence embeddings are normalized. The image branch is based on SigLIP2-base-patch16-224 in the same manner. Text and recoverable images are encoded individually and normalized. Both models are frozen, cached and shared amongst seeds and selector families.
-
-The pilot feature vector implemented for claim--candidate pair $(c,e_i)$ is
+For each claim-candidate pair, the stored feature vector contains the final score and its square, dense and lexical or filename scores, RRF and cross-encoder scores, reciprocal ranks, modality indicators, token-count features, available-candidate count, and duplicate-group size. Features are standardized using fitting-role statistics. A logistic scorer then estimates
 \begin{equation}
-\begin{aligned}
-x_i=[&s_i,s_i^2,m_i^{t},m_i^{v},\\
-&\log(1+\ell_i)/10,\log(1+\ell_c)/10,\\
-&\log(1+n_c)/10],
-\end{aligned}
-\label{eq:features}
+q_{qi}=\sigma\!\left(\mathbf{w}^{\top}
+\frac{\mathbf{x}_{qi}-\boldsymbol{\mu}}{\boldsymbol{s}}+b\right),
+\label{eq:membership-scorer}
 \end{equation}
-in which $s_i$ is the semantic similarity appropriate to modality, $m_i^{t}$ and $m_i^{v}$ are the indicators of text and image, respectively, $\ell_i$ is the length of text (zero in the case of images), $\ell_c$ is the length of the claim and $n_c$ is the number of candidates available. The list of candidates is label-blind, meaning candidates are ranked by $s_i$, with a limit of 40 text and 20 image items.
+where $q_{qi}$ is a ranking score rather than an assumed operating probability. We compare three organizations: one shared text-image model, separate modality models, and a shared model using the complete feature vector including cross-encoder scores. Each organization is trained with balanced and unweighted binary cross-entropy plus $L_2$ regularization. Balanced loss is useful for ranking rare evidence, but its output reflects an altered effective class prior and cannot be treated as calibrated.
 
-\subsection{Evidence-Membership Scorer}
-
-The lightweight logistic scorer estimates an uncalibrated inclusion probability
+Let $z_{qi}=\operatorname{logit}(q_{qi})$. A calibration map $g_m$ converts it to the membership probability used by the decision policy,
 \begin{equation}
-q_i=\sigma(w^\top \tilde{x}_i+b),
-\label{eq:scorer}
+p_{qi}=g_m(z_{qi})\approx P(c_{qi}\in G_q\mid \mathbf{x}_{qi}),
+\label{eq:calibration-map}
 \end{equation}
-where $\tilde{x}_i$ is obtained by using fitting-fold statistics to standardize it. A class-balanced binary cross-entropy loss is used to address the small number of gold items and fixed $L_2$ regularization is used for $w$. The learning rate, the number of epochs and the regularization are determined by the development configuration, and are not changed based on formal-test results.
+with a separate fitted map for each modality. Six maps are compared:
+\begin{enumerate}
+    \item identity, which leaves the raw sigmoid probability unchanged;
+    \item temperature scaling, $\sigma(z/T)$;
+    \item prior shift, which fits an intercept correction;
+    \item Platt mapping, $\sigma(az+b)$;
+    \item beta calibration, which is linear in $\log p$ and $\log(1-p)$; and
+    \item isotonic regression, a monotone nonparametric map.
+\end{enumerate}
+Calibration parameters are fitted on the calibration role. The scorer and map are chosen by average precision and Brier score on the separate model-selection role. We report Brier score, negative log likelihood (NLL), expected calibration error (ECE), mean predicted probability, empirical prevalence, and Brier skill relative to the prevalence-only predictor.
 
-This scorer is intentionally simple. It is a test of the selection rule, but does not make an architectural-capacity claim. A stronger graph scorer could only be declared as an ablation under the same development budget and could not replace the frozen main scorer after the official test is reviewed.
+This separation prevents a calibrator from being selected on the locked-validation outcome. Average precision screens the scorer's ordering, while Brier score selects the probability map used by threshold and expected-utility decisions. The distinction is important: any monotone map preserves ranking but may substantially change the selected set.
 
-\subsection{Claim-Grouped Calibration}
+\subsection{Evidence-Set Policies}
 
-For each of the predetermined seeds, 20\% of the training claim identifiers are deterministically allocated to a calibration fold. The scorer is fit on the remaining claims. A binary temperature parameter is fitted on the calibration probabilities and labels, resulting in
+Figure~\ref{fig:policy-decoding} isolates the only changing operation: how one shared calibrated ranking is converted into an evidence set.
+
+\begin{figure}[t]
+    \centering
+    \resizebox{\columnwidth}{!}{\input{figures/policy_decoding}}
+    \caption{Decision policies applied to the same calibrated ranking. Fixed top-5 uses one global size; thresholding uses an absolute cutoff; learned count predicts the size; expected-F1 evaluates every prefix and returns the shortest utility-maximizing one. The displayed values illustrate the procedure; they are not measurements.}
+    \label{fig:policy-decoding}
+\end{figure}
+
+\paragraph{Fixed top-$k$.}
+We tune $k\in\{1,2,3,5,10,20,40,60\}$ and select the top $k$ candidates. The resulting control is top-5.
+
+\paragraph{Calibrated threshold.}
+For threshold $\tau$, the selector returns every item with $p_{qi}\geq\tau$, subject to the common packet limit. The threshold is selected from $\{0.1,\ldots,0.9\}$.
+
+\paragraph{Learned count.}
+A count model predicts the number of evidence items, after which the corresponding probability-ranked prefix is returned.
+
+\paragraph{Expected-F1 decoding.}
+Candidates are sorted by calibrated probability. For each prefix length $k$, a dynamic program computes the exact expected F1 under independent Bernoulli membership variables. The selected size is
 \begin{equation}
-p_i=\sigma(\operatorname{logit}(q_i)/T).
-\label{eq:temperature}
+k_q^*=\arg\max_{0\leq k\leq 60}
+\mathbb{E}\!\left[F_1(S_{q,k},Y_q)\mid p_{q1:60}\right].
+\label{eq:expected-f1}
 \end{equation}
-Brier score, negative log-likelihood, expected calibration error and reliability plots are used separately to assess calibration. Temperature scaling is the default; a more flexible calibrator is not chosen after the fact.
-
-\subsection{Exact Expected-F1 Decoder}
-
-The candidates are ranked from highest to lowest calibrated $p_i$, and if two candidates have the same calibrated $p_i$, they are ranked according to the order of the input. Let $TP_k$ be the number of gold items within a prefix of length $k$, and let $G$ be the number of gold items in the whole packet. If the Bernoulli membership variables are independent, then the utility of the prefix is
+For prefix $S_{q,k}$, the utility can be written
 \begin{equation}
-U(k)=\mathbb{E}\left[\frac{2TP_k}{k+G}\middle|p_1,\ldots,p_n\right].
-\label{eq:utility}
+U_q(k)=\mathbb{E}\!\left[
+\frac{2T_{q,k}}{k+T_{q,k}+R_{q,k}}
+\;\middle|\;p_{q1:60}\right],
+\label{eq:expected-f1-utility}
 \end{equation}
-The implementation calculates the distributions of gold counts inside and outside each prefix using Poisson-binomial recurrences and sums their joint mass exactly. It does not substitute a ratio of expectations. The selected size is
-\begin{equation}
-k^*=\arg\max_{k\in\mathcal{K}}U(k),
-\qquad S=\{e_{(1)},\ldots,e_{(k^*)}\}.
-\label{eq:decision}
-\end{equation}
-At least one positive candidate has been released for each MOCHEG development claim in the audited packet, and thus the frozen policy disallows an empty selection. The maximum is 60 items, and the smaller set is used to break ties. Unit tests compare the dynamic program with brute-force enumeration on small probability vectors, and test invalid probabilities, empty inputs, maximum budgets and tie behavior.
+where $T_{q,k}$ is the number of relevant items inside the prefix and $R_{q,k}$ is the number outside it. Two Poisson-binomial recurrences compute their distributions and the expectation exactly. Ties retain the shorter prefix. This rule uses the full membership distribution rather than a single cutoff or a separately predicted count.
 
-\subsection{Matched Controls and Verifier}
+We also test two extensions. The first subtracts $\lambda k$ from expected utility. The second additionally subtracts $\gamma R(S_{q,k})$, where $R$ counts same-source redundancy. Size penalties span 0 to 0.10 and redundancy penalties span 0 to 0.005. These terms are retained as ablations because the fitted optima reveal whether extra decoder structure contributes beyond calibration.
 
-Fixed selectors return the first $k$ candidates for $k\in\{1,2,3,5,10,20,40,60\}$. Only permitted calibration data are used to select the best fixed budget. Other controls are a calibrated global threshold, an uncalibrated expected-F1 decoder and a count-classification head. The candidate probabilities and order are the same for all controls.
+\subsection{Decision Scope and Assumptions}
 
-Each selected evidence set is fed into the shared verifier, which predicts the three MOCHEG labels. This corresponds to one balanced three-class checkpoint per seed, which is reused in all selector outputs, with the same candidate features and decoding inputs. This separates the impact of the chosen set on the verdict diagnostic. A good verifier effect is not able to compensate for a failed selector gate as evidence-set F1 is primary.
+The comparison changes only the set decision. Candidate identities, ranks, feature values, scorer outputs, and validation claims are shared across policies. Expected-F1 assumes conditionally independent Bernoulli memberships and is restricted to prefixes of the frozen ranking; it neither reorders candidates nor retrieves a missing item. The released complete-gold mapping is treated as the evaluation target, although Sec.~\ref{sec:limitations} discusses possible annotation incompleteness. These boundaries distinguish a decoder error from a retrieval error and prevent an adaptive policy from receiving a more favorable candidate universe.
+
+\subsection{Shared Verifier}
+
+Evidence policies can improve set overlap while harming the downstream verdict. To isolate that possibility, one verifier architecture and training procedure is shared across policies. Only the selected evidence changes. We compare verdict macro-F1 on the same 1,490 claims and use a declared non-inferiority margin of $-0.01$ for expected-F1 relative to fixed top-5.

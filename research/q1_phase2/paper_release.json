@@ -1,0 +1,16 @@
+{
+  "artifact": "output/pdf/retrieval_conditioned_multimodal_fact_checking_phase2.pdf",
+  "source": "paper/paper.tex",
+  "format": "PDF 1.5",
+  "pages": 13,
+  "bytes": 361610,
+  "sha256": "8a0b8157728c3ee22758dc3a7a2ce59fcd055a80871cb4ce6da5ed47d3c90558",
+  "qa": {
+    "rendered_pages_inspected": 13,
+    "overfull_boxes": 0,
+    "unresolved_citations": 0,
+    "unresolved_references": 0,
+    "tests_passed": 115
+  },
+  "released_on": "2026-11-04"
+}

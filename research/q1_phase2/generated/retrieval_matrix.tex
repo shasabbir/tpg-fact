@@ -1,0 +1,13 @@
+\begin{tabular}{llrr}
+\toprule
+Modality & Variant & Recall@50 & MAP@100 \\
+\midrule
+Text & Dense sentence & 0.3028 & 0.1728 \\
+Text & BM25 sentence & 0.2478 & 0.1349 \\
+Text & Dense--BM25 RRF & 0.3224 & 0.1744 \\
+Text & RRF + cross-encoder & 0.3338 & 0.1282 \\
+Image & SigLIP2 & 0.2183 & 0.0916 \\
+Image & Filename BGE-M3 & 0.2227 & 0.1154 \\
+Image & SigLIP2--filename RRF & 0.3149 & 0.1414 \\
+\bottomrule
+\end{tabular}

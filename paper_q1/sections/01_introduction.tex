@@ -1,0 +1,28 @@
+\section{Introduction}
+
+Evidence-based fact-checking is a pipeline: a system retrieves source material, decides which items are relevant, and predicts a verdict that should be attributable to those items \cite{zeng2021automated,zhou2020survey}. Multimodal claims make this harder because decisive support may be distributed across text and images. A correct verdict is therefore not sufficient. The evidence set must also be identifiable, reasonably complete, and free of irrelevant material.
+
+Most retrieval pipelines expose a fixed top-$k$ set. This is reproducible, but it assumes the same evidence budget for every claim. Adaptive selection appears to address that mismatch by estimating item relevance and choosing a claim-specific set size. Its evaluation is easily confounded, however. If a released judgment packet already contains most gold evidence, a selector is tested mainly on set decoding. If candidates are retrieved label-blind from a full corpus, missing gold items remain false negatives and high-scoring distractors change both calibration and the precision--recall trade-off. A selector conclusion may therefore reverse without any change to the decoder.
+
+An earlier development study in this project demonstrated exactly this reversal. Calibrated Expected-F1 Evidence Selection (CEFES) beat fixed selection inside a restricted judgment packet but lost under full-corpus retrieval. The immediate question is not simply whether a more complex selector can recover a positive number. It is when an adaptive conclusion is scientifically valid, how retrieval and scoring affect it, and whether any gain survives strong fixed and threshold controls.
+
+We address this with a staged retrieval-conditioned framework. Retrieval is evaluated before a new scorer, scoring before a new decoder, and evidence selection before a shared-verifier safeguard. The proposed \method{} system adds: (i) BGE-M3/BM25 reciprocal-rank fusion and cross-encoder text reranking; (ii) SigLIP2/filename-text image fusion; (iii) modality-specific or cross-encoder-augmented logistic membership scoring; (iv) training-only temperature calibration; and (v) exact expected-F1 decoding with set-size and same-source redundancy penalties. All selectors receive identical packets, features, supervision, and tuning roles.
+
+The central research questions are:
+\begin{enumerate}
+    \item Does stronger label-blind retrieval change the measured adaptive-versus-fixed conclusion?
+    \item Do modality-aware scoring and precision penalties make expected-F1 decoding competitive with fixed, threshold, and count controls?
+    \item Under what controlled retrieval, duplication, modality, and calibration changes does the conclusion move?
+    \item Does selected evidence preserve verdict macro-F1, reproduce cleanly, and admit an unchanged external replication?
+\end{enumerate}
+
+The contributions are:
+\begin{itemize}
+    \item a retrieval-conditioned formulation and sequential gate that separates missing evidence, within-packet ranking, probability calibration, set decoding, and verifier behavior;
+    \item \method{}, a matched multimodal scorer and precision-aware expected-F1 decoder that reduces CEFES over-selection without changing corpus access;
+    \item a five-seed, complete-gold MOCHEG study with fixed, threshold, count, original CEFES, size-penalized, and redundancy-penalized controls, paired uncertainty, Holm correction, and a shared-verifier non-inferiority safeguard;
+    \item controlled perturbations showing that an apparent adaptive advantage emerges under deliberate top-rank distractor poisoning, while ordinary retrieval and calibration conditions retain a fixed-selector advantage; and
+    \item an auditable negative decision: six independent audits pass, 27 core artifacts reproduce exactly, the formal test remains sealed, and an external audit documents why current candidates do not support unchanged confirmation.
+\end{itemize}
+
+The paper consequently does not claim that \method{} is superior. It establishes that improved image retrieval and scoring are insufficient when text coverage, ranking, and downstream safeguards do not jointly pass.

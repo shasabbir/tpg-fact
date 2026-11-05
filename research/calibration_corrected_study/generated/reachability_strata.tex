@@ -1,0 +1,14 @@
+\begin{table*}[t]
+\centering
+\caption{Locked-validation performance by packet reachability. The packet oracle selects every reachable released-gold item. Selector values average claim-level F1 across five deterministic training-role partitions.}
+\label{tab:reachability-strata}
+\begin{tabular}{lrrrrr}
+\toprule
+Reachability stratum & Claims (share) & Packet oracle & Fixed top-5 & Threshold & Expected-F1 \\
+\midrule
+No gold reachable & 211 (14.2\%) & 0.000 & 0.000 & 0.000 & 0.000 \\
+Partially reachable & 1,200 (80.5\%) & 0.466 & 0.184 & 0.196 & 0.184 \\
+Complete gold reachable & 79 (5.3\%) & 1.000 & 0.359 & 0.424 & 0.524 \\
+\bottomrule
+\end{tabular}
+\end{table*}

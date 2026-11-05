@@ -1,0 +1,19 @@
+\section{Data, Integrity, and Protocol}
+
+\subsection{MOCHEG Development Data}
+
+The released MOCHEG training and development splits contain 11,669 and 1,490 claims, respectively \cite{yao2023mocheg}. The label-blind corpus contains 378,864 sentence records derived from 91,822 documents and 90,270 available train/development image paths. We encode all 13,159 claims. The official test annotations are not downloaded or accessed.
+
+Complete-gold evaluation is possible for 10,970 claims. Another 2,189 released claims have no non-empty gold set under the audited identifier mapping; they are excluded from evidence-set training/evaluation and counted explicitly. The locked validation check contains all 1,490 development claims. Train claims are assigned by a SHA-256 claim-grouped rule to fitting (55\%), calibration (15\%), model selection (15\%), and internal holdout (15\%) roles. Seeds are 13, 37, 73, 101, and 137.
+
+\subsection{Chronological Label Boundary}
+
+Raw rankings and their manifest are written before gold evidence is loaded. Only then are retrieval metrics, candidate labels, and oracle ceilings computed. Every candidate has a modality-qualified evidence identifier and source-group identifier. Six audits independently verify ranking/feature/record alignment, probabilities, selections, verifier outputs, hashes, and the test seal.
+
+\subsection{Frozen Models and Budgets}
+
+We use BGE-M3 revision \texttt{5617a9f...181}, SigLIP2-base-patch16-224 revision \texttt{75de2d5...fa2}, and BGE-reranker-v2-m3 revision \texttt{953dc6f...d41e}. Text and image packet widths are 40 and 20; retrieval is audited to depth 100. The configuration budget permits six retrieval, eight scorer/calibrator, and eight decoder variants. No setting is selected on official test labels.
+
+\subsection{Gates}
+
+The retrieval gate requires at least $+0.10$ absolute Recall@50 in both modalities over the frozen full-corpus values, with no oracle or coverage reduction. The scorer gate requires better model-selection average precision and non-worse calibrated Brier score in every seed. A selector-superiority claim additionally requires mean evidence-F1 gain $\geq0.015$, a positive effect in every seed, a positive multiplicity-controlled interval, selected/gold ratio $\leq2$, verifier lower bound above $-0.01$, and clean reproduction. All conditions are conjunctive.

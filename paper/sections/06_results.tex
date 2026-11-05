@@ -1,120 +1,97 @@
 \section{Results}
 \label{sec:results}
 
-\subsection{Development Outcome}
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{study_summary.pdf}
+    \caption{Study at a glance. (A) Reachability over all 10,970 eligible claims; partial means that at least one, but not all, released-gold items are present. (B) Locked-validation evidence F1 for the main policies, with the packet oracle shown as a dashed boundary. (C) The precision and review-set-size tradeoff.}
+    \label{fig:study-summary}
+\end{figure*}
 
-The prespecified full-corpus development gate was not met. Under label-blind retrieval, \method{} trails the validation-selected fixed budget in all three seeds, with a mean claim-macro evidence-F1 difference of $-0.04185$. The matched count control also exceeds \method{} in every seed by 0.01654--0.02085 F1. The primary evidence conditions govern the decision despite the favorable secondary verifier diagnostic. Conditions 3 and 4 fail, so the official MOCHEG test remains sealed.
+\subsection{Retrieval Defines a Low Ceiling}
 
-This outcome differs from the earlier judgment-candidate feasibility packet, where all gold evidence was available to the selector. The packet evaluates set decoding within an assessed candidate universe. The full-corpus experiment evaluates the retrieval--selection chain and retains missed gold evidence in the denominator.
+At the selector's actual operating depths, complete-gold recall is 0.3193 for text at 40 candidates and 0.2663 for images at 20 candidates (Table~\ref{tab:operating-retrieval}). The combined packet has an oracle evidence F1 of 0.3560. Only 4.39\% of the 10,970 eligible claims have every released gold item in the packet, and 3,086 have no reachable gold item. Exact recovery is therefore impossible for most claims before set decoding begins.
 
-\subsection{Judgment-Candidate Feasibility}
+\input{generated/operating_depth_retrieval}
 
-The pinned BGE-M3/SigLIP2 packet contains 15,289 available claim--candidate pairs for 400 claims, including 4,156 gold rows. Feature construction took 626.16 seconds and peaked at 1.71~GB of allocated GPU memory. The first temperature-scaling trial improved evidence F1 but worsened seed 37 Brier score by 0.00020, so we retain it as a failed trial. The announced claim-disjoint guard then chose either a fitted temperature or identity scaling without consulting validation labels.
+The wider retrieval audit also clarifies which components help. Dense-BM25 RRF reaches text Recall@50 of 0.3224. Cross-encoder reranking raises it to 0.3338 but lowers early Recall@5 from 0.1772 to 0.1335. For images, SigLIP2-filename RRF reaches Recall@50 of 0.3149, compared with 0.2183 for SigLIP2 alone and 0.2227 for filename retrieval alone. Image fusion improves retrieval, while the text reranker trades early ordering for deeper recall.
 
-Table~\ref{tab:selector-development} reports the independently recomputed second trial. Mean \method{} F1 is 0.71978 compared with 0.65145 for the validation-selected fixed budget, a difference of 0.06833. The effect is positive in all seeds and guarded Brier score is non-worse. However, the calibrated 0.5-threshold rule obtains F1 values of 0.73351, 0.75153 and 0.73979, exceeding \method{} in every seed. The packet supports adaptive evidence-set sizing, but it does not establish expected-F1 decoding as the strongest adaptive rule.
+\input{generated/retrieval_matrix}
 
-\begin{table}[H]
-\centering
-\caption{Checked 400-claim development selector results. Intervals are 10,000-sample paired claim bootstraps.}
-\label{tab:selector-development}
-\small
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}rrrrr@{}}
-\toprule
-Seed & \method{} & Fixed & Difference & 95\% interval \\
-\midrule
-13 & 0.71248 & 0.65313 & +0.05935 & [0.04146, 0.07779] \\
-37 & 0.72091 & 0.65603 & +0.06489 & [0.04551, 0.08429] \\
-73 & 0.72595 & 0.64519 & +0.08076 & [0.05485, 0.10677] \\
-\bottomrule
-\end{tabular}
-\end{table}
+Table~\ref{tab:retrieval-matrix} shows that the text and image branches fail differently. Text RRF improves both MAP and nDCG over either first-stage component, but the cross-encoder gains deeper Recall@50 at the cost of early precision-sensitive ordering. Image fusion improves every reported cutoff and both ranking metrics, yet its Recall@50 remains below the text branch. Consequently, a larger packet alone would recover some missing evidence, but it would also expose the selector to a harder distractor distribution.
 
-The packet shared-verifier changes are $-0.01594$, $+0.00900$ and $+0.00656$ macro-F1, with a mean of $-0.00013$. All paired intervals include zero, and seed 13 is below the $-0.01$ non-inferiority margin. The mean point-margin check passes. Even so, the evidence supports neither a verifier improvement nor statistical equivalence. We treat the packet result as feasibility evidence only, and it did not unlock the formal test.
+\input{generated/reachability_strata}
 
-\subsection{Full-Corpus Retrieval Coverage}
+The post hoc validation stratification in Table~\ref{tab:reachability-strata} exposes where adaptive selection helps. On the 79 claims whose complete released-gold set is present, expected-F1 reaches 0.5240 F1, compared with 0.3593 for fixed top-5 and 0.4237 for thresholding. On the 1,200 partially reachable claims, expected-F1 reaches 0.1839 and does not improve on fixed top-5 at 0.1841; thresholding is strongest at 0.1965. All methods score zero on the 211 claims with no reachable gold. The aggregate expected-F1 gain is therefore concentrated in the small complete-reachability stratum, while thresholding handles incomplete packets better.
 
-The label-blind builder ranks 91,822 released text documents, reranks sentences from the top 50 documents and independently ranks all 90,270 train/development image paths. It retains 40 text and 20 image candidates per eligible claim before joining relevance judgments. The frozen artifact contains 21,972 candidate rows for 367 claims and has SHA-256 \texttt{68889ae3...590731f}. Construction took 1,644.45 seconds and peaked at 1.75~GB of GPU memory.
+\subsection{Prior-Aware Maps Repair Calibration}
 
-Table~\ref{tab:full-corpus-retrieval} and Fig.~\ref{fig:full-corpus-retrieval} show independently recomputed complete-gold retrieval quality. Text Recall@50 is 0.36160 and image Recall@50 is 0.21384; the lower cutoffs show that the limitation is not confined to the last ranks. Text MAP@60 is 0.17121 and image MAP@60 is 0.06917. Unretrieved gold evidence remains in every metric denominator, so these values include the actual first-stage ceiling instead of measuring only reachable gold items.
+Table~\ref{tab:calibration} compares maps on locked validation, averaged across modalities and deterministic partitions. Identity and temperature scaling produce Brier scores of 0.0847 and 0.0832. Their small difference is consistent with a prior error that a slope-only temperature cannot fix. Isotonic, Platt, and prior-shift calibration reduce Brier score to approximately 0.033 while also improving NLL and ECE. Relative to identity, isotonic calibration reduces Brier error by about 61\% and ECE from 0.1314 to 0.0063. The selected scorer-map pair beats the prevalence-only Brier reference in all five partitions, with partition-level Brier skill of roughly 14\%.
 
-\input{generated/retrieval_table}
+\input{generated/calibration_summary}
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\columnwidth]{figures/full_corpus_retrieval.pdf}
-\caption{Complete-gold retrieval recall for the frozen label-blind full-corpus artifact. The plot is descriptive; the main selector gate uses evidence-set F1 on the retained packets.}
-\label{fig:full-corpus-retrieval}
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{calibration_reliability.pdf}
+    \caption{Reliability on locked validation. Temperature scaling remains overconfident because it cannot repair the class-prior shift. Prior-shift, Platt, and isotonic maps track the observed membership rate much more closely.}
+    \label{fig:calibration}
 \end{figure}
 
-The packet and full-corpus regimes answer different questions. The packet supplies 15,289 assessed candidates for 400 claims and yields a mean \method-minus-fixed F1 of $+0.06833$. The full-corpus experiment supplies 21,972 label-blind candidates for 367 eligible claims and yields $-0.04185$. This sign reversal ties the conclusion to the way candidates are constructed.
+Scorer choice also changes after absolute calibration is enforced. Modality-specific balanced models are selected for partitions 13 and 37; an unweighted cross-encoder model is selected for 73; and unweighted modality-specific models are selected for 101 and 137. Text maps vary among isotonic, Platt, and beta, whereas image scoring selects isotonic in all five partitions. This variation supports treating scorer family, loss weighting, and calibration as one selection problem.
 
-\subsection{Matched Evidence Selection}
+\subsection{Adaptive Selection Helps, but Thresholding Wins}
 
-Table~\ref{tab:full-corpus-method-means} expands the matched comparison beyond its headline F1. \method{} has the highest recall (0.28491) but the lowest precision (0.05783), lowest Jaccard score (0.04482), and by far the largest selected set (39.68 items on average). Fixed selection has lower recall but more than twice the precision, producing the highest mean F1 of 0.12371. The threshold and count controls are intermediate. Exact set match is zero for all four methods, making this endpoint too strict to distinguish them in this retrieval regime.
+Table~\ref{tab:selector-means} gives the main locked-validation results. Fixed top-5 reaches 0.1673 evidence F1. Expected-F1 reaches 0.1759 while selecting only 3.50 items per claim. Its precision rises from 0.2511 to 0.3725, while recall falls from 0.1753 to 0.1483. Expected-F1 trades recall for higher precision and a smaller review set.
 
-\input{generated/selector_mean_table}
+Calibrated thresholding reaches the highest F1, 0.1807, and selects 5.51 items. Learned count prediction selects 31.90 items and drops to 0.1100 F1. Predicting size without a well-matched set objective is not competitive here.
 
-The seed-level effects and 95\% paired claim-bootstrap intervals appear in Fig.~\ref{fig:paired-development-effects}(a). Against fixed selection, the differences are $-0.03978$ [${-0.05218}$, ${-0.02744}$], $-0.04699$ [${-0.06659}$, ${-0.02807}$] and $-0.03877$ [${-0.05102}$, ${-0.02683}$]. Against the count control, the corresponding effects are $-0.01654$ [${-0.03058}$, ${-0.00355}$], $-0.02085$ [${-0.03270}$, ${-0.00991}$] and $-0.01824$ [${-0.02884}$, ${-0.00835}$]. Every primary and count-control interval is below zero.
+\input{generated/selector_means}
+
+\input{generated/partition_selector_results}
+
+The expected-F1 effect is consistent across the partition-level results in Table~\ref{tab:partition-selector-results}. Its gain over fixed top-5 ranges from $+0.0076$ to $+0.0101$, selected size ranges from 3.43 to 3.59, and the precision-recall profile is stable. Averaged over partitions, the method returns about 30\% fewer items than fixed top-5 and improves F1 by about 5.1\% relative. Thresholding still wins every partition, so stability does not overturn the baseline ordering.
+
+The claim-aligned effects in Table~\ref{tab:selector-effects-detail} and Fig.~\ref{fig:selector-effects} confirm these differences. Expected-F1 improves on fixed top-5 by $0.00851$ with a 95\% interval of $[0.00302,0.01400]$ and Holm-adjusted $p=0.0078$. Thresholding improves by $0.01334$ $[0.00931,0.01744]$. Its direct advantage over expected-F1 is $0.00483$ $[0.00003,0.00957]$.
+
+\input{generated/selector_effects}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{corrected_selector_effects.pdf}
+    \caption{Claim-aligned evidence-F1 effects relative to fixed top-5. Points are mean differences and bars are 95\% intervals.}
+    \label{fig:selector-effects}
+\end{figure}
+
+Both penalty extensions exactly match plain expected-F1. The selected size penalty is zero and the selected redundancy penalty is zero in every partition. Their identical claim-level outputs show that the extra terms add complexity without changing the result on this packet. The measurable improvement comes from calibrated probabilities.
+
+The evidence superiority condition is not met. Although expected-F1 has a positive effect in every partition and its corrected interval excludes zero, its mean gain of 0.00851 is below the declared 0.015 target. The experiment therefore establishes a small positive development effect without meeting the superiority threshold.
 
 \begin{figure*}[!t]
-\centering
-\includegraphics[width=\textwidth]{figures/paired_development_effects.pdf}
-\caption{Paired effects with 10,000-sample claim-bootstrap 95\% intervals. (a) Primary evidence F1 comparisons against the validation-selected fixed budget and the matched count control. (b) Secondary shared-verifier macro-F1 comparison against fixed selection. The vertical dotted line denotes no difference.}
-\label{fig:paired-development-effects}
+    \centering
+    \includegraphics[width=\textwidth]{robustness_effects.pdf}
+    \caption{Expected-F1 minus fixed top-5 under controlled perturbations. Probability-temperature changes reverse the baseline gain without changing the candidate ranking.}
+    \label{fig:robustness}
 \end{figure*}
 
-The count head does not accurately recover the true set size: its mean absolute error ranges from 16.15 to 17.87 and exact count accuracy from 0.01 to 0.03. Its mean evidence F1 is still 0.10040, compared with 0.08186 for \method{}. Count accuracy and set utility are separate here; an inaccurate count estimate can be less harmful than expected-F1 decoding under a poor ranking.
+\subsection{The Verifier Safeguard Remains Unresolved}
 
-\subsection{Calibration and Set-Size Mechanism}
+Under the shared verifier, expected-F1 minus fixed top-5 has a mean verdict macro-F1 difference of $+0.00099$, with a 95\% interval of $[-0.01053,0.01279]$. The lower endpoint falls just below the declared $-0.01$ non-inferiority margin. The point estimate is close to zero, but the interval does not establish preservation of verdict quality. Threshold-selected evidence has the highest verifier macro-F1 in every deterministic partition (Table~\ref{tab:verifier-effects}).
 
-Table~\ref{tab:full-corpus-calibration} reports all three full-corpus calibration diagnostics. The training-only safety guard rejects temperature scaling in every seed and applies the identity transform. Raw and calibrated Brier, negative log-likelihood and expected calibration error are therefore identical. Calibration non-worsening passes by construction of the guard, but the ECE values of 0.36018--0.37293 indicate that the membership probabilities remain poorly aligned with observed evidence frequency. The guard prevents further degradation, although the probabilities remain insufficiently informative for the decoder.
+\input{generated/verifier_effects}
 
-\input{generated/calibration_table}
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{corrected_verifier_effect.pdf}
+    \caption{Shared-verifier effect of expected-F1 evidence relative to fixed top-5. The dashed line marks the $-0.01$ non-inferiority margin.}
+    \label{fig:verifier}
+\end{figure}
 
-Figure~\ref{fig:set-size-mechanism} breaks the stored claim records down by gold-set size. We performed this descriptive analysis after freezing the primary result. The 200 validation claims comprise 32 claims with one or two gold items, 57 with three to five, and 111 with six or more. Mean gold counts in these bins are 1.66, 3.89 and 18.92, whereas \method{} selects approximately 39.7 items in every bin. The mean \method-minus-fixed deficits are $-0.08057$, $-0.09319$ and $-0.00432$, respectively. The negative effect is concentrated in small and medium gold sets, where over-selection creates the largest precision penalty. This pattern is a mechanism hypothesis for future work and has no confirmatory status.
+\subsection{Robustness Exposes Calibration Sensitivity}
 
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=\textwidth]{figures/set_size_mechanism.pdf}
-\caption{Post hoc descriptive set-size analysis. (a) Mean gold and selected counts by gold-set-size bin, averaged over seeds. (b) \method-minus-fixed evidence F1 in each seed. No subgroup confidence intervals or confirmatory claims are assigned to this analysis.}
-\label{fig:set-size-mechanism}
-\end{figure*}
+Expected-F1 retains a positive effect under width 20 and 40, text-only evidence, and deterministic gold removal. It loses slightly to fixed top-5 on image-only packets. Promoting five distractors produces a large apparent gain because fixed top-5 collapses when all five leading positions are contaminated; this stress test should not be read as a typical operating estimate.
 
-The same stored records contain 78 text-only and 122 mixed text--image validation claims, with no image-only group. Mean \method-minus-fixed F1 is $-0.04903$ for text-only claims and $-0.03726$ for mixed claims. This narrow descriptive contrast cannot support a modality-specific causal conclusion. It does show negative effects in both the text-only and mixed groups.
+Probability perturbations change the result most clearly. Sharpening probabilities with temperature 0.5 changes the effect to $-0.0193$, and flattening them with temperature 2.0 changes it to $-0.0221$. Both intervals exclude zero. Expected-F1 is therefore sensitive to probability scale even though candidate order is unchanged.
 
-\subsection{Shared Verifier Diagnostic}
+Retrieval sharply limits attainable performance, and prior-aware maps correct the dominant calibration error. Calibrated expected-F1 provides a small precision-oriented gain over fixed top-5, driven primarily by claims with complete reachable gold. Calibrated thresholding is stronger overall. The adaptive advantage depends on probability quality and does not yet satisfy the verifier safeguard.
 
-The shared verifier uses one balanced three-class checkpoint per seed for every selector. Table~\ref{tab:full-corpus-verifier-means} reports absolute accuracy and class-wise F1 rather than only the paired difference. \method{} has mean macro-F1 0.34499, compared with 0.28731 for fixed selection and 0.31286 for threshold selection. Its largest class-wise advantage over fixed selection occurs for Refuted and NEI claims, while Supported F1 is effectively unchanged.
-
-\input{generated/verifier_mean_table}
-
-The seed-level \method-minus-fixed macro-F1 effects are $+0.04855$, $+0.05453$ and $+0.06995$, shown in Fig.~\ref{fig:paired-development-effects}(b). Only seed 73's paired interval excludes zero. The mean point estimate passes the declared non-inferiority condition. This secondary result cannot replace the failed evidence endpoint. A verifier may benefit from additional retrieved context even when that context is not faithful to the released evidence set.
-
-\subsection{Gate, Audit and Reproduction}
-
-Table~\ref{tab:development-gate-result} makes the conjunctive stopping decision explicit. Conditions 1, 2 and 5--8 pass; the minimum mean evidence gain and positive effect in every seed fail. The formal test is therefore not unlocked.
-
-\begin{table}[H]
-\centering
-\caption{Final Section 13 development-gate record. Every condition is required.}
-\label{tab:development-gate-result}
-\small
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.62\columnwidth}c@{}}
-\toprule
-Condition & Status \\
-\midrule
-Dataset and release gates & Pass \\
-Scientific tests & Pass \\
-Mean evidence-F1 gain $\geq 0.015$ & \textbf{Fail} \\
-Positive evidence effect in every seed & \textbf{Fail} \\
-Verifier point decline no worse than $-0.01$ & Pass \\
-Calibrated Brier non-worse in every seed & Pass \\
-Matched candidates, features and verifier & Pass \\
-Clean end-to-end reproduction & Pass \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Independent audits found no discrepancies in retrieval identities, probabilities, selections, evidence/verdict measures or bootstrap samples. A clean end-to-end rerun rebuilt the feature store in 1,621.25 seconds and reproduced the compressed features, sidecar, rankings, method tables and bootstrap samples within the declared tolerance. The frozen 74-member development archive has SHA-256 \texttt{b7961df9...5c21d00b} and records \texttt{formal\_test\_unlocked=false}. A standalone script regenerates the reporting tables and figures from the frozen JSON/JSONL artifacts and records every input hash. No formal-test annotation was accessed.
+\clearpage

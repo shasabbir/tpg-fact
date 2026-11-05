@@ -1,64 +1,35 @@
-\section{Task and Data}
-\label{sec:data}
+\section{Problem Definition and Data}
+\label{sec:problem}
 
-\subsection{Task Definition}
+\subsection{Task}
 
-For claim $c$ and public multimodal corpus $D$, retrieval returns a bounded set of text and image candidates $E=\{e_1,\ldots,e_n\}$. Every candidate possesses a permanent, modality-qualified identifier, modality, content or media path, retrieval features, and a binary released relevance judgment if the split allows for supervision. The system returns an evidence set $S\subseteq E$ and a verdict of \textsc{supported}, \textsc{refuted} or \textsc{not enough information}. Only evidence released with an identifier matching an official gold item under the benchmark's evaluation rule is correct. The generation of explanations is beyond the scope of the main contribution.
-
-Given a predicted set $S$ and a gold set $G$, claim-level evidence F1 is
+For claim $q$, let $G_q$ be its released complete-gold evidence set and let retrieval produce an ordered packet
 \begin{equation}
-F_1(S,G)=
-\begin{cases}
-1, & |S|+|G|=0,\\
-\dfrac{2|S\cap G|}{|S|+|G|}, & \text{otherwise}.
-\end{cases}
+C_q=(c_{q1},\ldots,c_{q60}),
+\end{equation}
+containing at most 40 text and 20 image candidates. A selector returns $S_q\subseteq C_q$. The primary claim-level score is
+\begin{equation}
+F_1(S_q,G_q)=\frac{2|S_q\cap G_q|}{|S_q|+|G_q|}.
 \label{eq:set-f1}
 \end{equation}
-The primary selector endpoint is the mean of this claim-level score. Verdict macro-F1 is a co-primary operational safeguard because a selector is not helpful if it results in a significant decrease in verification performance.
+We macro-average Eq.~\ref{eq:set-f1} over claims. Precision, recall, Jaccard similarity, exact-set match, and selected count are secondary evidence metrics.
 
-\subsection{Evidence Reachability and Evaluation Regimes}
+The primary population includes only claims for which the released annotation defines a nonempty complete-gold set. Claims without such a mapping remain in retrieval construction and receive no perfect oracle score. Assigning them an oracle F1 of one would inflate the apparent packet ceiling.
 
-Candidate construction limits selection quality. Let $E_c$ be the packet that is exposed to a selector for claim $c$ and $G_c$ be the complete released gold set. The gold set that can be reached is $G_c^{E}=G_c\cap E_c$. An oracle that selects all reachable gold items and no distractors is a packet-conditioned ceiling for a nonempty gold set
-\begin{equation}
-F_{1}^{\mathrm{ceiling}}(c)=
-\frac{2|G_c^{E}|}{|G_c|+|G_c^{E}|}.
-\label{eq:ceiling-f1}
-\end{equation}
-This maximum is 1 only if the packet has the complete gold set. It decreases whenever retrieval misses a gold item, irrespective of the configuration of the downstream scorer and the behavior of the set decoder. The ceiling is not a deployable result, but is diagnostic in that it relies on the released relevance judgments following retrieval and assumes that all reachable gold items are identified.
+\subsection{Dataset and Population Flow}
 
-This separation leads to two evaluation regimes. A good judgment-candidate packet is one that contains a ``dense'' set of assessed positives and negatives with stable identifiers, good for a controlled mechanism test. It is not a measure of whether or not the system can also find those candidates in the public corpus. A label-blind full-corpus packet, on the other hand, involves the full chain, from corpus retrieval to evidence selection. Relevance labels are only added after the ranking is frozen, and evidence missing from the packet remains a false negative in Eq.~\ref{eq:set-f1}. Hence, the result from the judgment packet is reported as feasibility evidence and the full-corpus comparison is considered the main development decision.
+MOCHEG contains image-text claims, separate text and image evidence, and verdict labels \cite{yao2023mocheg}. We pin the released train, validation, corpus, and sealed-test revisions by content hash. The official test annotations remain unopened.
 
-\subsection{Public MOCHEG Release}
+All 13,159 released train and validation claims are encoded for retrieval. Of these, 10,970 have a nonempty released complete-gold mapping and define the eligible evidence-set population. The reported selector comparison uses the 1,490 released validation claims as one locked evaluation set. The remaining released claims are assigned to fit, calibration, model-selection, and internal-holdout roles by claim-grouped hashing. Roles are regenerated independently for five deterministic partition seeds: 13, 37, 73, 101, and 137.
 
-MOCHEG provides end-to-end multimodal fact-checking data under CC BY 4.0 and code under Apache 2.0 \cite{yao2023mocheg}. Table~\ref{tab:mocheg-splits} summarizes the official statistics: 11,669 train claims, 1,490 development claims and 2,442 test claims, along with 91,822 corpus documents and 122,246 images. The labels are Supported, Refuted and Not Enough Information.
+\input{generated/population_flow}
 
-The authoritative archive is kept as the recovery source, and the development process is kept in step with the authoritative release by using the public transport schemas and counts as the basis for development. Complete immutable revisions for the train, development, shared-corpus and sealed-test transports are documented in the released configuration and study plan. Test annotations are not downloaded during the development process.
+\subsection{Reachability}
 
-\begin{table}[t]
-\centering
-\caption{Official MOCHEG split statistics reported by the dataset paper.}
-\label{tab:mocheg-splits}
-\small
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lrrr@{}}
-\toprule
-Split & Claims & Text evidence & Image evidence \\
-\midrule
-Train & 11,669 & 23,545 & 8,927 \\
-Development & 1,490 & 4,067 & 1,178 \\
-Test & 2,442 & 6,268 & 2,007 \\
-\bottomrule
-\end{tabular}
-\end{table}
+Two oracle summaries define the retrieval boundary. The packet oracle returns $C_q\cap G_q$ for each eligible claim. Its F1 is averaged only over claims with nonempty gold. Complete-gold coverage is the fraction of eligible claims satisfying $G_q\subseteq C_q$. We also count eligible claims for which $C_q\cap G_q=\varnothing$.
 
-\subsection{Development Packet}
+These quantities answer different questions. Oracle F1 measures the best evidence set attainable from the packet. Complete-gold coverage asks whether exact recovery is possible. The zero-reachable count identifies claims on which every selector must receive zero recall. None of these measures credits a selector for evidence that retrieval did not expose.
 
-The current feasibility packet contains 200 train and 200 development claims with a deterministic (hard-coded) seed. The sentence preprocessing is based on the public 91,822-row corpus which is used to reconstruct the candidate text. Only candidate images are downloaded, and those images are audited for byte identity and Pillow readability. Modality-qualified judgment rows are only collapsed if they have the same relevance label; otherwise, the conflict is considered a release error.
+\subsection{Leakage Controls}
 
-The packet includes 15,823 candidate records, of which 15,289 are available. There is no gold evidence among the missing records: all missing records are negative distractors, so all retained claims have their released gold evidence. The 1,612 downloaded image files contain 1,255 unique byte hashes, with 357 exact duplicate occurrences. These counts are indicators of packet integrity, but not model performance. In the feasibility experiment, the released judgment-candidate universe is ranked using label-blind semantic similarity and at most 40 text and 20 image items are retained. A positive result among candidates drawn from this restricted universe must be replicated with candidates drawn from the full released corpus.
-
-\subsection{Split Integrity and Test Seal}
-
-Train data are split into fitting and calibration folds and only train and official development are used for all configuration selection. Development code refuses test annotations. A formal run requires a frozen protocol containing code, configuration, dataset, feature and checkpoint identities, together with an explicit formal-test flag. Data preparation, feature extraction and pilot execution may not print any test metric. Once a method has been formally evaluated and then changed, the existing test result can no longer be presented as fresh confirmation.
-
-Data audits cover changes to the data sources, release counts, labels, hashes, missing media, exact duplicates, perceptual image duplicates, and any grouping of sources or events available from the release. The allowed training fold is the only one on which learned preprocessing and calibration are done. The complete access and identity audit is kept outside the manuscript in the research records of the project.
+Candidate rankings are preserved before joining gold identifiers. Evidence labels are used only after candidate construction to fit the membership scorer, calibration map, and selector hyperparameters within their assigned roles. The locked validation set is excluded from every fitted component. The formal test label files are outside the execution path and their hashes are checked before and after each run.

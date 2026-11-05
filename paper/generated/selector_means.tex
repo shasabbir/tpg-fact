@@ -1,0 +1,17 @@
+\begin{table*}[t]
+\centering
+\caption{Locked-validation evidence-set results over 1,490 claims. Values are means across five deterministic training-role partitions.}
+\label{tab:selector-means}
+\begin{tabular}{lrrrrr}
+\toprule
+Method & Precision & Recall & F1 & Exact match & Selected \\
+\midrule
+Fixed top-5 & 0.2511 & 0.1753 & 0.1673 & 0.0000 & 5.00 \\
+Calibrated threshold & 0.2898 & 0.1798 & 0.1807 & 0.0036 & 5.51 \\
+Learned count & 0.0965 & 0.2791 & 0.1100 & 0.0001 & 31.90 \\
+Expected-F1 & 0.3725 & 0.1483 & 0.1759 & 0.0093 & 3.50 \\
+Size-penalized expected-F1 & 0.3725 & 0.1483 & 0.1759 & 0.0093 & 3.50 \\
+Size + redundancy expected-F1 & 0.3725 & 0.1483 & 0.1759 & 0.0093 & 3.50 \\
+\bottomrule
+\end{tabular}
+\end{table*}

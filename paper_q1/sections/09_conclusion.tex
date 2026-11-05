@@ -1,0 +1,5 @@
+\section{Conclusion}
+
+We evaluated adaptive multimodal evidence selection as a retrieval-conditioned pipeline rather than an isolated decoder. Hybrid image retrieval, modality-aware scoring, calibration, and size penalties all improve their intended components. \method{} corrects much of original CEFES's over-selection, but it does not beat fixed top-5 and is clearly weaker than calibrated thresholding on complete-gold evidence F1. Its shared-verifier interval also misses the declared non-inferiority margin.
+
+The result is robust across five seeds, Holm-adjusted paired analysis, independent audits, and an exact clean reproduction. Controlled perturbations clarify the boundary: adaptivity becomes advantageous under deliberate early-rank poisoning, not under ordinary retrieved packets. Because the conjunctive gate fails and no unchanged external benchmark qualifies, the official test remains sealed. The defensible contribution is the framework and the evidence about when selector conclusions change, not a claim that \method{} is superior.

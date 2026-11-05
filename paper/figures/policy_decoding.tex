@@ -1,0 +1,55 @@
+\begin{tikzpicture}[
+  font=\scriptsize,
+  policy/.style={draw=accentblue, rounded corners=2pt, fill=softblue,
+    minimum height=9mm, text width=18mm, align=center, inner sep=2.5pt},
+  rule/.style={draw=black!45, rounded corners=2pt, fill=softgray,
+    minimum height=9mm, text width=29mm, align=center, inner sep=2.5pt},
+  selected/.style={draw=accentteal, rounded corners=2pt, fill=accentteal!9,
+    minimum height=9mm, text width=25mm, align=center, inner sep=2.5pt},
+  shared/.style={draw=accentorange, rounded corners=2pt, fill=accentorange!10,
+    minimum height=10mm, text width=75mm, align=center, inner sep=3pt},
+  note/.style={draw=black!40, dashed, rounded corners=2pt,
+    text width=75mm, align=center, inner sep=2.5pt, text=black!70},
+  arrow/.style={-{Latex[length=1.8mm]}, thick, draw=black!60}
+]
+
+\node[shared] (ranking) {Shared calibrated ranking\\
+$c_{q1},\ldots,c_{q60}$ with $p_{q1}\geq\cdots\geq p_{q60}$};
+
+\node[policy, below=4mm of ranking, xshift=-29mm] (fixed) {Fixed top-$k$};
+\node[rule, right=2.5mm of fixed] (fixedrule) {Use tuned global size $k=5$};
+\node[selected, right=2.5mm of fixedrule] (fixedset) {Return the first 5 items};
+
+\node[policy, below=2.5mm of fixed] (threshold) {Calibrated threshold};
+\node[rule, right=2.5mm of threshold] (thresholdrule) {Keep items with $p_{qi}\geq\tau$};
+\node[selected, right=2.5mm of thresholdrule] (thresholdset) {Prefix ending at the last score above $\tau$};
+
+\node[policy, below=2.5mm of threshold] (count) {Learned count};
+\node[rule, right=2.5mm of count] (countrule) {Predict set size $\widehat{k}_q$};
+\node[selected, right=2.5mm of countrule] (countset) {Return the first $\widehat{k}_q$ items};
+
+\node[policy, below=2.5mm of count] (expected) {Expected-F1};
+\node[rule, right=2.5mm of expected] (expectedrule) {Evaluate $U_q(k)$ for $k=0{:}60$};
+\node[selected, right=2.5mm of expectedrule] (expectedset) {Return the first $k_q^*$ items; break ties short};
+
+\draw[arrow] (fixed) -- (fixedrule);
+\draw[arrow] (fixedrule) -- (fixedset);
+\draw[arrow] (threshold) -- (thresholdrule);
+\draw[arrow] (thresholdrule) -- (thresholdset);
+\draw[arrow] (count) -- (countrule);
+\draw[arrow] (countrule) -- (countset);
+\draw[arrow] (expected) -- (expectedrule);
+\draw[arrow] (expectedrule) -- (expectedset);
+
+\node[note, below=4mm of expectedrule, xshift=0mm] (scope)
+{Only the set decision changes; candidate identities, ordering, and calibrated probabilities are shared.};
+
+\coordinate (spinetop) at ([xshift=-4mm]fixed.west);
+\coordinate (spinebottom) at ([xshift=-4mm]expected.west);
+\draw[thick, draw=black!60] (ranking.south) -- ++(0,-1.5mm) -| (spinetop);
+\draw[thick, draw=black!60] (spinetop) -- (spinebottom);
+\draw[arrow] (spinetop) -- (fixed.west);
+\draw[arrow] (spinetop |- threshold.west) -- (threshold.west);
+\draw[arrow] (spinetop |- count.west) -- (count.west);
+\draw[arrow] (spinebottom) -- (expected.west);
+\end{tikzpicture}

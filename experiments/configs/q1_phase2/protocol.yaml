@@ -1,0 +1,131 @@
+study:
+  name: retrieval-conditioned-cefes
+  phase: q1_phase2_development
+  frozen_on: 2026-11-02
+  formal_test_locked: true
+  formal_test_annotations_allowed: false
+  output_namespace: outputs/q1_phase2
+  seeds: [13, 37, 73, 101, 137]
+
+data:
+  dataset: MOCHEG
+  train_revision: 985e4206cf9990ff0a875473616be204cfbd09c3
+  validation_revision: 9dabf73ad41ddecafb3b525fb82a3de018e3e378
+  corpus_revision: d9b15bf2b7d2be790c40efa960e8f05a58487ce2
+  sealed_test_revision: a72342a67b6bb5e930f8a2aa5fc3b051690c0f74
+  development_claims: all_released_train_and_validation
+  train_partition_method: sha256_claim_grouped
+  train_partition_seed: 20261102
+  train_partition_fractions:
+    fit: 0.55
+    calibration: 0.15
+    model_selection: 0.15
+    internal_holdout: 0.15
+  validation_policy: one_locked_run_after_configuration_freeze
+  prior_validation_use: reused_development_not_fresh_confirmation
+
+models:
+  dense_text:
+    id: BAAI/bge-m3
+    revision: 5617a9f61b028005a4858fdac845db406aefb181
+  vision_text:
+    id: google/siglip2-base-patch16-224
+    revision: 75de2d55ec2d0b4efc50b3e9ad70dba96a7b2fa2
+  text_reranker:
+    id: BAAI/bge-reranker-v2-m3
+    revision: 953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e
+
+retrieval:
+  audit_depth: 100
+  retained_text_candidates: 40
+  retained_image_candidates: 20
+  rrf_constant: 60
+  text_variants:
+    - dense_sentence
+    - bm25_sentence
+    - dense_bm25_rrf
+    - dense_bm25_rrf_cross_encoder
+  image_variants:
+    - siglip
+    - filename_dense
+    - siglip_filename_rrf
+  selected_combined_variant: dense_bm25_rrf_cross_encoder_plus_siglip_filename_rrf
+  retrieval_gate:
+    minimum_absolute_text_recall_at_50_gain: 0.10
+    minimum_absolute_image_recall_at_50_gain: 0.10
+    oracle_f1_must_not_decrease: true
+    complete_gold_claim_coverage_must_not_decrease: true
+  aspirational_targets:
+    text_recall_at_50: 0.60
+    image_recall_at_50: 0.40
+
+scoring:
+  controls:
+    - shared_logistic
+    - modality_specific_logistic
+    - cross_encoder_augmented_logistic
+  hard_negative_source: frozen_label_blind_rankings
+  calibration:
+    candidates: [identity, temperature]
+    selection_metric: brier
+    fit_partition: calibration
+    guard_partition: model_selection
+  scorer_gate:
+    ranking_metric: average_precision
+    positive_effect_each_seed: true
+    calibrated_brier_nonworse_each_seed: true
+
+selection:
+  fixed_budgets: [1, 2, 3, 5, 10, 20, 40, 60]
+  maximum_selected_items: 60
+  methods:
+    - strongest_fixed
+    - calibrated_threshold
+    - learned_count
+    - cefes
+    - size_penalized_cefes
+    - size_redundancy_penalized_rc_cefes
+  size_penalties: [0.0, 0.001, 0.0025, 0.005, 0.01]
+  redundancy_penalties: [0.0, 0.0025, 0.005]
+  thresholds: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+
+evaluation:
+  primary: claim_macro_evidence_set_f1_complete_gold
+  secondary:
+    - evidence_precision
+    - evidence_recall
+    - evidence_jaccard
+    - exact_set_match
+    - selected_count
+    - oracle_packet_f1
+    - brier
+    - nll
+    - ece
+    - verdict_macro_f1
+  bootstrap_samples: 10000
+  confidence_level: 0.95
+  multiplicity: holm
+  superiority_gate:
+    minimum_mean_evidence_f1_gain_over_best_fixed: 0.015
+    positive_effect_each_seed: true
+    corrected_interval_lower_bound: 0.0
+    verdict_macro_f1_noninferiority_margin: -0.01
+    calibrated_brier_nonworse_each_seed: true
+    mean_selected_to_mean_gold_ratio_maximum: 2.0
+    clean_reproduction_required: true
+
+budgets:
+  retrieval_configurations_maximum: 6
+  scorer_calibrator_configurations_maximum: 8
+  decoder_configurations_maximum: 8
+  screening_seed: 13
+  screening_results_are_scientific_evidence: false
+
+artifacts:
+  preserve_candidate_rankings_before_gold_join: true
+  preserve_probabilities_and_selected_ids: true
+  preserve_failed_runs: true
+  preserve_environment_and_hardware: true
+  immutable_manifest_required: true
+  overwrite_frozen_mocheg_outputs: false
+

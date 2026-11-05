@@ -1,48 +1,73 @@
-\section{Detailed Reporting and Reproducibility}
-\label{app:reporting}
+\section{Detailed Reporting}
+\label{sec:appendix}
 
-\subsection{Data and Software Readiness}
+\subsection{Selected Components}
 
-Table~\ref{tab:readiness} records the study's final evidence state. Pinned MOCHEG train and development metadata reproduce the official claim and evidence counts. All 378,864 distinct train/development sentence judgment identifiers resolve to public corpus text. The deterministic 400-claim packet contains 15,823 candidates, including 15,289 available candidates and no unavailable gold candidate. All 1,612 downloaded pilot images are readable.
+Table~\ref{tab:selected-components} lists the scorer and modality-specific calibration maps chosen without locked-validation labels. The threshold is 0.1 in every partition. Fixed $k$ is 5. Both decoder penalties are zero throughout.
 
-\begin{table}[H]
+\begin{table*}[t]
 \centering
-\caption{Final evidence and software state.}
-\label{tab:readiness}
-\small
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.43\columnwidth}
->{\raggedright\arraybackslash}p{0.18\columnwidth}
->{\raggedright\arraybackslash}p{0.29\columnwidth}@{}}
+\caption{Selected scorer and calibration map by deterministic training-role partition.}
+\label{tab:selected-components}
+\begin{tabular}{rlllrr}
 \toprule
-Component & State & Evidence \\
+Partition & Scorer & Text map & Image map & Size penalty & Redundancy penalty \\
 \midrule
-Train/development identity & Passed & Counts and revisions match \\
-Sentence recovery & Passed & 378,864/378,864 resolved \\
-400-claim packet & Passed & No unavailable gold \\
-Exact decoder & Passed & Agrees with brute force \\
-Project test suite & Passed & 98 tests after repair \\
-Pinned semantic GPU pilot & Checked & Three audited seeds \\
-Shared verifier & Checked & One checkpoint per seed \\
-Full-corpus retrieval & Checked & 91,822 texts; 90,270 images \\
-Clean reproduction & Passed & Artifacts and tables match \\
-Official test & Sealed & No annotation accessed \\
+13  & Modality-specific, balanced & Isotonic & Isotonic & 0 & 0 \\
+37  & Modality-specific, balanced & Platt & Isotonic & 0 & 0 \\
+73  & Cross-encoder, unweighted & Isotonic & Isotonic & 0 & 0 \\
+101 & Modality-specific, unweighted & Beta & Isotonic & 0 & 0 \\
+137 & Modality-specific, unweighted & Beta & Isotonic & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Robustness Effects}
+
+Table~\ref{tab:robustness-detail} reports the aligned expected-F1 minus fixed top-5 effect for every condition. Width 10 and duplicate-top-three intervals cross zero. The image-only effect is negative. Both probability perturbations reverse the baseline sign.
+
+\begin{table*}[t]
+\centering
+\caption{Expected-F1 minus fixed top-5 under controlled perturbations. Intervals are claim-aligned and descriptive.}
+\label{tab:robustness-detail}
+\input{generated/robustness_effects}
+\end{table*}
+
+\input{generated/robustness_absolute}
+
+The absolute scores and review-set sizes in Table~\ref{tab:robustness-absolute} clarify the relative effects. Promoting five distractors creates a $+0.0494$ difference because fixed top-5 falls almost to zero, while expected-F1 itself reaches only 0.0497. The temperature perturbations also show the operational cost of miscalibration. Sharpening reduces the expected set to 1.61 items; flattening expands it to 17.44 items. Both changes damage F1 despite leaving candidate order unchanged.
+
+\subsection{Decision Audit}
+
+\begin{table}[t]
+\centering
+\caption{Outcome of the declared conditions for expected-F1 selection.}
+\label{tab:decision-audit}
+\begin{tabular}{p{0.69\columnwidth}c}
+\toprule
+Condition & Result \\
+\midrule
+Positive evidence-F1 effect in every partition & \pass \\
+Corrected interval lower bound above zero & \pass \\
+Mean evidence-F1 gain at least 0.015 & \fail \\
+Calibration better than prevalence reference & \pass \\
+Selected-to-gold size ratio within limit & \pass \\
+Verifier lower bound at least $-0.01$ & \fail \\
+Exact clean reproduction of core records & \pass \\
+Formal test annotations remain unopened & \pass \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Software-Only Smoke Run}
+The conjunction fails on the prespecified minimum effect and verifier safeguard. The positive selector result is therefore limited to evidence selection on released development data.
 
-We also ran the pipeline end to end with a dependency-light hash feature. Its mean \method-minus-fixed evidence-F1 difference was $+0.00083$, but its manifest explicitly records \texttt{scientific\_results\_allowed=false}. This run checks only the serialization, training, calibration, evaluation and export paths. It is not a model result and is excluded from every scientific table and conclusion.
+\subsection{Reproducibility Record}
 
-\subsection{Per-Seed and Subgroup Tables}
+The frozen configuration, result directories, and reporting bundle are named in the repository README. The clean rerun uses a separate output directory. All 20 core selector and verifier artifacts match byte-for-byte by SHA-256. Runtime-bearing summaries are excluded from the byte comparison and are checked by independent metric audits instead.
 
-Tables~\ref{tab:full-corpus-selector-detail} and \ref{tab:full-corpus-verifier-detail} give the per-seed values aggregated in the main text. Table~\ref{tab:gold-size-diagnostics} contains the descriptive set-size analysis underlying Fig.~\ref{fig:set-size-mechanism}. We computed these subgroup values after freezing the primary gate, and they are not subjected to confirmatory hypothesis tests.
+All five selector partitions contain exactly 1,490 locked-validation claim records for each method. Candidate records preserve the scorer output, calibrated probability, rank, modality, gold membership, and selected-set decisions. Formal-test access flags are false in selector, verifier, robustness, audit, and reporting records.
 
-\input{generated/appendix_diagnostic_tables}
+\subsection{External Evaluation Path}
+\label{sec:external}
 
-\subsection{Generated Reporting Artifacts}
-
-The script \path{experiments/scripts/build_mocheg_reporting_artifacts.py} builds the expanded tables and figures. It reads only the frozen full-corpus retrieval audit, selector records, count-control records, verifier records and final development-gate record. The script refuses to run if the retrieval audit is not passing or if the formal-test seal is not intact. Its machine-readable output records SHA-256 values for every input and exports the values used by each table and figure. Reporting leaves model fits, selector settings and relevance judgments unchanged.
-
-\clearpage
+AVerImaTeC now provides an evaluated test setting and a public task report \cite{cao2026averimatecshared}. A useful transfer study would map its question-answer evidence into stable selectable units, fit calibration only on its released training resources, and report the official conditional evidence-verdict score alongside set size and reliability. MMCV would require a three-modality scorer and a multi-hop set objective. Neither transfer should reuse MOCHEG calibration parameters.

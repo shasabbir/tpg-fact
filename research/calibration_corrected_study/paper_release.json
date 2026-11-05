@@ -1,0 +1,35 @@
+{
+  "profile": "calibration_corrected_paper_release",
+  "status": "build_pass_reference_review_pending",
+  "title": "Calibrated Adaptive Evidence Selection for Multimodal Fact-Checking Under Retrieval Constraints",
+  "source": "paper/paper.tex",
+  "pdf": "output/pdf/calibrated_adaptive_evidence_selection_multimodal_fact_checking.pdf",
+  "pdf_sha256": "5d26156016f0e16a8f7fc4ca6de49c43166630df4a9dc59f480f9e6433cbbce4",
+  "source_archive": "output/paper/calibrated_adaptive_evidence_selection_source.zip",
+  "source_archive_sha256": "331ddea2c99f575ab0f6b734dc6dd3b4d0b490fdd91de21c99861251d624b17b",
+  "pages": 14,
+  "cited_references": 55,
+  "tests_passed": 126,
+  "selector_audit": "pass",
+  "verifier_audit": "pass",
+  "clean_reproduction_core_artifacts": "20/20 exact",
+  "formal_test_annotations_accessed": false,
+  "latex_warnings": {
+    "undefined_references": 0,
+    "overfull_boxes": 0,
+    "underfull_boxes": 0
+  },
+  "visual_qa": {
+    "rendered_pages": 14,
+    "inspected_pages": 14,
+    "status": "pass"
+  },
+  "clean_archive_build": "pass",
+  "reference_audit": {
+    "status": "pending",
+    "pending_records": 52,
+    "excluded_by_strict_policy": 3,
+    "report": "research/calibration_corrected_study/reference_audit/audit.md"
+  },
+  "forbidden_paper_language_scan": "pass"
+}

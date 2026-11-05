@@ -1,0 +1,136 @@
+{
+  "profile": "calibration_corrected_clean_reproduction",
+  "status": "pass",
+  "original_root": "outputs/calibration_corrected_study",
+  "clean_root": "outputs/calibration_corrected_study/clean_rerun",
+  "retrieval_policy": "frozen retrieval artifacts reused unchanged",
+  "selector_original_audit": "pass",
+  "selector_clean_audit": "pass",
+  "verifier_original_audit": "pass",
+  "verifier_clean_audit": "pass",
+  "exact_core_artifacts": 20,
+  "core_artifacts_compared": 20,
+  "note": "Runtime-bearing summaries are audited separately and are intentionally excluded from byte-for-byte comparison.",
+  "comparisons": [
+    {
+      "path": "selector/seed_13_candidate_records.jsonl",
+      "original_sha256": "cafdd6bf3e9d7ee31d1ac1450c63c6fe8a21e0018d7986222be857df14966e39",
+      "clean_sha256": "cafdd6bf3e9d7ee31d1ac1450c63c6fe8a21e0018d7986222be857df14966e39",
+      "exact": true
+    },
+    {
+      "path": "selector/seed_13_claim_records.jsonl",
+      "original_sha256": "ebc9cabe4d2edb108675a91de0dcc8b7657565d4cd92325e7f19310212406fe5",
+      "clean_sha256": "ebc9cabe4d2edb108675a91de0dcc8b7657565d4cd92325e7f19310212406fe5",
+      "exact": true
+    },
+    {
+      "path": "verifier/seed_13_verdict_records.jsonl",
+      "original_sha256": "4d3b01c711cd174013956748a859bf4ecfca0fc9396cdb22d50c7e3ec2c9bc5a",
+      "clean_sha256": "4d3b01c711cd174013956748a859bf4ecfca0fc9396cdb22d50c7e3ec2c9bc5a",
+      "exact": true
+    },
+    {
+      "path": "verifier/seed_13_verifier.json",
+      "original_sha256": "4b0e7cc2d6e9cfa49e021abca1025d05c0d9f9a6499a9fe5a0d41c1dadf240cf",
+      "clean_sha256": "4b0e7cc2d6e9cfa49e021abca1025d05c0d9f9a6499a9fe5a0d41c1dadf240cf",
+      "exact": true
+    },
+    {
+      "path": "selector/seed_37_candidate_records.jsonl",
+      "original_sha256": "bbe97cabcbf41b215e3cc90a2f7004d34b2bc77c78f59684edb24e339a2fe427",
+      "clean_sha256": "bbe97cabcbf41b215e3cc90a2f7004d34b2bc77c78f59684edb24e339a2fe427",
+      "exact": true
+    },
+    {
+      "path": "selector/seed_37_claim_records.jsonl",
+      "original_sha256": "4fc4d2cff184248a9ea980ebe8b3e1f3abcdf11612a2b1227b907588fa86f181",
+      "clean_sha256": "4fc4d2cff184248a9ea980ebe8b3e1f3abcdf11612a2b1227b907588fa86f181",
+      "exact": true
+    },
+    {
+      "path": "verifier/seed_37_verdict_records.jsonl",
+      "original_sha256": "ad91eaf8cc9db64f3521c671bf8df082a6ed2d9b9d5132fed22a2cf283501173",
+      "clean_sha256": "ad91eaf8cc9db64f3521c671bf8df082a6ed2d9b9d5132fed22a2cf283501173",
+      "exact": true
+    },
+    {
+      "path": "verifier/seed_37_verifier.json",
+      "original_sha256": "0af366d73110edad1bee874e06b8ab6af18328803e23c1d8acbf6bc9fcf7b521",
+      "clean_sha256": "0af366d73110edad1bee874e06b8ab6af18328803e23c1d8acbf6bc9fcf7b521",
+      "exact": true
+    },
+    {
+      "path": "selector/seed_73_candidate_records.jsonl",
+      "original_sha256": "5b20d1d68183b3da6e01c91bd146564e2f3fd9db566e3d777585626340de8fc3",
+      "clean_sha256": "5b20d1d68183b3da6e01c91bd146564e2f3fd9db566e3d777585626340de8fc3",
+      "exact": true
+    },
+    {
+      "path": "selector/seed_73_claim_records.jsonl",
+      "original_sha256": "51d9718c956a654385d34bee84a82b96d7921a1c16f090830458f21395d785a6",
+      "clean_sha256": "51d9718c956a654385d34bee84a82b96d7921a1c16f090830458f21395d785a6",
+      "exact": true
+    },
+    {
+      "path": "verifier/seed_73_verdict_records.jsonl",
+      "original_sha256": "b4d6a6ab9059aa9076f20242202c50bdb53dc49f2deec8c6859545dad058860d",
+      "clean_sha256": "b4d6a6ab9059aa9076f20242202c50bdb53dc49f2deec8c6859545dad058860d",
+      "exact": true
+    },
+    {
+      "path": "verifier/seed_73_verifier.json",
+      "original_sha256": "47d4f361329a4b8350e00016878893c37a994125c57ced5a1acc952382ccc875",
+      "clean_sha256": "47d4f361329a4b8350e00016878893c37a994125c57ced5a1acc952382ccc875",
+      "exact": true
+    },
+    {
+      "path": "selector/seed_101_candidate_records.jsonl",
+      "original_sha256": "1d9276b4081602295ea60acb955ecaef6b4f34a04d469c891c73854ab8b5f33c",
+      "clean_sha256": "1d9276b4081602295ea60acb955ecaef6b4f34a04d469c891c73854ab8b5f33c",
+      "exact": true
+    },
+    {
+      "path": "selector/seed_101_claim_records.jsonl",
+      "original_sha256": "bfa5799cfef9cae46edae31dbcba379684d8947f720ddfaba0647baf44a664e7",
+      "clean_sha256": "bfa5799cfef9cae46edae31dbcba379684d8947f720ddfaba0647baf44a664e7",
+      "exact": true
+    },
+    {
+      "path": "verifier/seed_101_verdict_records.jsonl",
+      "original_sha256": "fad5b40056dbbac27187b497b5cc0fc563367e007b7d40edaf4aeb8f85f36b76",
+      "clean_sha256": "fad5b40056dbbac27187b497b5cc0fc563367e007b7d40edaf4aeb8f85f36b76",
+      "exact": true
+    },
+    {
+      "path": "verifier/seed_101_verifier.json",
+      "original_sha256": "0471f834e9134eb794b9f725576a3aa99b93dba753495223d88bab676c53bfce",
+      "clean_sha256": "0471f834e9134eb794b9f725576a3aa99b93dba753495223d88bab676c53bfce",
+      "exact": true
+    },
+    {
+      "path": "selector/seed_137_candidate_records.jsonl",
+      "original_sha256": "b27bdd7e2c6bf35c7c89ce392b7cab151ecbecb87f58b3fe59c7440bb80bf2a2",
+      "clean_sha256": "b27bdd7e2c6bf35c7c89ce392b7cab151ecbecb87f58b3fe59c7440bb80bf2a2",
+      "exact": true
+    },
+    {
+      "path": "selector/seed_137_claim_records.jsonl",
+      "original_sha256": "0569e7e58ae2af9171d0a22a16669247e6c869cd5500ef40342dcfd8c6aec83a",
+      "clean_sha256": "0569e7e58ae2af9171d0a22a16669247e6c869cd5500ef40342dcfd8c6aec83a",
+      "exact": true
+    },
+    {
+      "path": "verifier/seed_137_verdict_records.jsonl",
+      "original_sha256": "7bf063a228cbfae46ad612f9cf289193253c7ba58a9cc363c65bdb3408d062f6",
+      "clean_sha256": "7bf063a228cbfae46ad612f9cf289193253c7ba58a9cc363c65bdb3408d062f6",
+      "exact": true
+    },
+    {
+      "path": "verifier/seed_137_verifier.json",
+      "original_sha256": "cdf6258d12e2c538d59764f9d7f0620a031fe03ad1e4cddc406e447f87d695cb",
+      "clean_sha256": "cdf6258d12e2c538d59764f9d7f0620a031fe03ad1e4cddc406e447f87d695cb",
+      "exact": true
+    }
+  ]
+}

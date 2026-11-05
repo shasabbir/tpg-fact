@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\caption{Claim-aligned evidence-F1 effects against fixed top-5.}
+\label{tab:selector-effects-detail}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrr}
+\toprule
+Method & Mean & 95\% interval & Holm $p$ \\
+\midrule
+Calibrated threshold & +0.0133 & [+0.0093, +0.0174] & 0.0010 \\
+Learned count & -0.0574 & [-0.0641, -0.0507] & 0.0010 \\
+Expected-F1 & +0.0085 & [+0.0030, +0.0140] & 0.0078 \\
+Size-penalized expected-F1 & +0.0085 & [+0.0029, +0.0141] & 0.0078 \\
+Size + redundancy expected-F1 & +0.0085 & [+0.0029, +0.0141] & 0.0078 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}

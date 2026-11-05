@@ -1,5 +1,26 @@
-\section{Limitations and Ethical Considerations}
+\section{Limitations and Ethics}
+\label{sec:limitations}
 
-This manuscript reports a completed development decision, not a formal-test result. The 400-claim feasibility packet begins with released judgment candidates and clearly overestimates performance relative to the label-blind full-corpus comparison. There are 367 eligible claims in the development sample after the fixed exclusion policy, rather than all released train/development claims. Conditionally independent evidence-membership variables are assumed even though documents and duplicated images may be dependent. A poorly ranked group of candidates cannot be corrected by temperature scaling, and the simple logistic scorer is not a capacity measure. We computed the gold-set-size and modality breakdowns after freezing the primary result. They are descriptive, have no multiplicity-adjusted subgroup intervals and cannot establish a causal failure mechanism. Since the primary development gate failed, robustness tests, the five-seed formal matrix and external validation were not performed. MOCHEG includes inherited professional fact-check labels and English-language web evidence, so results may not be comparable to other languages, domains or live information environments. Public mirrors reproduce the official counts but remain secondary transports; claim-level uncertainty is used because reliable event grouping is unavailable. All these limitations preclude any assertion of deployment readiness or a general claim to fact-checking reliability.
+\subsection{Limitations}
 
-The system is designed to aid in evidence review, not to automatically decide on the truth. Verdicts or evidence may be wrong or incomplete and result in misrepresentation of people, events and sources. The project leverages public research information, records provenance and immutable identifiers but does not pass on credentials or private user information. Fluently written explanations do not count as evidence of proper attribution and are therefore not included in the main claim. Failure results, selected identifiers, hashes, and probabilities must be retained as formal outputs to allow the unfavorable results to be auditable.
+First, the reported selector study uses released MOCHEG validation claims. The set was locked for this run, but earlier analysis in the broader project had already used the same development resource. The result is a controlled reanalysis; fresh external confirmation remains pending. The official MOCHEG test annotations remain sealed.
+
+Second, complete-gold annotations may be incomplete with respect to all valid web evidence. Exact-set metrics reward agreement with the released mapping and can mark a plausible alternative as wrong. The reachability-stratified analysis is post hoc, and its complete-reachability result is based on 79 validation claims. It provides a mechanism diagnosis that requires prespecified replication and cannot support a population-level subgroup guarantee.
+
+Third, the membership scorers are deliberately lightweight to preserve experimental control and reproducibility. They are not intended as state-of-the-art representation learners. Better multimodal rerankers could change both ranking and calibration. Isotonic regression can also be data-hungry; its repeated selection for images should be tested on another corpus.
+
+The saved records identify the software environment and deterministic analysis runtime, but they do not provide a complete end-to-end compute, latency, or energy profile for embedding and retrieval. The study therefore makes no efficiency claim beyond the number of evidence items returned to a reviewer.
+
+Fourth, the expected-F1 calculation assumes conditionally independent candidate memberships. Evidence items from the same source, duplicate images, and complementary sentences violate this assumption. The tested redundancy penalty did not help, but that does not rule out a learned structured model.
+
+Fifth, the robustness conditions are controlled diagnostics and cover only a small part of possible production drift. The temperature perturbations demonstrate sensitivity to probability scale; they do not estimate how often such distortion occurs in a deployed system.
+
+Finally, external datasets differ materially. AVerImaTeC uses web or curated question-answer evidence, while MMCV includes tables and multi-hop support. Porting the selector requires a new definition of evidence units, a new calibration study, and an evaluation that respects each resource's access conditions.
+
+\subsection{Ethical Considerations}
+
+Automated fact-checking can create unwarranted confidence, particularly when retrieval misses relevant evidence. The interface for any deployment should expose source identifiers, retrieval limitations, probability calibration status, and uncertainty. The system should assist trained reviewers rather than silently replace them.
+
+Data and model artifacts may inherit geographic, linguistic, and source-selection biases. MOCHEG is not a representative sample of all claims or communities. Performance should not be generalized to low-resource languages or sensitive domains without targeted evaluation. Web evidence may also contain personal, disturbing, or copyrighted material; access and display should follow the source terms and minimize unnecessary reproduction.
+
+The formal test remains sealed, failed or unfavorable outcomes are retained, and all reported comparisons include uncertainty. These controls reduce selective reporting and make it easier to distinguish a useful development finding from a deployment claim.

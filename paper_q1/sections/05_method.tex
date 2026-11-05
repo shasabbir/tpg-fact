@@ -1,0 +1,30 @@
+\section{Retrieval, Scoring, and Set Decoding}
+
+\subsection{Declared Retrieval Matrix}
+
+For text, BGE-M3 dense sentence retrieval and BM25 retrieve independently to depth 100. RRF with constant 60 merges the lists. The fused pool is optionally reranked by BGE-reranker-v2-m3. For images, SigLIP2 claim--image similarity and BGE-M3 similarity between the claim and normalized filename text are fused by the same RRF rule. OCR and generated captions are excluded because they were not part of the frozen protocol.
+
+\subsection{Membership Scoring and Calibration}
+
+Each candidate has dense, lexical/filename, fusion, cross-encoder, reciprocal-rank, modality, length, packet-size, and duplicate-group features. We compare a shared logistic scorer, separate text/image scorers, and a cross-encoder-augmented scorer. The feature and candidate identities are shared. Hard negatives come only from frozen label-blind rankings.
+
+For raw membership probability $q_i$, calibration applies
+\begin{equation}
+p_i=\sigma(\operatorname{logit}(q_i)/T_m),
+\end{equation}
+where $T_m$ is fit separately by modality on the calibration role. Scaling is retained only if its Brier score is non-worse on model-selection claims; otherwise $T_m=1$.
+
+\subsection{Decoders}
+
+The fixed control chooses the best $k\in\{1,2,3,5,10,20,40,60\}$ on training-only model selection. The threshold control chooses from 0.1 to 0.9. The count control predicts a set size from the same probability profile.
+
+Original CEFES sorts candidates by $p_i$ and exactly computes expected set F1 for every prefix under an independent Bernoulli approximation. It chooses the smallest maximizing prefix. \method{} uses
+\begin{equation}
+U_{\lambda,\gamma}(S_k)=\mathbb{E}[F_1(S_k,G)]-\lambda k-\gamma R(S_k),
+\label{eq:rc-cefes}
+\end{equation}
+where $R$ counts repeated source groups inside the prefix. Training-only model selection chooses $\lambda\in\{0,.001,.0025,.005,.01\}$ and $\gamma\in\{0,.0025,.005\}$. The maximum selected size is 60 and empty output is disallowed.
+
+\subsection{Shared Verifier}
+
+For each seed, one balanced three-class logistic verifier is trained on aggregates of the frozen candidate features and probabilities. It is applied unchanged to fixed, threshold, CEFES, size-penalized, and \method{} evidence. This diagnostic measures the effect of the selected set; it is not allowed to override evidence F1.

@@ -1,8 +1,13 @@
 # Q1-Primary / Q2-Fallback Expansion Plan
 
-Last updated: 2026-10-29
+Last updated: 2026-11-03
 
-Status: **proposed expansion only**. Nothing in this document is a completed experiment or a result.
+Status: **executed development expansion**. The MOCHEG Phase-2 retrieval,
+scorer, decoder, shared-verifier, robustness, audit, and clean-reproduction
+blocks are complete. The conjunctive gate failed, the formal MOCHEG test remains
+sealed, and no second benchmark qualified for an unchanged confirmatory run.
+Detailed immutable results are in `research/q1_phase2/final_results.json` and the
+append-only record is in `research/q1_phase2/experiment_ledger.md`.
 
 Quality objective: develop a study strong enough to target a Q1 venue, with a Q2 venue as the fallback. Quartile placement and acceptance are goals, not promises, and must be checked against the chosen venue, category, and year before submission.
 
@@ -415,46 +420,46 @@ The abstract must explicitly state the problem, proposed framework or method, ex
 
 ### M1 — synchronization completion
 
-- [ ] Correct protocol wording and stale manuscript claims.
-- [ ] Aggregate bootstrap and Holm analysis.
-- [ ] Paired verifier non-inferiority interval.
-- [ ] Reliability diagrams.
-- [ ] Perceptual/cross-split audits or explicit scope reduction.
+- [x] Correct protocol wording and stale manuscript claims.
+- [x] Aggregate bootstrap and Holm analysis.
+- [x] Paired verifier non-inferiority interval.
+- [x] Reliability diagrams.
+- [x] Perceptual/cross-split scope explicitly narrowed where release metadata are insufficient.
 
 ### M2 — Phase-2 protocol freeze
 
-- [ ] Official-baseline compatibility audit.
-- [ ] Retriever matrix selected without outcome shopping.
-- [ ] Second-benchmark access audit.
-- [ ] Trial budget, seeds, metrics, and gates frozen.
-- [ ] New configuration and output namespaces implemented and tested.
-- [ ] Training fit/calibration/selection/internal-holdout claim IDs frozen.
-- [ ] Retrieval, scorer, and decoder gates copied into a machine-readable protocol.
-- [ ] Configuration-trial and compute budgets frozen.
+- [x] Official-baseline compatibility audit.
+- [x] Retriever matrix selected without outcome shopping.
+- [x] Second-benchmark access audit.
+- [x] Trial budget, seeds, metrics, and gates frozen.
+- [x] New configuration and output namespaces implemented and tested.
+- [x] Training fit/calibration/selection/internal-holdout claim IDs frozen.
+- [x] Retrieval, scorer, and decoder gates copied into a machine-readable protocol.
+- [x] Configuration-trial and compute budgets frozen.
 
 ### M3 — MOCHEG expanded development study
 
-- [ ] Reproduce the frozen full-corpus rankings and metrics.
-- [ ] Build and audit the declared sparse, dense, reranked, and hybrid retrieval artifacts.
-- [ ] Apply the retrieval gate before training a new selector.
-- [ ] Train and audit the logistic and content-aware membership scorers.
-- [ ] Apply the scorer gate before tuning a new decoder.
-- [ ] Run the matched fixed, threshold, count, CEFES, and RC-CEFES matrix.
-- [ ] Apply the superiority gate without opening formal-test annotations.
-- [ ] Run decomposition and robustness analyses.
-- [ ] Independently recompute primary tables.
+- [x] Reproduce the frozen full-corpus rankings and metrics.
+- [x] Build and audit the declared sparse, dense, reranked, and hybrid retrieval artifacts.
+- [x] Apply the retrieval gate before interpreting selector outcomes (failed: text gain -0.02779; image gain +0.10109).
+- [x] Train and audit the logistic and content-aware membership scorers.
+- [x] Apply the scorer gate before interpreting a new decoder (passed).
+- [x] Run the matched fixed, threshold, count, CEFES, and RC-CEFES matrix.
+- [x] Apply the superiority gate without opening formal-test annotations (failed: RC-CEFES minus fixed -0.01737).
+- [x] Run decomposition and robustness analyses.
+- [x] Independently recompute primary tables and reproduce 27 core artifacts exactly.
 
 ### M4 — external replication
 
-- [ ] Run the unchanged compatible protocol on the qualified second benchmark.
-- [ ] Explain any dataset-specific adaptations before viewing outcomes.
-- [ ] Freeze and independently audit the replication record.
+- [ ] Run the unchanged compatible protocol on the qualified second benchmark (no candidate passed the access/compatibility gate).
+- [x] Explain required AVerImaTeC/MMCV adaptations before any outcome-bearing run.
+- [x] Freeze the failed-access decision in `research/q1_phase2/second_benchmark_audit.md`.
 
 ### M5 — venue decision
 
-- [ ] Q1 submission only if the work supports a broad, replicated contribution with complete controls.
-- [ ] Q2 fallback if the study is rigorous but remains single-benchmark or has narrower generality.
-- [ ] Retain an honest negative or mixed conclusion if that is what the evidence establishes.
+- [x] Do not claim Q1-ready broad replication; the required second benchmark is absent.
+- [x] Use the Q2/single-benchmark fallback framing unless a separately preregistered replication is completed.
+- [x] Retain the mixed/negative conclusion: image retrieval and scoring improve, but RC-CEFES does not beat fixed or threshold selection.
 
 ### Dependency-based working schedule
 

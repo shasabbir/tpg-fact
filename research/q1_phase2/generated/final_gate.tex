@@ -1,0 +1,16 @@
+\begin{tabular}{p{0.76\columnwidth}c}
+\toprule
+Condition & Status \\
+\midrule
+Text Recall@50 gain at least +0.10 & \textbf{Fail} \\
+Image Recall@50 gain at least +0.10 & Pass \\
+Selected scorer improves MAP in every seed & Pass \\
+Calibrated Brier score is non-worse in every seed & Pass \\
+Mean RC-CEFES evidence-F1 gain at least +0.015 & \textbf{Fail} \\
+RC-CEFES evidence effect positive in every seed & \textbf{Fail} \\
+Seed-aligned evidence interval lower bound above zero & \textbf{Fail} \\
+Mean selected/gold evidence ratio no more than 2 & Pass \\
+Verifier interval lower bound above -0.01 & \textbf{Fail} \\
+Clean end-to-end reproduction & Pass \\
+\bottomrule
+\end{tabular}

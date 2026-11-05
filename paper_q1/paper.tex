@@ -1,0 +1,62 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage{amsmath,amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{xcolor}
+
+\newcommand{\method}{RC-CEFES}
+\title{When Does Adaptive Evidence Selection Work? A Retrieval-Conditioned Study of Multimodal Fact-Checking}
+
+\author{%
+\begin{tabular}{@{}c@{\hspace{3em}}c@{}}
+\begin{tabular}[t]{c}
+Sabbir Hossain\\
+Department of Computer Science\\
+American International University-Bangladesh\\
+Dhaka, Bangladesh\\
+26-94030-1@student.aiub.edu
+\end{tabular}
+&
+\begin{tabular}[t]{c}
+Dr. Firoz Ahmed\\
+Professor, Faculty\\
+Department of Computer Science\\
+American International University-Bangladesh\\
+fahmed@aiub.edu
+\end{tabular}
+\end{tabular}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Evidence selectors for multimodal fact-checking are often evaluated after candidate construction has already decided which gold evidence is reachable. This can make a variable-size selector look effective in a judgment packet while hiding retrieval misses and high-ranked distractors. We present a retrieval-conditioned evaluation framework and \method{} (retrieval-conditioned calibrated expected-F1 evidence selection), which combines matched candidate packets, modality-aware evidence scoring, claim-grouped calibration, and expected-F1 decoding with size and source-redundancy penalties. The study freezes retrieval, scorer, selector, verifier, uncertainty, and stopping gates before outcome-bearing runs. On all released MOCHEG train and development claims, hybrid SigLIP2--filename image retrieval improves complete-gold Recall@50 from 0.21384 to 0.31493. The corresponding text pipeline does not improve the frozen baseline: BGE-M3--BM25 fusion plus a cross-encoder reaches 0.33381 versus 0.36160. Modality-aware scoring improves ranking and calibration in all five seeds. \method{} substantially reduces the over-selection of original CEFES, from 26.81 to 14.73 items on average, and improves its evidence F1 from 0.12227 to 0.14698. It nevertheless trails fixed top-5 by 0.01737 F1 (seed-aligned 95\% CI $[-0.02264,-0.01222]$); calibrated thresholding is strongest at 0.17863. The shared-verifier difference is $+0.00435$ macro-F1, but its lower bound ($-0.01126$) misses the $-0.01$ non-inferiority margin. Controlled perturbations show an adaptive advantage only when known distractors are deliberately promoted above evidence. Twenty-seven core artifacts reproduce byte-for-byte, while an external-dataset audit finds no unchanged confirmatory benchmark. The conjunctive gate therefore fails, the official test remains sealed, and the result supports retrieval-conditioned evaluation rather than selector superiority.
+\end{abstract}
+
+\begin{IEEEkeywords}
+multimodal fact-checking, evidence retrieval, evidence selection, calibration, expected F1, reproducibility
+\end{IEEEkeywords}
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_framework}
+\input{sections/04_data_protocol}
+\input{sections/05_method}
+\input{sections/06_results}
+\input{sections/07_discussion}
+\input{sections/08_limitations_ethics}
+\input{sections/09_conclusion}
+
+\appendices
+\input{sections/10_appendix}
+
+\IEEEtriggeratref{4}
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}
