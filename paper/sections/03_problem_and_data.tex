@@ -3,33 +3,33 @@
 
 \subsection{Task}
 
-For claim $q$, let $G_q$ be its released complete-gold evidence set and let retrieval produce an ordered packet
+Let claim $q$ have a released complete-gold evidence set $G_q$ and let retrieval return an ordered packet
 \begin{equation}
 C_q=(c_{q1},\ldots,c_{q60}),
 \end{equation}
-containing at most 40 text and 20 image candidates. A selector returns $S_q\subseteq C_q$. The primary claim-level score is
+which can hold a maximum of 40 text candidates and 20 image candidates. A selector returns $S_q\subseteq C_q$. The main claim-level score is
 \begin{equation}
 F_1(S_q,G_q)=\frac{2|S_q\cap G_q|}{|S_q|+|G_q|}.
 \label{eq:set-f1}
 \end{equation}
-We macro-average Eq.~\ref{eq:set-f1} over claims. Precision, recall, Jaccard similarity, exact-set match, and selected count are secondary evidence metrics.
+We macro-average over claims in Eq.~\ref{eq:set-f1}. Other evidence metrics are precision, recall, Jaccard similarity, exact-set match and selected count.
 
-The primary population includes only claims for which the released annotation defines a nonempty complete-gold set. Claims without such a mapping remain in retrieval construction and receive no perfect oracle score. Assigning them an oracle F1 of one would inflate the apparent packet ceiling.
+The primary population includes only claims for which the released annotation defines a nonempty complete-gold set. Claims without such a mapping remain in retrieval construction and do not get a perfect oracle score. If they are given an oracle F1 of one, this will give the false impression of a high apparent packet ceiling.
 
 \subsection{Dataset and Population Flow}
 
-MOCHEG contains image-text claims, separate text and image evidence, and verdict labels \cite{yao2023mocheg}. We pin the released train, validation, corpus, and sealed-test revisions by content hash. The official test annotations remain unopened.
+MOCHEG is a dataset that includes image-text claims, separate image and text evidence as well as verdict labels \cite{yao2023mocheg}. By content hash we pin released versions of the train, validation, corpus and sealed-test. The test annotations are not opened in the official test.
 
-All 13,159 released train and validation claims are encoded for retrieval. Of these, 10,970 have a nonempty released complete-gold mapping and define the eligible evidence-set population. The reported selector comparison uses the 1,490 released validation claims as one locked evaluation set. The remaining released claims are assigned to fit, calibration, model-selection, and internal-holdout roles by claim-grouped hashing. Roles are regenerated independently for five deterministic partition seeds: 13, 37, 73, 101, and 137.
+The 13,159 released train and validation claims are encoded for retrieval. Of these, 10,970 have a nonempty released complete-gold mapping and are the eligible evidence-set population. The reported selector test is based on the 1,490 released validation claims. Claim-grouped hashing places the remaining released claims in the fit, calibration, model-selection and internal-holdout roles. The roles are regenerated separately for the five deterministic partition seeds of 13, 37, 73, 101 and 137.
 
 \input{generated/population_flow}
 
 \subsection{Reachability}
 
-Two oracle summaries define the retrieval boundary. The packet oracle returns $C_q\cap G_q$ for each eligible claim. Its F1 is averaged only over claims with nonempty gold. Complete-gold coverage is the fraction of eligible claims satisfying $G_q\subseteq C_q$. We also count eligible claims for which $C_q\cap G_q=\varnothing$.
+The retrieval boundary is specified by two oracle summaries. For every eligible claim, the packet oracle returns $C_q\cap G_q$. Its F1 is averaged only for claims with nonempty gold. Complete-gold coverage is the fraction of eligible claims for which $G_q\subseteq C_q$ holds. We count eligible claims for which $C_q\cap G_q=\varnothing$.
 
-These quantities answer different questions. Oracle F1 measures the best evidence set attainable from the packet. Complete-gold coverage asks whether exact recovery is possible. The zero-reachable count identifies claims on which every selector must receive zero recall. None of these measures credits a selector for evidence that retrieval did not expose.
+These quantities provide answers to different questions. Oracle F1 is the best evidence set that can be achieved from the packet. Complete-gold coverage asks whether exact recovery can be made. The zero-reachable count identifies claims on which every selector must receive zero recall. None of these measures gives credit to a selector for evidence not exposed in the process of retrieval.
 
 \subsection{Leakage Controls}
 
-Candidate rankings are preserved before joining gold identifiers. Evidence labels are used only after candidate construction to fit the membership scorer, calibration map, and selector hyperparameters within their assigned roles. The locked validation set is excluded from every fitted component. The formal test label files are outside the execution path and their hashes are checked before and after each run.
+Candidates' ranks are maintained before joining the gold identifiers. Only after candidate construction are the evidence labels used to fit the membership scorer, the calibration map, and selector hyperparameters in their respective roles. The locked validation set is not part of any fitted component. The formal-test label files are outside the execution path and their hashes are verified before and after each run.

@@ -3,7 +3,7 @@
 
 \subsection{Selected Components}
 
-Table~\ref{tab:selected-components} lists the scorer and modality-specific calibration maps chosen without locked-validation labels. The threshold is 0.1 in every partition. Fixed $k$ is 5. Both decoder penalties are zero throughout.
+Table~\ref{tab:selected-components} shows the scorer and modality-specific calibration maps selected without locked-validation labels. There is one threshold per partition: 0.1. Fixed $k$ is 5. The decoder penalties are both zero all along.
 
 \begin{table*}[t]
 \centering
@@ -24,7 +24,7 @@ Partition & Scorer & Text map & Image map & Size penalty & Redundancy penalty \\
 
 \subsection{Robustness Effects}
 
-Table~\ref{tab:robustness-detail} reports the aligned expected-F1 minus fixed top-5 effect for every condition. Width 10 and duplicate-top-three intervals cross zero. The image-only effect is negative. Both probability perturbations reverse the baseline sign.
+Table~\ref{tab:robustness-detail} shows the aligned expected-F1 minus fixed top-5 effect for each condition. The width 10 and duplicate-top-three intervals intersect zero. The image-only effect is negative. Both probability perturbations flip the baseline sign.
 
 \begin{table*}[t]
 \centering
@@ -35,13 +35,13 @@ Table~\ref{tab:robustness-detail} reports the aligned expected-F1 minus fixed to
 
 \input{generated/robustness_absolute}
 
-The absolute scores and review-set sizes in Table~\ref{tab:robustness-absolute} clarify the relative effects. Promoting five distractors creates a $+0.0494$ difference because fixed top-5 falls almost to zero, while expected-F1 itself reaches only 0.0497. The temperature perturbations also show the operational cost of miscalibration. Sharpening reduces the expected set to 1.61 items; flattening expands it to 17.44 items. Both changes damage F1 despite leaving candidate order unchanged.
+The relative effects are explained by the absolute scores and the size of the review sets in Table~\ref{tab:robustness-absolute}. The difference obtained for promoting five distractors is $+0.0494$ because the score for fixed top-5 is very close to zero, whereas expected-F1 reaches only 0.0497. The temperature fluctuations also show the operational cost of wrong calibration. Sharpening reduces the expected set to 1.61 items; flattening expands it to 17.44 items. Both modifications are harmful for F1, but do not affect candidate order.
 
 \subsection{Decision Audit}
 
 \begin{table}[t]
 \centering
-\caption{Outcome of the declared conditions for expected-F1 selection.}
+\caption{Test results of the specified conditions for expected-F1 selection.}
 \label{tab:decision-audit}
 \begin{tabular}{p{0.69\columnwidth}c}
 \toprule
@@ -59,15 +59,15 @@ Formal test annotations remain unopened & \pass \\
 \end{tabular}
 \end{table}
 
-The conjunction fails on the prespecified minimum effect and verifier safeguard. The positive selector result is therefore limited to evidence selection on released development data.
+The conjunction does not hold for the specified minimum effect and verifier safeguard. The positive result of the selector is thus restricted to evidence selection on released development data.
 
 \subsection{Reproducibility Record}
 
-The frozen configuration, result directories, and reporting bundle are named in the repository README. The clean rerun uses a separate output directory. All 20 core selector and verifier artifacts match byte-for-byte by SHA-256. Runtime-bearing summaries are excluded from the byte comparison and are checked by independent metric audits instead.
+A repository README specifies the name of the frozen configuration, result directories and reporting bundle. The clean rerun is put into another output directory. All 20 core selector and verifier artifacts match byte-for-byte by SHA-256. Independent metric audits are done for runtime-bearing summaries, which are not included in the byte comparison.
 
-All five selector partitions contain exactly 1,490 locked-validation claim records for each method. Candidate records preserve the scorer output, calibrated probability, rank, modality, gold membership, and selected-set decisions. Formal-test access flags are false in selector, verifier, robustness, audit, and reporting records.
+There are exactly 1,490 locked-validation claim records in each of the five selector partitions for each method. The scorer output, calibrated probability, rank, modality, gold membership and selected-set decisions are stored in candidate records. Selector, verifier, robustness, audit and reporting records contain formal-test access flags that are false.
 
 \subsection{External Evaluation Path}
 \label{sec:external}
 
-AVerImaTeC now provides an evaluated test setting and a public task report \cite{cao2026averimatecshared}. A useful transfer study would map its question-answer evidence into stable selectable units, fit calibration only on its released training resources, and report the official conditional evidence-verdict score alongside set size and reliability. MMCV would require a three-modality scorer and a multi-hop set objective. Neither transfer should reuse MOCHEG calibration parameters.
+AVerImaTeC now offers an evaluated test setting as well as a public task report \cite{cao2026averimatecshared}. A useful transfer study would map its question-answer evidence to a stable selectable unit, fit calibration only on its released training resources, and report the official conditional evidence-verdict score as well as set size and reliability. A multi-hop set objective would be necessary, with a three-modality scorer, for MMCV. MOCHEG calibration parameters should not be reused in either transfer.

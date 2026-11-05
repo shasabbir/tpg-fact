@@ -4,52 +4,52 @@
 \begin{figure*}[t]
     \centering
     \includegraphics[width=\textwidth]{study_summary.pdf}
-    \caption{Study at a glance. (A) Reachability over all 10,970 eligible claims; partial means that at least one, but not all, released-gold items are present. (B) Locked-validation evidence F1 for the main policies, with the packet oracle shown as a dashed boundary. (C) The precision and review-set-size tradeoff.}
+    \caption{Study at a glance. (A) Reachability over all 10,970 eligible claims; partial means at least one, but not all, released-gold items are present. (B) Locked-validation evidence F1 of the main policies, where the packet oracle is represented by the dashed boundary. (C) Precision and review-set-size tradeoff.}
     \label{fig:study-summary}
 \end{figure*}
 
 \subsection{Retrieval Defines a Low Ceiling}
 
-At the selector's actual operating depths, complete-gold recall is 0.3193 for text at 40 candidates and 0.2663 for images at 20 candidates (Table~\ref{tab:operating-retrieval}). The combined packet has an oracle evidence F1 of 0.3560. Only 4.39\% of the 10,970 eligible claims have every released gold item in the packet, and 3,086 have no reachable gold item. Exact recovery is therefore impossible for most claims before set decoding begins.
+At the actual operating depths of the selector, complete-gold recall for text is 0.3193 at 40 candidates and for images is 0.2663 at 20 candidates (Table~\ref{tab:operating-retrieval}). The combined packet has an oracle evidence F1 of 0.3560. Among the 10,970 eligible claims, only 4.39\% have all released gold items in the packet, while 3,086 have no reachable gold item. Most claims thus cannot be exactly recovered before set decoding starts.
 
 \input{generated/operating_depth_retrieval}
 
-The wider retrieval audit also clarifies which components help. Dense-BM25 RRF reaches text Recall@50 of 0.3224. Cross-encoder reranking raises it to 0.3338 but lowers early Recall@5 from 0.1772 to 0.1335. For images, SigLIP2-filename RRF reaches Recall@50 of 0.3149, compared with 0.2183 for SigLIP2 alone and 0.2227 for filename retrieval alone. Image fusion improves retrieval, while the text reranker trades early ordering for deeper recall.
+The expanded retrieval audit also provides a better understanding of what parts are beneficial. Dense-BM25 RRF has a text Recall@50 of 0.3224. When reranking with a cross-encoder, it improves to 0.3338 while early Recall@5 decreases from 0.1772 to 0.1335. For images, SigLIP2-filename RRF achieves Recall@50 of 0.3149, whereas SigLIP2 gets 0.2183 and filename retrieval gets 0.2227. The text reranker sacrifices early ordering for greater recall; image fusion enhances retrieval.
 
 \input{generated/retrieval_matrix}
 
-Table~\ref{tab:retrieval-matrix} shows that the text and image branches fail differently. Text RRF improves both MAP and nDCG over either first-stage component, but the cross-encoder gains deeper Recall@50 at the cost of early precision-sensitive ordering. Image fusion improves every reported cutoff and both ranking metrics, yet its Recall@50 remains below the text branch. Consequently, a larger packet alone would recover some missing evidence, but it would also expose the selector to a harder distractor distribution.
+As shown in Table~\ref{tab:retrieval-matrix}, the two branches, text and image, fail differently. Text RRF improves both MAP and nDCG over the first-stage models, while the cross-encoder gains deeper Recall@50 at the cost of early precision-sensitive ordering. Image fusion enhances all the reported cutoffs and both ranking metrics, yet its Recall@50 is still below the text branch. This means that a larger packet would contain some evidence that might be missing, but would also reveal a more challenging distractor distribution for the selector.
 
 \input{generated/reachability_strata}
 
-The post hoc validation stratification in Table~\ref{tab:reachability-strata} exposes where adaptive selection helps. On the 79 claims whose complete released-gold set is present, expected-F1 reaches 0.5240 F1, compared with 0.3593 for fixed top-5 and 0.4237 for thresholding. On the 1,200 partially reachable claims, expected-F1 reaches 0.1839 and does not improve on fixed top-5 at 0.1841; thresholding is strongest at 0.1965. All methods score zero on the 211 claims with no reachable gold. The aggregate expected-F1 gain is therefore concentrated in the small complete-reachability stratum, while thresholding handles incomplete packets better.
+Table~\ref{tab:reachability-strata} shows how adaptive selection comes in handy in the post hoc validation stratification. For the 79 claims where the entire released-gold set can be obtained, expected-F1 is 0.5240 F1, compared with 0.3593 for fixed top-5 and 0.4237 for thresholding. On the 1,200 partially reachable claims, expected-F1 is 0.1839 and does not improve on fixed top-5 at 0.1841; thresholding is best at 0.1965. The 211 claims where the gold is not reachable have a score of zero for all methods. The aggregate expected-F1 gain is thus localized in the small complete-reachability stratum, while thresholding is more effective for incomplete packets.
 
 \subsection{Prior-Aware Maps Repair Calibration}
 
-Table~\ref{tab:calibration} compares maps on locked validation, averaged across modalities and deterministic partitions. Identity and temperature scaling produce Brier scores of 0.0847 and 0.0832. Their small difference is consistent with a prior error that a slope-only temperature cannot fix. Isotonic, Platt, and prior-shift calibration reduce Brier score to approximately 0.033 while also improving NLL and ECE. Relative to identity, isotonic calibration reduces Brier error by about 61\% and ECE from 0.1314 to 0.0063. The selected scorer-map pair beats the prevalence-only Brier reference in all five partitions, with partition-level Brier skill of roughly 14\%.
+Table~\ref{tab:calibration} makes a comparison between maps on locked validation, averaged over modalities and deterministic partitions. Brier scores for identity and temperature are 0.0847 and 0.0832, respectively. They differ by a small amount, consistent with a prior error for which a slope-only temperature is not a cure. Isotonic, Platt and prior-shift calibration further lower the Brier score to around 0.033, and improve the NLL and ECE. When compared to identity calibration, isotonic calibration decreases Brier error by approximately 61\% and ECE from 0.1314 to 0.0063. All five partitions have positive Brier skill relative to the prevalence-only reference, with partition-level skill of roughly 14\%.
 
 \input{generated/calibration_summary}
 
 \begin{figure}[t]
     \centering
     \includegraphics[width=\columnwidth]{calibration_reliability.pdf}
-    \caption{Reliability on locked validation. Temperature scaling remains overconfident because it cannot repair the class-prior shift. Prior-shift, Platt, and isotonic maps track the observed membership rate much more closely.}
+    \caption{Reliability on locked validation. Temperature scaling is still overconfident as it is unable to correct the class-prior shift. Prior-shift, Platt and isotonic maps closely approximate the observed membership rate.}
     \label{fig:calibration}
 \end{figure}
 
-Scorer choice also changes after absolute calibration is enforced. Modality-specific balanced models are selected for partitions 13 and 37; an unweighted cross-encoder model is selected for 73; and unweighted modality-specific models are selected for 101 and 137. Text maps vary among isotonic, Platt, and beta, whereas image scoring selects isotonic in all five partitions. This variation supports treating scorer family, loss weighting, and calibration as one selection problem.
+Also, after enforcing absolute calibration, scorer choice changes. Partitions 13 and 37 use modality-specific balanced models, while 73 uses an unweighted cross-encoder model, and 101 and 137 use unweighted modality-specific models. For text maps, there is variation between isotonic, Platt and beta maps, while for image scoring, the map is isotonic in all five partitions. This variation may be helpful in considering scorer family, loss weighting, and calibration as a single selection problem.
 
 \subsection{Adaptive Selection Helps, but Thresholding Wins}
 
-Table~\ref{tab:selector-means} gives the main locked-validation results. Fixed top-5 reaches 0.1673 evidence F1. Expected-F1 reaches 0.1759 while selecting only 3.50 items per claim. Its precision rises from 0.2511 to 0.3725, while recall falls from 0.1753 to 0.1483. Expected-F1 trades recall for higher precision and a smaller review set.
+The important locked-validation results are shown in Table~\ref{tab:selector-means}. Fixed top-5 reaches 0.1673 evidence F1. Expected-F1 reaches 0.1759 while selecting just 3.50 items per claim. Its precision rises from 0.2511 to 0.3725, while recall falls from 0.1753 to 0.1483. Expected-F1 trades recall for increased precision and a smaller review set.
 
-Calibrated thresholding reaches the highest F1, 0.1807, and selects 5.51 items. Learned count prediction selects 31.90 items and drops to 0.1100 F1. Predicting size without a well-matched set objective is not competitive here.
+The highest F1 is achieved by calibrated thresholding, which selects 5.51 items and has an F1 of 0.1807. Learned count prediction selects 31.90 items and gets 0.1100 F1. Without a well-matched set objective, it is not competitive to predict the size.
 
 \input{generated/selector_means}
 
 \input{generated/partition_selector_results}
 
-The expected-F1 effect is consistent across the partition-level results in Table~\ref{tab:partition-selector-results}. Its gain over fixed top-5 ranges from $+0.0076$ to $+0.0101$, selected size ranges from 3.43 to 3.59, and the precision-recall profile is stable. Averaged over partitions, the method returns about 30\% fewer items than fixed top-5 and improves F1 by about 5.1\% relative. Thresholding still wins every partition, so stability does not overturn the baseline ordering.
+The expected-F1 effect is consistent across the partition-level results in Table~\ref{tab:partition-selector-results}. It has a stable precision-recall profile, a gain of $+0.0076$ to $+0.0101$ over fixed top-5 and a size range of 3.43 to 3.59. The method returns approximately 30\% fewer items on average and improves F1 by approximately 5.1\% relative to fixed top-5. There is no change in the baseline ordering, as thresholding always wins.
 
 The claim-aligned effects in Table~\ref{tab:selector-effects-detail} and Fig.~\ref{fig:selector-effects} confirm these differences. Expected-F1 improves on fixed top-5 by $0.00851$ with a 95\% interval of $[0.00302,0.01400]$ and Holm-adjusted $p=0.0078$. Thresholding improves by $0.01334$ $[0.00931,0.01744]$. Its direct advantage over expected-F1 is $0.00483$ $[0.00003,0.00957]$.
 
@@ -58,13 +58,13 @@ The claim-aligned effects in Table~\ref{tab:selector-effects-detail} and Fig.~\r
 \begin{figure}[t]
     \centering
     \includegraphics[width=\columnwidth]{corrected_selector_effects.pdf}
-    \caption{Claim-aligned evidence-F1 effects relative to fixed top-5. Points are mean differences and bars are 95\% intervals.}
+    \caption{Claim-aligned evidence-F1 effects with respect to fixed top-5. Points are mean differences and bars are 95\% intervals.}
     \label{fig:selector-effects}
 \end{figure}
 
-Both penalty extensions exactly match plain expected-F1. The selected size penalty is zero and the selected redundancy penalty is zero in every partition. Their identical claim-level outputs show that the extra terms add complexity without changing the result on this packet. The measurable improvement comes from calibrated probabilities.
+Both penalty extensions are a perfect match with plain expected-F1. In each partition, the selected size penalty is zero and the selected redundancy penalty is zero. The extra terms introduced complexity without altering the answer on this packet, as can be seen from their claim-level outputs. The quantifiable improvement is through calibrated probabilities.
 
-The evidence superiority condition is not met. Although expected-F1 has a positive effect in every partition and its corrected interval excludes zero, its mean gain of 0.00851 is below the declared 0.015 target. The experiment therefore establishes a small positive development effect without meeting the superiority threshold.
+There is not sufficient evidence to support the superiority condition. Despite the fact that expected-F1 is positive in all partitions and that the corrected interval does not contain zero, it still has a mean gain of 0.00851, which is less than the stated target of 0.015. This experiment therefore provides a small positive development effect, but not enough to surpass the superiority threshold.
 
 \begin{figure*}[!t]
     \centering
@@ -75,23 +75,23 @@ The evidence superiority condition is not met. Although expected-F1 has a positi
 
 \subsection{The Verifier Safeguard Remains Unresolved}
 
-Under the shared verifier, expected-F1 minus fixed top-5 has a mean verdict macro-F1 difference of $+0.00099$, with a 95\% interval of $[-0.01053,0.01279]$. The lower endpoint falls just below the declared $-0.01$ non-inferiority margin. The point estimate is close to zero, but the interval does not establish preservation of verdict quality. Threshold-selected evidence has the highest verifier macro-F1 in every deterministic partition (Table~\ref{tab:verifier-effects}).
+We find that the mean difference between expected-F1 and fixed top-5 is $+0.00099$ with a 95\% interval of $[-0.01053,+0.01279]$ under the shared verifier. The lower limit is just below the stated non-inferiority margin of $-0.01$. The point estimate is not far from zero, but the interval does not establish that verdict quality was preserved. Threshold-selected evidence has the highest verifier macro-F1 in every partition (Table~\ref{tab:verifier-effects}).
 
 \input{generated/verifier_effects}
 
 \begin{figure}[t]
     \centering
     \includegraphics[width=\columnwidth]{corrected_verifier_effect.pdf}
-    \caption{Shared-verifier effect of expected-F1 evidence relative to fixed top-5. The dashed line marks the $-0.01$ non-inferiority margin.}
+    \caption{Shared-verifier effect of expected-F1 evidence relative to fixed top-5. The $-0.01$ non-inferiority margin is indicated by a dashed line.}
     \label{fig:verifier}
 \end{figure}
 
 \subsection{Robustness Exposes Calibration Sensitivity}
 
-Expected-F1 retains a positive effect under width 20 and 40, text-only evidence, and deterministic gold removal. It loses slightly to fixed top-5 on image-only packets. Promoting five distractors produces a large apparent gain because fixed top-5 collapses when all five leading positions are contaminated; this stress test should not be read as a typical operating estimate.
+There is a positive effect of expected-F1 under width 20 and 40, text-only evidence, and deterministic gold removal. It falls slightly behind fixed top-5 on image-only packets. The impact of promoting five distractors is much bigger because fixed top-5 collapses when all five top positions are filled with distractors; this should not be interpreted as the normal operating impact.
 
-Probability perturbations change the result most clearly. Sharpening probabilities with temperature 0.5 changes the effect to $-0.0193$, and flattening them with temperature 2.0 changes it to $-0.0221$. Both intervals exclude zero. Expected-F1 is therefore sensitive to probability scale even though candidate order is unchanged.
+The results are most sensitive to probability perturbations. Sharpening the probabilities with a temperature of 0.5 makes the effect $-0.0193$, and flattening with a temperature of 2.0 makes the effect $-0.0221$. The intervals do not include zero. Expected-F1 is therefore sensitive to probability scale, which does not change candidate order.
 
-Retrieval sharply limits attainable performance, and prior-aware maps correct the dominant calibration error. Calibrated expected-F1 provides a small precision-oriented gain over fixed top-5, driven primarily by claims with complete reachable gold. Calibrated thresholding is stronger overall. The adaptive advantage depends on probability quality and does not yet satisfy the verifier safeguard.
+Prior-aware maps correct the dominant calibration error and retrieval becomes a hard constraint on the performance that can be achieved. Calibrated expected-F1 offers a slight precision-oriented gain compared to fixed top-5, which is mostly based on claims with full reachable gold. Calibrated thresholding is stronger overall. The advantage depends on probability quality and still does not meet the verifier safeguard.
 
 \clearpage

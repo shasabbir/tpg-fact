@@ -3,58 +3,58 @@
 
 \subsection{Fixed Retrieval Packet}
 
-Text retrieval combines BGE-M3 dense sentence similarity with BM25 using reciprocal-rank fusion (RRF) \cite{cormack2009rrf}. A pinned BGE reranker scores the fused text candidates. Image retrieval combines SigLIP2 image-text similarity with dense similarity between the claim and normalized image filenames, again using RRF. The exact model repositories and immutable revisions are recorded in the frozen configuration; the operational model cards are BGE-M3,\footnote{\url{https://huggingface.co/BAAI/bge-m3}} BGE-reranker-v2-m3,\footnote{\url{https://huggingface.co/BAAI/bge-reranker-v2-m3}} and SigLIP2.\footnote{\url{https://huggingface.co/google/siglip2-base-patch16-224}} The retained packet contains the highest-ranked 40 text and 20 image items. Every selector receives this identical packet.
+To combine BGE-M3 dense sentence similarity with BM25, we use the reciprocal-rank fusion (RRF) approach \cite{cormack2009rrf}. A reranker from BGE provides scores for the fused text candidates. Image retrieval is a blend of SigLIP2 image-text similarity and dense similarity between the claim and normalized image file names, also in the style of RRF. The model repositories and immutable revisions are specified in the frozen configuration, and the operational model cards are BGE-M3,\footnote{\url{https://huggingface.co/BAAI/bge-m3}} BGE-reranker-v2-m3,\footnote{\url{https://huggingface.co/BAAI/bge-reranker-v2-m3}} and SigLIP2.\footnote{\url{https://huggingface.co/google/siglip2-base-patch16-224}} The top 40 text items and top 20 image items are kept in the retained packet. All the selectors get this same packet.
 
 \subsection{Membership Scorers}
 
-For each claim-candidate pair, the stored feature vector contains the final score and its square, dense and lexical or filename scores, RRF and cross-encoder scores, reciprocal ranks, modality indicators, token-count features, available-candidate count, and duplicate-group size. Features are standardized using fitting-role statistics. A logistic scorer then estimates
+The final score and its square, dense and lexical or filename scores, RRF and cross-encoder scores, reciprocal ranks, modality indicators, token count, available-candidate count, and duplicate-group size are stored for each claim-candidate pair. Fitting-role statistics are used for the standardisation of features. A logistic scorer then estimates
 \begin{equation}
 q_{qi}=\sigma\!\left(\mathbf{w}^{\top}
 \frac{\mathbf{x}_{qi}-\boldsymbol{\mu}}{\boldsymbol{s}}+b\right),
 \label{eq:membership-scorer}
 \end{equation}
-where $q_{qi}$ is a ranking score rather than an assumed operating probability. We compare three organizations: one shared text-image model, separate modality models, and a shared model using the complete feature vector including cross-encoder scores. Each organization is trained with balanced and unweighted binary cross-entropy plus $L_2$ regularization. Balanced loss is useful for ranking rare evidence, but its output reflects an altered effective class prior and cannot be treated as calibrated.
+where $q_{qi}$ is not an assumed operating probability, but rather a ranking score. Three different setups are compared: a shared text-image model, separate modality models and a shared model with the full feature vector with cross-encoder scores. Each organisation is trained with balanced and unweighted binary cross-entropy variants plus $L_2$ regularisation. Balanced loss is convenient for rare evidence ranking but is not calibrated since it is based on a modified effective class prior.
 
-Let $z_{qi}=\operatorname{logit}(q_{qi})$. A calibration map $g_m$ converts it to the membership probability used by the decision policy,
+Let $z_{qi}=\operatorname{logit}(q_{qi})$. A map $g_m$ is used to convert it to the membership probability used by the decision policy,
 \begin{equation}
 p_{qi}=g_m(z_{qi})\approx P(c_{qi}\in G_q\mid \mathbf{x}_{qi}),
 \label{eq:calibration-map}
 \end{equation}
-with a separate fitted map for each modality. Six maps are compared:
+A separate map is fitted for each modality. There are six maps which are compared:
 \begin{enumerate}
-    \item identity, which leaves the raw sigmoid probability unchanged;
+    \item identity, with no effect on the raw sigmoid probability;
     \item temperature scaling, $\sigma(z/T)$;
     \item prior shift, which fits an intercept correction;
     \item Platt mapping, $\sigma(az+b)$;
-    \item beta calibration, which is linear in $\log p$ and $\log(1-p)$; and
+    \item beta calibration, linear in $\log p$ and $\log(1-p)$; and
     \item isotonic regression, a monotone nonparametric map.
 \end{enumerate}
-Calibration parameters are fitted on the calibration role. The scorer and map are chosen by average precision and Brier score on the separate model-selection role. We report Brier score, negative log likelihood (NLL), expected calibration error (ECE), mean predicted probability, empirical prevalence, and Brier skill relative to the prevalence-only predictor.
+Calibration parameters are fitted on the calibration role. The scorer and map are selected based on average precision and Brier score in the different model-selection task. We report the Brier score, the negative log likelihood (NLL), the expected calibration error (ECE), the mean predicted probability, the empirical prevalence and the Brier skill relative to the predictor which forecasts the prevalence only.
 
-This separation prevents a calibrator from being selected on the locked-validation outcome. Average precision screens the scorer's ordering, while Brier score selects the probability map used by threshold and expected-utility decisions. The distinction is important: any monotone map preserves ranking but may substantially change the selected set.
+The separation ensures that a calibrator cannot be picked on the locked-validation result. Average precision screens the ordering of the scorer, while Brier score selects the probability map for threshold and expected-utility decisions. The difference lies in the fact that any monotone map will maintain the rank, but can significantly change the set that is chosen.
 
 \subsection{Evidence-Set Policies}
 
-Figure~\ref{fig:policy-decoding} isolates the only changing operation: how one shared calibrated ranking is converted into an evidence set.
+Figure~\ref{fig:policy-decoding} shows the only operation that changes: how one shared calibrated ranking is translated to an evidence set.
 
 \begin{figure}[t]
     \centering
     \resizebox{\columnwidth}{!}{\input{figures/policy_decoding}}
-    \caption{Decision policies applied to the same calibrated ranking. Fixed top-5 uses one global size; thresholding uses an absolute cutoff; learned count predicts the size; expected-F1 evaluates every prefix and returns the shortest utility-maximizing one. The displayed values illustrate the procedure; they are not measurements.}
+    \caption{Decision policies for the same calibrated ranking. Fixed top-5 uses one global size; thresholding uses an absolute cutoff; learned count predicts the size; expected-F1 evaluates all prefixes and returns the shortest utility-maximizing prefix. The numbers shown are not measurements, but represent the process.}
     \label{fig:policy-decoding}
 \end{figure}
 
 \paragraph{Fixed top-$k$.}
-We tune $k\in\{1,2,3,5,10,20,40,60\}$ and select the top $k$ candidates. The resulting control is top-5.
+We tune $k\in\{1,2,3,5,10,20,40,60\}$ and select the top $k$ candidates. The control that is created is top-5.
 
 \paragraph{Calibrated threshold.}
-For threshold $\tau$, the selector returns every item with $p_{qi}\geq\tau$, subject to the common packet limit. The threshold is selected from $\{0.1,\ldots,0.9\}$.
+If the threshold $\tau$ is specified, the selector returns all items for which $p_{qi}\geq\tau$, within the usual packet limit. The threshold is selected from $\{0.1,\ldots,0.9\}$.
 
 \paragraph{Learned count.}
-A count model predicts the number of evidence items, after which the corresponding probability-ranked prefix is returned.
+The number of evidence items is predicted by a count model and the corresponding probability-ranked prefix is returned.
 
 \paragraph{Expected-F1 decoding.}
-Candidates are sorted by calibrated probability. For each prefix length $k$, a dynamic program computes the exact expected F1 under independent Bernoulli membership variables. The selected size is
+The candidates are ranked based on calibrated probability. A dynamic program exactly computes the expected F1 for each prefix length $k$, for independent Bernoulli membership variables. The selected size is
 \begin{equation}
 k_q^*=\arg\max_{0\leq k\leq 60}
 \mathbb{E}\!\left[F_1(S_{q,k},Y_q)\mid p_{q1:60}\right].
@@ -67,14 +67,14 @@ U_q(k)=\mathbb{E}\!\left[
 \;\middle|\;p_{q1:60}\right],
 \label{eq:expected-f1-utility}
 \end{equation}
-where $T_{q,k}$ is the number of relevant items inside the prefix and $R_{q,k}$ is the number outside it. Two Poisson-binomial recurrences compute their distributions and the expectation exactly. Ties retain the shorter prefix. This rule uses the full membership distribution rather than a single cutoff or a separately predicted count.
+with $T_{q,k}$ being the number of relevant items within the prefix and $R_{q,k}$ the number of relevant items outside the prefix. Two Poisson-binomial recurrences are used to compute their distributions as well as the expectation exactly. The shorter prefix is kept for ties. This rule is based on the actual membership distribution, not a single cutoff or a separately predicted number.
 
-We also test two extensions. The first subtracts $\lambda k$ from expected utility. The second additionally subtracts $\gamma R(S_{q,k})$, where $R$ counts same-source redundancy. Size penalties span 0 to 0.10 and redundancy penalties span 0 to 0.005. These terms are retained as ablations because the fitted optima reveal whether extra decoder structure contributes beyond calibration.
+We also carry out testing of two extensions. The first subtracts $\lambda k$ from expected utility. The second also subtracts $\gamma R(S_{q,k})$, where $R$ measures same-source redundancy. The size penalties range from 0 to 0.10 and the redundancy penalties range from 0 to 0.005. Extra structure in the decoder is kept as ablations, as the fitted optima indicate whether it provides additional benefit over calibration.
 
 \subsection{Decision Scope and Assumptions}
 
-The comparison changes only the set decision. Candidate identities, ranks, feature values, scorer outputs, and validation claims are shared across policies. Expected-F1 assumes conditionally independent Bernoulli memberships and is restricted to prefixes of the frozen ranking; it neither reorders candidates nor retrieves a missing item. The released complete-gold mapping is treated as the evaluation target, although Sec.~\ref{sec:limitations} discusses possible annotation incompleteness. These boundaries distinguish a decoder error from a retrieval error and prevent an adaptive policy from receiving a more favorable candidate universe.
+The comparison alters just the set decision. The identity of the candidates, their rank, feature values, scorer outputs, and validation claims are shared across policies. Expected-F1 assumes that the memberships are conditionally independent Bernoullis, and that it only operates on prefixes of the frozen ranking, i.e., it does not reorder candidates or retrieve a missing item. The complete-gold mapping released is considered the evaluation target, where Sec.~\ref{sec:limitations} comments on possible incompleteness of the mapping. These boundaries help to differentiate between a decoder error and retrieval error and help to prevent an adaptive policy from being given a more favorable candidate universe.
 
 \subsection{Shared Verifier}
 
-Evidence policies can improve set overlap while harming the downstream verdict. To isolate that possibility, one verifier architecture and training procedure is shared across policies. Only the selected evidence changes. We compare verdict macro-F1 on the same 1,490 claims and use a declared non-inferiority margin of $-0.01$ for expected-F1 relative to fixed top-5.
+Evidence policies can improve set overlap and damage the downstream verdict. To isolate this possibility, a single verifier architecture and training process are used for all policies. Only the selected evidence is changed. We compare the verdict macro-F1 on the same 1,490 claims, and include the declared non-inferiority margin of $-0.01$ for expected-F1 versus fixed top-5.
