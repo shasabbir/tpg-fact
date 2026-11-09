@@ -1,0 +1,33 @@
+{
+  "profile": "publication_confirmation_environment",
+  "captured_at_utc": "2026-11-09T13:52:15.823781+00:00",
+  "python": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "D:\\Sabbir\\tpg-fact\\experiments\\.venv-workstation\\Scripts\\python.exe",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+  "logical_cpu_count": 32,
+  "ram_bytes": 68523188224,
+  "packages": {
+    "numpy": "2.5.4",
+    "scipy": null,
+    "sklearn": null,
+    "torch": "2.14.1+cu130",
+    "transformers": "4.57.6",
+    "yaml": "6.0.3"
+  },
+  "gpus": [
+    {
+      "name": "NVIDIA GeForce RTX 4090",
+      "memory_mib": "24564",
+      "driver": "610.88"
+    }
+  ],
+  "git": {
+    "commit": "ae68972cb6e0def040a587ced55c491cd6a1d350",
+    "working_tree_clean": true,
+    "status_lines": []
+  },
+  "protocol_sha256": "603aa9a5b1ad14b06aaaac51f173769371f6f7bd8c2ccd9abdbe88ab9b40a3c6",
+  "energy_instrumentation": null,
+  "energy_claim_allowed": false
+}

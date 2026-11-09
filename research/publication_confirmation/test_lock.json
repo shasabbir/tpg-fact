@@ -1,0 +1,23 @@
+{
+  "profile": "publication_confirmation_test_lock",
+  "status": "locked",
+  "checked_at_utc": "2026-11-09T13:52:15.823781+00:00",
+  "protocol_sha256": "603aa9a5b1ad14b06aaaac51f173769371f6f7bd8c2ccd9abdbe88ab9b40a3c6",
+  "baseline_commit": "251b419",
+  "current_git": {
+    "commit": "ae68972cb6e0def040a587ced55c491cd6a1d350",
+    "working_tree_clean": true,
+    "status_lines": []
+  },
+  "dataset_root": "D:\\Sabbir\\tpg-fact\\experiments\\data\\processed\\mocheg_development",
+  "forbidden_paths_checked_absent": [
+    "D:\\Sabbir\\tpg-fact\\experiments\\data\\processed\\mocheg_development\\test",
+    "D:\\Sabbir\\tpg-fact\\experiments\\data\\processed\\mocheg_development\\mocheg-test",
+    "D:\\Sabbir\\tpg-fact\\experiments\\data\\processed\\mocheg_development\\metadata\\test",
+    "D:\\Sabbir\\tpg-fact\\experiments\\data\\processed\\mocheg_development\\metadata\\mocheg-test"
+  ],
+  "formal_test_annotations_accessed": false,
+  "formal_test_unlocked": false,
+  "author_authorization_recorded": false,
+  "maximum_runs_after_future_unlock": 1
+}

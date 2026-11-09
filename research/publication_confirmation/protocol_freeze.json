@@ -1,0 +1,19 @@
+{
+  "profile": "publication_confirmation_protocol_freeze",
+  "status": "pass",
+  "checked_at_utc": "2026-11-09T13:52:15.823781+00:00",
+  "protocol": {
+    "path": "D:\\Sabbir\\tpg-fact\\experiments\\configs\\publication_confirmation.yaml",
+    "sha256": "603aa9a5b1ad14b06aaaac51f173769371f6f7bd8c2ccd9abdbe88ab9b40a3c6"
+  },
+  "test_lock": {
+    "path": "D:\\Sabbir\\tpg-fact\\research\\publication_confirmation\\test_lock.json",
+    "sha256": "4c549436abac1308f99685d3ac9262566b1a68e25397a650ea356c01f3c823d0"
+  },
+  "environment": {
+    "path": "D:\\Sabbir\\tpg-fact\\research\\publication_confirmation\\hardware_environment.json",
+    "sha256": "5ef690298014628334a55b1295b9ee174e7fd9f194884c587fae25996bf8a771"
+  },
+  "development_seal_passed": true,
+  "formal_test_annotations_accessed": false
+}
