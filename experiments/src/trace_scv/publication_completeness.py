@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import math
 import time
+from dataclasses import asdict
 from pathlib import Path
 from statistics import fmean
 from typing import Iterable, Sequence
@@ -168,6 +169,10 @@ def paired_bootstrap_rows(
     ]
 
 
+def serialize_completeness_model(model: object) -> dict[str, object]:
+    return asdict(model)
+
+
 def run_completeness_switch(
     selector_root: Path,
     retrieval_root: Path,
@@ -313,7 +318,7 @@ def run_completeness_switch(
             "validation_expected_use_share": fmean(
                 float(row["switch_used_expected_f1"]) for row in validation_output
             ),
-            "model": model.to_dict(),
+            "model": serialize_completeness_model(model),
             "model_selection_switch_f1_by_cutoff": {
                 str(value): switch_f1(value, model_selection) for value in switch_thresholds
             },

@@ -12,7 +12,9 @@ from trace_scv.publication_selector import config_from_publication_protocol
 from trace_scv.publication_completeness import (
     completeness_feature_vector,
     paired_bootstrap_rows,
+    serialize_completeness_model,
 )
+from trace_scv.selection.mocheg_study import LogisticEvidenceScorer
 
 
 PROJECT_ROOT = Path(__file__).parents[2]
@@ -122,4 +124,13 @@ def test_completeness_features_match_frozen_schema() -> None:
 def test_completeness_bootstrap_rows_use_engine_key_schema() -> None:
     rows = [{"claim_id": "c1", "switch_f1": 0.4}]
     assert paired_bootstrap_rows(rows, "switch") == [{"key": "c1", "f1": 0.4}]
+
+
+def test_completeness_model_uses_dataclass_serialization() -> None:
+    model = LogisticEvidenceScorer(
+        mean=(0.0,), scale=(1.0,), weights=(0.5,), bias=-0.25
+    )
+    serialized = serialize_completeness_model(model)
+    assert serialized["weights"] == (0.5,)
+    assert serialized["bias"] == -0.25
 
