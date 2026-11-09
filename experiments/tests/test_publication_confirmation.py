@@ -4,6 +4,10 @@ from pathlib import Path
 
 import yaml
 
+import numpy as np
+
+from trace_scv.publication_retrieval import weighted_rank_fusion
+
 
 PROJECT_ROOT = Path(__file__).parents[2]
 PROTOCOL_PATH = PROJECT_ROOT / "experiments" / "configs" / "publication_confirmation.yaml"
@@ -34,4 +38,26 @@ def test_publication_protocol_prespecifies_reachability_and_matched_packet() -> 
         "partial",
         "complete",
     ]
+
+
+def test_weighted_rank_fusion_is_deterministic_and_weight_sensitive() -> None:
+    first = [4, 3, 2, 1]
+    second = [1, 2, 3, 4]
+    first_heavy, first_scores = weighted_rank_fusion(
+        first, second, first_weight=0.75, constant=10, depth=4
+    )
+    second_heavy, second_scores = weighted_rank_fusion(
+        first, second, first_weight=0.25, constant=10, depth=4
+    )
+    assert first_heavy.tolist()[0] == 4
+    assert second_heavy.tolist()[0] == 1
+    assert np.all(first_scores[:-1] >= first_scores[1:])
+    assert np.all(second_scores[:-1] >= second_scores[1:])
+
+
+def test_equal_weight_fusion_breaks_score_ties_by_identifier() -> None:
+    indices, _ = weighted_rank_fusion(
+        [2, 1], [1, 2], first_weight=0.5, constant=60, depth=2
+    )
+    assert indices.tolist() == [1, 2]
 
