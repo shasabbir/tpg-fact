@@ -8,6 +8,7 @@ import numpy as np
 
 from trace_scv.publication_retrieval import metric_csv_fields, weighted_rank_fusion
 from trace_scv.publication_candidates import load_npz_arrays, rank_map
+from trace_scv.publication_selector import config_from_publication_protocol
 
 
 PROJECT_ROOT = Path(__file__).parents[2]
@@ -85,4 +86,13 @@ def test_npz_arrays_are_materialized_before_archive_closes(tmp_path: Path) -> No
     loaded = load_npz_arrays(archive, ("ranks",))
     archive.unlink()
     assert loaded["ranks"].tolist() == [[3, 2, 1]]
+
+
+def test_selector_engine_config_uses_frozen_thresholds_and_no_penalty_search() -> None:
+    protocol = yaml.safe_load(PROTOCOL_PATH.read_text(encoding="utf-8"))
+    config = config_from_publication_protocol(protocol)
+    assert config.thresholds == tuple(protocol["selection"]["thresholds"])
+    assert config.size_penalties == (0.0,)
+    assert config.redundancy_penalties == (0.0,)
+    assert config.bootstrap_samples == 10_000
 
