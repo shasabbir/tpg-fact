@@ -15,6 +15,7 @@ from trace_scv.publication_completeness import (
     serialize_completeness_model,
 )
 from trace_scv.selection.mocheg_study import LogisticEvidenceScorer
+from trace_scv.publication_verifier import MLPVerifierConfig, fit_mlp_verifier
 
 
 PROJECT_ROOT = Path(__file__).parents[2]
@@ -142,4 +143,28 @@ def test_completeness_model_uses_dataclass_serialization() -> None:
     serialized = serialize_completeness_model(model)
     assert serialized["weights"] == (0.5,)
     assert serialized["bias"] == -0.25
+
+
+def test_mlp_verifier_outputs_probabilities_for_all_classes() -> None:
+    features = np.asarray(
+        [
+            [-1.0, 0.0],
+            [-0.8, 0.1],
+            [0.0, 1.0],
+            [0.1, 0.8],
+            [1.0, 0.0],
+            [0.8, -0.1],
+        ],
+        dtype=np.float64,
+    )
+    labels = ["nei", "nei", "refuted", "refuted", "supported", "supported"]
+    model = fit_mlp_verifier(
+        features,
+        labels,
+        seed=13,
+        config=MLPVerifierConfig(hidden_units=4, epochs=20, bootstrap_samples=10),
+    )
+    probabilities = model.predict_probabilities(features)
+    assert probabilities.shape == (6, 3)
+    assert np.allclose(probabilities.sum(axis=1), 1.0)
 
