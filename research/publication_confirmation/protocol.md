@@ -56,6 +56,8 @@ The six existing probability maps are retained. Calibration is fitted on the
 calibration role and selected by model-selection Brier score. Fixed budgets,
 calibrated thresholding, learned count, calibrated and uncalibrated expected-F1,
 and one completeness-aware switch receive identical packets and scorer outputs.
+The calibrated threshold is selected from the frozen grid
+`{0.1, 0.2, ..., 0.9}`, matching the earlier controlled study.
 
 The completeness-aware switch fits an L2 logistic model on training roles to
 predict whether the packet contains the full released-gold set. It then chooses
@@ -80,4 +82,12 @@ secondary.
 - Negative and contradictory outcomes remain in the result bundle and paper.
 - Validation results cannot unlock the formal test automatically.
 - No public release or journal submission is authorized by this protocol.
+
+## Recorded amendment
+
+On 2026-11-09, before any selector was fitted or evaluated on the repaired
+packet, the numeric threshold grid `{0.1, 0.2, ..., 0.9}` was copied into the
+machine-readable protocol. The prose already required calibrated thresholding
+but the YAML had omitted its values. This amendment does not respond to a new
+selector outcome and does not alter the frozen retrieval result.
 
