@@ -1,5 +1,13 @@
 # Q1-Primary / Q2-Fallback Expansion Plan
 
+> **Historical plan.** This file records the completed experimental expansion
+> and its original gates. The active path from the checked study to a journal
+> submission is now maintained in
+> [`publication_plan.md`](publication_plan.md). The publication baseline was
+> checkpointed at Git commit `321af11` on 2026-11-09. Do not use the stale
+> "Immediate next actions" at the end of this historical file as the current
+> work queue.
+
 Last updated: 2026-11-03
 
 Status: **executed development expansion**. The MOCHEG Phase-2 retrieval,
