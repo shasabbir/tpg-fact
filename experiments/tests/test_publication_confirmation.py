@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
 import yaml
 
 import numpy as np
@@ -16,6 +17,7 @@ from trace_scv.publication_completeness import (
 )
 from trace_scv.selection.mocheg_study import LogisticEvidenceScorer
 from trace_scv.publication_verifier import MLPVerifierConfig, fit_mlp_verifier
+from trace_scv.publication_reporting import _interval_without_samples, _mean_metrics
 
 
 PROJECT_ROOT = Path(__file__).parents[2]
@@ -167,4 +169,28 @@ def test_mlp_verifier_outputs_probabilities_for_all_classes() -> None:
     probabilities = model.predict_probabilities(features)
     assert probabilities.shape == (6, 3)
     assert np.allclose(probabilities.sum(axis=1), 1.0)
+
+
+def test_publication_reporting_strips_bootstrap_samples() -> None:
+    compact = _interval_without_samples(
+        {"mean": 0.1, "lower": 0.0, "upper": 0.2, "samples": [0.1, 0.2]}
+    )
+    assert compact == {"mean": 0.1, "lower": 0.0, "upper": 0.2}
+
+
+def test_publication_reporting_averages_claim_metrics() -> None:
+    means = _mean_metrics(
+        [
+            {"precision": 0.2, "recall": 0.1, "f1": 0.15, "selected_count": 2.0},
+            {"precision": 0.4, "recall": 0.3, "f1": 0.35, "selected_count": 4.0},
+        ]
+    )
+    assert means == pytest.approx(
+        {
+            "precision": 0.3,
+            "recall": 0.2,
+            "f1": 0.25,
+            "selected_count": 3.0,
+        }
+    )
 
