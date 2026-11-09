@@ -9,7 +9,10 @@ import numpy as np
 from trace_scv.publication_retrieval import metric_csv_fields, weighted_rank_fusion
 from trace_scv.publication_candidates import load_npz_arrays, rank_map
 from trace_scv.publication_selector import config_from_publication_protocol
-from trace_scv.publication_completeness import completeness_feature_vector
+from trace_scv.publication_completeness import (
+    completeness_feature_vector,
+    paired_bootstrap_rows,
+)
 
 
 PROJECT_ROOT = Path(__file__).parents[2]
@@ -114,4 +117,9 @@ def test_completeness_features_match_frozen_schema() -> None:
     assert np.isfinite(features).all()
     assert np.isclose(features[0], 1.0)
     assert features[5] == 2.0
+
+
+def test_completeness_bootstrap_rows_use_engine_key_schema() -> None:
+    rows = [{"claim_id": "c1", "switch_f1": 0.4}]
+    assert paired_bootstrap_rows(rows, "switch") == [{"key": "c1", "f1": 0.4}]
 

@@ -159,6 +159,15 @@ def _summarize(rows: Sequence[dict[str, object]], prefix: str) -> dict[str, floa
     }
 
 
+def paired_bootstrap_rows(
+    rows: Sequence[dict[str, object]], prefix: str
+) -> list[dict[str, object]]:
+    return [
+        {"key": str(row["claim_id"]), "f1": float(row[f"{prefix}_f1"])}
+        for row in rows
+    ]
+
+
 def run_completeness_switch(
     selector_root: Path,
     retrieval_root: Path,
@@ -276,14 +285,8 @@ def run_completeness_switch(
             )
         claim_path = output_root / f"seed_{seed}_claim_records.jsonl"
         _write_jsonl(claim_path, validation_output)
-        switch_rows = [
-            {"claim_id": row["claim_id"], "f1": row["switch_f1"]}
-            for row in validation_output
-        ]
-        threshold_rows = [
-            {"claim_id": row["claim_id"], "f1": row["threshold_f1"]}
-            for row in validation_output
-        ]
+        switch_rows = paired_bootstrap_rows(validation_output, "switch")
+        threshold_rows = paired_bootstrap_rows(validation_output, "threshold")
         paired = _paired_bootstrap(
             switch_rows,
             threshold_rows,
