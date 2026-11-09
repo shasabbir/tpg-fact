@@ -230,6 +230,18 @@ def _weight_label(weight: float) -> str:
     return f"w{int(round(weight * 100)):03d}"
 
 
+def metric_csv_fields(text_depth: int, image_depth: int) -> list[str]:
+    return [
+        "modality",
+        "weight",
+        "eligible_claims",
+        f"recall_at_{text_depth}",
+        f"recall_at_{image_depth}",
+        "map_at_100",
+        "ndcg_at_100",
+    ]
+
+
 def run_publication_retrieval(
     project_root: Path,
     protocol_path: Path,
@@ -435,7 +447,11 @@ def run_publication_retrieval(
     _write_jsonl(output_root / "validation_packet_oracle.jsonl", validation_detail)
     csv_path = output_root / "weight_selection_metrics.csv"
     with csv_path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(tuning_rows[0]))
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=metric_csv_fields(text_depth, image_depth),
+            extrasaction="raise",
+        )
         writer.writeheader()
         writer.writerows(tuning_rows)
 

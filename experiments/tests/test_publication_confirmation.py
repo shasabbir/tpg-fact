@@ -6,7 +6,7 @@ import yaml
 
 import numpy as np
 
-from trace_scv.publication_retrieval import weighted_rank_fusion
+from trace_scv.publication_retrieval import metric_csv_fields, weighted_rank_fusion
 
 
 PROJECT_ROOT = Path(__file__).parents[2]
@@ -60,4 +60,10 @@ def test_equal_weight_fusion_breaks_score_ties_by_identifier() -> None:
         [2, 1], [1, 2], first_weight=0.5, constant=60, depth=2
     )
     assert indices.tolist() == [1, 2]
+
+
+def test_retrieval_metric_csv_accepts_both_operating_depths() -> None:
+    fields = metric_csv_fields(40, 20)
+    assert "recall_at_40" in fields
+    assert "recall_at_20" in fields
 
