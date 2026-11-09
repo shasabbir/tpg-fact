@@ -9,6 +9,7 @@ import numpy as np
 from trace_scv.publication_retrieval import metric_csv_fields, weighted_rank_fusion
 from trace_scv.publication_candidates import load_npz_arrays, rank_map
 from trace_scv.publication_selector import config_from_publication_protocol
+from trace_scv.publication_completeness import completeness_feature_vector
 
 
 PROJECT_ROOT = Path(__file__).parents[2]
@@ -95,4 +96,22 @@ def test_selector_engine_config_uses_frozen_thresholds_and_no_penalty_search() -
     assert config.size_penalties == (0.0,)
     assert config.redundancy_penalties == (0.0,)
     assert config.bootstrap_samples == 10_000
+
+
+def test_completeness_features_match_frozen_schema() -> None:
+    rows = [
+        {
+            "calibrated_probability": probability,
+            "source_group": f"g{index}",
+            "modality": "text" if index < 2 else "image",
+            "dense_rank": index + 1,
+            "lexical_rank": index + 2,
+        }
+        for index, probability in enumerate((0.7, 0.2, 0.08, 0.02))
+    ]
+    features = completeness_feature_vector(rows, threshold=0.1, maximum_items=60)
+    assert features.shape == (10,)
+    assert np.isfinite(features).all()
+    assert np.isclose(features[0], 1.0)
+    assert features[5] == 2.0
 
