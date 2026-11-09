@@ -1,0 +1,158 @@
+study:
+  name: publication-confirmation
+  frozen_on: 2026-11-09
+  baseline_commit: 251b419
+  formal_test_locked: true
+  formal_test_annotations_allowed: false
+  formal_test_unlock_requires_author_approval: true
+  output_namespace: outputs/publication_confirmation
+  seeds: [13, 37, 73, 101, 137]
+
+data:
+  dataset: MOCHEG
+  dataset_root: data/processed/mocheg_development
+  train_revision: 985e4206cf9990ff0a875473616be204cfbd09c3
+  validation_revision: 9dabf73ad41ddecafb3b525fb82a3de018e3e378
+  corpus_revision: d9b15bf2b7d2be790c40efa960e8f05a58487ce2
+  sealed_test_revision: a72342a67b6bb5e930f8a2aa5fc3b051690c0f74
+  train_partition_method: sha256_claim_grouped
+  train_partition_seed: 20261102
+  train_partition_fractions:
+    fit: 0.55
+    calibration: 0.15
+    model_selection: 0.15
+    internal_holdout: 0.15
+  validation_policy: one_locked_run_after_train_only_selection
+  prior_validation_use: reused_development_not_fresh_confirmation
+  complete_gold_required: true
+  independent_unit: claim
+
+frozen_inputs:
+  retrieval_root: outputs/q1_phase2/retrieval
+  calibration_selector_root: outputs/calibration_corrected_study/selector
+  verifier_root: outputs/calibration_corrected_study/verifier
+  cache_root: cache/q1_phase2
+  label_blind_rankings_required: true
+  gold_join_after_ranking_freeze_required: true
+
+retrieval:
+  retained_text_candidates: 40
+  retained_image_candidates: 20
+  audit_depth: 100
+  rrf_constant: 60
+  train_only_weight_candidates: [0.25, 0.50, 0.75]
+  text_variants:
+    - dense_sentence
+    - bm25_sentence
+    - dense_bm25_rrf
+    - cross_encoder
+    - weighted_rrf_cross_fusion
+  image_variants:
+    - siglip
+    - filename_dense
+    - siglip_filename_rrf
+    - weighted_siglip_filename_fusion
+  primary_selection_metric: packet_oracle_f1_at_40_text_20_image
+  guard_metrics:
+    - text_recall_at_40
+    - image_recall_at_20
+    - complete_gold_claim_coverage
+  baseline:
+    text_recall_at_40: 0.3192901027076738
+    image_recall_at_20: 0.26628710576314923
+    packet_oracle_f1: 0.35604839918841624
+    complete_gold_claim_coverage: 0.0439380127620784
+  advancement_gate:
+    packet_oracle_f1_must_improve: true
+    text_recall_at_40_must_not_decrease: true
+    image_recall_at_20_must_not_decrease: true
+    complete_gold_claim_coverage_must_not_decrease: true
+  engineering_targets:
+    minimum_absolute_packet_oracle_f1_gain: 0.05
+    complete_gold_claim_coverage: 0.08
+  bounded_extension_if_gate_fails:
+    enabled: true
+    maximum_new_image_text_branch: 1
+    branch: ocr_or_article_context_but_not_both
+    requires_separate_prejoin_manifest: true
+
+calibration:
+  candidates:
+    - identity
+    - temperature
+    - prior_shift
+    - platt
+    - beta
+    - isotonic
+  selection_metric: brier
+  fit_role: calibration
+  guard_role: model_selection
+  report_metrics: [brier, nll, ece, prevalence_brier]
+
+selection:
+  fixed_budgets: [1, 3, 5, 10]
+  methods:
+    - fixed
+    - calibrated_threshold
+    - learned_count
+    - expected_f1
+    - uncalibrated_expected_f1
+    - completeness_aware_switch
+  primary_comparator: calibrated_threshold
+  maximum_selected_items: 60
+  completeness_model:
+    family: l2_logistic
+    target: complete_gold_reachable
+    fit_role: fit
+    tune_role: model_selection
+    features:
+      - expected_relevant_mass
+      - top_probability
+      - top5_probability_mean
+      - probability_entropy
+      - probability_rank_gaps
+      - threshold_selected_count
+      - expected_f1_selected_count
+      - text_probability_mass
+      - image_probability_mass
+      - dense_lexical_rank_agreement
+    decision: choose_expected_f1_else_threshold
+    threshold_candidates: [0.05, 0.10, 0.20, 0.30, 0.50]
+  superiority_gate:
+    minimum_mean_f1_gain_over_calibrated_threshold: 0.01
+    paired_interval_lower_bound: 0.0
+    positive_effect_each_partition: true
+    holm_correction: true
+    mean_selected_count_not_above_threshold: true
+
+verifier:
+  comparator: calibrated_threshold
+  noninferiority_margin: -0.01
+  confidence_level: 0.95
+  shared_training_and_inference: true
+  stronger_model_required_before_external_test: true
+
+statistics:
+  primary_metric: claim_macro_complete_gold_evidence_f1
+  bootstrap_samples: 10000
+  confidence_level: 0.95
+  resampling_unit: claim
+  multiplicity: holm
+  target_primary_interval_half_width: 0.005
+  reachability_strata: [none, partial, complete]
+
+budgets:
+  retrieval_configurations_maximum: 6
+  new_image_text_branches_maximum: 1
+  scorer_calibrator_configurations_maximum: 12
+  selector_configurations_maximum: 10
+  formal_test_runs_maximum_after_unlock: 1
+
+artifacts:
+  preserve_prejoin_rankings: true
+  preserve_failed_runs: true
+  preserve_per_claim_outputs: true
+  preserve_hardware_and_runtime: true
+  immutable_manifest_required: true
+  overwrite_frozen_outputs: false
+
