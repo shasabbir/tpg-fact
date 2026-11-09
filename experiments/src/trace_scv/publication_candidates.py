@@ -32,6 +32,11 @@ def rank_map(
     }
 
 
+def load_npz_arrays(path: Path, names: Sequence[str]) -> dict[str, np.ndarray]:
+    with np.load(path) as archive:
+        return {name: np.asarray(archive[name]) for name in names}
+
+
 def _source_commit(project_root: Path) -> str:
     return subprocess.run(
         ["git", "-C", str(project_root), "rev-parse", "HEAD"],
@@ -81,17 +86,41 @@ def build_publication_candidates(
     image_depth = int(protocol["retrieval"]["retained_image_candidates"])
     partition_seed = int(protocol["data"]["train_partition_seed"])
 
-    source = np.load(frozen_root / "rankings.npz", mmap_mode="r")
-    weighted = np.load(retrieval_result_root / "weighted_rankings.npz", mmap_mode="r")
-    selected = np.load(retrieval_result_root / "selected_rankings.npz", mmap_mode="r")
+    source = load_npz_arrays(
+        frozen_root / "rankings.npz",
+        (
+            "text_dense_indices",
+            "text_dense_scores",
+            "text_bm25_indices",
+            "text_bm25_scores",
+            "text_rrf_indices",
+            "text_rrf_scores",
+            "text_cross_indices",
+            "text_cross_scores",
+            "image_siglip_indices",
+            "image_siglip_scores",
+            "image_filename_indices",
+            "image_filename_scores",
+            "image_rrf_indices",
+            "image_rrf_scores",
+        ),
+    )
     text_weight = float(retrieval_result["selected_text_rrf_weight"])
     image_weight = float(retrieval_result["selected_image_siglip_weight"])
     text_label = _weight_label(text_weight)
     image_label = _weight_label(image_weight)
-    selected_text = np.asarray(selected["text_indices"])
-    selected_image = np.asarray(selected["image_indices"])
-    text_final_scores = weighted[f"text_{text_label}_scores"]
-    image_final_scores = weighted[f"image_{image_label}_scores"]
+    selected_arrays = load_npz_arrays(
+        retrieval_result_root / "selected_rankings.npz",
+        ("text_indices", "image_indices"),
+    )
+    weighted_arrays = load_npz_arrays(
+        retrieval_result_root / "weighted_rankings.npz",
+        (f"text_{text_label}_scores", f"image_{image_label}_scores"),
+    )
+    selected_text = selected_arrays["text_indices"]
+    selected_image = selected_arrays["image_indices"]
+    text_final_scores = weighted_arrays[f"text_{text_label}_scores"]
+    image_final_scores = weighted_arrays[f"image_{image_label}_scores"]
 
     full_gold_raw = json.loads((frozen_root / "full_gold.json").read_text(encoding="utf-8"))
     full_gold = {str(key): set(map(str, values)) for key, values in full_gold_raw.items()}

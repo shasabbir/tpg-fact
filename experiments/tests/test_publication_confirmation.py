@@ -7,7 +7,7 @@ import yaml
 import numpy as np
 
 from trace_scv.publication_retrieval import metric_csv_fields, weighted_rank_fusion
-from trace_scv.publication_candidates import rank_map
+from trace_scv.publication_candidates import load_npz_arrays, rank_map
 
 
 PROJECT_ROOT = Path(__file__).parents[2]
@@ -77,4 +77,12 @@ def test_rank_map_preserves_rank_and_score_alignment() -> None:
     assert mapped[2][0] == 2
     assert mapped[9][0] == 3
     assert np.isclose(mapped[2][1], 0.5)
+
+
+def test_npz_arrays_are_materialized_before_archive_closes(tmp_path: Path) -> None:
+    archive = tmp_path / "rankings.npz"
+    np.savez_compressed(archive, ranks=np.asarray([[3, 2, 1]], dtype=np.int64))
+    loaded = load_npz_arrays(archive, ("ranks",))
+    archive.unlink()
+    assert loaded["ranks"].tolist() == [[3, 2, 1]]
 
