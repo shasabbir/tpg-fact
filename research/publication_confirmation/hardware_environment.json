@@ -1,6 +1,6 @@
 {
   "profile": "publication_confirmation_environment",
-  "captured_at_utc": "2026-11-09T14:07:21.486877+00:00",
+  "captured_at_utc": "2026-11-09T14:25:17.273861+00:00",
   "python": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
   "executable": "D:\\Sabbir\\tpg-fact\\experiments\\.venv-workstation\\Scripts\\python.exe",
   "platform": "Windows-11-10.0.26300-SP0",
@@ -23,11 +23,11 @@
     }
   ],
   "git": {
-    "commit": "399aa044f7fe84f3a6f32bec86cae7e391a30452",
+    "commit": "823e4f097c0b2f4eddf9b3dc5202e397f8e1f6fb",
     "working_tree_clean": true,
     "status_lines": []
   },
-  "protocol_sha256": "fab87e36f6cf36d295c9d1fc69d26600ea5fd5a5a198861e13e4b395edaff92b",
+  "protocol_sha256": "de496237f6e9bd62aeab35226456b2ac146c5d6d5e1c3f5c5745e7f337d252eb",
   "energy_instrumentation": null,
   "energy_claim_allowed": false
 }

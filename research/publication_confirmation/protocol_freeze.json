@@ -1,18 +1,18 @@
 {
   "profile": "publication_confirmation_protocol_freeze",
   "status": "pass",
-  "checked_at_utc": "2026-11-09T14:07:21.486877+00:00",
+  "checked_at_utc": "2026-11-09T14:25:17.273861+00:00",
   "protocol": {
     "path": "D:\\Sabbir\\tpg-fact\\experiments\\configs\\publication_confirmation.yaml",
-    "sha256": "fab87e36f6cf36d295c9d1fc69d26600ea5fd5a5a198861e13e4b395edaff92b"
+    "sha256": "de496237f6e9bd62aeab35226456b2ac146c5d6d5e1c3f5c5745e7f337d252eb"
   },
   "test_lock": {
     "path": "D:\\Sabbir\\tpg-fact\\research\\publication_confirmation\\test_lock.json",
-    "sha256": "ce766dca9d5a53932e51174dfcc9cfbb33c9bc4b70fc0d711bc78ab56124aee4"
+    "sha256": "48126ab1f7e7e0a038b66bab2fd09300ee600e5b0ba54d093cf5c5f05263d767"
   },
   "environment": {
     "path": "D:\\Sabbir\\tpg-fact\\research\\publication_confirmation\\hardware_environment.json",
-    "sha256": "92f9718fd7a2b18d1bcaa17bd8e19f4f2d6661cbc3f9f549b70f766b4d5e124d"
+    "sha256": "f86a8cbf8e140b37c2e3dce231be930f336a67f550fa0fce3f6da09000dcc4b1"
   },
   "development_seal_passed": true,
   "formal_test_annotations_accessed": false
