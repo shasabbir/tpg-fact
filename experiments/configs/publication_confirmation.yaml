@@ -132,6 +132,17 @@ verifier:
   confidence_level: 0.95
   shared_training_and_inference: true
   stronger_model_required_before_external_test: true
+  model:
+    architecture: two_layer_mlp
+    hidden_units: 64
+    activation: relu
+    epochs: 300
+    learning_rate: 0.01
+    l2: 0.001
+    deterministic_seed_base: 20261109
+    class_weighting: inverse_frequency
+    training_policy_sets: [fixed, calibrated_threshold, expected_f1]
+  evaluated_policies: [calibrated_threshold, completeness_aware_switch]
 
 statistics:
   primary_metric: claim_macro_complete_gold_evidence_f1

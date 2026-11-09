@@ -103,6 +103,15 @@ def test_selector_engine_config_uses_frozen_thresholds_and_no_penalty_search() -
     assert config.bootstrap_samples == 10_000
 
 
+def test_stronger_verifier_architecture_is_frozen() -> None:
+    protocol = yaml.safe_load(PROTOCOL_PATH.read_text(encoding="utf-8"))
+    model = protocol["verifier"]["model"]
+    assert model["architecture"] == "two_layer_mlp"
+    assert model["hidden_units"] == 64
+    assert model["epochs"] == 300
+    assert protocol["verifier"]["noninferiority_margin"] == -0.01
+
+
 def test_completeness_features_match_frozen_schema() -> None:
     rows = [
         {

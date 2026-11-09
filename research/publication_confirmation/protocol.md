@@ -73,6 +73,13 @@ primary evidence comparison uses claim-aligned paired bootstrap intervals with
 10,000 resamples and Holm correction. Reachability strata are prespecified but
 secondary.
 
+The stronger verifier is a deterministic two-layer MLP with 64 ReLU hidden
+units, inverse-frequency class weighting, 300 full-batch Adam epochs, learning
+rate `0.01`, and L2 coefficient `0.001`. It is trained on the unique fixed,
+threshold, and expected-F1 evidence sets from fitting claims. The same fitted
+verifier evaluates calibrated thresholding and the completeness-aware switch;
+the selector result cannot choose or retune the verifier.
+
 ## Stop and reporting rules
 
 - A failed retrieval gate prevents a retrieval-improvement claim.
@@ -90,4 +97,11 @@ packet, the numeric threshold grid `{0.1, 0.2, ..., 0.9}` was copied into the
 machine-readable protocol. The prose already required calibrated thresholding
 but the YAML had omitted its values. This amendment does not respond to a new
 selector outcome and does not alter the frozen retrieval result.
+
+After the selector result was frozen and before any new verifier was fitted,
+the stronger-verifier architecture and optimization settings were copied into
+the YAML. The publication plan already required a stronger shared verifier;
+this amendment makes that requirement executable. Its architecture, training
+policy sets, and non-inferiority analysis are fixed independently of any
+verdict outcome.
 
