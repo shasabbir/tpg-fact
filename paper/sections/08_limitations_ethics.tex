@@ -3,24 +3,60 @@
 
 \subsection{Limitations}
 
-For one, the reported study on selectors is based on MOCHEG validation claims which have been published. This run was locked, but previous analysis conducted as part of this overall project had utilized the same development resource. The outcome is a controlled reanalysis; new external confirmation is still pending. The official MOCHEG test annotations are kept sealed.
+The main validity constraint is evaluation reuse. The 1,490 MOCHEG validation
+claims are locked within each run, and every new choice is fitted on training
+roles, but the broader project had inspected this released development resource
+before the present protocol. The results are therefore a controlled
+development study, not independent confirmation. Formal-test annotations
+remain unopened, and an audit found no external dataset that supports an
+unchanged replication with the same atomic text--image evidence units.
 
-Second, complete-gold annotations may be incomplete in terms of all valid web evidence. Exact-set metrics reward agreement with the given mapping and may label a reasonable alternative as incorrect. The reachability-stratified analysis is post hoc and the complete-reachability result is based on 79 validation claims. It is a mechanism diagnosis which necessitates prespecified replication and cannot offer a population-level subgroup guarantee.
+Released complete-gold sets can omit other valid web evidence. Exact-set
+metrics measure agreement with those identifiers and may penalize a defensible
+alternative source. The original complete-reachability subgroup contains only
+79 validation claims and was identified post hoc. It motivates the frozen
+completeness switch but cannot establish a population subgroup guarantee. The
+repair raises validation complete-gold coverage to only 88 claims, so
+completeness modeling remains data-limited.
 
-Thirdly, the membership scorers are designed to be as lightweight as possible to maintain experimental control and reproducibility. They are not intended as state-of-the-art representation learners. Better multimodal rerankers could change both ranking and calibration. Another corpus should be used to test the repeated selection of isotonic regression for images.
+The membership scorer and completeness estimator are deliberately low capacity
+to preserve experimental control. Better content-aware multimodal scoring may
+change ranking, calibration, and the apparent value of the switch. Conversely,
+the stronger verifier is still a compact MLP over stored features rather than a
+modern generative fact-checker. Aggregate non-inferiority depends on that
+architecture and fails in three seed-specific intervals; the linear control
+reverses the mean direction.
 
-The saved records can determine the software environment and the runtime of the deterministic analysis, but do not reveal a complete end-to-end analysis of embedding and retrieval in terms of compute, latency or energy. Thus, no efficiency claim is made in the study other than the number of items of evidence returned to a reviewer.
+Expected-F1 assumes conditionally independent candidate memberships and
+restricts decisions to prefixes of a fixed ranking. Sentences from one source,
+duplicate images, and complementary cross-modal evidence violate that
+assumption. A zero-valued redundancy penalty in this experiment does not show
+that dependencies are absent; it shows only that the tested penalty does not
+improve model-selection utility.
 
-Fourth, the expected-F1 calculation is based on the assumption that there is conditional independence of the candidate memberships. The evidence items within the same source, duplicate images and complementary sentences are in violation of this assumption. The tested redundancy penalty wasn't of assistance, though, which doesn't preclude a learnt structured model.
-
-Fifth, the robustness conditions are diagnostics and only address a small portion of possible production drift. The temperature perturbations do not estimate the frequency of such distortion in a deployed system; they only measure sensitivity to probability scale.
-
-Lastly, external datasets are actually different. AVerImaTeC involves web or curated question-answer evidence and MMCV involves tables and multi-hop support. Porting the selector involves a redefinition of evidence units, a new calibration study and an evaluation done with sensitivity to the access conditions of each resource.
+The robustness matrix is diagnostic rather than exhaustive. Temperature
+perturbations expose sensitivity to probability scale but do not estimate how
+often such drift occurs in practice. Runtime is recorded on one workstation
+without standardized warm-up, energy instrumentation, or competing-system
+measurements. We therefore make no throughput, energy, or deployment-efficiency
+claim beyond observed selected-set size.
 
 \subsection{Ethical Considerations}
 
-Automated fact-checking can also engender a false sense of security, especially when evidence is not retrieved. The interface for any deployment should include identifiers for the sources, restrictions on the retrievals, probability calibration status, and uncertainty. The system should support trained reviewers, not replace them.
+Automated fact-checking can create false confidence when relevant evidence is
+missing. A deployed interface should expose source identifiers, retrieval
+limits, calibration status, and the distinction between ``no evidence
+retrieved'' and ``evidence supports no conclusion.'' The system should assist
+trained reviewers, not replace them.
 
-Geographic, language and source-selection biases can be carried over to data and model artefacts. MOCHEG is not meant to be a representative sample of all claims or communities. Generalisation of performance to low-resource languages or sensitive domains should be avoided unless specifically evaluated. Personal, disturbing or copyrighted material may be included in web evidence, and access and display should be in keeping with the terms of the source and minimize unnecessary reproduction.
+Web evidence can contain personal, disturbing, copyrighted, geographically
+skewed, or politically sensitive material. Retrieval and display should follow
+source terms, minimize unnecessary reproduction, and provide safeguards for
+reviewers. MOCHEG is not representative of all languages, communities, claim
+types, or media ecosystems; results should not be generalized to low-resource
+or high-stakes domains without direct evaluation.
 
-The formal test is still kept sealed, bad and unfavourable results are kept and all comparisons reported are accompanied by uncertainty. These controls minimize the selective reporting and it is easier to differentiate a helpful development finding from a deployment claim.
+The study preserves unfavorable and incomplete runs, keeps the formal test
+sealed, and reports uncertainty and failed gates. These controls reduce
+selective reporting and make the difference between a useful development
+finding and a deployment claim explicit.

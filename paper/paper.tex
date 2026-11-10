@@ -28,7 +28,7 @@
 \interdisplaylinepenalty=2500
 \hyphenation{multi-modal fact-check-ing re-triev-al cal-i-bra-tion}
 
-\title{Calibrated Adaptive Evidence Selection for Multimodal Fact-Checking Under Retrieval Constraints}
+\title{Retrieval-Conditioned Calibration and Adaptive Evidence Selection for Multimodal Fact-Checking}
 
 \author{%
 \parbox[t]{0.46\textwidth}{\centering
@@ -52,11 +52,11 @@ fahmed@aiub.edu}}}
 \maketitle
 
 \begin{abstract}
-Fact-checkers require evidence sets that are small and succinct; a selector cannot recover evidence that retrieval misses or make reliable set decisions if the scores are miscalibrated. This retrieval-conditioned study of MOCHEG distinguishes these sources of failure. All methods are fed with the same set of 40 text and 20 image candidates. A total of 1,490 locked validation claims are tested on six different probability maps and four selection policies across five deterministic training-role partitions. Among 10,970 claims with released complete-gold evidence, the packet oracle achieves an evidence F1 of 0.3560, complete gold is present for 4.39\% of claims, and 3,086 claims do not have any reachable gold item. By taking prior information into account, prior-aware calibration lowers the mean Brier score from 0.0847 to 0.0330. Expected-F1 then returns 3.50 items per claim and reaches 0.1759 evidence F1, improving on fixed top-5 by 0.0085 with a claim-aligned 95\% interval of [0.0030, 0.0140]. The calibrated threshold remains stronger at 0.1807. A post hoc reachability analysis localizes the expected-F1 benefit: it reaches 0.5240 F1 when complete gold is available in the packet, but offers no gain over fixed top-5 when gold is only partially reachable. Size and redundancy penalties select zero throughout, probability perturbations reverse the adaptive gain, and a shared verifier does not establish the declared non-inferiority margin. Calibrated expected-F1 provides a precision-oriented operating point. It does not establish end-to-end superiority; retrieval reachability is still the chief limitation, and calibrated thresholding performs better overall.
+An evidence selector cannot recover items missed by retrieval, and probability-based set decisions become unreliable when membership scores are miscalibrated. We study these coupled failures on MOCHEG with a common packet of 40 text and 20 image candidates. The protocol covers 10,970 claims with released complete-gold evidence and evaluates 1,490 locked validation claims across five deterministic training-role partitions. A label-blind weighted rank fusion increases text Recall@40 from 0.3193 to 0.3292 over all eligible claims, packet-oracle evidence F1 from 0.3560 to 0.3637, and complete-gold coverage from 4.39\% to 4.74\%; image Recall@20 is unchanged at 0.2663. Prior-aware calibration reduces the earlier mean Brier score from 0.0847 to about 0.033. On the repaired packet, fixed top-5, calibrated thresholding, and expected-F1 reach 0.1712, 0.1864, and 0.1815 evidence F1, respectively. Expected-F1 returns 3.61 items per claim, while thresholding returns 5.26. A prespecified packet-completeness switch attains the highest point estimate, 0.1877 F1 with 4.70 items, but its gain over thresholding is only 0.00138 (95\% interval $[-0.00191,0.00462]$) and one partition is negative. Under a stronger shared verifier, the switch changes macro-F1 from 0.3911 to 0.3954; aggregate non-inferiority passes, but only two of five seed-specific intervals clear the margin. Formal-test annotations remain sealed. The study supports retrieval-conditioned, calibration-aware evaluation and a compact operating point, but not selector superiority or external generalization.
 \end{abstract}
 
 \begin{IEEEkeywords}
-multi modal, fact checking, evidence retrieval, evidence selection, probability calibration, expected F1, reproducibility
+multimodal fact-checking, evidence retrieval, evidence selection, probability calibration, expected F1, reproducibility
 \end{IEEEkeywords}
 
 \input{sections/01_introduction}
@@ -71,7 +71,6 @@ multi modal, fact checking, evidence retrieval, evidence selection, probability 
 
 \appendices
 \input{sections/10_reporting_appendix}
-\clearpage
 
 \bibliographystyle{IEEEtran}
 \bibliography{references_used}

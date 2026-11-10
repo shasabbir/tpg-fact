@@ -1,32 +1,83 @@
 \section{Discussion}
 \label{sec:discussion}
 
-\subsection{Calibration Changes the Scientific Conclusion}
+\subsection{Calibration Changes the Decision, Not the Ranking}
 
-There are a number of requirements for the probabilities to have an operational meaning in the context of expected-F1 decoding; a probability input of 0.30 should represent roughly a 30\% chance of membership. Balanced logistic training increases attention to the rare positives, but the intercept reflects the reweighted training distribution. This intercept problem remains largely unchanged with temperature scaling, since it only affects the slope of the logits. The low deployment prevalence is restored and the selected set size is changed significantly by prior-shift, Platt and isotonic maps.
+Expected-F1 requires probabilities with operational meaning: among items given
+probability 0.30, roughly 30\% should be evidence members under comparable
+conditions. Balanced logistic training improves rare-positive ranking but
+changes the effective training prior. Temperature scaling changes logit slope,
+whereas prior shift, Platt, beta, and isotonic mappings can also repair the
+location or shape of the reliability curve. The uncalibrated expected-F1
+ablation makes this distinction concrete: it selects nearly 25 items per claim
+and loses more than five evidence-F1 points relative to calibrated
+expected-F1, with no change to the candidate universe.
 
-The direction of the evidence-F1 comparison is changed by calibration. It also explains why the learned size and redundancy penalties are unnecessary: if the probabilities reflect the rare membership rate, then the unpenalized utility already favors short prefixes. When making an adaptive selection assessment, report the absolute calibration against the prevalence reference and the difference between the model's uncalibrated and calibrated scores.
+This also explains why fitted size and redundancy penalties are unnecessary in
+the diagnostic experiment. Once the low membership prevalence is restored,
+the unpenalized expected utility already favors a short prefix. Adaptive
+selector studies should report probability quality, prevalence, and selected
+set size alongside rank metrics; otherwise the decoder can appear to improve
+or fail for the wrong reason.
 
-\subsection{Why Thresholding Is the Strong Baseline}
+\subsection{Why Thresholding Remains the Strong Baseline}
 
-Expected-F1 uses the memberships of all candidates, but its independence approximation and complete-gold objective may not match the actual data. A tuned threshold directly uses the same calibrated probabilities with fewer assumptions. Here it has more recall, moderate set growth and is 0.00483 F1 better than expected-F1.
+Expected-F1 combines all membership probabilities under a conditional-
+independence approximation. A tuned threshold uses the same calibrated
+probabilities with fewer structural assumptions. On the repaired packet,
+thresholding is 0.00484 F1 stronger and recovers more evidence, while
+expected-F1 returns 1.64 fewer items and has higher precision. The latter is a
+valid review-cost operating point, but it is not the strongest selector by the
+primary metric.
 
-A calibrated-threshold baseline is required for future evaluations. Beating a fixed budget is not enough if the same probabilities support a stronger threshold rule. An adaptive decoder should exceed that rule, offer an alternate precision-cost operating point, or enhance a downstream outcome. Expected-F1 gives the second: it returns approximately two fewer items than thresholding while being substantially more precise, which might be important if human review time is limited.
+The completeness-aware switch tests whether these policies can be combined
+without simply choosing the better one on validation. Its point estimate is
+higher than thresholding and its mean set is smaller, but the improvement is
+too small and unstable to support superiority. This negative result is useful:
+packet completeness is a plausible routing variable, yet the present ten-
+feature logistic estimate is not accurate enough to produce a reliable
+method-level gain. A future model should first improve completeness prediction
+under a frozen protocol, rather than add another decoder penalty.
 
-This interpretation is supported by the reachability strata. The main advantage of expected-F1 is where the released-gold set is already complete, when there is the possibility of pruning a coherent short prefix from the packet. Once only a portion of the gold set is contained in the packet, it is not of benefit. The larger output and greater recovery of evidence is an advantage to thresholding in that larger stratum. This was a post hoc stratification, and therefore is not an appropriate way to make a prespecified claim for a subgroup. It does propose a concrete design target: selection should take into consideration the probability of incomplete retrieval.
+\subsection{Retrieval Is Still the Dominant Constraint}
 
-\subsection{Retrieval Is the Larger Bottleneck}
+Weighted fusion reduces zero-reachable claims and raises the packet oracle, but
+the all-eligible ceiling remains only 0.3637 F1 and complete-gold coverage
+remains below 5\%. The absolute gain is far smaller than the declared
+engineering target. Most selector errors therefore cannot be repaired by a
+different prefix rule alone.
 
-This packet oracle of 0.3560 puts the observed selector scores into perspective. Over 25\% of eligible claims do not have any reachable released gold item and coverage for complete-gold claims is less than 5\%. There is a relatively small range of possible improvements that can be achieved in decoders. The image-only results are particularly poor and the image-only expected-F1 effect is slightly negative.
+Text and image branches fail differently. Cross-encoder text ranking helps at
+greater depth while damaging early order; equal rank fusion recovers a small
+part of that tradeoff. Image fusion already combines two complementary signals,
+and changing their weight does not improve Recall@20. OCR, article context, or
+a table-aware external benchmark may help, but each would change the candidate
+construction and requires a separately frozen study. They are not hidden
+extensions of the present result.
 
-Based on the retrieval audit, there are some ideas to move forward. The performance of image fusion is better than either image signal. Deeper recall is improved by text cross-encoder reranking, but the first few ranks are affected. Another ranker trained to maximize early complete-gold coverage, a claim-adaptive retrieval budget, or a selector that explicitly models packet completeness may yield more value than another selection penalty. This diagnosis can be made using the fixed packet since retrieval and decoding are performed separately.
+\subsection{Evidence and Verdict Safeguards Answer Different Questions}
 
-\subsection{Evidence Metrics and Verdict Metrics Differ}
+Evidence F1 measures overlap with released evidence identifiers; verdict
+macro-F1 measures whether selected evidence supports the final three-way
+decision. The stronger MLP verifier clears aggregate non-inferiority for the
+switch, but the interval crosses zero, three seed-specific safeguards fail, and
+the linear control moves in the opposite direction. The result is compatible
+with preserved verdict quality on average, but not with a stable end-to-end
+benefit.
 
-Evidence F1 and verdict macro-F1 answer related but distinct questions. A positive evidence effect does not establish verifier non-inferiority. The gap is close to the margin and could be due to limited validation size, a weak shared verifier, or different information content in the shorter sets. A larger or stronger verifier study is needed before claiming an end-to-end benefit.
-
-For deployed fact-checking, evidence precision, evidence recall, review-set size, retrieval reachability, calibration and verdict performance are useful metrics for the operating report. An aggregate score obscures the balance between conciseness of evidence and downstream adequacy.
+This distinction matters for system reporting. Evidence precision, evidence
+recall, set size, retrieval reachability, calibration, and verdict performance
+should be shown separately. A single score would hide whether a compact set
+saved reviewer effort, omitted necessary support, or merely interacted
+favorably with one verifier seed.
 
 \subsection{What the Study Supports}
 
-There are three claims that can be substantiated with the evidence. For adaptive probability-based evidence selection under imbalance, prior-aware calibration is needed. Calibrated expected-F1 can be better than the fixed top-5 rule for complete-gold evidence F1 and return fewer items, primarily when the retrieved packet contains the complete released-gold set. The most successful tested policy on this development population is calibrated thresholding. There is no evidence of an end-to-end advantage, a benefit from size or redundancy penalties, or generalization beyond the MOCHEG setting evaluated.
+The evidence supports four bounded statements. First, packet reachability must
+be measured before selector performance is interpreted. Second, prior-aware
+calibration is necessary for probability-based set decisions under imbalanced
+membership. Third, expected-F1 supplies a compact alternative to fixed top-5,
+but calibrated thresholding is the strongest confirmed policy. Fourth, a
+completeness-aware switch is a plausible design direction whose present gain is
+too small and uncertain to establish superiority. The study does not support a
+state-of-the-art, externally generalizable, or deployment-ready claim.

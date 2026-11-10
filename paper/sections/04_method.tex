@@ -1,9 +1,29 @@
 \section{Method}
 \label{sec:method}
 
-\subsection{Fixed Retrieval Packet}
+\subsection{Label-Blind Retrieval and Weighted Fusion}
 
-To combine BGE-M3 dense sentence similarity with BM25, we use the reciprocal-rank fusion (RRF) approach \cite{cormack2009rrf}. A reranker from BGE provides scores for the fused text candidates. Image retrieval is a blend of SigLIP2 image-text similarity and dense similarity between the claim and normalized image file names, also in the style of RRF. The model repositories and immutable revisions are specified in the frozen configuration, and the operational model cards are BGE-M3,\footnote{\url{https://huggingface.co/BAAI/bge-m3}} BGE-reranker-v2-m3,\footnote{\url{https://huggingface.co/BAAI/bge-reranker-v2-m3}} and SigLIP2.\footnote{\url{https://huggingface.co/google/siglip2-base-patch16-224}} The top 40 text items and top 20 image items are kept in the retained packet. All the selectors get this same packet.
+The text branch combines BGE-M3 dense sentence retrieval with BM25, then
+records a BGE reranker ordering. The image branch records SigLIP2 image--text
+similarity and dense similarity between the claim and normalized image file
+names. Model repositories and immutable revisions are fixed in the
+configuration; the operational model cards are BGE-M3,\footnote{\url{https://huggingface.co/BAAI/bge-m3}}
+BGE-reranker-v2-m3,\footnote{\url{https://huggingface.co/BAAI/bge-reranker-v2-m3}}
+and SigLIP2.\footnote{\url{https://huggingface.co/google/siglip2-base-patch16-224}}
+
+For two label-blind ranks $r_a(c)$ and $r_b(c)$, the bounded repair assigns
+candidate $c$ the score
+\begin{equation}
+R_w(c)=\frac{w}{60+r_a(c)}+\frac{1-w}{60+r_b(c)}.
+\label{eq:weighted-rank-fusion}
+\end{equation}
+The text score combines the existing dense--lexical fused rank with the
+cross-encoder rank; the image score combines SigLIP2 and filename ranks.
+Weights $w\in\{0.25,0.50,0.75\}$ are selected separately by training-role
+packet-oracle F1, subject to operating-depth recall guardrails. Both branches
+select $w=0.50$. Rankings and hashes are written before the gold join. The
+retained packet contains the top 40 text and 20 image items, and every selector
+receives exactly that packet.
 
 \subsection{Membership Scorers}
 
@@ -71,10 +91,47 @@ with $T_{q,k}$ being the number of relevant items within the prefix and $R_{q,k}
 
 We also carry out testing of two extensions. The first subtracts $\lambda k$ from expected utility. The second also subtracts $\gamma R(S_{q,k})$, where $R$ measures same-source redundancy. The size penalties range from 0 to 0.10 and the redundancy penalties range from 0 to 0.005. Extra structure in the decoder is kept as ablations, as the fitted optima indicate whether it provides additional benefit over calibration.
 
+\subsection{Packet-Completeness-Aware Switching}
+
+The diagnostic results suggest that compact expected-F1 selection is most
+useful when the retrieved packet already contains the complete released-gold
+set. We therefore fit a low-capacity logistic model to the training-role target
+$I(G_q\subseteq C_q)$. Its ten frozen features summarize expected relevant
+mass, top and top-five probabilities, probability entropy and rank gaps,
+threshold and expected-F1 set sizes, modality-specific probability mass, and
+dense--lexical rank agreement. Standardization and $L_2$ logistic fitting use
+only fitting claims; the decision cutoff is selected from
+$\{0.05,0.10,0.20,0.30,0.50\}$ on model-selection claims.
+
+Let $h_q$ be the estimated probability that the packet is complete. The switch
+returns
+\begin{equation}
+S_q^{\mathrm{switch}}=
+\begin{cases}
+S_q^{\mathrm{EF1}}, & h_q\geq\eta,\\
+S_q^{\mathrm{thr}}, & h_q<\eta,
+\end{cases}
+\label{eq:completeness-switch}
+\end{equation}
+where all five partitions select $\eta=0.50$. The switch neither changes the
+candidate packet nor observes validation reachability. Its purpose is to test
+one prespecified, interpretable response to retrieval incompleteness rather
+than introduce a large additional architecture.
+
 \subsection{Decision Scope and Assumptions}
 
 The comparison alters just the set decision. The identity of the candidates, their rank, feature values, scorer outputs, and validation claims are shared across policies. Expected-F1 assumes that the memberships are conditionally independent Bernoullis, and that it only operates on prefixes of the frozen ranking, i.e., it does not reorder candidates or retrieve a missing item. The complete-gold mapping released is considered the evaluation target, where Sec.~\ref{sec:limitations} comments on possible incompleteness of the mapping. These boundaries help to differentiate between a decoder error and retrieval error and help to prevent an adaptive policy from being given a more favorable candidate universe.
 
 \subsection{Shared Verifier}
 
-Evidence policies can improve set overlap and damage the downstream verdict. To isolate this possibility, a single verifier architecture and training process are used for all policies. Only the selected evidence is changed. We compare the verdict macro-F1 on the same 1,490 claims, and include the declared non-inferiority margin of $-0.01$ for expected-F1 versus fixed top-5.
+Evidence policies can improve set overlap while damaging the downstream
+verdict. We therefore hold verifier architecture, training data, features, and
+optimization constant while changing only the selected evidence. The primary
+verifier is a two-layer multilayer perceptron with one 64-unit ReLU hidden
+layer, inverse-frequency class weighting, 300 full-batch Adam epochs, learning
+rate 0.01, and $L_2$ coefficient 0.001. It is trained on unique fixed,
+threshold, and expected-F1 evidence sets from fitting claims. A logistic linear
+verifier is retained as a capacity control. Both models compare calibrated
+thresholding with the frozen completeness-aware switch on the same 1,490
+validation claims and five deterministic seeds. The declared non-inferiority
+margin is $-0.01$ macro-F1.

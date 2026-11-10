@@ -1,4 +1,16 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-We studied adaptive multimodal evidence selection as a probability-dependent decision within a fixed retrieval pipeline. Prior-aware calibration allows expected-F1 to reach 0.1759 evidence F1 while returning 3.50 items per claim, a gain of 0.0085 over fixed top-5. The gain focuses on claims with a complete released-gold set that is accessible. Calibrated thresholding proves stronger overall at 0.1807, and the size and redundancy penalties are of no measurable benefit. The shared verifier does not establish non-inferiority, and probability perturbations reverse the adaptive gain. Evidence-selector studies should thus report jointly: 1) what retrieval makes reachable, 2) whether membership scores are calibrated to the operating prior, and 3) whether a structured decision rule outperforms a calibrated threshold. In this context, calibration is useful, additional penalties on the decoder are not, and retrieval is the primary constraint.
+We evaluated multimodal evidence selection as a decision constrained jointly by
+retrieval and calibration. A bounded label-blind fusion raises the all-eligible
+packet oracle from 0.3560 to 0.3637 F1, but complete-gold coverage remains only
+4.74\%. On the repaired packet, calibrated thresholding is the strongest
+confirmed policy at 0.1864 evidence F1; expected-F1 offers a more compact
+3.61-item operating point at 0.1815. A prespecified completeness-aware switch
+reaches 0.1877 with 4.70 items, yet its $+0.00138$ effect over thresholding is
+uncertain and fails the superiority gate. The stronger verifier passes
+aggregate non-inferiority but not the per-seed safeguard. Evidence-selection
+studies should therefore report what retrieval makes reachable, whether scores
+are calibrated to the operating prior, and whether a proposed decoder beats a
+calibrated threshold under matched packets. The formal test remains sealed, so
+these conclusions are development evidence rather than external confirmation.

@@ -20,7 +20,7 @@ The primary population includes only claims for which the released annotation de
 
 MOCHEG is a dataset that includes image-text claims, separate image and text evidence as well as verdict labels \cite{yao2023mocheg}. By content hash we pin released versions of the train, validation, corpus and sealed-test. The test annotations are not opened in the official test.
 
-The 13,159 released train and validation claims are encoded for retrieval. Of these, 10,970 have a nonempty released complete-gold mapping and are the eligible evidence-set population. The reported selector test is based on the 1,490 released validation claims. Claim-grouped hashing places the remaining released claims in the fit, calibration, model-selection and internal-holdout roles. The roles are regenerated separately for the five deterministic partition seeds of 13, 37, 73, 101 and 137.
+The 13,159 released train and validation claims are encoded for retrieval. Of these, 10,970 have a nonempty released complete-gold mapping and are the eligible evidence-set population. The primary repaired-packet selector evaluation uses the 1,490 released validation claims. Claim-grouped hashing places the remaining released claims in fitting, calibration, model-selection, and internal-holdout roles. The roles are regenerated separately for deterministic partition seeds 13, 37, 73, 101, and 137.
 
 \input{generated/population_flow}
 
@@ -32,4 +32,4 @@ These quantities provide answers to different questions. Oracle F1 is the best e
 
 \subsection{Leakage Controls}
 
-Candidates' ranks are maintained before joining the gold identifiers. Only after candidate construction are the evidence labels used to fit the membership scorer, the calibration map, and selector hyperparameters in their respective roles. The locked validation set is not part of any fitted component. The formal-test label files are outside the execution path and their hashes are verified before and after each run.
+Candidate ranks are written and hashed before gold identifiers are joined. Only after candidate construction are evidence labels used to fit the membership scorer, calibration map, and selector hyperparameters in their respective training roles. The locked validation set is not part of any fitted component. Formal-test annotations are absent from the execution path; the seal record and access flags are checked before and after outcome-bearing runs.

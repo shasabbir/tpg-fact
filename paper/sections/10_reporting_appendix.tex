@@ -3,7 +3,7 @@
 
 \subsection{Selected Components}
 
-Table~\ref{tab:selected-components} shows the scorer and modality-specific calibration maps selected without locked-validation labels. There is one threshold per partition: 0.1. Fixed $k$ is 5. The decoder penalties are both zero all along.
+Table~\ref{tab:selected-components} shows the scorer and modality-specific calibration maps selected in the diagnostic study without locked-validation labels. There is one threshold per partition: 0.1. Fixed $k$ is 5. Both decoder penalties are zero throughout.
 
 \begin{table*}[t]
 \centering
@@ -39,35 +39,79 @@ The relative effects are explained by the absolute scores and the size of the re
 
 \subsection{Decision Audit}
 
-\begin{table}[t]
+\begin{table}[H]
 \centering
-\caption{Test results of the specified conditions for expected-F1 selection.}
+\caption{Prespecified decision audit for the bounded repair and completeness-aware selector.}
 \label{tab:decision-audit}
 \begin{tabular}{p{0.69\columnwidth}c}
 \toprule
 Condition & Result \\
 \midrule
-Positive evidence-F1 effect in every partition & \pass \\
-Corrected interval lower bound above zero & \pass \\
-Mean evidence-F1 gain at least 0.015 & \fail \\
-Calibration better than prevalence reference & \pass \\
-Selected-to-gold size ratio within limit & \pass \\
-Verifier lower bound at least $-0.01$ & \fail \\
-Exact clean reproduction of core records & \pass \\
+Retrieval advancement gate & \pass \\
+Retrieval engineering target ($+0.05$ oracle F1; 8\% coverage) & \fail \\
+Switch gain at least 0.010 over threshold & \fail \\
+Positive switch effect in every partition & \fail \\
+Switch interval lower bound above zero & \fail \\
+Switch set no larger than threshold set & \pass \\
+Aggregate verifier lower bound above $-0.01$ & \pass \\
+Per-seed verifier non-inferiority & \fail \\
+Independent artifact audits & \pass \\
 Formal test annotations remain unopened & \pass \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The conjunction does not hold for the specified minimum effect and verifier safeguard. The positive result of the selector is thus restricted to evidence selection on released development data.
+The conjunction does not hold. The highest selector point estimate and the
+aggregate verifier safeguard are therefore reported as mixed development
+evidence, not as a superior end-to-end method.
+
+\subsection{Verifier Seed Detail}
+
+\begin{table}[H]
+\centering
+\caption{Stronger-verifier macro-F1 and switch-minus-threshold intervals by deterministic seed. The frozen non-inferiority margin is $-0.01$.}
+\label{tab:verifier-seeds}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{rrrrrc}
+\toprule
+Seed & Threshold & Switch & Difference & 95\% interval & Clears margin \\
+\midrule
+13  & 0.3962 & 0.3962 & $-0.0000$ & $[-0.0137, 0.0139]$ & no \\
+37  & 0.3736 & 0.3915 & $+0.0179$ & $[ 0.0028, 0.0330]$ & yes \\
+73  & 0.3962 & 0.4072 & $+0.0109$ & $[-0.0046, 0.0264]$ & yes \\
+101 & 0.4011 & 0.3946 & $-0.0065$ & $[-0.0217, 0.0090]$ & no \\
+137 & 0.3883 & 0.3877 & $-0.0006$ & $[-0.0141, 0.0128]$ & no \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
 
 \subsection{Reproducibility Record}
 
-A repository README specifies the name of the frozen configuration, result directories and reporting bundle. The clean rerun is put into another output directory. All 20 core selector and verifier artifacts match byte-for-byte by SHA-256. Independent metric audits are done for runtime-bearing summaries, which are not included in the byte comparison.
+A repository README specifies the frozen configurations, result directories,
+and reporting bundles. The earlier diagnostic clean rerun places outputs in a
+separate directory; all 20 core selector and verifier artifacts match
+byte-for-byte by SHA-256. The bounded repair adds source hashes for retrieval,
+selector, completeness, and verifier summaries and independent audits for each
+stage. Runtime-bearing summaries are independently recomputed rather than
+expected to match byte-for-byte.
 
-There are exactly 1,490 locked-validation claim records in each of the five selector partitions for each method. The scorer output, calibrated probability, rank, modality, gold membership and selected-set decisions are stored in candidate records. Selector, verifier, robustness, audit and reporting records contain formal-test access flags that are false.
+There are exactly 1,490 locked-validation claim records in each of the five
+selector partitions for each method. The repaired candidate bundle contains
+789,540 rows for 13,159 released train and validation claims before the
+complete-gold eligibility filter. Candidate records store scorer output,
+calibrated probability, rank, modality, gold membership, and selected-set
+decisions. Selector, completeness, verifier, audit, and reporting records all
+contain false formal-test access flags.
 
 \subsection{External Evaluation Path}
 \label{sec:external}
 
-AVerImaTeC now offers an evaluated test setting as well as a public task report \cite{cao2026averimatecshared}. A useful transfer study would map its question-answer evidence to a stable selectable unit, fit calibration only on its released training resources, and report the official conditional evidence-verdict score as well as set size and reliability. A multi-hop set objective would be necessary, with a three-modality scorer, for MMCV. MOCHEG calibration parameters should not be reused in either transfer.
+AVerImaTeC offers an evaluated test setting and a public task report
+\cite{cao2026averimatecshared}. A useful transfer study would map its
+question--answer evidence to a stable selectable unit, fit calibration only on
+released training resources, and report the official conditional
+evidence--verdict score together with set size and reliability. A separate
+three-modality study would need a hash-locked split, table representation, and
+multi-hop set objective. MOCHEG calibration parameters should not be reused in
+either transfer.
