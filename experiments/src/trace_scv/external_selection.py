@@ -54,8 +54,13 @@ def enforce_official_output_constraints(
     if len(evidence) > maximum_items:
         raise ValueError(f"official output permits at most {maximum_items} evidence items")
     for index, row in enumerate(evidence):
-        if not str(row.get("source_url", "")).strip():
-            raise ValueError(f"evidence item {index} has no source URL")
         text = str(row.get("text", row.get("content", "")))
         if len(text) > maximum_characters:
             raise ValueError(f"evidence item {index} exceeds {maximum_characters} characters")
+        images = row.get("images", [])
+        if not isinstance(images, Sequence) or isinstance(images, (str, bytes)):
+            raise ValueError(f"evidence item {index} images must be a sequence")
+        if not text.strip() and not images:
+            raise ValueError(f"evidence item {index} contains neither text nor images")
+        if any(not str(path).strip() for path in images):
+            raise ValueError(f"evidence item {index} contains an empty image reference")

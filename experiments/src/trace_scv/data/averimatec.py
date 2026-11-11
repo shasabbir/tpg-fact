@@ -103,7 +103,39 @@ def gold_source_urls(row: Mapping[str, object]) -> set[str]:
     return sources
 
 
-def load_annotations(path: Path, *, split: str) -> list[dict[str, object]]:
+def gold_image_names(row: Mapping[str, object]) -> set[str]:
+    """Return released answer-image basenames for exact-image diagnostics."""
+    images: set[str] = set()
+    questions = row.get("questions") or []
+    if not isinstance(questions, Sequence) or isinstance(questions, (str, bytes)):
+        return images
+    for question in questions:
+        if not isinstance(question, Mapping):
+            continue
+        answers = question.get("answers") or []
+        if not isinstance(answers, Sequence) or isinstance(answers, (str, bytes)):
+            continue
+        for answer in answers:
+            if not isinstance(answer, Mapping):
+                continue
+            values = answer.get("image_answers") or []
+            if not isinstance(values, Sequence) or isinstance(values, (str, bytes)):
+                continue
+            images.update(Path(str(value)).name.casefold() for value in values if str(value).strip())
+    return images
+
+
+def gold_evidence_targets(row: Mapping[str, object]) -> set[str]:
+    """Combine URL and released image identities without conflating modalities."""
+    return {
+        *(f"url:{value}" for value in gold_source_urls(row)),
+        *(f"image:{value}" for value in gold_image_names(row)),
+    }
+
+
+def load_annotations(
+    path: Path, *, split: str, include_outcomes: bool = True
+) -> list[dict[str, object]]:
     """Load released annotations while preventing accidental hidden-test labels."""
     rows = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(rows, list):
@@ -115,12 +147,25 @@ def load_annotations(path: Path, *, split: str) -> list[dict[str, object]]:
         if split == "test" and any(key in raw for key in ("label", "questions", "justification")):
             raise RuntimeError("refusing a test record containing outcome-bearing fields")
         label = raw.get("label")
-        if split != "test" and label not in OFFICIAL_LABELS:
+        if split != "test" and include_outcomes and label not in OFFICIAL_LABELS:
             raise ValueError(f"unknown AVerImaTeC label at {split}:{ordinal}: {label!r}")
         row = dict(raw)
         row["claim_id"] = claim_identifier(raw, ordinal)
         row["split"] = split
-        row["gold_source_urls"] = sorted(gold_source_urls(raw)) if split != "test" else []
+        row["gold_source_urls"] = (
+            sorted(gold_source_urls(raw)) if split != "test" and include_outcomes else []
+        )
+        row["gold_image_names"] = (
+            sorted(gold_image_names(raw)) if split != "test" and include_outcomes else []
+        )
+        row["gold_evidence_targets"] = (
+            sorted(gold_evidence_targets(raw))
+            if split != "test" and include_outcomes
+            else []
+        )
+        if not include_outcomes:
+            for field in ("label", "questions", "justification"):
+                row.pop(field, None)
         output.append(row)
     identifiers = [str(row["claim_id"]) for row in output]
     if len(identifiers) != len(set(identifiers)):

@@ -9,12 +9,21 @@ from scripts.prepare_averimatec import _best_label_blind_chunk, _lexical_feature
 from trace_scv.data.averimatec import (
     candidate_identifier,
     claim_identifier,
+    gold_evidence_targets,
+    gold_image_names,
     gold_source_urls,
     load_annotations,
     normalize_source_url,
     train_role,
 )
+from trace_scv.external_retrieval import (
+    ExternalRetrievalConfig,
+    bm25_scores,
+    rank_external_candidates,
+    reciprocal_rank_fusion,
+)
 from trace_scv.external_reporting import paired_claim_bootstrap
+from trace_scv.external_output import build_official_predictions
 from trace_scv.external_selection import (
     enforce_official_output_constraints,
     select_evidence_indices,
@@ -23,6 +32,12 @@ from trace_scv.external_study import (
     freeze_train_only_models,
     run_locked_development,
     write_jsonl,
+)
+from trace_scv.external_verifier import (
+    aggregate_evidence_features,
+    classification_metrics,
+    fit_external_mlp_verifier,
+    fit_external_verifier,
 )
 
 
@@ -55,11 +70,54 @@ def test_gold_sources_ignore_metadata_pseudo_source() -> None:
     assert gold_source_urls(row) == {"https://example.com/evidence"}
 
 
+def test_gold_targets_keep_url_and_image_modalities_separate() -> None:
+    row = {
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "source_url": "https://example.com/evidence/",
+                        "image_answers": ["folder/Answer.JPG"],
+                    }
+                ]
+            }
+        ]
+    }
+    assert gold_image_names(row) == {"answer.jpg"}
+    assert gold_evidence_targets(row) == {
+        "url:https://example.com/evidence",
+        "image:answer.jpg",
+    }
+
+
 def test_test_loader_rejects_outcome_bearing_fields(tmp_path: Path) -> None:
     path = tmp_path / "test.json"
     path.write_text(json.dumps([{"claim_text": "x", "label": "Refuted"}]), encoding="utf-8")
     with pytest.raises(RuntimeError, match="outcome-bearing"):
         load_annotations(path, split="test")
+
+
+def test_sanitized_annotation_view_removes_outcomes(tmp_path: Path) -> None:
+    path = tmp_path / "train.json"
+    path.write_text(
+        json.dumps(
+            [
+                {
+                    "claim_text": "claim",
+                    "claim_images": ["c1#CLAIM#0.jpg"],
+                    "label": "Supported",
+                    "questions": [],
+                    "justification": "because",
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    row = load_annotations(path, split="train", include_outcomes=False)[0]
+    assert "label" not in row
+    assert "questions" not in row
+    assert "justification" not in row
+    assert row["gold_evidence_targets"] == []
 
 
 def test_candidate_features_do_not_use_gold_questions() -> None:
@@ -81,6 +139,180 @@ def test_candidate_features_do_not_use_gold_questions() -> None:
         "questions": [{"question": "unrelated wording"}],
     }
     assert _lexical_features(first, candidates) == _lexical_features(second, candidates)
+
+
+def test_external_bm25_and_rrf_are_deterministic() -> None:
+    scores = bm25_scores("target phrase", ["noise", "target phrase target"])
+    assert scores[1] > scores[0]
+    order, values = reciprocal_rank_fusion(([1, 0], [0, 1]), constant=60)
+    assert order.tolist() == [0, 1]
+    assert values[0] == values[1]
+
+
+class _TinyExternalEncoder:
+    def _encode(self, values: list[str]) -> object:
+        import numpy as np
+
+        rows = []
+        for value in values:
+            lowered = value.casefold()
+            row = np.asarray(
+                [
+                    float("target" in lowered),
+                    float("noise" in lowered),
+                    float("image" in lowered),
+                    1.0,
+                ],
+                dtype=np.float32,
+            )
+            rows.append(row / np.linalg.norm(row))
+        return np.stack(rows)
+
+    def encode_bge(self, values: list[str]) -> object:
+        return self._encode(values)
+
+    def encode_siglip(self, texts: list[str], image_paths: list[str]) -> tuple[object, object]:
+        return self._encode(texts), self._encode(image_paths)
+
+    def identity(self) -> dict[str, object]:
+        return {"backend": "tiny_test", "scientific_results_allowed": False}
+
+
+def test_multimodal_retrieval_ranks_real_image_rows_without_outcomes(tmp_path: Path) -> None:
+    claim = {
+        "split": "train",
+        "claim_id": "c1",
+        "claim_text": "target image",
+        "transcription": "",
+    }
+    image = tmp_path / "target-image.jpg"
+    image.write_bytes(b"test-only")
+    candidates = {
+        "train:c1": [
+            {
+                "split": "train",
+                "claim_id": "c1",
+                "claim_ordinal": 0,
+                "evidence_id": "t0",
+                "modality": "text",
+                "branch": "text_related",
+                "content": "noise",
+                "content_word_count": 1,
+            },
+            {
+                "split": "train",
+                "claim_id": "c1",
+                "claim_ordinal": 0,
+                "evidence_id": "t1",
+                "modality": "text",
+                "branch": "image_related",
+                "content": "target phrase",
+                "content_word_count": 2,
+            },
+            {
+                "split": "train",
+                "claim_id": "c1",
+                "claim_ordinal": 0,
+                "evidence_id": "i0",
+                "modality": "image",
+                "branch": "image_candidate",
+                "content": "target image",
+                "content_word_count": 2,
+                "media_path": str(image),
+            },
+        ]
+    }
+    ranked, manifest = rank_external_candidates(
+        [claim],
+        candidates,
+        encoder=_TinyExternalEncoder(),
+        config=ExternalRetrievalConfig(text_depth=2, image_depth=1, rerank_depth=2),
+        include_cross_encoder=False,
+    )
+    text_rows = [row for row in ranked if row["modality"] == "text"]
+    image_rows = [row for row in ranked if row["modality"] == "image"]
+    assert text_rows[0]["evidence_id"] == "t1"
+    assert image_rows[0]["evidence_id"] == "i0"
+    assert image_rows[0]["siglip_score"] > 0
+    assert manifest["gold_questions_used_for_retrieval"] is False
+    assert manifest["scientific_results_allowed"] is False
+
+
+def test_multimodal_retrieval_rejects_outcome_fields() -> None:
+    with pytest.raises(ValueError, match="outcome-bearing"):
+        rank_external_candidates(
+            [
+                {
+                    "split": "train",
+                    "claim_id": "c1",
+                    "claim_text": "claim",
+                    "transcription": "",
+                    "label": "Refuted",
+                }
+            ],
+            {},
+            encoder=_TinyExternalEncoder(),
+            config=ExternalRetrievalConfig(),
+            include_cross_encoder=False,
+        )
+
+
+def test_external_four_class_verifier_and_feature_aggregation() -> None:
+    import numpy as np
+
+    labels = [
+        "Supported",
+        "Supported",
+        "Refuted",
+        "Refuted",
+        "Not Enough Evidence",
+        "Not Enough Evidence",
+        "Conflicting Evidence/Cherrypicking",
+        "Conflicting Evidence/Cherrypicking",
+    ]
+    features = np.asarray(
+        [
+            [2.0, 0.0, 0.0, 0.0],
+            [1.8, 0.1, 0.0, 0.0],
+            [0.0, 2.0, 0.0, 0.0],
+            [0.1, 1.8, 0.0, 0.0],
+            [0.0, 0.0, 2.0, 0.0],
+            [0.0, 0.1, 1.8, 0.0],
+            [0.0, 0.0, 0.0, 2.0],
+            [0.1, 0.0, 0.0, 1.8],
+        ],
+        dtype=np.float64,
+    )
+    verifier = fit_external_verifier(features, labels, epochs=300)
+    predictions = [
+        verifier.labels[int(index)]
+        for index in verifier.predict_probabilities(features).argmax(axis=1)
+    ]
+    assert classification_metrics(labels, predictions)["macro_f1"] > 0.9
+    mlp = fit_external_mlp_verifier(features, labels, seed=13, hidden_units=8, epochs=300)
+    mlp_predictions = [
+        mlp.labels[int(index)]
+        for index in mlp.predict_probabilities(features).argmax(axis=1)
+    ]
+    assert classification_metrics(labels, mlp_predictions)["macro_f1"] > 0.9
+    aggregate = aggregate_evidence_features(
+        [
+            {
+                "evidence_id": "a",
+                "features": [1.0, 0.0],
+                "modality": "text",
+                "source_domain": "example.com",
+            },
+            {
+                "evidence_id": "b",
+                "features": [0.0, 1.0],
+                "modality": "image",
+                "source_domain": "",
+            },
+        ],
+        ["a", "b"],
+    )
+    assert aggregate.shape == (10,)
 
 
 def test_store_chunking_is_label_blind_and_respects_character_cap() -> None:
@@ -108,13 +340,49 @@ def test_expected_f1_and_threshold_obey_ten_item_cap() -> None:
     ) <= 10
 
 
-def test_official_output_constraints_reject_missing_url_and_long_text() -> None:
-    with pytest.raises(ValueError, match="source URL"):
-        enforce_official_output_constraints([{"source_url": "", "text": "evidence"}])
+def test_official_output_constraints_reject_empty_and_long_evidence() -> None:
+    with pytest.raises(ValueError, match="neither text nor images"):
+        enforce_official_output_constraints([{"text": "", "images": []}])
     with pytest.raises(ValueError, match="exceeds"):
         enforce_official_output_constraints(
             [{"source_url": "https://example.com", "text": "x " * 1501}]
         )
+
+
+def test_official_export_uses_pinned_evidence_schema() -> None:
+    predictions, diagnostics = build_official_predictions(
+        [{"claim_id": "c1"}],
+        [
+            {
+                "claim_id": "c1",
+                "evidence_id": "e1",
+                "modality": "text",
+                "content": "evidence text",
+                "source_url": "https://example.com",
+                "evaluation_id": "url:https://example.com",
+                "retrieval_rank": 1,
+            }
+        ],
+        [
+            {
+                "split": "validation",
+                "claim_id": "c1",
+                "seed": 13,
+                "policy": "completeness_aware_switch",
+                "selected_evidence_ids": ["e1"],
+                "predicted_verdict": "Supported",
+            }
+        ],
+    )
+    assert predictions == [
+        {
+            "evidence": [{"text": "evidence text", "images": []}],
+            "justification": "",
+            "questions": [],
+            "verdict": "Supported",
+        }
+    ]
+    assert diagnostics[0]["official_evidence_score_computed"] is False
 
 
 def test_paired_bootstrap_is_claim_aligned_and_deterministic() -> None:
@@ -148,6 +416,12 @@ def test_synthetic_train_freeze_and_locked_development_are_separate(tmp_path: Pa
             key = f"{split}:{claim_id}"
             gold_url = f"https://evidence.example/{claim_id}"
             full_gold[key] = [gold_url]
+            claim_label = (
+                "Supported",
+                "Refuted",
+                "Not Enough Evidence",
+                "Conflicting Evidence/Cherrypicking",
+            )[claim_index % 4]
             for candidate_index in range(3):
                 positive = candidate_index == 0
                 candidates.append(
@@ -160,6 +434,7 @@ def test_synthetic_train_freeze_and_locked_development_are_separate(tmp_path: Pa
                         ),
                         "modality": "text" if candidate_index < 2 else "image",
                         "gold": positive,
+                        "claim_label": claim_label,
                         "features": [float(positive), 1.0 - candidate_index / 3.0],
                     }
                 )
@@ -183,6 +458,9 @@ def test_synthetic_train_freeze_and_locked_development_are_separate(tmp_path: Pa
     )
     assert frozen["status"] == "frozen_train_only"
     assert frozen["development_outcomes_accessed"] is False
+    assert frozen["seeds"][0]["completeness_model"]["kind"] == "constant"
+    assert "completeness_aware_switch" in frozen["seeds"][0]["internal_holdout"]
+    assert frozen["seeds"][0]["shared_verifier"]["status"] == "frozen_train_only"
     summary, rows = run_locked_development(
         candidate_path,
         gold_path,
@@ -194,3 +472,6 @@ def test_synthetic_train_freeze_and_locked_development_are_separate(tmp_path: Pa
     assert summary["claims"] == 4
     assert rows
     assert summary["test_annotations_accessed"] is False
+    assert "completeness_aware_switch" in summary["aggregate_mean_over_seed_then_claim"]
+    assert "completeness_switch_minus_threshold" in summary["paired_claim_bootstrap"]
+    assert summary["shared_verifier"]["status"] == "checked_locked_development"

@@ -24,6 +24,21 @@ data:
 
 retrieval:
   source: organizer_static_knowledge_store
+  text_dense_model:
+    id: BAAI/bge-m3
+    revision: 5617a9f61b028005a4858fdac845db406aefb181
+  text_reranker:
+    id: BAAI/bge-reranker-v2-m3
+    revision: 953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e
+  image_model:
+    id: google/siglip2-base-patch16-224
+    revision: 75de2d55ec2d0b4efc50b3e9ad70dba96a7b2fa2
+  text_rankers: [bm25, bge_m3]
+  text_fusion: reciprocal_rank_fusion
+  text_rerank_depth: 100
+  reciprocal_rank_constant: 60
+  image_rankers: [siglip2, filename_bge_m3]
+  image_fusion: reciprocal_rank_fusion
   text_packet_width_candidates: [50, 100]
   image_packet_width_candidates: [10, 20]
   audit_depths: [10, 20, 50, 100]
@@ -49,6 +64,35 @@ selection:
   methods: [fixed, calibrated_threshold, expected_f1, uncalibrated_expected_f1, completeness_aware_switch]
   maximum_selected_items: 10
   require_nonempty: true
+  completeness_model:
+    family: balanced_l2_logistic
+    fit_role: calibration
+    threshold_selection_role: model_selection
+    routing: expected_f1_when_complete_else_calibrated_threshold
+    threshold_candidates: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+
+verifier:
+  labels: [Supported, Refuted, Not Enough Evidence, Conflicting Evidence/Cherrypicking]
+  shared_across_policies: true
+  primary:
+    family: two_layer_mlp
+    hidden_units: 64
+    learning_rate: 0.01
+    epochs: 400
+    l2: 0.001
+  control:
+    family: balanced_multinomial_logistic
+    learning_rate: 0.05
+    epochs: 400
+    l2: 0.001
+  noninferiority_margin: -0.010
+
+official_output:
+  maximum_evidence_items: 10
+  maximum_characters_per_item: 1500
+  evidence_fields: [text, images]
+  top_level_fields: [evidence, justification, questions, verdict]
+  development_export_only_until_blind_test_authorized: true
 
 statistics:
   independent_unit: claim

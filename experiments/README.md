@@ -15,9 +15,14 @@ Reusable scientific logic lives in `src/trace_scv`; notebooks only install and o
 - deterministic binary temperature scaling with Brier, NLL, and ECE diagnostics;
 - empty-set policy, maximum-budget handling, stable probability ordering, and smaller-set tie-breaking;
 - brute-force equivalence tests for the expected-F1 dynamic program;
-- 76 passing project tests after the Phase II additions.
+- 161 passing project tests across the complete repository.
 
-The 400-claim development packet gate passes. All 378,864 distinct train/development sentence-qrel IDs resolve to public corpus text; the pilot contains 15,823 candidates, 15,289 available candidates, and no unavailable gold candidate. The candidate feature store, fitted selector, matched verifier, and development study have not yet been completed, so no positive scientific result exists.
+The MOCHEG development study and its checked negative/mixed result are complete.
+The independent AVerImaTeC path now implements faithful text retrieval, actual
+image-candidate handling, completeness routing, a shared four-class verifier,
+and the official development export schema. Its formal train-only and locked
+development runs remain blocked by the unavailable official training knowledge
+store, so no external-confirmation result exists.
 
 Prepare or re-audit the currently downloaded metadata with:
 

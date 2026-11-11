@@ -33,9 +33,10 @@ it.
 | Main selector conclusion | Calibrated thresholding is strongest; expected-F1 is smaller; completeness switching is inconclusive | Complete, mixed result |
 | Formal MOCHEG test | Annotations remain sealed | Protected |
 | Canonical manuscript | 14-page PDF, 51 rendered references, visual QA complete | Strong foundation |
-| Implementation suite | 154 tests pass | Complete |
+| Implementation suite | 161 tests pass | Complete |
 | External annotations | AVerImaTeC train 793, development 152; identities and class distribution audited | Complete |
 | External access audit | 129,475 validation candidates from a participant-filled store; reachability diagnostics recorded | Audit only |
+| External real-model pilot | Pinned BGE-M3 and cross-encoder completed on two fallback validation claims; pinned SigLIP2 encoded one released image | Software/model pilot only |
 | External model fitting | No train-only freeze artifact exists | Missing |
 | Locked external comparison | No locked-development result exists | Missing |
 | Official external score | Gemma-3-27B judge not executed | Missing |
@@ -48,20 +49,21 @@ of 19.48% shows that shallow claim-text retrieval remains difficult.
 
 ## 3. Actual implementation gaps
 
-The external code is a tested scaffold, not the complete frozen experiment.
+The external code now contains the declared components, but the complete frozen
+experiment has not run on the official store.
 
 | Required component | Current state | Required work |
 |---|---|---|
 | Official training store | Incomplete because the public host enforced quota | Obtain complete organizer train text and image stores; hash every archive |
-| Text retrieval | Lexical overlap features only | Implement BM25, BGE-M3, reciprocal-rank fusion, and the declared reranker |
-| Image retrieval | Image-related text is represented, but actual candidate images are not visually ranked | Parse image candidates, hash/deduplicate them, and run SigLIP2 ranking |
-| Multimodal packet | Text and image widths exist in configuration | Construct a genuine text-plus-image packet with frozen candidate identities |
+| Text retrieval | BM25, pinned BGE-M3, reciprocal-rank fusion, and the pinned reranker are implemented; a two-claim real-model fallback pilot passed | Run and audit the full official training store |
+| Image retrieval | Actual candidate-image discovery and pinned SigLIP2/filename fusion are implemented; one released image passed a real-model encoder smoke test | Validate source association, duplicates, and full ranking on the official candidate-image store |
+| Multimodal packet | Genuine text and image identities, features, ranks, and widths are implemented | Execute a complete official training packet and measure its ceiling |
 | Calibration | Calibrator families implemented | Fit separately by modality and execute all declared diagnostics |
-| Selector matrix | Fixed, threshold, expected-F1, and uncalibrated expected-F1 implemented | Implement and test the prespecified completeness-aware switch |
-| Shared verifier | Not implemented for AVerImaTeC | Implement linear control and two-layer four-class verifier with shared access |
-| Official prediction output | Constraint checks exist | Implement full schema exporter, verdict mapping, and justification/evidence fields |
+| Selector matrix | Fixed, threshold, expected-F1, uncalibrated expected-F1, and the completeness-aware switch are implemented and regression-tested | Fit and freeze them on official training roles |
+| Shared verifier | Balanced linear control and deterministic two-layer four-class verifier are implemented and regression-tested | Train on official training roles and evaluate once on locked development |
+| Official prediction output | Development-only exporter enforces the pinned evidence, verdict, item-count, and character schema; diagnostic source metadata is separated | Validate a full official training batch; questions and justifications remain empty because they are outside the contribution |
 | Official semantic evaluation | Hardware feasibility audited only | Run pinned Gemma-3-27B evaluator on suitable hardware or report it unavailable |
-| Reporting | Paired bootstrap utilities implemented | Generate full per-seed, class-wise, calibration, reachability, and deviation reports |
+| Reporting | Claim-aligned bootstrap, Bonferroni simultaneous intervals, Holm p-value adjustment, class-wise verifier metrics, and reachability audit are implemented | Generate complete five-seed official reports and manuscript tables |
 
 No locked development outcome may be inspected until these gaps are resolved
 or a deviation is frozen and the paper's claims are narrowed accordingly.
@@ -404,12 +406,14 @@ not completion.
 ## 10. Immediate next actions
 
 1. resolve the official training-store access route;
-2. implement the missing faithful text and image retrieval modules;
-3. implement the external completeness switch, shared verifier, and official
-   output exporter;
-4. run a training-only end-to-end pilot and resource audit;
-5. freeze the executable protocol before any locked development result;
-6. execute the five-seed training roles and one locked development comparison;
+2. extract, hash, and audit the complete official text and candidate-image
+   stores;
+3. run faithful retrieval and a training-only end-to-end pilot with resource
+   accounting;
+4. freeze the executable protocol before any locked development result;
+5. execute the five-seed training roles and one locked development comparison;
+6. run the official evaluator on adequate hardware or record the formal
+   unavailability deviation;
 7. make the blind-test decision under the frozen rule;
 8. update the canonical manuscript from checked results; and
 9. complete venue selection, author declarations, reference support, and the

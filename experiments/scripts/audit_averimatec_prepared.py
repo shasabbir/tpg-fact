@@ -9,6 +9,10 @@ from trace_scv.external_reporting import set_metrics
 from trace_scv.external_study import read_jsonl, write_jsonl
 
 
+def _target(row: dict[str, object]) -> str:
+    return str(row.get("evaluation_id", row.get("normalized_source_url", "")))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Audit exact-source reachability in prepared AVerImaTeC candidates.")
     parser.add_argument("--prepared-root", type=Path, required=True)
@@ -33,9 +37,13 @@ def main() -> None:
         candidates = grouped.get(key, [])
         ranked = sorted(
             candidates,
-            key=lambda row: (-float(row["features"][3]), str(row["evidence_id"])),
+            key=lambda row: (
+                int(row.get("retrieval_rank", 10**9)),
+                -float(row["features"][3]),
+                str(row["evidence_id"]),
+            ),
         )
-        pool = {str(row["normalized_source_url"]) for row in ranked}
+        pool = {_target(row) for row in ranked}
         record: dict[str, object] = {
             "key": key,
             "claim_id": key.split(":", 1)[1],
@@ -47,12 +55,12 @@ def main() -> None:
             "zero_pool_reachability": float(not (pool & expected)),
         }
         for depth in depths:
-            selected = {str(row["normalized_source_url"]) for row in ranked[:depth]}
+            selected = {_target(row) for row in ranked[:depth]}
             record[f"recall_at_{depth}"] = len(selected & expected) / len(expected)
             record[f"complete_at_{depth}"] = float(expected <= selected)
         text = [row for row in ranked if row["modality"] == "text"][:100]
         image = [row for row in ranked if row["modality"] == "image"][:20]
-        packet = {str(row["normalized_source_url"]) for row in text + image}
+        packet = {_target(row) for row in text + image}
         record.update({f"packet_{name}": value for name, value in set_metrics(packet, expected).items()})
         claim_rows.append(record)
     write_jsonl(claim_path, claim_rows)
@@ -77,7 +85,10 @@ def main() -> None:
         "metrics": {
             metric: fmean(float(row[metric]) for row in claim_rows) for metric in metric_names
         },
-        "metric_scope": "normalized exact-source diagnostic; not the official semantic evidence score",
+        "metric_scope": (
+            "exact normalized URL/released-image identity diagnostic; "
+            "not the official semantic evidence score"
+        ),
         "test_annotations_accessed": False,
     }
     output_path.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")

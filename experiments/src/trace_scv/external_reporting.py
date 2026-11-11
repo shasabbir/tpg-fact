@@ -36,7 +36,10 @@ def paired_claim_bootstrap(
     metric: str = "f1",
     samples: int = 10_000,
     seed: int = 13,
-) -> dict[str, float | int]:
+    family_size: int = 1,
+) -> dict[str, object]:
+    if family_size < 1:
+        raise ValueError("family_size must be positive")
     right_by_id = {str(row["claim_id"]): float(row[metric]) for row in right}
     left_ids = [str(row["claim_id"]) for row in left]
     if set(left_ids) != set(right_by_id):
@@ -69,6 +72,11 @@ def paired_claim_bootstrap(
         "lower": float(np.quantile(values, 0.025)),
         "median": float(np.quantile(values, 0.5)),
         "upper": float(np.quantile(values, 0.975)),
+        "lower_adjusted": float(np.quantile(values, 0.025 / family_size)),
+        "upper_adjusted": float(np.quantile(values, 1.0 - 0.025 / family_size)),
+        "simultaneous_confidence_level": float(1.0 - 0.05 / family_size),
+        "interval_correction": "bonferroni",
+        "family_size": int(family_size),
         "p_raw": float(p_raw),
         "sample_count": int(samples),
         "resampling_seed": int(seed),

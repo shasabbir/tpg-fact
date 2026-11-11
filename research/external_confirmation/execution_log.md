@@ -6,11 +6,13 @@ Checkpoint before execution: `b79ae39` (`v4`)
 
 ## Current status
 
-The implementation and access audits are complete enough to run once the
-official training knowledge-store text archive is available. The outcome-bearing
-train-only fit and locked development comparison have not been run. No test
-annotation has been opened, no test prediction has been generated, and no
-leaderboard submission has been made.
+The faithful retrieval, selection, completeness-routing, verifier, and export
+paths are implemented and regression-tested. They can enter the formal
+train-only run once the official training knowledge-store text and image
+archives are complete. The outcome-bearing train-only fit and locked
+development comparison have not been run. No test annotation has been opened,
+no test prediction has been generated, and no leaderboard submission has been
+made.
 
 This distinction is intentional: a completed software path is not an external
 confirmation result.
@@ -23,11 +25,22 @@ confirmation result.
 - implemented deterministic identifiers, source normalization, grouped training
   roles, label-blind ranking output, post-freeze gold joining, calibrated
   selectors, claim-aligned bootstrap intervals, and locked-output guards;
+- implemented claim-local BM25, pinned BGE-M3 dense ranking, equal-weight
+  reciprocal-rank fusion, and the pinned BGE reranker;
+- corrected the evidence model so reverse-image-search page text remains text
+  evidence and actual candidate-image files are loaded as image evidence;
+- implemented pinned SigLIP2 plus filename-BGE image ranking, genuine multimodal
+  packet identities, and separate exact URL/image diagnostic targets;
+- implemented the train-only completeness estimator and switch, a balanced
+  linear verifier control, a deterministic two-layer four-class verifier, and
+  a development-only official-schema exporter;
+- added Bonferroni simultaneous bootstrap intervals alongside Holm-adjusted
+  p-values for the four selector comparisons;
 - prevented gold questions from entering candidate features;
 - enforced the official maximum of ten evidence items and the corrected
   1,500-character evidence limit;
 - added a hidden-test field guard and kept the published test archive unopened;
-- passed all 154 tests in the full project suite after the implementation changes; and
+- passed all 161 tests in the full project suite after the implementation changes; and
 - audited the pinned official semantic evaluator without replacing it with an
   easier judge.
 
@@ -53,6 +66,12 @@ Parallel downloads reached approximately 42% of the training image archive and
 files and transfer-control records were preserved; they were not treated as
 valid archives.
 
+On 2026-11-11 the canonical folder was queried again and still listed the
+organizer's train text, train image, validation, and test archives. A direct
+retry of the required train text file failed with Google's ``Too many users
+have viewed or downloaded this file recently'' response. The test archive was
+not opened.
+
 As an audit-only fallback, the public `humane-lab/AVerImaTeC-Filled` Hugging
 Face release was downloaded. Its validation text archive contains both
 text-related branches (306 members, 5,193,221,644 uncompressed bytes). It is a
@@ -71,6 +90,23 @@ only 0.0217 source-set F1 because it returns 109.10 unique sources on average.
 These are access and reachability diagnostics for a participant-filled store,
 not results from the frozen selector protocol and not the official semantic
 evidence score.
+
+## Real-model software pilot
+
+The pinned BGE-M3 and BGE reranker completed a CUDA pilot on two validation
+claims from the participant-filled fallback store. The label-blind stage read
+1,949 text candidates, retained 20 per claim, wrote and hashed 40 pre-join rows
+(`65f44e58ef8c765e10b599dcd8a9cde20117e608e646a368474e2537e30c61bd`),
+and joined gold targets only afterward. The pilot was repeated after enforcing
+a sanitized pre-join annotation view and reproduced the same hash. One of the
+two claims had no reachable target in the retained packet. This tiny, selected
+software pilot is not a scientific result and is not used in the paper.
+
+The pinned SigLIP2 model also encoded one released claim image on the RTX 4090,
+producing aligned 768-dimensional text and image vectors. This validates model
+loading and the encoder call only; the official candidate-image archive and
+source association remain unavailable, so the image retrieval gate has not
+passed.
 
 ## Official evaluator feasibility
 
