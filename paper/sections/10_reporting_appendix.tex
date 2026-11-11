@@ -108,10 +108,30 @@ contain false formal-test access flags.
 \label{sec:external}
 
 AVerImaTeC offers an evaluated test setting and a public task report
-\cite{cao2026averimatecshared}. A useful transfer study would map its
-question--answer evidence to a stable selectable unit, fit calibration only on
-released training resources, and report the official conditional
-evidence--verdict score together with set size and reliability. A separate
-three-modality study would need a hash-locked split, table representation, and
-multi-hop set objective. MOCHEG calibration parameters should not be reused in
-either transfer.
+\cite{cao2026averimatecshared}. We froze a transfer protocol that maps each
+store URL and a claim-matched, 1,500-character chunk to a deterministic
+candidate identifier. It fits every scorer and calibrator from scratch on the
+793 released training claims, reserves the 152 development claims for one
+locked comparison, caps outputs at ten items, and does not transfer MOCHEG
+parameters. Gold questions are excluded from retrieval features, and exact
+source membership is joined only after label-blind rankings are written and
+hashed.
+
+An access audit used a public participant-released filled validation store to
+validate this adapter without treating it as the prespecified experiment. It
+produced 129,475 candidates, or 851.8 per claim.
+The full pool reaches 92.94\% of normalized annotated sources and contains the
+complete annotated source set for 84.21\% of claims. Claim-text ranking is much
+weaker: exact-source Recall@10, @20, @50, and @100 is 4.82\%, 8.00\%, 13.21\%,
+and 19.48\%. This gap confirms that candidate availability does not imply
+shallow retrieval success. These values are diagnostics for a participant-
+filled store, not the official semantic evidence score or a selector result.
+
+We do not claim independent confirmation at manuscript cutoff. The complete
+organizer training text store was not locally available after the public host
+enforced its download quota, and the prescribed Gemma-3-27B judge has 54.86~GB
+of weight files versus 25.76~GB of local GPU memory. We neither substituted the
+filled validation store for training nor reported a quantized replacement
+judge as official. The blind test and leaderboard remain untouched. A separate
+three-modality study would still require a hash-locked split, table
+representation, and multi-hop set objective.

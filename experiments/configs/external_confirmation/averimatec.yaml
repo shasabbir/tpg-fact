@@ -1,0 +1,77 @@
+study:
+  name: averimatec-independent-external-confirmation
+  frozen_on: 2026-11-11
+  source_plan_commit: 95d3389
+  output_namespace: outputs/external_confirmation/averimatec
+  seeds: [13, 37, 73, 101, 137]
+  development_policy: one_locked_run_after_train_only_selection
+  test_submission_allowed: false
+  test_labels_allowed: false
+
+data:
+  dataset: AVerImaTeC
+  raw_root: data/public/averimatec/raw
+  processed_root: data/processed/averimatec
+  official_dataset_revision: 7e77fb26a1ba86159ff5ba27b59f373b450d6fd0
+  official_code_revision: f6f361d2fc5a0ab7d3ea282e2beced56b928e1bd
+  train_partition_method: sha256_claim_grouped
+  train_partition_fractions:
+    fit: 0.55
+    calibration: 0.15
+    model_selection: 0.15
+    internal_holdout: 0.15
+  license: CC-BY-NC-4.0
+
+retrieval:
+  source: organizer_static_knowledge_store
+  text_packet_width_candidates: [50, 100]
+  image_packet_width_candidates: [10, 20]
+  audit_depths: [10, 20, 50, 100]
+  maximum_characters_per_item: 1500
+  gold_join_after_ranking_freeze: true
+  gold_questions_allowed_for_candidate_scoring: false
+
+scoring:
+  family: balanced_l2_logistic
+  learning_rate: 0.05
+  epochs: 400
+  l2: 0.001
+  maximum_fit_negatives_per_claim: 40
+  calibrators: [identity, temperature, prior_shift, platt, beta, isotonic]
+  calibrator_selection_metric: brier
+  fit_role: fit
+  calibration_role: calibration
+  guard_role: model_selection
+
+selection:
+  fixed_budgets: [1, 3, 5, 10]
+  thresholds: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+  methods: [fixed, calibrated_threshold, expected_f1, uncalibrated_expected_f1, completeness_aware_switch]
+  maximum_selected_items: 10
+  require_nonempty: true
+
+statistics:
+  independent_unit: claim
+  primary_diagnostic: source_normalized_claim_macro_f1
+  official_primary_metric: official_semantic_evidence_score
+  bootstrap_samples: 10000
+  confidence_level: 0.95
+  multiplicity: holm
+  hypotheses:
+    threshold_minus_fixed_minimum: 0.010
+    expected_f1_noninferiority_margin: -0.010
+    calibrated_minus_uncalibrated_minimum: 0.010
+    expected_f1_minimum_size_reduction: 0.15
+
+official_evaluator:
+  model: google/gemma-3-27b-it
+  precision: bfloat16
+  documented_hardware: two_l40_gpus
+  local_hardware_feasibility_must_be_audited: true
+  replacement_score_may_not_be_called_official: true
+
+artifacts:
+  preserve_prejoin_rankings: true
+  preserve_per_claim_outputs: true
+  immutable_freeze_manifest: true
+  overwrite_frozen_outputs: false

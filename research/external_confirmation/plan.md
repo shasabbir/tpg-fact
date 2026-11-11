@@ -1,8 +1,8 @@
 # Independent External Confirmation Plan
 
 Date: 2026-11-11  
-Status: planned; no outcome-bearing external run or leaderboard submission has
-been performed  
+Status: execution in progress; train-only models and the locked development
+comparison have not yet run, and no leaderboard submission has been performed
 Checkpoint before planning: Git commit `b79ae39` (`v4`)
 
 ## 1. Decision
@@ -174,7 +174,7 @@ search, paid APIs, or post-test scraping.
 
 ### Text branch
 
-1. normalize and chunk store documents with a frozen 1,500-token maximum;
+1. normalize and chunk store documents with the organizer's frozen 1,500-character maximum;
 2. retrieve with BM25 and BGE-M3 independently;
 3. combine ranks with reciprocal-rank fusion;
 4. optionally rerank with the already pinned cross-encoder family, refitted or
@@ -238,7 +238,7 @@ capacity control and one two-layer MLP, matching the current safeguard logic.
 The output adapter must enforce the official schema:
 
 - no more than ten evidence pieces;
-- no evidence item above 1,500 tokens;
+- no evidence item above 1,500 characters;
 - source URL retained for every item;
 - text and image components represented as required by the official evaluator;
 - exactly one of the four official verdict labels; and
@@ -331,7 +331,7 @@ Required regression tests include:
 - no development labels in fitting or configuration selection;
 - no test labels in any executable path;
 - label-blind rankings hashed before gold join;
-- maximum ten returned items and 1,500-token limit;
+- maximum ten returned items and 1,500-character limit;
 - exact official label mapping and submission schema;
 - paired-resampling alignment and Holm decisions;
 - immutable output namespaces and failed-run preservation; and
