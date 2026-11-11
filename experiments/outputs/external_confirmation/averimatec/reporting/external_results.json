@@ -1,0 +1,230 @@
+{
+  "blind_policy_family": "fixed",
+  "comparisons": {
+    "calibrated_minus_uncalibrated_expected_f1": {
+      "family_size": 4,
+      "interval_correction": "bonferroni",
+      "lower": 0.02826190330137699,
+      "lower_adjusted": 0.02206941646620923,
+      "mean": 0.05315649263017684,
+      "median": 0.0529454281099018,
+      "p_holm": 0.0007999200079992001,
+      "p_raw": 0.00019998000199980003,
+      "resampling_seed": 91073,
+      "sample_count": 10000,
+      "simultaneous_confidence_level": 0.9875,
+      "upper": 0.08070411277319171,
+      "upper_adjusted": 0.08852449624571336
+    },
+    "completeness_switch_minus_threshold": {
+      "family_size": 4,
+      "interval_correction": "bonferroni",
+      "lower": 0.0011455200501253127,
+      "lower_adjusted": -0.0026290139411027573,
+      "mean": 0.015550334168755219,
+      "median": 0.015372284878863825,
+      "p_holm": 0.07139286071392861,
+      "p_raw": 0.032996700329967,
+      "resampling_seed": 91101,
+      "sample_count": 10000,
+      "simultaneous_confidence_level": 0.9875,
+      "upper": 0.031670869883040915,
+      "upper_adjusted": 0.036205663899331664
+    },
+    "expected_f1_minus_threshold": {
+      "family_size": 4,
+      "interval_correction": "bonferroni",
+      "lower": 0.0021657790309106088,
+      "lower_adjusted": -0.0014792384607351715,
+      "mean": 0.017136591478696738,
+      "median": 0.016726190476190478,
+      "p_holm": 0.07139286071392861,
+      "p_raw": 0.023797620237976203,
+      "resampling_seed": 91037,
+      "sample_count": 10000,
+      "simultaneous_confidence_level": 0.9875,
+      "upper": 0.03363481620718462,
+      "upper_adjusted": 0.039046679197994996
+    },
+    "threshold_minus_fixed": {
+      "family_size": 4,
+      "interval_correction": "bonferroni",
+      "lower": -0.01886607142857143,
+      "lower_adjusted": -0.02341494360902256,
+      "mean": 3.1328320802004904e-05,
+      "median": 9.398496240603077e-06,
+      "p_holm": 0.9989001099890011,
+      "p_raw": 0.9989001099890011,
+      "resampling_seed": 91013,
+      "sample_count": 10000,
+      "simultaneous_confidence_level": 0.9875,
+      "upper": 0.018728226817042604,
+      "upper_adjusted": 0.024035401002506285
+    }
+  },
+  "decisions": {
+    "calibration_benefit": true,
+    "completeness_switch_superiority": false,
+    "expected_f1_compact_operating_point": false,
+    "expected_f1_noninferiority": true,
+    "expected_f1_size_reduction": false,
+    "threshold_superiority": false,
+    "verifier_noninferiority": false
+  },
+  "expected_f1_size_reduction_vs_threshold": -1.739571589627959,
+  "official_semantic_evaluator": {
+    "reason": "requires a separately checked Gemma-3-27B execution",
+    "score": null,
+    "status": "not_run"
+  },
+  "reachability": {
+    "train": {
+      "candidate_rows": 94085,
+      "claims_with_web_gold": 792,
+      "condition": "organizer_official_train",
+      "mean_candidate_rows_per_claim": 118.66792929292929,
+      "metric_scope": "exact normalized URL/released-image identity diagnostic; not the official semantic evidence score",
+      "metrics": {
+        "complete_at_10": 0.012626262626262626,
+        "complete_at_100": 0.08333333333333333,
+        "complete_at_20": 0.021464646464646464,
+        "complete_at_50": 0.045454545454545456,
+        "complete_pool_reachability": 0.09217171717171717,
+        "packet_exact": 0.0,
+        "packet_f1": 0.008231437872254962,
+        "packet_precision": 0.004207534571408256,
+        "packet_recall": 0.22467833092833092,
+        "packet_selected_count": 118.18055555555556,
+        "pool_recall": 0.22467833092833092,
+        "recall_at_10": 0.04478415103415104,
+        "recall_at_100": 0.2105369167869168,
+        "recall_at_20": 0.06661706349206349,
+        "recall_at_50": 0.12898027898027897,
+        "zero_pool_reachability": 0.6136363636363636
+      },
+      "status": "checked",
+      "test_annotations_accessed": false
+    },
+    "validation": {
+      "candidate_rows": 18240,
+      "claims_with_web_gold": 152,
+      "condition": "organizer_official_validation",
+      "mean_candidate_rows_per_claim": 120.0,
+      "metric_scope": "exact normalized URL/released-image identity diagnostic; not the official semantic evidence score",
+      "metrics": {
+        "complete_at_10": 0.02631578947368421,
+        "complete_at_100": 0.1118421052631579,
+        "complete_at_20": 0.03289473684210526,
+        "complete_at_50": 0.05263157894736842,
+        "complete_pool_reachability": 0.125,
+        "packet_exact": 0.0,
+        "packet_f1": 0.008350583201417388,
+        "packet_precision": 0.0042622365262451325,
+        "packet_recall": 0.2548245614035088,
+        "packet_selected_count": 119.42763157894737,
+        "pool_recall": 0.2548245614035088,
+        "recall_at_10": 0.05263157894736842,
+        "recall_at_100": 0.23782894736842106,
+        "recall_at_20": 0.06962719298245615,
+        "recall_at_50": 0.11425438596491229,
+        "zero_pool_reachability": 0.5986842105263158
+      },
+      "status": "checked",
+      "test_annotations_accessed": false
+    }
+  },
+  "selector": {
+    "calibrated_threshold": {
+      "exact": 0.028947368421052635,
+      "f1": 0.08574561403508772,
+      "precision": 0.13083333333333333,
+      "recall": 0.0724780701754386,
+      "selected_count": 1.1671052631578949
+    },
+    "completeness_aware_switch": {
+      "exact": 0.014473684210526317,
+      "f1": 0.10129594820384294,
+      "precision": 0.12082550125313284,
+      "recall": 0.11600877192982456,
+      "selected_count": 2.7078947368421056
+    },
+    "expected_f1": {
+      "exact": 0.014473684210526317,
+      "f1": 0.10288220551378446,
+      "precision": 0.11980733082706767,
+      "recall": 0.12138157894736841,
+      "selected_count": 3.1973684210526314
+    },
+    "fixed": {
+      "exact": 0.005263157894736842,
+      "f1": 0.08571428571428572,
+      "precision": 0.08464912280701753,
+      "recall": 0.11157894736842106,
+      "selected_count": 2.593421052631579
+    },
+    "uncalibrated_expected_f1": {
+      "exact": 0.0,
+      "f1": 0.04972571288360762,
+      "precision": 0.030643274853801167,
+      "recall": 0.16140350877192983,
+      "selected_count": 9.930263157894737
+    }
+  },
+  "source_artifacts": {
+    "claim_records": {
+      "path": "outputs/external_confirmation/averimatec/locked_development/claim_records.jsonl",
+      "sha256": "eec62a20ba92361d2fc937208304abd06dc15a7f0f3c1e706351b6a47aa14f92"
+    },
+    "summary": {
+      "path": "outputs/external_confirmation/averimatec/locked_development/summary.json",
+      "sha256": "be40ec8e66deda4688e7b0ea715f2994da8583f008fd9d4948febee636aac204"
+    },
+    "train_reachability": {
+      "path": "outputs/external_confirmation/averimatec/prepared_train/reachability.audit.json",
+      "sha256": "0008bbeb263ddc53ff8454db9bf7e5c1e3c077c094bca2a48f71d2c8a37fbbd9"
+    },
+    "validation_reachability": {
+      "path": "outputs/external_confirmation/averimatec/prepared_validation/reachability.audit.json",
+      "sha256": "2a299b1723ba9e7447c6cb201bf523d0af3de211fbf932d8151326320e7459ba"
+    }
+  },
+  "status": "checked_independent_recomputation",
+  "switch_seed_effects": [
+    0.01722535505430242,
+    0.02280701754385965,
+    0.013925438596491244,
+    0.02214912280701753,
+    0.0016447368421052683
+  ],
+  "test_annotations_accessed": false,
+  "test_submission_performed": false,
+  "verifier": {
+    "means": {
+      "calibrated_threshold": {
+        "Conflicting Evidence/Cherrypicking_f1": 0.0,
+        "Not Enough Evidence_f1": 0.04320381836945304,
+        "Refuted_f1": 0.47100909359322196,
+        "Supported_f1": 0.11495014276444929,
+        "accuracy": 0.3157894736842105,
+        "macro_f1": 0.15729076368178108
+      },
+      "completeness_aware_switch": {
+        "Conflicting Evidence/Cherrypicking_f1": 0.0,
+        "Not Enough Evidence_f1": 0.04743855584191718,
+        "Refuted_f1": 0.4299766851714664,
+        "Supported_f1": 0.10001724562700172,
+        "accuracy": 0.28421052631578947,
+        "macro_f1": 0.14435812166009632
+      }
+    },
+    "paired_switch_minus_threshold": {
+      "lower": -0.03242268113153256,
+      "mean": -0.01293264202168476,
+      "median": -0.012804719823562606,
+      "resampling_seed": 291013,
+      "sample_count": 10000,
+      "seeds": 5,
+      "upper": 0.0068731693985067755
+    }
+  }
+}

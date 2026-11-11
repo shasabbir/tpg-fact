@@ -9,13 +9,12 @@ Checkpoint before execution: `b79ae39` (`v4`)
 The organizer training and validation knowledge-store archives are now
 complete, hash-verified, and extracted. The full official training store has
 passed the pinned multimodal retrieval path, and all five train-only models and
-selection decisions are frozen in an immutable manifest. The locked
-development comparison has not yet run. No test annotation has been opened,
-no test prediction has been generated, and no leaderboard submission has been
+selection decisions are frozen in an immutable manifest. One locked
+development comparison has completed, its aggregates were independently
+recomputed, and the canonical manuscript is being synchronized. The official
+semantic judge remains unavailable. No test annotation has been opened, no
+test prediction has been generated, and no leaderboard submission has been
 made.
-
-This distinction is intentional: a completed software path is not an external
-confirmation result.
 
 ## Official-store resolution and train-only freeze
 
@@ -61,7 +60,8 @@ the declared training roles. The freeze manifest has SHA-256
 names clean code revision `218dbf1ac88630a06d5ad3cce3e1cacaeb84ddcc`,
 and records `development_outcomes_accessed: false`. The implementation now
 rejects mixed-split freeze inputs and accepts only validation-only artifacts in
-the locked runner. The full suite contains 162 passing tests.
+the locked runner. After the reporting and export additions, the full suite
+contains 163 passing tests and bytecode compilation succeeds.
 
 ## Completed work
 
@@ -86,7 +86,7 @@ the locked runner. The full suite contains 162 passing tests.
 - enforced the official maximum of ten evidence items and the corrected
   1,500-character evidence limit;
 - added a hidden-test field guard and kept the published test archive unopened;
-- passed all 161 tests in the full project suite after the implementation changes; and
+- passed the complete 163-test project suite after the final reporting changes; and
 - audited the pinned official semantic evaluator without replacing it with an
   easier judge.
 
@@ -103,7 +103,7 @@ questions. Three training claims have no web-source URL after excluding
 metadata pseudo-sources. These claims remain in the access audit but cannot
 contribute a positive exact-source target.
 
-## External access condition
+## Resolved external access history
 
 The organizer distributes the static knowledge store through Google Drive.
 Parallel downloads reached approximately 42% of the training image archive and
@@ -123,10 +123,9 @@ release, the participant-filled validation/test release, and a claim-image
 reproduction. None contains the organizer's training knowledge store. A final
 authenticated-download attempt could not proceed: Chrome's current Windows
 cookie protection prevented CLI cookie import, no Firefox profile existed, and
-local browser control is disabled in this Work environment. Unblocking Gate A
-therefore requires either a completed manual organizer download placed under
-`experiments/data/public/averimatec/raw/knowledge_store/`, an authoritative
-byte-identical mirror, or a later retry after the Google Drive quota resets.
+local browser control was disabled in this Work environment. The user-supplied
+organizer archives later resolved this gate; the earlier partial files remain
+preserved only as an access-history record and were never treated as valid.
 
 As an audit-only fallback, the public `humane-lab/AVerImaTeC-Filled` Hugging
 Face release was downloaded. Its validation text archive contains both
@@ -159,10 +158,9 @@ two claims had no reachable target in the retained packet. This tiny, selected
 software pilot is not a scientific result and is not used in the paper.
 
 The pinned SigLIP2 model also encoded one released claim image on the RTX 4090,
-producing aligned 768-dimensional text and image vectors. This validates model
-loading and the encoder call only; the official candidate-image archive and
-source association remain unavailable, so the image retrieval gate has not
-passed.
+producing aligned 768-dimensional text and image vectors. At that checkpoint
+this validated model loading only; the later organizer-store run completed the
+full image path and supersedes this pilot as scientific evidence.
 
 ## Official evaluator feasibility
 
@@ -174,9 +172,9 @@ therefore does not fit on the local GPU as specified. CPU offload or
 quantization would change the execution condition and has not been presented
 as an official score.
 
-## Completion boundary
+## Pre-run completion boundary (satisfied)
 
-The remaining authorized order is:
+The locked run followed this authorized order:
 
 1. prepare validation-only label-blind rankings after the committed train-only
    freeze;
@@ -187,3 +185,38 @@ The remaining authorized order is:
 5. update the canonical manuscript only with checked results.
 
 The blind test and leaderboard remain outside this execution boundary.
+
+## Locked development completion
+
+Completed on 2026-11-12. Validation-only preparation ranked 101,289 text
+candidates and 49,617 actual images for 152 claims. The 18,240-row label-blind
+pre-join artifact has SHA-256
+`b24739c9e85763561cd248eae7b572f1dac2cce0956cfc578220c615bfe719c0`.
+The exact-source audit found 25.48% target recall, 12.50% complete claim
+reachability, and 59.87% zero-reachable claims. One 144-million-pixel organizer
+image triggered a PIL safety warning but was processed without exclusion or
+fallback.
+
+The locked comparison ran once and produced 3,800 claim-policy-seed records.
+Independent recomputation matched all selector aggregates, four paired
+bootstrap comparisons, and shared-verifier results. Calibrated expected-F1
+beats its uncalibrated ablation by +0.05316 exact-source F1 with a Bonferroni
+simultaneous interval [+0.02207,+0.08852]. Thresholding does not beat the fixed
+family (+0.00003 [-0.02341,+0.02404]). Expected-F1 exceeds thresholding by
++0.01714 [-0.00148,+0.03905] but selects 3.20 rather than 1.17 items, so the
+compactness requirement fails. The switch gains +0.01555
+[-0.00263,+0.03621] and selects 2.71 items, so its superiority gate fails.
+
+Shared-verifier macro-F1 averages 0.1573 for threshold evidence and 0.1444 for
+switch evidence. The switch-minus-threshold effect is -0.01293 with 95%
+interval [-0.03242,+0.00687], failing the -0.010 non-inferiority safeguard.
+The frozen blind rule therefore selects the train-selected fixed policy family.
+The official semantic judge remains unavailable, and no blind-test prediction
+or submission was generated.
+
+The first fixed-family development export failed because verdict predictions
+had been attached only to threshold and switch rows. Deterministic inference
+from the already frozen shared verifier was added without refitting or changing
+evidence. All five local development exports then passed the official schema;
+they remain unsubmitted. Full details and evidence hashes are recorded in
+`research/external_confirmation/results.md`.

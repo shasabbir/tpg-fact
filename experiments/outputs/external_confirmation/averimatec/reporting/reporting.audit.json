@@ -1,0 +1,16 @@
+{
+  "bootstrap_recomputed": true,
+  "claim_records": 3800,
+  "claims": 152,
+  "policies": 5,
+  "results": {
+    "path": "outputs/external_confirmation/averimatec/reporting/external_results.json",
+    "sha256": "0751ce76ecb7b4abd7c535bea7bb35313643b8f4ae746502763e807734ad915d"
+  },
+  "seeds": 5,
+  "status": "pass",
+  "summary_recomputed": true,
+  "test_annotations_accessed": false,
+  "test_submission_performed": false,
+  "verifier_recomputed": true
+}

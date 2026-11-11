@@ -1,0 +1,17 @@
+\begin{table*}[t]
+\centering
+\caption{Locked AVerImaTeC development results averaged over five train-only seeds. Evidence scores use exact normalized source identity and are diagnostic, not the unavailable official semantic score.}
+\label{tab:external_selector}
+\small
+\begin{tabular}{lccccc}
+\toprule
+Policy & Precision & Recall & F1 & Exact & Items \\
+\midrule
+Train-selected fixed top-$k$ & 0.0846 & 0.1116 & 0.0857 & 0.0053 & 2.59 \\
+Calibrated threshold & 0.1308 & 0.0725 & 0.0857 & 0.0289 & 1.17 \\
+Calibrated expected-F1 & 0.1198 & 0.1214 & 0.1029 & 0.0145 & 3.20 \\
+Uncalibrated expected-F1 & 0.0306 & 0.1614 & 0.0497 & 0.0000 & 9.93 \\
+Completeness-aware switch & 0.1208 & 0.1160 & 0.1013 & 0.0145 & 2.71 \\
+\bottomrule
+\end{tabular}
+\end{table*}

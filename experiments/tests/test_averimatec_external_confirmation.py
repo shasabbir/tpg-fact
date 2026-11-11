@@ -5,12 +5,14 @@ from pathlib import Path
 
 import pytest
 
+from scripts.export_averimatec_outputs import _attach_frozen_verdicts
 from scripts.prepare_averimatec import (
     _best_label_blind_chunk,
     _lexical_features,
     _read_json_or_jsonl,
 )
 from trace_scv.data.averimatec import (
+    OFFICIAL_LABELS,
     candidate_identifier,
     claim_identifier,
     gold_evidence_targets,
@@ -509,6 +511,11 @@ def test_synthetic_train_freeze_and_locked_development_are_separate(tmp_path: Pa
     assert "completeness_aware_switch" in summary["aggregate_mean_over_seed_then_claim"]
     assert "completeness_switch_minus_threshold" in summary["paired_claim_bootstrap"]
     assert summary["shared_verifier"]["status"] == "checked_locked_development"
+    fixed_rows = [row for row in rows if row["policy"] == "fixed"]
+    exported_rows = _attach_frozen_verdicts(candidates, fixed_rows, frozen, seed=13)
+    assert len(exported_rows) == 4
+    assert all(row["predicted_verdict"] in OFFICIAL_LABELS for row in exported_rows)
+    assert all(len(row["verdict_probabilities"]) == 4 for row in exported_rows)
 
 
 def test_train_freeze_rejects_development_rows(tmp_path: Path) -> None:
