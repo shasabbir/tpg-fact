@@ -13,10 +13,43 @@ The numeric threshold grid and verifier architecture were recorded before the
 affected models were fitted. All amendments and failed runs remain in an
 append-only experiment ledger.
 
+The external implementation was committed before development preparation, and
+the five-seed train-only manifest was committed on 11 November 2026. That
+manifest records code, configuration, archive, pre-join ranking, candidate,
+gold-map, and audit hashes and rejects a mixed train--development input. The
+152-claim development matrix was then executed once on 12 November 2026.
+
 The released MOCHEG validation split had been used earlier in the project and
 is therefore controlled development evidence, not fresh confirmation. The
 formal-test annotations are absent from the execution path and remain sealed.
 No validation outcome automatically authorizes a formal-test run.
+
+\subsection{Independent External Protocol}
+
+AVerImaTeC training claims are deterministically partitioned for seeds 13, 37,
+73, 101, and 137 into 55\% fit, 15\% calibration, 15\% model selection, and
+15\% internal holdout roles. The locked development run compares train-selected
+fixed top-$k$, calibrated thresholding, calibrated expected-F1, uncalibrated
+expected-F1, and the completeness-aware switch on the same candidates and
+membership scores. No development result changes retrieval, fitting,
+calibration, packet width, or policy parameters.
+
+Four claim-aligned comparisons form one multiplicity family: threshold minus
+fixed, expected-F1 minus threshold, calibrated minus uncalibrated expected-F1,
+and switch minus threshold. Each uses 10,000 bootstrap draws, Bonferroni
+simultaneous intervals, and Holm-adjusted two-sided values. Threshold
+superiority requires an effect of at least $+0.010$ and a positive adjusted
+lower bound. Expected-F1 must clear a $-0.010$ non-inferiority margin and return
+at least 15\% fewer items. Switch superiority additionally requires every seed
+effect to be positive and no increase in mean set size. Verifier preservation
+uses the same $-0.010$ margin.
+
+The organizer's semantic evaluator uses Gemma-3-27B in bfloat16. Its 54.86~GB
+of weight files do not fit the single 24.56~GiB RTX~4090 under the prescribed
+condition, and the organizer launcher specifies two GPUs. We therefore report
+exact normalized-source diagnostics and class-wise verifier results, not a
+replacement score labeled as official. The blind test remains outside the
+authorized execution boundary.
 
 \subsection{Baselines, Outcomes, and Selection Budgets}
 
@@ -94,3 +127,9 @@ The weighted retrieval run takes 9.5 seconds, candidate construction 8.4
 seconds, base selector evaluation 158.8 seconds, completeness switching 334.8
 seconds, and the stronger verifier 246.9 seconds on this machine. These are
 wall-clock records for reproducibility, not cross-system efficiency results.
+The faithful organizer-store preparation takes 50.5 minutes for 793 training
+claims and 21.2 minutes for 152 development claims; the locked five-seed
+comparison takes 19 seconds after preparation. These times include text
+encoding, cross-encoder reranking, and actual-image SigLIP2 scoring. One
+144-million-pixel development image triggers a PIL safety warning but is
+processed without exclusion, OOM, or fallback.

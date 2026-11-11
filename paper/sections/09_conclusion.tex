@@ -1,16 +1,17 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-We evaluated multimodal evidence selection as a decision constrained jointly by
-retrieval and calibration. A bounded label-blind fusion raises the all-eligible
-packet oracle from 0.3560 to 0.3637 F1, but complete-gold coverage remains only
-4.74\%. On the repaired packet, calibrated thresholding is the strongest
-confirmed policy at 0.1864 evidence F1; expected-F1 offers a more compact
-3.61-item operating point at 0.1815. A prespecified completeness-aware switch
-reaches 0.1877 with 4.70 items, yet its $+0.00138$ effect over thresholding is
-uncertain and fails the superiority gate. The stronger verifier passes
-aggregate non-inferiority but not the per-seed safeguard. Evidence-selection
-studies should therefore report what retrieval makes reachable, whether scores
-are calibrated to the operating prior, and whether a proposed decoder beats a
-calibrated threshold under matched packets. The formal test remains sealed, so
-these conclusions are development evidence rather than external confirmation.
+We evaluated multimodal evidence selection as a decision constrained jointly
+by retrieval and calibration. On MOCHEG, bounded fusion raises packet-oracle F1
+from 0.3560 to 0.3637, calibrated thresholding reaches 0.1864 evidence F1, and
+expected-F1 offers a smaller 3.61-item operating point at 0.1815. The
+completeness switch does not establish superiority. A separately frozen
+AVerImaTeC run confirms the calibration dependency but not the selector
+ordering: 59.87\% of claims have no exact reachable target, expected-F1 is
+larger rather than smaller, thresholding ties fixed selection, and switch
+evidence fails verifier non-inferiority. Evidence-selection studies should
+therefore expose packet reachability, calibration, set size, uncertainty, and
+downstream class-wise behavior before claiming an adaptive improvement. The
+official semantic judge was unavailable locally and both formal tests remain
+sealed; the external contribution is a prespecified diagnostic
+nonreplication, not a shared-task score or deployment claim.

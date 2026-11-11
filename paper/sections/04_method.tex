@@ -25,6 +25,27 @@ select $w=0.50$. Rankings and hashes are written before the gold join. The
 retained packet contains the top 40 text and 20 image items, and every selector
 receives exactly that packet.
 
+\subsection{Organizer-Store Retrieval for External Evaluation}
+
+The external path uses the AVerImaTeC static store rather than adapting the
+MOCHEG packet. Text records are normalized and reduced to a deterministic
+claim-conditioned chunk of at most 1,500 characters. BM25 and BGE-M3 ranks are
+combined by equal-weight reciprocal-rank fusion with constant 60, and the
+first 100 fused candidates are reranked by the pinned BGE cross-encoder. Actual
+candidate images are loaded from the claim-matched store and ranked by
+SigLIP2; a BGE representation of normalized filenames supplies a second image
+rank, also fused with equal-weight RRF. Reverse-image-search webpage text
+remains text evidence rather than being mislabeled as an image.
+
+Each candidate identifier is a hash of claim identity, normalized source,
+modality, content hash, and local ordinal. The label-blind preparation retains
+up to 100 text and 20 image candidates, writes and hashes that ranking, and
+only then joins exact-source targets. Training roles choose text width from
+$\{50,100\}$ and image width from $\{10,20\}$; all five seeds select 50 text
+and 10 image items. The organizer store was partly constructed with
+gold-question-derived queries, so the resulting reachability is a benchmark
+condition rather than unrestricted web-search performance.
+
 \subsection{Membership Scorers}
 
 The final score and its square, dense and lexical or filename scores, RRF and cross-encoder scores, reciprocal ranks, modality indicators, token count, available-candidate count, and duplicate-group size are stored for each claim-candidate pair. Fitting-role statistics are used for the standardisation of features. A logistic scorer then estimates
@@ -118,6 +139,23 @@ candidate packet nor observes validation reachability. Its purpose is to test
 one prespecified, interpretable response to retrieval incompleteness rather
 than introduce a large additional architecture.
 
+\subsection{External Refitting and Decision Caps}
+
+Every fitted component is re-estimated from AVerImaTeC training roles. For
+each seed, 55\% of claims fit a balanced $L_2$ logistic membership scorer,
+15\% fit candidate calibrators, 15\% choose the calibrator, packet width,
+fixed budget, threshold, and switch cutoff, and 15\% form an internal
+holdout. At most 40 deterministic negatives per claim enter scorer fitting.
+Identity, temperature, prior-shift, Platt, beta, and isotonic maps compete by
+model-selection Brier score; no development row is loaded by the freeze.
+
+The official ten-item cap changes the external policy grids. Fixed selection
+uses $k\in\{1,3,5,10\}$, thresholding uses $\tau\in\{0.1,\ldots,0.9\}$, and
+expected-F1 searches prefixes from zero through ten. The completeness model is
+fit on calibration-role claims, its cutoff is selected on the model-selection
+role, and it routes to expected-F1 when predicted complete and to thresholding
+otherwise. This reuses algorithm families, not MOCHEG weights or decisions.
+
 \subsection{Decision Scope and Assumptions}
 
 The comparison alters just the set decision. The identity of the candidates, their rank, feature values, scorer outputs, and validation claims are shared across policies. Expected-F1 assumes that the memberships are conditionally independent Bernoullis, and that it only operates on prefixes of the frozen ranking, i.e., it does not reorder candidates or retrieve a missing item. The complete-gold mapping released is considered the evaluation target, where Sec.~\ref{sec:limitations} comments on possible incompleteness of the mapping. These boundaries help to differentiate between a decoder error and retrieval error and help to prevent an adaptive policy from being given a more favorable candidate universe.
@@ -135,3 +173,14 @@ verifier is retained as a capacity control. Both models compare calibrated
 thresholding with the frozen completeness-aware switch on the same 1,490
 validation claims and five deterministic seeds. The declared non-inferiority
 margin is $-0.01$ macro-F1.
+
+For AVerImaTeC, the same safeguard is refit for four classes. The primary
+model has one 64-unit ReLU layer and is optimized for 400 deterministic
+full-batch steps with learning rate 0.01, inverse-frequency weights, and
+$L_2=0.001$; a balanced multinomial linear model is the capacity control.
+Selected evidence is represented by the mean, maximum, and standard deviation
+of candidate features plus set size, modality fractions, and distinct-domain
+count. The frozen model is shared across policies. When the prespecified blind
+rule selected the fixed family, its verdicts were obtained by deterministic
+inference from this already frozen verifier; no refitting or development
+selection was introduced.

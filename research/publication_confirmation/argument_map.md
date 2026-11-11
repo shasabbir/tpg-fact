@@ -1,8 +1,9 @@
 # Manuscript argument map
 
 This map links the manuscript's main claims to checked evidence and states the
-boundary on each claim. The governing unit is the released MOCHEG
-development evidence; formal-test annotations were not accessed.
+boundary on each claim. It covers the locked MOCHEG population and the
+separately frozen AVerImaTeC development run; both formal-test annotation sets
+remain unopened.
 
 | Question | Supported answer | Primary evidence | Boundary |
 |---|---|---|---|
@@ -11,11 +12,14 @@ development evidence; formal-test annotations were not accessed.
 | Which evidence-set policy is confirmed? | Calibrated thresholding is the strongest confirmed policy at 0.1864 evidence F1. Expected-F1 is a compact alternative at 0.1815 F1 and 3.61 items. | `selector_results.csv`, `selector_gate.md`, 10,000 claim-aligned bootstrap samples | Expected-F1 does not beat thresholding; the uncalibrated ablation fails badly. |
 | Does packet-completeness routing improve selection? | It has the highest point estimate, 0.1877 F1 with 4.70 items, but the +0.00138 gain over thresholding is inconclusive. | completeness output, selector gate, partition records | Superiority is not established: the interval crosses zero and one partition is negative. |
 | Is verdict quality preserved? | The stronger MLP verifier passes aggregate non-inferiority: +0.00434 macro-F1, 95% interval [-0.00277, 0.01130]. | `verifier_results.csv`, `verifier_gate.md`, 10,000 seed-aligned bootstrap samples | Only two of five seed-specific intervals clear the margin; the linear control reverses direction. |
+| Which relationships transfer externally? | Calibration dependence transfers: calibrated expected-F1 exceeds its uncalibrated ablation by +0.05316 exact-source F1 with simultaneous interval [0.02207, 0.08852]. | `../external_confirmation/results.md`, locked 3,800-record bundle, independent report | Threshold superiority, expected-F1 compactness, switch superiority, and verifier preservation do not transfer. Exact-source identity is diagnostic, not the unavailable official semantic score. |
 
 ## Contribution boundary
 
 The contribution is an auditable empirical study of retrieval reachability,
-operating-prior calibration, and matched evidence-set decisions. It does not
-claim state-of-the-art performance, selector superiority, external
-generalization, deployment readiness, or a formal-test result.
+operating-prior calibration, matched evidence-set decisions, and a
+prespecified external nonreplication. It does not claim state-of-the-art
+performance, selector superiority, universal external generalization,
+deployment readiness, an official AVerImaTeC semantic score, or a formal-test
+result.
 

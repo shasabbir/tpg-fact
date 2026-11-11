@@ -55,6 +55,9 @@ The study asks four questions:
     expected-F1, and an uncalibrated ablation compare on identical packets?
     \item Does a prespecified packet-completeness switch beat calibrated
     thresholding and preserve verdict quality under a stronger shared verifier?
+    \item Which of these relationships reproduce under a separately frozen
+    AVerImaTeC organizer-store protocol with different evidence units and four
+    verdict classes?
 \end{enumerate}
 
 The answers are deliberately mixed. Weighted text fusion improves the
@@ -66,7 +69,12 @@ smaller 3.61-item set, and uncalibrated expected-F1 collapses to 0.1288 while
 returning 24.90 items. The completeness-aware switch has the highest point
 estimate, 0.1877 F1, but improves over thresholding by only 0.00138 with an
 interval that crosses zero. Its verifier result passes aggregate
-non-inferiority but not the per-seed safeguard.
+non-inferiority but not the per-seed safeguard. The independent evaluation is
+more restrictive: its retained validation packet reaches only 25.48\% of exact
+annotated sources and has no reachable target for 59.87\% of claims.
+Calibration remains decisive, improving expected-F1 by 0.0532 over its
+uncalibrated ablation. Threshold superiority, expected-F1 compactness, switch
+superiority, and downstream verifier preservation do not reproduce.
 
 This paper makes four contributions:
 \begin{itemize}
@@ -79,16 +87,19 @@ This paper makes four contributions:
     \item a prespecified retrieval repair and packet-completeness-aware switch,
     evaluated against the strongest calibrated-threshold comparator with
     claim-aligned intervals and partition-level safeguards; and
-    \item an auditable implementation that preserves label-blind rankings,
-    failed runs, per-claim records, configuration and environment hashes, and
-    independent output audits while keeping the formal test sealed.
+    \item a strictly split-isolated and auditable external evaluation on the
+    organizer's static AVerImaTeC store, preserving label-blind rankings,
+    per-claim records, failed exports, and independent audits while confirming
+    calibration but not selector superiority, compactness, or verifier
+    preservation.
 \end{itemize}
 
 The contribution is empirical rather than a claim of state-of-the-art
 performance. Adaptive evidence sizing is useful only after retrieval and
 calibration are exposed as experimental variables. In this study,
-expected-F1 supplies a precision-oriented operating point and the
+expected-F1 supplies a precision-oriented MOCHEG operating point and the
 completeness-aware switch supplies a testable design direction, but calibrated
-thresholding remains the strongest confirmed policy. The paper retains that
-negative boundary because it changes how future selector improvements should
-be evaluated.
+thresholding is not externally superior to fixed selection and expected-F1 is
+not externally compact. The paper retains these negative boundaries because
+they show that a selector conclusion can reverse when reachability, evidence
+units, and class balance change.

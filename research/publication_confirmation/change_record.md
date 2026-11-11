@@ -9,6 +9,9 @@
   per-seed non-inferiority checks.
 - Preserved failed runs, source hashes, access flags, and independent audits.
 - Added a deterministic reporting builder and compact result bundle.
+- Completed the organizer-store AVerImaTeC preparation, five-seed train-only
+  freeze, one locked development run, independent aggregate recomputation, and
+  five schema-valid local fixed-policy exports without test access.
 
 ## Manuscript
 
@@ -24,15 +27,17 @@
 - Removed stage labels from the paper and integrated the work as one study.
 - Reduced the cited bibliography to 51 used and verified records and aligned
   the reference ledger one-to-one.
-- Repaired float placement so the final 14-page PDF has no nearly empty figure
-  or appendix pages.
+- Added a dedicated external-evaluation section, a three-panel external figure,
+  selector and verifier tables, and a prespecified external decision audit.
+- Repaired float placement so the final 18-page PDF remains balanced and
+  readable.
 
 ## Verification
 
 - Publication report regeneration: pass.
-- Full implementation suite: 142 tests passed.
+- Full implementation suite: 163 tests passed; bytecode compilation succeeds.
 - Reference audit: 51 verified records; rendered DOI gate passed.
 - LaTeX: successful; no undefined citations/references or overfull boxes.
-- Visual PDF review: all 14 pages inspected.
+- Visual PDF review: all 18 pages inspected.
 - Formal-test annotations accessed: false.
 

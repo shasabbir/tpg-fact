@@ -2,8 +2,8 @@
 
 The canonical manuscript is `paper.tex`; the compiled reading copy is `output.pdf`.
 It reports a retrieval-conditioned, calibration-aware evidence-selection study
-and uses the released MOCHEG validation set as a locked evaluation population.
-The formal-test annotations remain sealed.
+on a locked MOCHEG population and in one independently frozen AVerImaTeC
+organizer-store evaluation. Both formal-test annotation sets remain sealed.
 
 ## Build
 
@@ -36,7 +36,12 @@ audit is under `../research/publication_confirmation/reference_audit/`.
 - Reachability analysis: `../research/calibration_corrected_study/validation_reachability.csv`
 - Partition-level selector analysis: `../research/calibration_corrected_study/partition_selector_results.csv`
 - Absolute robustness analysis: `../research/calibration_corrected_study/robustness_absolute.csv`
+- External freeze manifest: `../experiments/outputs/external_confirmation/averimatec/train_only.freeze.json`
+- Locked external records: `../experiments/outputs/external_confirmation/averimatec/locked_development/claim_records.jsonl`
+- Independently recomputed external report: `../experiments/outputs/external_confirmation/averimatec/reporting/external_results.json`
+- External result narrative and artifact hashes: `../research/external_confirmation/results.md`
 
-The paper describes a controlled development study and does not present a
-formal-test, state-of-the-art, deployment-ready, or external-generalization
-claim.
+The paper describes controlled development evaluations and does not present a
+formal-test, state-of-the-art, deployment-ready, or universal-generalization
+claim. AVerImaTeC values based on exact normalized source identity are
+diagnostic; they are not the unavailable official semantic score.

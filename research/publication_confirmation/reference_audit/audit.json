@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-11",
+  "checked_at": "2026-11-12",
   "records": [
     {
       "key": "zhang2026mever",
@@ -10,7 +10,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2026.eacl-long.242",
         "title": "MEVER: Multi-Modal and Explainable Claim Verification with Graph-based Evidence Retrieval",
@@ -42,7 +42,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1145/3539618.3591879",
         "title": "End-to-End Multimodal Fact-Checking and Explanation Generation: A Challenging Dataset and Models",
@@ -74,7 +74,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2025.acl-long.420",
         "title": "SciVer: Evaluating Foundation Models for Multimodal Scientific Claim Verification",
@@ -106,7 +106,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2025.ijcnlp-long.175",
         "title": "MuSciClaims: Multimodal Scientific Claim Verification",
@@ -139,7 +139,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2025.naacl-long.282",
         "title": "Evaluating Evidence Attribution in Generated Fact Checking Explanations",
@@ -169,7 +169,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2025.findings-acl.1345",
         "title": "M2-TabFact: Multi-Document Multi-Modal Fact Verification with Visual and Textual Representations of Tabular Data",
@@ -202,7 +202,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2026.acl-long.1620",
         "title": "Utility-Oriented Visual Evidence Selection for Multimodal Retrieval-Augmented Generation",
@@ -235,7 +235,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2026.fever-1.10",
         "title": "Selective Multimodal Retrieval for Automated Verification of Image–Text Claims",
@@ -269,7 +269,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1109/tcss.2025.3553939",
         "title": "RED-DOT: Multimodal Fact-Checking viaRelevant Evidence Detection",
@@ -300,7 +300,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1016/j.ipm.2022.103120",
         "title": "Multimodal fake news detection via progressive fusion networks",
@@ -332,7 +332,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1016/j.inffus.2023.101944",
         "title": "MFIR: Multimodal fusion and inconsistency reasoning for explainable fake news detection",
@@ -364,7 +364,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1016/j.ins.2024.120310",
         "title": "Multimodal matching-aware co-attention networks with mutual knowledge distillation for fake news detection",
@@ -398,7 +398,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1016/j.eswa.2021.115412",
         "title": "AMFB: Attention based multimodal Factorized Bilinear Pooling for multimodal Fake News Detection",
@@ -429,7 +429,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1016/j.ins.2021.03.037",
         "title": "HAN, image captioning, and forensics ensemble multimodal fake news detection",
@@ -458,7 +458,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1007/s13735-023-00312-6",
         "title": "VERITE: a Robust benchmark for multimodal misinformation detection accounting for unimodal bias",
@@ -489,7 +489,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1016/j.aej.2024.08.103",
         "title": "FMC: Multimodal fake news detection based on multi-granularity feature fusion and contrastive learning",
@@ -521,7 +521,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1145/3485447.3511968",
         "title": "Cross-modal Ambiguity Learning for Multimodal Fake News Detection",
@@ -555,7 +555,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1609/aaai.v37i12.26648",
         "title": "COSMOS: Catching Out-of-Context Image Misuse Using Self-Supervised Learning",
@@ -587,7 +587,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2021.emnlp-main.545",
         "title": "NewsCLIPpings: Automatic Generation of Out-of-Context Multimodal Media",
@@ -617,7 +617,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1109/cvpr52733.2024.01240",
         "title": "Sniffer: Multimodal Large Language Model for Explainable Out-of-Context Misinformation Detection",
@@ -648,7 +648,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1145/3664647.3681317",
         "title": "MMDFND: Multi-modal Multi-Domain Fake News Detection",
@@ -680,7 +680,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1109/cvpr52729.2023.00667",
         "title": "Detecting and Grounding Multi-Modal Media Manipulation",
@@ -710,7 +710,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1016/j.knosys.2025.113880",
         "title": "IMFND: In-context multimodal fake news detection with large visual-language models",
@@ -739,7 +739,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1007/s40747-024-01473-5",
         "title": "Multimodal fake news detection through intra-modality feature aggregation and inter-modality semantic fusion",
@@ -772,7 +772,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1016/j.jksuci.2023.101559",
         "title": "SSM: Stylometric and semantic similarity oriented multimodal fake news detection",
@@ -807,7 +807,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1007/s10844-022-00764-y",
         "title": "An image and text-based multimodal model for detecting fake news in OSN’s",
@@ -840,7 +840,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1109/access.2021.3114093",
         "title": "Multi-Level Multi-Modal Cross-Attention Network for Fake News Detection",
@@ -874,7 +874,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1109/access.2021.3113981",
         "title": "Fake News Detection via Multi-Modal Topic Memory Network",
@@ -908,7 +908,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1111/lnc3.12438",
         "title": "Automated fact‐checking: A survey",
@@ -940,7 +940,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.7717/peerj-cs.518",
         "title": "Fake news detection: a survey of evaluation datasets",
@@ -973,7 +973,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1007/s13278-020-00696-x",
         "title": "Deep learning for misinformation detection on online social networks: a survey and new perspectives",
@@ -1006,7 +1006,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1109/access.2021.3129329",
         "title": "A Comprehensive Review on Fake News Detection With Deep Learning",
@@ -1040,7 +1040,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1145/3395046",
         "title": "A Survey of Fake News",
@@ -1070,7 +1070,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1007/s10207-022-00625-3",
         "title": "A review on fake news detection 3T’s: typology, time of detection, taxonomies",
@@ -1100,7 +1100,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1007/s13278-023-01028-5",
         "title": "Fake news, disinformation and misinformation in social media: a review",
@@ -1130,7 +1130,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1007/s44443-025-00317-7",
         "title": "Multi-modal fake news detection: A comprehensive survey on deep learning technology, advances, and challenges",
@@ -1164,7 +1164,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2020.emnlp-main.609",
         "title": "Fact or Fiction: Verifying Scientific Claims",
@@ -1200,7 +1200,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2020.findings-emnlp.309",
         "title": "HoVer: A Dataset for Many-Hop Fact Extraction And Claim Verification",
@@ -1235,7 +1235,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2021.acl-long.165",
         "title": "COVID-Fact: Fact Extraction and Verification of Real-World Claims on COVID-19 Pandemic",
@@ -1267,7 +1267,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2021.acl-short.86",
         "title": "X-Fact: A New Benchmark Dataset for Multilingual Fact Checking",
@@ -1298,7 +1298,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2020.acl-main.408",
         "title": "ERASER: A Benchmark to Evaluate Rationalized NLP Models",
@@ -1334,7 +1334,7 @@
       "warnings": [
         "eligible 2020-2021; prefer suitable 2022+ work"
       ],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2020.acl-main.409",
         "title": "Learning to Faithfully Rationalize by Construction",
@@ -1365,7 +1365,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2023.emnlp-main.398",
         "title": "Enabling Large Language Models to Generate Text with Citations",
@@ -1396,7 +1396,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2024.acl-long.585",
         "title": "RAGTruth: A Hallucination Corpus for Developing Trustworthy Retrieval-Augmented Language Models",
@@ -1431,7 +1431,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1016/j.eswa.2023.119656",
         "title": "A computational approach for real-time detection of fake news",
@@ -1462,7 +1462,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1016/j.inffus.2024.102500",
         "title": "Escaping the neutralization effect of modality features fusion in multimodal Fake News Detection",
@@ -1494,7 +1494,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1016/j.ipm.2023.103564",
         "title": "Not all fake news is semantically similar: Contextual semantic representation learning for multimodal fake news detection",
@@ -1526,7 +1526,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.1016/j.inffus.2025.103469",
         "title": "Semantic space aligned multimodal fake news detection",
@@ -1592,7 +1592,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2026.fever-1.6",
         "title": "The Automatic Verification of Image-Text Claims (AVerImaTeC) Shared Task",
@@ -1624,7 +1624,7 @@
       "status": "verified_recorded",
       "reasons": [],
       "warnings": [],
-      "metadata_source": "cached crossref (2026-11-04)",
+      "metadata_source": "cached crossref (2026-11-12)",
       "registry_record": {
         "doi": "10.18653/v1/2026.fever-1.8",
         "title": "REVEAL: Retrieval-Enhanced Verification for Multimodal Fact-Checking",
@@ -1648,30 +1648,9 @@
   ],
   "issues": [],
   "manuscript": {
-    "scope": "all .tex files recursively (exclude unrelated drafts from root)",
+    "scope": "main and brace-delimited includes",
     "usage_assessed": true,
     "files": [
-      "D:\\Sabbir\\tpg-fact\\paper\\figures\\architecture.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\figures\\policy_decoding.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\appendix_diagnostic_tables.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\calibration_summary.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\calibration_table.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\operating_depth_retrieval.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\partition_selector_results.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\population_flow.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\publication_retrieval.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\publication_selectors.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\publication_verifier.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\reachability_strata.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\retrieval_matrix.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\retrieval_table.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\robustness_absolute.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\robustness_effects.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\selector_effects.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\selector_mean_table.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\selector_means.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\verifier_effects.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\generated\\verifier_mean_table.tex",
       "D:\\Sabbir\\tpg-fact\\paper\\paper.tex",
       "D:\\Sabbir\\tpg-fact\\paper\\sections\\01_introduction.tex",
       "D:\\Sabbir\\tpg-fact\\paper\\sections\\02_related_work.tex",
@@ -1679,10 +1658,22 @@
       "D:\\Sabbir\\tpg-fact\\paper\\sections\\04_method.tex",
       "D:\\Sabbir\\tpg-fact\\paper\\sections\\05_experimental_setup.tex",
       "D:\\Sabbir\\tpg-fact\\paper\\sections\\06_results.tex",
+      "D:\\Sabbir\\tpg-fact\\paper\\sections\\06_external_confirmation.tex",
       "D:\\Sabbir\\tpg-fact\\paper\\sections\\07_discussion.tex",
       "D:\\Sabbir\\tpg-fact\\paper\\sections\\08_limitations_ethics.tex",
       "D:\\Sabbir\\tpg-fact\\paper\\sections\\09_conclusion.tex",
-      "D:\\Sabbir\\tpg-fact\\paper\\sections\\10_reporting_appendix.tex"
+      "D:\\Sabbir\\tpg-fact\\paper\\sections\\10_reporting_appendix.tex",
+      "D:\\Sabbir\\tpg-fact\\paper\\figures\\architecture.tex",
+      "D:\\Sabbir\\tpg-fact\\paper\\generated\\population_flow.tex",
+      "D:\\Sabbir\\tpg-fact\\paper\\figures\\policy_decoding.tex",
+      "D:\\Sabbir\\tpg-fact\\paper\\generated\\publication_retrieval.tex",
+      "D:\\Sabbir\\tpg-fact\\paper\\generated\\retrieval_matrix.tex",
+      "D:\\Sabbir\\tpg-fact\\paper\\generated\\reachability_strata.tex",
+      "D:\\Sabbir\\tpg-fact\\paper\\generated\\calibration_summary.tex",
+      "D:\\Sabbir\\tpg-fact\\paper\\generated\\publication_selectors.tex",
+      "D:\\Sabbir\\tpg-fact\\paper\\generated\\publication_verifier.tex",
+      "D:\\Sabbir\\tpg-fact\\paper\\generated\\robustness_effects.tex",
+      "D:\\Sabbir\\tpg-fact\\paper\\generated\\robustness_absolute.tex"
     ],
     "issues": [],
     "citation_keys": [
@@ -1746,7 +1737,7 @@
   "rendered_check": "DOI text occurrence only; manually inspect each reference",
   "inputs": {
     "bibliography": "D:\\Sabbir\\tpg-fact\\paper\\references_used.bib",
-    "bib_sha256": "1429d2f753a35ec40c284ae6ecba5a079f612ed7259e34c21ea418bd80216e3a",
+    "bib_sha256": "e43638323b7a5e3c7be12062aece54959299052e3fb0545bb200e8654bb91f28",
     "ledger": "D:\\Sabbir\\tpg-fact\\research\\reference_ledger.csv",
     "ledger_sha256": "e7022eb0482758c208752797ba6818d03fe2ca59337f34a86165a6e3bbbb6fc2"
   }

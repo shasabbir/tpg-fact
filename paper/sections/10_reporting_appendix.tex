@@ -104,34 +104,71 @@ calibrated probability, rank, modality, gold membership, and selected-set
 decisions. Selector, completeness, verifier, audit, and reporting records all
 contain false formal-test access flags.
 
+The external preparation retains 94,085 training candidates and 18,240
+development candidates after ranking the complete organizer stores. The
+training freeze, development pre-join ranking, locked claim records, and
+independently recomputed report have SHA-256 identifiers beginning
+\texttt{36e4210a}, \texttt{b24739c9}, \texttt{eec62a20}, and
+\texttt{0751ce76}, respectively. The full identifiers and archive hashes are
+preserved with the result bundle. Local fixed-policy development exports for
+all five seeds contain 152 predictions, satisfy the official schema, and were
+not submitted.
+
 \subsection{External Evaluation Path}
 \label{sec:external}
 
-AVerImaTeC offers an evaluated test setting and a public task report
-\cite{cao2026averimatecshared}. We froze a transfer protocol that maps each
-store URL and a claim-matched, 1,500-character chunk to a deterministic
-candidate identifier. It fits every scorer and calibrator from scratch on the
-793 released training claims, reserves the 152 development claims for one
-locked comparison, caps outputs at ten items, and does not transfer MOCHEG
-parameters. Gold questions are excluded from retrieval features, and exact
-source membership is joined only after label-blind rankings are written and
-hashed.
+AVerImaTeC provides a static multimodal knowledge store and a four-class fact-
+checking task \cite{cao2026averimatecshared}. The completed transfer protocol
+maps each source and 1,500-character text chunk to deterministic identifiers,
+combines BM25 and BGE-M3 ranks by reciprocal-rank fusion, applies a frozen BGE
+reranker, and ranks actual images with SigLIP2 and filename-BGE scores. It fits
+every scorer, calibrator, completeness model, and verifier from scratch on the
+793 released training claims. Gold questions are not retrieval features, and
+gold-source membership is joined only after label-blind rankings are written
+and hashed.
 
-An access audit used a public participant-released filled validation store to
-validate this adapter without treating it as the prespecified experiment. It
-produced 129,475 candidates, or 851.8 per claim.
-The full pool reaches 92.94\% of normalized annotated sources and contains the
-complete annotated source set for 84.21\% of claims. Claim-text ranking is much
-weaker: exact-source Recall@10, @20, @50, and @100 is 4.82\%, 8.00\%, 13.21\%,
-and 19.48\%. This gap confirms that candidate availability does not imply
-shallow retrieval success. These values are diagnostics for a participant-
-filled store, not the official semantic evidence score or a selector result.
+The organizer archives contain 529,580 text and 81,817 image candidates for
+training and 101,289 text and 49,617 image candidates for development. The
+five-seed training protocol was committed before development preparation. A
+single locked run then evaluated all 152 development claims. The retained
+100-text/20-image pool reaches 25.48\% of exact annotated sources, fully
+reaches 12.50\% of claims, and reaches none for 59.87\% of claims. Exact-source
+Recall@10, @20, @50, and @100 is 5.26\%, 6.96\%, 11.43\%, and 23.78\%.
 
-We do not claim independent confirmation at manuscript cutoff. The complete
-organizer training text store was not locally available after the public host
-enforced its download quota, and the prescribed Gemma-3-27B judge has 54.86~GB
-of weight files versus 25.76~GB of local GPU memory. We neither substituted the
-filled validation store for training nor reported a quantized replacement
-judge as official. The blind test and leaderboard remain untouched. A separate
-three-modality study would still require a hash-locked split, table
-representation, and multi-hop set objective.
+\begin{table*}[t]
+\centering
+\caption{Prespecified AVerImaTeC decision audit. Evidence comparisons use exact normalized source identity; the official semantic judge was unavailable.}
+\label{tab:external-decision-audit}
+\small
+\begin{tabular}{p{0.69\textwidth}c}
+\toprule
+Condition & Result \\
+\midrule
+Train-only freeze precedes development preparation & \pass \\
+Label-blind development ranking is hashed before the gold join & \pass \\
+Threshold improves on train-selected fixed selection by at least 0.010 with a positive interval & \fail \\
+Expected-F1 is non-inferior and at least 15\% smaller than thresholding & \fail \\
+Calibration improves expected-F1 with a positive simultaneous interval & \pass \\
+Completeness switch clears effect, interval, every-seed, and size safeguards & \fail \\
+Switch verifier macro-F1 clears the $-0.010$ non-inferiority margin & \fail \\
+Official Gemma-3-27B semantic evaluator executed as specified & unavailable \\
+Blind test predictions or leaderboard submission generated & no \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Only the calibration comparison passes: calibrated expected-F1 exceeds its
+uncalibrated counterpart by 0.05316 with simultaneous interval
+$[0.02207,0.08852]$. Thresholding is tied with fixed selection. Expected-F1
+selects 3.20 rather than 1.17 items, so the compactness claim does not transfer.
+The switch interval crosses zero, returns a larger set, and fails the verifier
+safeguard. The frozen decision therefore falls back to the train-selected
+fixed family.
+
+The prescribed Gemma-3-27B judge contains 54.86~GB of weights, whereas the
+available RTX~4090 has 25.76~GB of memory and the organizer launcher requests
+two GPUs. We do not call the exact-source diagnostic an official task score or
+substitute a quantized judge. The blind test and leaderboard remain untouched.
+The completed external study is consequently a prespecified diagnostic
+nonreplication: calibration dependence transfers, while selector superiority,
+compact expected-F1 selection, and verifier preservation do not.

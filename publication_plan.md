@@ -1,9 +1,9 @@
 # Publication-Ready Execution Plan
 
-Last updated: 2026-11-11
+Last updated: 2026-11-12
 Active manuscript: `paper/paper.tex`  
-Current execution checkpoint: `786ef7d`
-Current verdict: **strong publication foundation, not yet submission-ready**
+Current execution checkpoint: `b2075d0` plus one locked development run
+Current verdict: **external study complete; manuscript and submission packaging in progress**
 
 ## 1. Publication objective
 
@@ -33,40 +33,39 @@ it.
 | Main selector conclusion | Calibrated thresholding is strongest; expected-F1 is smaller; completeness switching is inconclusive | Complete, mixed result |
 | Formal MOCHEG test | Annotations remain sealed | Protected |
 | Canonical manuscript | 14-page PDF, 51 rendered references, visual QA complete | Strong foundation |
-| Implementation suite | 161 tests pass | Complete |
+| Implementation suite | 163 tests pass; bytecode compilation and independent reporting regeneration pass | Complete |
 | External annotations | AVerImaTeC train 793, development 152; identities and class distribution audited | Complete |
-| External access audit | 129,475 validation candidates from a participant-filled store; reachability diagnostics recorded | Audit only |
-| External real-model pilot | Pinned BGE-M3 and cross-encoder completed on two fallback validation claims; pinned SigLIP2 encoded one released image | Software/model pilot only |
-| External model fitting | No train-only freeze artifact exists | Missing |
-| Locked external comparison | No locked-development result exists | Missing |
+| External organizer store | Complete train and validation archives extracted and hash-audited | Complete |
+| External model fitting | Five train-only seeds fit and frozen before development preparation | Complete |
+| Locked external comparison | One 152-claim run; independent aggregate and bootstrap recomputation passed | Complete |
 | Official external score | Gemma-3-27B judge not executed | Missing |
 | Blind external test | No prediction or submission | Missing and authorization-gated |
 
-The participant-filled validation-store audit is not a substitute for the
-official matched train/development protocol. Its 92.94% pool recall and 84.21%
-complete pool reachability establish candidate availability only. Recall@100
-of 19.48% shows that shallow claim-text retrieval remains difficult.
+The organizer-store result is deliberately diagnostic rather than a shared-
+task score. Exact-source pool recall is 25.48%, 59.87% of development claims
+have no reachable target, and the official semantic judge remains unavailable
+on the local single-GPU machine.
 
-## 3. Actual implementation gaps
+## 3. Actual remaining gaps
 
-The external code now contains the declared components, but the complete frozen
-experiment has not run on the official store.
+The declared external experiment has run on the organizer store. The remaining
+gaps concern official semantic evaluation, the authorization-gated blind test,
+and submission packaging rather than missing selector experiments.
 
 | Required component | Current state | Required work |
 |---|---|---|
-| Official training store | Incomplete because the public host enforced quota | Obtain complete organizer train text and image stores; hash every archive |
-| Text retrieval | BM25, pinned BGE-M3, reciprocal-rank fusion, and the pinned reranker are implemented; a two-claim real-model fallback pilot passed | Run and audit the full official training store |
-| Image retrieval | Actual candidate-image discovery and pinned SigLIP2/filename fusion are implemented; one released image passed a real-model encoder smoke test | Validate source association, duplicates, and full ranking on the official candidate-image store |
-| Multimodal packet | Genuine text and image identities, features, ranks, and widths are implemented | Execute a complete official training packet and measure its ceiling |
-| Calibration | Calibrator families implemented | Fit separately by modality and execute all declared diagnostics |
-| Selector matrix | Fixed, threshold, expected-F1, uncalibrated expected-F1, and the completeness-aware switch are implemented and regression-tested | Fit and freeze them on official training roles |
-| Shared verifier | Balanced linear control and deterministic two-layer four-class verifier are implemented and regression-tested | Train on official training roles and evaluate once on locked development |
-| Official prediction output | Development-only exporter enforces the pinned evidence, verdict, item-count, and character schema; diagnostic source metadata is separated | Validate a full official training batch; questions and justifications remain empty because they are outside the contribution |
+| Official training store | Complete archives extracted and hash-audited | Preserve hashes and acquisition notes in the supplement |
+| Text retrieval | BM25, BGE-M3, reciprocal-rank fusion, and BGE reranking completed | Report the low exact-source ceiling without treating it as semantic score |
+| Image retrieval | Actual image discovery and SigLIP2/filename-BGE ranking completed | Preserve the large-image warning and duplicate/source audit |
+| Multimodal packet | 100 text/20 image retained; every seed selected 50/10 | Complete |
+| Calibration | Modality-specific train-only selection completed | Complete; calibration is the only passed external selector hypothesis |
+| Selector matrix | Five policies completed in one locked run | Complete; superiority and compactness gates mostly failed |
+| Shared verifier | Frozen four-class verifier evaluated once on development | Complete; switch non-inferiority failed |
+| Official prediction output | Five fixed-family development exports pass schema | Keep local unless blind-test authorization is given |
 | Official semantic evaluation | Hardware feasibility audited only | Run pinned Gemma-3-27B evaluator on suitable hardware or report it unavailable |
-| Reporting | Claim-aligned bootstrap, Bonferroni simultaneous intervals, Holm p-value adjustment, class-wise verifier metrics, and reachability audit are implemented | Generate complete five-seed official reports and manuscript tables |
+| Reporting | Independent recomputation, simultaneous intervals, class-wise verifier results, reachability audit, tables, and figure completed | Finish PDF and reference/build QA |
 
-No locked development outcome may be inspected until these gaps are resolved
-or a deviation is frozen and the paper's claims are narrowed accordingly.
+No post hoc selector search or locked-development rerun is permitted.
 
 ## 4. Critical-path work packages
 
@@ -371,31 +370,31 @@ paper's diagnostic contribution.
 - [x] Core MOCHEG study is frozen, reproduced, and honestly reported.
 - [x] Formal MOCHEG test remains sealed.
 - [x] External annotations, access, label distribution, and fallback store are audited.
-- [ ] Complete official training store is hash-verified.
-- [ ] BM25/BGE-M3 and actual SigLIP2 retrieval are implemented and audited.
-- [ ] Completeness switch, shared verifier, and official exporter pass an end-to-end pilot.
-- [ ] Train-only protocol and all decisions are frozen before development outcomes.
-- [ ] Five-seed training-role execution is complete.
-- [ ] One locked external development comparison is complete.
-- [ ] Official semantic score is recorded or its absence is an explicit claim limitation.
+- [x] Complete official training store is hash-verified.
+- [x] BM25/BGE-M3 and actual SigLIP2 retrieval are implemented and audited.
+- [x] Completeness switch, shared verifier, and official exporter pass an end-to-end execution.
+- [x] Train-only protocol and all decisions are frozen before development outcomes.
+- [x] Five-seed training-role execution is complete.
+- [x] One locked external development comparison is complete.
+- [x] Official semantic score is recorded or its absence is an explicit claim limitation.
 - [ ] Blind test is executed once with authorization or explicitly marked blocked.
-- [ ] Every main claim maps to valid raw evidence and checked aggregation.
+- [x] Every main quantitative claim maps to valid raw evidence and checked aggregation.
 
 ### Manuscript readiness
 
-- [x] Canonical source and 14-page reading PDF exist in `paper/`.
+- [x] Canonical source and 18-page reading PDF exist in `paper/`.
 - [x] Current PDF builds without undefined references or overfull boxes.
 - [x] Current negative and inconclusive findings are visible.
-- [ ] External methods and results match the final executed code exactly.
-- [ ] All cited claims pass human support review and automated bibliography audit.
-- [ ] Final abstract, contributions, tables, discussion, limitations, and conclusion are synchronized.
+- [x] External methods and results match the final executed code exactly.
+- [x] All 51 cited claims pass the recorded human support review and automated bibliography audit.
+- [x] Final abstract, contributions, tables, discussion, limitations, and conclusion are synchronized.
 - [ ] Target venue and current rules are verified.
 
 ### Submission readiness
 
 - [ ] Author declarations are approved.
 - [ ] Venue-formatted main paper and supplement pass visual QA.
-- [ ] Clean extracted source package builds without machine-local paths.
+- [x] Clean extracted source package builds without machine-local paths.
 - [ ] Reproduction instructions and availability statements are complete.
 - [ ] Independent final review reports no blocking scientific, reference, or packaging issue.
 
@@ -405,19 +404,13 @@ not completion.
 
 ## 10. Immediate next actions
 
-1. resolve the official training-store access route;
-2. extract, hash, and audit the complete official text and candidate-image
-   stores;
-3. run faithful retrieval and a training-only end-to-end pilot with resource
-   accounting;
-4. freeze the executable protocol before any locked development result;
-5. execute the five-seed training roles and one locked development comparison;
-6. run the official evaluator on adequate hardware or record the formal
-   unavailability deviation;
-7. make the blind-test decision under the frozen rule;
-8. update the canonical manuscript from checked results; and
-9. complete venue selection, author declarations, reference support, and the
-   clean submission package.
+1. re-run the complete implementation suite and bytecode compilation;
+2. build and visually inspect the canonical manuscript;
+3. complete bibliography and clean-source build audits;
+4. seek suitable hardware only if an official semantic score is required;
+5. obtain explicit authorization before generating the single blind-test file;
+6. select a venue and verify its current rules; and
+7. complete author declarations and the submission package.
 
 No action in this plan authorizes paid compute, external contact, opening
 sealed annotations, public release, or submission.

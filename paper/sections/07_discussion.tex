@@ -13,6 +13,13 @@ ablation makes this distinction concrete: it selects nearly 25 items per claim
 and loses more than five evidence-F1 points relative to calibrated
 expected-F1, with no change to the candidate universe.
 
+This is the one relationship that reproduces cleanly on AVerImaTeC. There,
+uncalibrated expected-F1 nearly saturates the ten-item cap and loses 0.0532
+exact-source F1 to its calibrated counterpart. The positive simultaneous
+interval survives multiplicity correction despite different candidate units,
+class balance, and independently fitted models. Calibration is therefore not
+an explanation fitted only to the MOCHEG packet.
+
 This also explains why fitted size and redundancy penalties are unnecessary in
 the diagnostic experiment. Once the low membership prevalence is restored,
 the unpenalized expected utility already favors a short prefix. Adaptive
@@ -30,6 +37,13 @@ expected-F1 returns 1.64 fewer items and has higher precision. The latter is a
 valid review-cost operating point, but it is not the strongest selector by the
 primary metric.
 
+The external result narrows this conclusion. AVerImaTeC thresholding returns
+the smallest set but is tied with the train-selected fixed family, whereas
+expected-F1 reaches a higher point estimate by selecting 3.20 rather than 1.17
+items. Expected-F1 clears the non-inferiority margin but fails the required
+size reduction. Thresholding remains a necessary comparator, not a universally
+superior policy, and compactness does not transfer automatically.
+
 The completeness-aware switch tests whether these policies can be combined
 without simply choosing the better one on validation. Its point estimate is
 higher than thresholding and its mean set is smaller, but the improvement is
@@ -46,6 +60,13 @@ the all-eligible ceiling remains only 0.3637 F1 and complete-gold coverage
 remains below 5\%. The absolute gain is far smaller than the declared
 engineering target. Most selector errors therefore cannot be repaired by a
 different prefix rule alone.
+
+The organizer-store evaluation is more severe under exact-source identity:
+59.87\% of development claims have no reachable annotated target and only
+12.50\% have the complete annotated set in the retained pool. The static store
+contains many candidates, so the bottleneck is shallow ranking and source
+identity rather than gross data absence. This cross-benchmark agreement on the
+reachability boundary is stronger than agreement on any selector ordering.
 
 Text and image branches fail differently. Cross-encoder text ranking helps at
 greater depth while damaging early order; equal rank fusion recovers a small
@@ -65,19 +86,46 @@ the linear control moves in the opposite direction. The result is compatible
 with preserved verdict quality on average, but not with a stable end-to-end
 benefit.
 
+The AVerImaTeC safeguard is less favorable. Switch evidence reduces mean
+macro-F1 from 0.1573 to 0.1444, and the seed-aligned lower bound falls below
+the $-0.010$ margin. The single Conflicting claim receives zero F1 under both
+policies across seeds, while Refuted dominates the 152-claim split. This shows
+why an evidence-set improvement cannot be promoted without class-wise
+downstream reporting.
+
 This distinction matters for system reporting. Evidence precision, evidence
 recall, set size, retrieval reachability, calibration, and verdict performance
 should be shown separately. A single score would hide whether a compact set
 saved reviewer effort, omitted necessary support, or merely interacted
 favorably with one verifier seed.
 
+\subsection{What Transfers Externally}
+
+The external study does not reproduce a superior adaptive selector. It does
+reproduce two scientific dependencies: selection is bounded by candidate
+reachability, and expected-utility decoding depends on calibrated operating
+probabilities. It contradicts three more specific MOCHEG observations:
+thresholding does not beat the fixed family, expected-F1 is not a smaller
+operating point, and the completeness switch does not preserve verifier
+quality. These contradictions are not reasons to retune the external protocol;
+they define the empirical scope of the method claims.
+
+Exact URL identity can mark a semantically valid alternative source as wrong,
+so the external result is a controlled diagnostic rather than the official
+shared-task result. The unavailable Gemma-3-27B judge prevents a direct
+semantic-score comparison, and the blind test remains untouched. Even with
+that limitation, the direction of the calibration ablation and the failed
+prespecified gates are valid within the released exact-source target.
+
 \subsection{What the Study Supports}
 
 The evidence supports four bounded statements. First, packet reachability must
 be measured before selector performance is interpreted. Second, prior-aware
 calibration is necessary for probability-based set decisions under imbalanced
-membership. Third, expected-F1 supplies a compact alternative to fixed top-5,
-but calibrated thresholding is the strongest confirmed policy. Fourth, a
-completeness-aware switch is a plausible design direction whose present gain is
-too small and uncertain to establish superiority. The study does not support a
-state-of-the-art, externally generalizable, or deployment-ready claim.
+membership and is the only relationship confirmed on both benchmarks. Third,
+expected-F1 supplies a compact MOCHEG operating point but not a universally
+compact policy. Fourth, the present completeness-aware switch does not
+establish selector superiority or stable verdict preservation. The study does
+not support a state-of-the-art or deployment-ready claim; its external value is
+the prespecified nonreplication and the stronger boundary it places on adaptive
+selection claims.

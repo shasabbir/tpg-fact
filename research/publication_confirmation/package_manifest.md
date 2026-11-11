@@ -1,24 +1,24 @@
 # Publication foundation package
 
 - Archive: `paper/publication-foundation-source.zip`
-- Archive SHA-256: `DEA274F76091382D8898762B311115EEE229310BD39B6BD25EFF040151241E43`
+- Archive SHA-256: `F662CA3D72D0BAF1F81B99B9082E9BE398C0869318E4C1174E160002435CCFAB`
 - Canonical PDF: `paper/output.pdf`
-- PDF SHA-256: `E417CEE5464EBD76DCE65891BB0B5537109DAF8E81331E57CA446998B4051180`
-- PDF pages: 14
+- PDF SHA-256: `DE638A175F14EA5E34B5B1BE021AEB94CF75E6C0879F58AE623A9D217435D03A`
+- PDF pages: 18
 
 ## Included source
 
 - `paper.tex`, `README.md`, `references_used.bib`, and `output.pdf`
 - all manuscript files under `sections/`
-- the nine generated tables under `generated/` required by the manuscript
-- `architecture.tex`, `policy_decoding.tex`, and the three PDF figures required
-  by the build
+- all generated tables under `generated/` required by the manuscript
+- all code-native diagrams and PDF/PNG figure sources under `figures/`,
+  including the external-confirmation summary
 
 ## Clean build check
 
 The archive contents were copied to
-`tmp/package-test-20261111-final/` and built with `pdflatex`, `bibtex`, and
-repeated `pdflatex` passes. The clean build produced 14 pages with no undefined
+`tmp/package-build-20261112-final/` and built with `pdflatex`, `bibtex`, and
+repeated `pdflatex` passes. The clean build produced 18 pages with no undefined
 citations or references, no overfull boxes, and no LaTeX warnings on the final
 pass.
 

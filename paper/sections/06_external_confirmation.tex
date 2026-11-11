@@ -1,0 +1,146 @@
+\section{Independent External Evaluation}
+\label{sec:external-results}
+
+The AVerImaTeC run tests relationships rather than equality of raw scores: its
+candidate store, evidence unit, output cap, and four-class verdict task differ
+from MOCHEG. All results in this section are from the single locked development
+run after the five train-only seeds were committed. The official semantic
+judge was not executed; evidence values use exact normalized source identity
+and are labeled diagnostic throughout.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{external_confirmation_summary.pdf}
+    \caption{Independent AVerImaTeC development evidence. (A) Exact-source reachability remains low before selection. (B) Calibrated expected-F1 has the highest diagnostic F1 but is not compact; uncalibrated expected-F1 nearly saturates the ten-item cap. (C) Only the calibration effect has a positive multiplicity-adjusted interval; the verifier interval is an unadjusted seed-aligned 95\% interval.}
+    \label{fig:external-summary}
+\end{figure*}
+
+\subsection{The Organizer Store Does Not Remove the Retrieval Ceiling}
+
+The training preparation ranks 529,580 text candidates and 81,817 images for
+793 claims; development ranks 101,289 text candidates and 49,617 images for
+152 claims. Every claim has store candidates, yet exact annotated targets are
+usually absent from the retained packet. Table~\ref{tab:external-reachability}
+shows the distinction between candidate availability and target reachability.
+
+\begin{table}[t]
+\centering
+\caption{Exact-source reachability before selection. Training means use 792 claims with nonempty web-source gold; development uses all 152 claims.}
+\label{tab:external-reachability}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lrrrr}
+\toprule
+Split & Pool recall & Complete & Zero & Recall@100 \\
+\midrule
+Training & 0.2247 & 0.0922 & 0.6136 & 0.2105 \\
+Development & 0.2548 & 0.1250 & 0.5987 & 0.2378 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Development Recall@10, @20, and @50 is 0.0526, 0.0696, and 0.1143. The
+100-text/20-image retained pool reaches 25.48\% of annotated targets, fully
+reaches only 12.50\% of claims, and has no exact reachable target for 91 of 152
+claims. These values limit every downstream policy and explain why absolute
+exact-source F1 remains low.
+
+\subsection{Only the Calibration Relationship Reproduces}
+
+Table~\ref{tab:external-selectors} averages each claim across the five frozen
+seeds before averaging across claims. Calibrated expected-F1 has the highest
+point estimate, 0.1029, but returns 3.20 items. Thresholding returns only 1.17
+items and is effectively tied with the train-selected fixed family. The
+uncalibrated ablation selects 9.93 of the ten allowed items and falls to 0.0497
+F1, reproducing the dependence of expected-utility decoding on probability
+quality.
+
+\begin{table*}[t]
+\centering
+\caption{Locked AVerImaTeC development results averaged over five train-only seeds. These are exact-source diagnostics, not the official semantic score.}
+\label{tab:external-selectors}
+\small
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{lccccc}
+\toprule
+Policy & Precision & Recall & F1 & Exact set & Items \\
+\midrule
+Train-selected fixed top-$k$ & 0.0846 & 0.1116 & 0.0857 & 0.0053 & 2.59 \\
+Calibrated threshold & \textbf{0.1308} & 0.0725 & 0.0857 & \textbf{0.0289} & \textbf{1.17} \\
+Calibrated expected-F1 & 0.1198 & 0.1214 & \textbf{0.1029} & 0.0145 & 3.20 \\
+Uncalibrated expected-F1 & 0.0306 & \textbf{0.1614} & 0.0497 & 0.0000 & 9.93 \\
+Completeness-aware switch & 0.1208 & 0.1160 & 0.1013 & 0.0145 & 2.71 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The four comparisons in Table~\ref{tab:external-decisions} use 10,000 aligned
+bootstrap draws. Their bounds are Bonferroni simultaneous 98.75\% intervals;
+the p-values are Holm adjusted. Threshold superiority fails. Expected-F1 is
+non-inferior in exact-source F1 because its adjusted lower bound is above
+$-0.010$, but it returns 173.96\% more items than thresholding instead of at
+least 15\% fewer. Calibration is the only passed selector hypothesis. The
+switch effect is positive in every seed, but the adjusted interval crosses
+zero and its set is larger than thresholding's.
+
+\begin{table*}[t]
+\centering
+\caption{Prespecified external comparison family. CI denotes the simultaneous interval after Bonferroni correction.}
+\label{tab:external-decisions}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrrc}
+\toprule
+Comparison & Mean effect & Simultaneous CI & Holm $p$ & Gate \\
+\midrule
+Threshold $-$ fixed & $+0.00003$ & $[-0.02341,\,0.02404]$ & 0.9989 & \fail \\
+Expected-F1 $-$ threshold & $+0.01714$ & $[-0.00148,\,0.03905]$ & 0.0714 & compactness \fail \\
+Calibrated $-$ uncalibrated expected-F1 & $+0.05316$ & $[0.02207,\,0.08852]$ & 0.0008 & \pass \\
+Switch $-$ threshold & $+0.01555$ & $[-0.00263,\,0.03621]$ & 0.0714 & \fail \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{The Downstream Safeguard Fails Externally}
+
+Mean verifier macro-F1 is 0.1573 with threshold evidence and 0.1444 with
+switch evidence. The seed-aligned switch-minus-threshold effect is $-0.01293$
+with 95\% interval $[-0.03242,0.00687]$; its lower bound does not clear the
+declared $-0.010$ margin. The switch therefore fails verifier
+non-inferiority, unlike the aggregate MOCHEG result.
+
+\begin{table}[t]
+\centering
+\caption{Five-seed mean four-class verifier results on locked development. CE/C denotes Conflicting Evidence/Cherrypicking.}
+\label{tab:external-verifier}
+\small
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Evidence policy & Acc. & Macro-F1 & Sup. & Ref. & NEI & CE/C \\
+\midrule
+Threshold & 0.3158 & \textbf{0.1573} & 0.1150 & 0.4710 & 0.0432 & 0.0000 \\
+Switch & 0.2842 & 0.1444 & 0.1000 & 0.4300 & 0.0474 & 0.0000 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+The class distribution is extreme: 141 Refuted, six Not Enough Evidence, four
+Supported, and one Conflicting claim. Neither policy resolves the single
+conflicting-class case across seeds, and accuracy mostly reflects the majority
+class. This is why macro- and class-wise F1, rather than accuracy alone, define
+the safeguard.
+
+\subsection{Frozen Decision}
+
+The blind-selection rule chooses the switch only if its full gate passes,
+otherwise expected-F1 only if it is non-inferior and at least 15\% smaller,
+otherwise thresholding only if it beats fixed selection, and otherwise the
+train-selected fixed family. The first three conditions fail, so the frozen
+decision falls back to fixed selection. Local development exports for all five
+seeds pass the official ten-item and 1,500-character schema after applying the
+already frozen verifier. No test prediction or leaderboard submission is
+performed. The external result is therefore an independent diagnostic
+nonreplication, not an official shared-task score.

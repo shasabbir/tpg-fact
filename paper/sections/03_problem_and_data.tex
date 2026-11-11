@@ -24,6 +24,32 @@ The 13,159 released train and validation claims are encoded for retrieval. Of th
 
 \input{generated/population_flow}
 
+\subsection{Independent AVerImaTeC Population}
+
+AVerImaTeC changes the evidence unit and label space rather than supplying an
+unchanged MOCHEG replication \cite{cao2026averimatecshared}. Each candidate is
+a claim-local organizer-store text chunk or image associated with a source.
+The official output permits at most ten evidence items and one of four labels:
+Supported, Refuted, Not Enough Evidence, or Conflicting
+Evidence/Cherrypicking. Exact normalized source identity is available for an
+auditable diagnostic; the task's primary semantic evidence score requires its
+separate multimodal judge.
+
+The external protocol uses all 793 released training claims for fitting and
+selection roles and reserves all 152 development claims for one locked run.
+Training contains 756 Refuted, 18 Not Enough Evidence, 13 Supported, and 6
+Conflicting claims; development contains 141, 6, 4, and 1, respectively. The
+organizer archives contain 1,586 training JSON files, 81,817 training images,
+304 development JSON files, and 49,617 development images. No MOCHEG model,
+threshold, calibrator, completeness estimator, or verifier weight is
+transferred.
+
+For an external claim, $G_q$ denotes normalized annotated source identities
+and $C_q$ the frozen organizer-store packet. Equation~\ref{eq:set-f1} is
+reported as an exact-source diagnostic because an alternative valid webpage
+can be semantically correct without sharing the annotated URL. We therefore do
+not relabel exact-source F1 as the unavailable official semantic score.
+
 \subsection{Reachability}
 
 The retrieval boundary is specified by two oracle summaries. For every eligible claim, the packet oracle returns $C_q\cap G_q$. Its F1 is averaged only for claims with nonempty gold. Complete-gold coverage is the fraction of eligible claims for which $G_q\subseteq C_q$ holds. We count eligible claims for which $C_q\cap G_q=\varnothing$.
@@ -32,4 +58,4 @@ These quantities provide answers to different questions. Oracle F1 is the best e
 
 \subsection{Leakage Controls}
 
-Candidate ranks are written and hashed before gold identifiers are joined. Only after candidate construction are evidence labels used to fit the membership scorer, calibration map, and selector hyperparameters in their respective training roles. The locked validation set is not part of any fitted component. Formal-test annotations are absent from the execution path; the seal record and access flags are checked before and after outcome-bearing runs.
+Candidate ranks are written and hashed before gold identifiers are joined. Only after candidate construction are evidence labels used to fit the membership scorer, calibration map, and selector hyperparameters in their respective training roles. The locked validation set is not part of any fitted component. For AVerImaTeC, the freeze rejects any artifact containing a non-training row; validation preparation starts only after the train-only code and manifest are committed, and the locked runner accepts only validation rows while rechecking every frozen input hash. Formal-test annotations for both benchmarks are absent from the execution path; seal records and access flags are checked before and after outcome-bearing runs.
