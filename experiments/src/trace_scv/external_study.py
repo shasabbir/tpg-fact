@@ -491,9 +491,15 @@ def freeze_train_only_models(
     l2: float,
 ) -> dict[str, object]:
     records = read_jsonl(candidate_path)
-    if any(row["split"] == "test" for row in records):
-        raise RuntimeError("test candidates are forbidden during train-only freezing")
+    observed_splits = {str(row["split"]) for row in records}
+    if observed_splits != {"train"}:
+        raise RuntimeError(
+            "train-only freezing requires a train-only candidate artifact; "
+            f"observed splits: {sorted(observed_splits)}"
+        )
     full_gold = json.loads(full_gold_path.read_text(encoding="utf-8"))
+    if any(not str(key).startswith("train:") for key in full_gold):
+        raise RuntimeError("train-only freezing requires a train-only gold artifact")
     seed_models: list[dict[str, object]] = []
     for seed in seeds:
         fit_rows = _balanced_fit_rows(
@@ -718,8 +724,16 @@ def run_locked_development(
     maximum_items: int,
     bootstrap_samples: int,
 ) -> tuple[dict[str, object], list[dict[str, object]]]:
-    records = [row for row in read_jsonl(candidate_path) if row["split"] == "validation"]
+    records = read_jsonl(candidate_path)
+    observed_splits = {str(row["split"]) for row in records}
+    if observed_splits != {"validation"}:
+        raise RuntimeError(
+            "locked development requires a validation-only candidate artifact; "
+            f"observed splits: {sorted(observed_splits)}"
+        )
     full_gold = json.loads(full_gold_path.read_text(encoding="utf-8"))
+    if any(not str(key).startswith("validation:") for key in full_gold):
+        raise RuntimeError("locked development requires a validation-only gold artifact")
     grouped = _group(records)
     all_rows: list[dict[str, object]] = []
     seed_summaries: list[dict[str, object]] = []

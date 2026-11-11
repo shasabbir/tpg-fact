@@ -5,7 +5,11 @@ from pathlib import Path
 
 import pytest
 
-from scripts.prepare_averimatec import _best_label_blind_chunk, _lexical_features
+from scripts.prepare_averimatec import (
+    _best_label_blind_chunk,
+    _lexical_features,
+    _read_json_or_jsonl,
+)
 from trace_scv.data.averimatec import (
     candidate_identifier,
     claim_identifier,
@@ -45,6 +49,18 @@ def test_url_normalization_removes_tracking_and_fragment() -> None:
     assert normalize_source_url("HTTPS://www.Example.com/a/?utm_source=x&b=2#frag") == (
         "https://example.com/a?b=2"
     )
+
+
+def test_jsonl_reader_preserves_unicode_line_separator_inside_record(tmp_path: Path) -> None:
+    path = tmp_path / "store.json"
+    path.write_text(
+        '{"claim_id":"1","url2text":["left\u2028right"]}\n'
+        '{"claim_id":"1","url2text":["next"]}\n',
+        encoding="utf-8",
+    )
+    rows = _read_json_or_jsonl(path)
+    assert len(rows) == 2
+    assert rows[0]["url2text"] == ["left\u2028right"]
 
 
 def test_claim_and_candidate_identifiers_are_deterministic() -> None:
@@ -438,13 +454,31 @@ def test_synthetic_train_freeze_and_locked_development_are_separate(tmp_path: Pa
                         "features": [float(positive), 1.0 - candidate_index / 3.0],
                     }
                 )
-    candidate_path = tmp_path / "candidates.jsonl"
-    gold_path = tmp_path / "gold.json"
-    write_jsonl(candidate_path, candidates)
-    gold_path.write_text(json.dumps(full_gold), encoding="utf-8")
+    train_candidate_path = tmp_path / "train_candidates.jsonl"
+    train_gold_path = tmp_path / "train_gold.json"
+    validation_candidate_path = tmp_path / "validation_candidates.jsonl"
+    validation_gold_path = tmp_path / "validation_gold.json"
+    write_jsonl(
+        train_candidate_path,
+        [row for row in candidates if row["split"] == "train"],
+    )
+    train_gold_path.write_text(
+        json.dumps({key: value for key, value in full_gold.items() if key.startswith("train:")}),
+        encoding="utf-8",
+    )
+    write_jsonl(
+        validation_candidate_path,
+        [row for row in candidates if row["split"] == "validation"],
+    )
+    validation_gold_path.write_text(
+        json.dumps(
+            {key: value for key, value in full_gold.items() if key.startswith("validation:")}
+        ),
+        encoding="utf-8",
+    )
     frozen = freeze_train_only_models(
-        candidate_path,
-        gold_path,
+        train_candidate_path,
+        train_gold_path,
         seeds=(13,),
         fixed_budgets=(1, 3),
         thresholds=(0.3, 0.5),
@@ -462,8 +496,8 @@ def test_synthetic_train_freeze_and_locked_development_are_separate(tmp_path: Pa
     assert "completeness_aware_switch" in frozen["seeds"][0]["internal_holdout"]
     assert frozen["seeds"][0]["shared_verifier"]["status"] == "frozen_train_only"
     summary, rows = run_locked_development(
-        candidate_path,
-        gold_path,
+        validation_candidate_path,
+        validation_gold_path,
         frozen,
         maximum_items=3,
         bootstrap_samples=100,
@@ -475,3 +509,55 @@ def test_synthetic_train_freeze_and_locked_development_are_separate(tmp_path: Pa
     assert "completeness_aware_switch" in summary["aggregate_mean_over_seed_then_claim"]
     assert "completeness_switch_minus_threshold" in summary["paired_claim_bootstrap"]
     assert summary["shared_verifier"]["status"] == "checked_locked_development"
+
+
+def test_train_freeze_rejects_development_rows(tmp_path: Path) -> None:
+    candidate_path = tmp_path / "mixed_candidates.jsonl"
+    gold_path = tmp_path / "mixed_gold.json"
+    write_jsonl(
+        candidate_path,
+        [
+            {
+                "split": "train",
+                "claim_id": "train-1",
+                "evidence_id": "train-evidence",
+                "modality": "text",
+                "gold": True,
+                "claim_label": "Supported",
+                "features": [1.0, 0.0],
+            },
+            {
+                "split": "validation",
+                "claim_id": "validation-1",
+                "evidence_id": "validation-evidence",
+                "modality": "text",
+                "gold": True,
+                "claim_label": "Refuted",
+                "features": [1.0, 0.0],
+            },
+        ],
+    )
+    gold_path.write_text(
+        json.dumps(
+            {
+                "train:train-1": ["url:https://example.test/train"],
+                "validation:validation-1": ["url:https://example.test/validation"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(RuntimeError, match="train-only candidate artifact"):
+        freeze_train_only_models(
+            candidate_path,
+            gold_path,
+            seeds=(13,),
+            fixed_budgets=(1,),
+            thresholds=(0.5,),
+            text_widths=(1,),
+            image_widths=(1,),
+            maximum_items=1,
+            maximum_fit_negatives_per_claim=1,
+            learning_rate=0.05,
+            epochs=2,
+            l2=1e-3,
+        )

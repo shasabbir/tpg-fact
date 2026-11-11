@@ -16,6 +16,7 @@ build/
 **/.secrets/
 
 # Public datasets are downloaded from official releases, not committed
+/FEVER data/
 experiments/data/
 experiments/cache/
 experiments/checkpoints/

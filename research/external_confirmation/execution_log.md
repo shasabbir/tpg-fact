@@ -6,16 +6,61 @@ Checkpoint before execution: `b79ae39` (`v4`)
 
 ## Current status
 
-The faithful retrieval, selection, completeness-routing, verifier, and export
-paths are implemented and regression-tested. They can enter the formal
-train-only run once the official training knowledge-store text and image
-archives are complete. The outcome-bearing train-only fit and locked
-development comparison have not been run. No test annotation has been opened,
+The organizer training and validation knowledge-store archives are now
+complete, hash-verified, and extracted. The full official training store has
+passed the pinned multimodal retrieval path, and all five train-only models and
+selection decisions are frozen in an immutable manifest. The locked
+development comparison has not yet run. No test annotation has been opened,
 no test prediction has been generated, and no leaderboard submission has been
 made.
 
 This distinction is intentional: a completed software path is not an external
 confirmation result.
+
+## Official-store resolution and train-only freeze
+
+The manually supplied organizer archives resolved the data-access blocker.
+Their identities are:
+
+- training image store: 12,901,641,633 bytes,
+  SHA-256 `4b4f3dcdc2cf12594403e6c7097674645d4254be06fab44924b1051e32b92d9b`;
+- training text store: 6,716,122,829 bytes,
+  SHA-256 `6c4e8e2c92e3c352e61c0ae447da0da619e18c8e9c33f269ddfee7310eba6eb9`;
+- validation store: 9,445,438,165 bytes,
+  SHA-256 `80dcf65fc91a586fd8a8ac171dd5e632c2465c207118dd419e29be6e07b5013c`.
+
+Extraction reproduced the archive manifests exactly: training contains 1,586
+JSON files and 81,817 JPEG images; validation contains 304 JSON files and
+49,617 JPEG images. The participant-filled fallback extraction was moved out
+of the organizer-store root before preparation, preventing source mixing.
+
+The first full preparation attempt exposed a parser error rather than archive
+corruption. Python's `str.splitlines()` treated U+2028/U+2029 characters inside
+valid scraped JSON strings as JSONL boundaries. The reader now splits only on
+physical LF delimiters, reports exact source locations for malformed records,
+and has a regression test covering the organizer-store condition. No records
+were removed or repaired.
+
+The corrected official-train run ranked 529,580 text and 81,817 image
+candidates for all 793 claims, retaining 79,247 text and 14,838 image rows.
+The label-blind pre-join artifact contains 94,085 rows and has SHA-256
+`2b4353ba7019926bd4913a47139a7d1a2fc9fe0d4e7cc2362c593056f185a8a2`.
+Gold targets were joined only after that file was written and hashed.
+
+Exact-source reachability remains a major empirical limitation: across 792
+training claims with web-source gold, the retained pool reaches 22.47% of
+targets, completely reaches 9.22% of claims, and has zero exact reachability
+for 61.36% of claims. These are diagnostic normalized-source identities, not
+the official semantic evidence score.
+
+The five-seed train-only freeze completed without loading development rows.
+Every seed selected a 50-text/10-image packet; fixed budgets, thresholds,
+calibrators, completeness models, and shared verifiers were selected only from
+the declared training roles. The freeze manifest has SHA-256
+`c8d5c50b452dff3823cbe9aa15e1bbfdcbbb5295b3601c3d96b6ff4a6d6f81ec`
+and records `development_outcomes_accessed: false`. The implementation now
+rejects mixed-split freeze inputs and accepts only validation-only artifacts in
+the locked runner. The full suite contains 162 passing tests.
 
 ## Completed work
 
@@ -130,16 +175,14 @@ as an official score.
 
 ## Completion boundary
 
-Execution can proceed without changing the protocol after the official
-training text archive is accessible. The required order is:
+The remaining authorized order is:
 
-1. hash and extract the complete official training text store;
-2. build and hash label-blind rankings;
-3. join training gold sources only after the ranking hash exists;
-4. freeze all train-only models and selection parameters;
-5. run the locked 152-claim development comparison once;
-6. report exact-source diagnostics separately from the unavailable official
+1. prepare validation-only label-blind rankings after the committed train-only
+   freeze;
+2. hash those rankings before joining development gold sources;
+3. run the locked 152-claim development comparison exactly once;
+4. report exact-source diagnostics separately from the unavailable official
    semantic judge; and
-7. update the canonical manuscript only with checked results.
+5. update the canonical manuscript only with checked results.
 
 The blind test and leaderboard remain outside this execution boundary.

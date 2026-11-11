@@ -40,11 +40,27 @@ def _read_json_or_jsonl(path: Path) -> list[dict[str, object]]:
     text = path.read_text(encoding="utf-8", errors="replace")
     stripped = text.lstrip()
     if stripped.startswith("["):
-        data = json.loads(text)
+        try:
+            data = json.loads(text)
+        except json.JSONDecodeError as error:
+            raise ValueError(f"invalid JSON list in {path}: {error}") from error
         if not isinstance(data, list):
             raise ValueError(f"expected list in {path}")
         return [dict(row) for row in data if isinstance(row, Mapping)]
-    return [dict(json.loads(line)) for line in text.splitlines() if line.strip()]
+    rows: list[dict[str, object]] = []
+    # JSONL records are delimited by physical LF bytes.  ``str.splitlines``
+    # also splits on Unicode U+2028/U+2029 characters, which legitimately
+    # occur inside scraped JSON strings in the organizer store.
+    for line_number, line in enumerate(text.split("\n"), start=1):
+        if not line.strip():
+            continue
+        try:
+            rows.append(dict(json.loads(line)))
+        except json.JSONDecodeError as error:
+            raise ValueError(
+                f"invalid JSONL record in {path} at line {line_number}: {error}"
+            ) from error
+    return rows
 
 
 def _build_store_index(store_root: Path) -> dict[tuple[str, int], list[tuple[str, Path]]]:
