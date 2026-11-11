@@ -1,486 +1,419 @@
-# Publication Plan
+# Publication-Ready Execution Plan
 
-Last updated: 2026-11-09  
+Last updated: 2026-11-11
 Active manuscript: `paper/paper.tex`  
-Pre-publication checkpoint: `321af11`  
-Status: **not submission-ready; controlled study and manuscript foundation are strong**
+Current execution checkpoint: `786ef7d`
+Current verdict: **strong publication foundation, not yet submission-ready**
 
-## 1. Decision summary
+## 1. Publication objective
 
-The current work is publishable in principle, but it is not yet ready for a
-strong-journal submission. Its strongest contribution is a reproducible
-diagnosis of how retrieval reachability, probability calibration, evidence-set
-decoding, and verdict preservation interact. It does **not** establish that
-expected-F1 is the best selector or that the full system is better end to end.
+The primary target is a strong journal paper whose central contribution is a
+retrieval-conditioned and calibration-aware evaluation of multimodal evidence
+selection. The paper does not depend on inventing a uniformly superior
+selector. A rigorous external nonreplication is acceptable and must remain in
+the paper.
 
-The recommended route is to strengthen the paper before submission:
+The preferred publication story is:
 
-1. freeze a new confirmatory protocol without opening formal-test labels;
-2. improve retrieval at the operating packet depths;
-3. test one justified retrieval-completeness-aware selector against the actual
-   strongest baseline, calibrated thresholding;
-4. rerun the shared-verifier safeguard with a stronger verifier and a frozen
-   precision target;
-5. run one untouched external or formal-test evaluation;
-6. complete the reference-support ledger and author declarations;
-7. revise only the canonical manuscript in `paper/`, then create and verify the
-   final submission package.
+> Evidence selection cannot be evaluated independently of candidate
+> reachability and probability calibration. Calibrated thresholding is the
+> strongest confirmed MOCHEG policy; expected-F1 is a compact operating point;
+> and an independently frozen AVerImaTeC experiment tests which relationships
+> transfer under different evidence units and class balance.
 
-The project will not create or use `paper_q1/`. The existing paper depth will
-be preserved. Venue length limits will be met by separating main and
-supplementary material, not by deleting important comparisons, negative
-results, or literature context.
+Method-superiority, state-of-the-art, deployment-readiness, and broad-
+generalization language remains prohibited unless new checked evidence supports
+it.
 
-## 2. Frozen starting point
+## 2. Checked starting point
 
-The plan begins from the following checked state. Any changed implementation or
-protocol invalidates only the affected results and must trigger the specified
-rerun.
-
-| Item | Current checked state | Publication implication |
+| Component | Current evidence | Status |
 |---|---|---|
-| Evaluation population | 1,490 locked MOCHEG validation claims over five deterministic training-role partitions | Controlled development evidence, not independent confirmation |
-| Retrieval population | 10,970 eligible complete-gold claims | Adequate for retrieval diagnosis |
-| Candidate packet | 40 text + 20 image items for every selector | Fair matched comparison |
-| Packet oracle evidence F1 | 0.3560 | Retrieval imposes a low ceiling |
-| Complete-gold packet coverage | 4.39% | Complete evidence is rarely reachable |
-| Zero-reachable claims | 3,086 | Many errors cannot be repaired by selection |
-| Best tested selector | Calibrated threshold, F1 0.1807 | Must be the primary selector comparator |
-| Expected-F1 | F1 0.1759; 3.50 items; +0.00851 over fixed top-5 | Useful compact operating point, not the best method |
-| Expected-F1 interval | 95% CI [0.00302, 0.01400] vs fixed top-5 | Small but reproducible development effect |
-| Verifier safeguard | +0.00099 macro-F1; 95% CI [-0.01053, 0.01279] | Declared non-inferiority is not established |
-| Robustness | Probability perturbations reverse the expected-F1 gain | Calibration drift is a material failure mode |
-| Reproduction | 126 tests; 20/20 core artifacts reproduced exactly | Strong implementation foundation |
-| Manuscript | 14 pages; 55 cited references; full-page visual QA passed | Strong presentation foundation |
-| Bibliography audit | 52 claim-support reviews pending; 3 strict-policy conflicts | Blocks final reference readiness |
-| Formal test | Annotations unopened | Remains available only after protocol freeze and author authorization |
+| MOCHEG development study | Retrieval, calibration, matched selectors, robustness, stronger verifier, five deterministic partitions | Complete |
+| Main selector conclusion | Calibrated thresholding is strongest; expected-F1 is smaller; completeness switching is inconclusive | Complete, mixed result |
+| Formal MOCHEG test | Annotations remain sealed | Protected |
+| Canonical manuscript | 14-page PDF, 51 rendered references, visual QA complete | Strong foundation |
+| Implementation suite | 154 tests pass | Complete |
+| External annotations | AVerImaTeC train 793, development 152; identities and class distribution audited | Complete |
+| External access audit | 129,475 validation candidates from a participant-filled store; reachability diagnostics recorded | Audit only |
+| External model fitting | No train-only freeze artifact exists | Missing |
+| Locked external comparison | No locked-development result exists | Missing |
+| Official external score | Gemma-3-27B judge not executed | Missing |
+| Blind external test | No prediction or submission | Missing and authorization-gated |
 
-Authoritative state files:
+The participant-filled validation-store audit is not a substitute for the
+official matched train/development protocol. Its 92.94% pool recall and 84.21%
+complete pool reachability establish candidate availability only. Recall@100
+of 19.48% shows that shallow claim-text retrieval remains difficult.
 
-- `research/calibration_corrected_study/manuscript_readiness.md`
-- `research/calibration_corrected_study/remaining_actions.md`
-- `research/calibration_corrected_study/claim-evidence-register.csv`
-- `research/calibration_corrected_study/paper_release.json`
-- `research/calibration_corrected_study/reference_audit/audit.md`
+## 3. Actual implementation gaps
 
-## 3. Publication story and claim boundary
+The external code is a tested scaffold, not the complete frozen experiment.
 
-### 3.1 Recommended central claim
-
-Adaptive multimodal evidence selection must be evaluated as a
-retrieval-conditioned and calibration-dependent decision. On the current
-development population, prior-aware calibration is essential, calibrated
-thresholding is the strongest overall policy, and expected-F1 is a smaller,
-more precise operating point whose benefit is concentrated where the complete
-gold set is already reachable.
-
-This claim is valuable because it separates four failures that are often
-collapsed into one score:
-
-1. missing evidence at retrieval;
-2. incorrect within-packet ranking or membership scoring;
-3. probability miscalibration;
-4. a poor set-decoding or verdict decision.
-
-### 3.2 Stronger claim available only after new evidence
-
-A new method-superiority claim may be added only if a prespecified
-retrieval-completeness-aware policy beats calibrated thresholding under a
-matched protocol, preserves verdict quality, and replicates on untouched data.
-If it does not, the paper remains a diagnostic and benchmarking contribution.
-Negative or mixed results stay in the paper.
-
-### 3.3 Claims that remain prohibited
-
-- state-of-the-art performance without a same-protocol comparison;
-- end-to-end superiority from evidence F1 alone;
-- broad generalization from MOCHEG validation only;
-- robustness when rank-preserving calibration perturbations reverse the gain;
-- efficiency without measured hardware, latency, memory, and energy boundaries;
-- a Q1-ready or acceptance-ready claim based only on layout and reference count.
-
-## 4. Venue strategy
-
-No quartile label will be asserted until the authors choose a ranking database,
-subject category, and ranking year and record the lookup date. Scope fit and
-submission rules are separate from quartile status.
-
-| Route | Fit and requirement | Use this route when |
+| Required component | Current state | Required work |
 |---|---|---|
-| **Stretch: IEEE Transactions on Multimedia** | Direct multimedia scope and strong reproducibility fit. Current official author information limits an initial regular paper to 10 double-column pages and TMM supplementary material to four double-column pages. | External confirmation, improved retrieval, and a convincing method or diagnostic contribution are all complete. Build a 10-page main paper plus a four-page supplement without deleting scientific depth. |
-| **Primary pragmatic target: Information Processing & Management** | Strong fit for information retrieval, information science, social computing, and research-method contributions. | The external evaluation confirms the retrieval-conditioned diagnostic story, even if no new selector is uniformly superior. Convert from IEEE layout only after the venue is selected. |
-| **Fallback: Expert Systems with Applications** | Fits applied intelligent systems, information retrieval, and multimedia mining, but requires genuine technical contribution rather than renamed standard components. | The final contribution is an application-centered system and evaluation with strong external evidence. |
+| Official training store | Incomplete because the public host enforced quota | Obtain complete organizer train text and image stores; hash every archive |
+| Text retrieval | Lexical overlap features only | Implement BM25, BGE-M3, reciprocal-rank fusion, and the declared reranker |
+| Image retrieval | Image-related text is represented, but actual candidate images are not visually ranked | Parse image candidates, hash/deduplicate them, and run SigLIP2 ranking |
+| Multimodal packet | Text and image widths exist in configuration | Construct a genuine text-plus-image packet with frozen candidate identities |
+| Calibration | Calibrator families implemented | Fit separately by modality and execute all declared diagnostics |
+| Selector matrix | Fixed, threshold, expected-F1, and uncalibrated expected-F1 implemented | Implement and test the prespecified completeness-aware switch |
+| Shared verifier | Not implemented for AVerImaTeC | Implement linear control and two-layer four-class verifier with shared access |
+| Official prediction output | Constraint checks exist | Implement full schema exporter, verdict mapping, and justification/evidence fields |
+| Official semantic evaluation | Hardware feasibility audited only | Run pinned Gemma-3-27B evaluator on suitable hardware or report it unavailable |
+| Reporting | Paired bootstrap utilities implemented | Generate full per-seed, class-wise, calibration, reachability, and deviation reports |
 
-Official scope/rule checks used for this plan:
+No locked development outcome may be inspected until these gaps are resolved
+or a deviation is frozen and the paper's claims are narrowed accordingly.
 
-- [IEEE Transactions on Multimedia scope](https://signalprocessingsociety.org/publications-resources/ieee-transactions-multimedia)
-- [IEEE Signal Processing Society information for authors](https://signalprocessingsociety.org/publications-resources/information-authors)
-- [Information Processing & Management scope](https://shop.elsevier.com/journals/information-processing-and-management/0306-4573)
-- [Expert Systems with Applications scope](https://shop.elsevier.com/journals/expert-systems-with-applications/0957-4174)
+## 4. Critical-path work packages
 
-The venue is selected after the external-evidence gate, because the result will
-determine whether the contribution is primarily multimedia methodology,
-information-retrieval evaluation, or an applied intelligent system.
+### Gate A: Data and compute availability
 
-## 5. Publication gates
+Work:
 
-Each gate produces an immutable report and a Git commit. A failed gate changes
-the paper's claim; it does not trigger outcome-driven tuning.
+1. obtain complete official AVerImaTeC training text and image stores;
+2. record source URLs, revisions, byte sizes, SHA-256 hashes, license, missing
+   files, duplicate URLs, and extraction manifests;
+3. verify at least one faithful route for the official Gemma-3-27B evaluator:
+   suitable multi-GPU hardware, an organizer-provided evaluation service, or a
+   documented blocked status; and
+4. keep test data and leaderboard access outside the development path.
 
-| Gate | Required evidence | Pass condition |
-|---|---|---|
-| G0: baseline preservation | Clean tree, checkpoint, hashes, current release report | **Passed** at `321af11` |
-| G1: protocol and data freeze | Dataset roles, candidate widths, models, trial budget, seeds, exclusions, metrics, statistical tests, hardware plan | Independent audit finds no label access or outcome-dependent choice |
-| G2: retrieval | Complete-gold coverage, packet oracle F1, Recall@40 text, Recall@20 image, MAP/nDCG, runtime and memory | Selected variant improves the frozen packet oracle and operating-depth recall without degrading the other modality; all selection occurs on training roles |
-| G3: selector | Fixed budgets, calibrated threshold, learned count, expected-F1, and one completeness-aware method on identical packets and probabilities | Superiority language requires at least +0.010 evidence F1 over calibrated threshold, a positive paired 95% interval after multiplicity control, positive effects in all five partitions, and no larger mean set than thresholding |
-| G4: verifier | Stronger shared verifier, frozen non-inferiority margin and claim-aligned interval | Lower 95% confidence limit above -0.01 |
-| G5: external confirmation | One untouched formal-test or compatible external evaluation run | Same protocol, no retuning, complete artifact audit; conclusions reported whether positive or negative |
-| G6: reference and manuscript integrity | Per-claim source support, eligible bibliography, code/method/results consistency, venue format | No unresolved blocking finding |
-| G7: release and submission package | Clean source build, PDF QA, supplement, code/data statement, declarations, cover letter | Extracted package builds and every headline claim traces to a frozen artifact |
+Pass condition:
 
-The numerical G3 threshold is a proposed practical-effect requirement and must
-be copied into the frozen protocol before any new outcome is inspected. If the
-authors prefer a different minimum effect, it must be changed before G1 closes.
+- every training store shard is complete and hash-verified;
+- the extracted store covers all 793 training claims;
+- no development or test outcome influenced acquisition or filtering; and
+- the official-evaluator route is resolved before locked development.
 
-## 6. Confirmatory experimental protocol
+Stop rule: if the official training store cannot be obtained, do not train on
+the participant-filled validation store. Route the paper to the bounded-study
+fallback in Section 8.
 
-### 6.1 Data roles and leakage controls
+### Gate B: Faithful external retrieval implementation
 
-- Preserve claim-level independence across fitting, calibration, model
-  selection, internal holdout, and final evaluation roles.
-- Fit vocabulary, retrievers, hard-negative mining, scorer parameters,
-  calibration maps, thresholds, count models, and completeness estimators only
-  on allowed training roles.
-- Keep the official MOCHEG test annotations inaccessible until G1 is signed and
-  the authors explicitly authorize the one-shot evaluation.
-- Run duplicate, near-duplicate, source, and event-overlap checks before
-  interpreting external performance. Where source/event metadata are absent,
-  narrow the claim instead of declaring confirmed independence.
-- Preserve the existing 40-text/20-image packet as the primary matched setting.
-  Wider packets and claim-adaptive budgets are secondary analyses.
+Text branch:
 
-### 6.2 Retrieval workstream
+1. deterministic 1,500-character chunks;
+2. BM25 and BGE-M3 rankings;
+3. equal-weight reciprocal-rank fusion;
+4. one training-selected fusion/reranking configuration; and
+5. packet width selected from `{50, 100}` using training roles only.
 
-The current oracle ceiling is the main scientific bottleneck. Limit the search
-to a small, declared matrix:
+Image branch:
 
-1. frozen BGE-M3 text and SigLIP2 image baseline;
-2. BM25 text retrieval;
-3. BGE-M3 + BM25 reciprocal-rank fusion;
-4. fusion plus a frozen text cross-encoder reranker;
-5. SigLIP2 plus OCR/caption/article-context image fusion;
-6. one combined hybrid configuration selected on training roles.
+1. actual candidate-image loading and source association;
+2. exact and perceptual duplicate audit without deleting audit rows;
+3. SigLIP2 claim-text/claim-image scoring;
+4. frozen tie-breaking and missing-image behavior; and
+5. packet width selected from `{10, 20}` using training roles only.
 
-For every configuration retain label-blind rankings before gold joins, model
-revision, preprocessing, index hash, missing-media log, Recall@5/10/20/40/50,
-MAP, nDCG, complete-gold coverage, packet-oracle F1, wall time, peak RAM/VRAM,
-and index size. Energy is reported only if it is measured with a declared
-boundary.
+Required artifacts:
 
-Primary retrieval selection uses packet-oracle F1 at 40 text + 20 image, with
-operating-depth modality recall as a guardrail. Aspirational engineering
-targets are an absolute oracle-F1 improvement of at least 0.05 and
-complete-gold coverage of at least 8%; these are targets, not fabricated
-outcomes or guaranteed gates.
+- `external_retrieval.py` and focused tests;
+- label-blind rankings written and hashed before gold joins;
+- source and image mapping audit;
+- Recall@10/20/50/100, MAP/nDCG, complete-gold reachability, packet-oracle
+  evidence F1, zero-reachable claims, runtime, RAM/VRAM, and storage; and
+- a failure/deviation log for inaccessible or corrupt sources.
 
-### 6.3 Scoring and calibration workstream
+Pass condition: all retrieval variants are complete on training roles, every
+selector receives the same frozen packet, and no gold question or answer is a
+retrieval feature.
 
-- Retain the low-capacity logistic scorer as a control.
-- Compare one content-aware text scorer and one content-aware image scorer with
-  the same hard-negative and training access.
-- Compare identity, temperature, Platt, prior shift, prior-aware Platt, and
-  prior-aware isotonic maps under the frozen calibration role.
-- Select calibration using Brier score first; report NLL, ECE, reliability
-  curves, prevalence, and selected-set-size effects.
-- Treat naturally occurring calibration drift and rank-preserving temperature
-  changes as required stress tests.
+### Gate C: Train-only end-to-end pilot
 
-### 6.4 Selector workstream
+Work:
 
-Required matched policies:
+1. deterministically partition official training claims into fit,
+   calibration, model-selection, and internal-holdout roles for seeds
+   `13, 37, 73, 101, 137`;
+2. audit claim/source/article and available image-hash overlap across roles;
+3. fit the external evidence-membership scorer from scratch;
+4. select modality-specific calibrators by training-role Brier score;
+5. run fixed, threshold, expected-F1, uncalibrated expected-F1, and the
+   completeness-aware switch on internal holdout;
+6. train the shared linear and two-layer four-class verifiers; and
+7. export a small training-only batch through the exact official schema.
 
-1. fixed top-1/3/5/10 controls;
-2. calibrated global or per-modality threshold;
-3. learned count;
-4. exact expected-F1;
-5. uncalibrated expected-F1 ablation;
-6. one retrieval-completeness-aware policy.
+Pass condition:
 
-The completeness-aware policy is justified by the present post hoc finding and
-must be specified before new outcomes. A minimal design is a training-only
-estimate of packet completeness that chooses between a compact expected-F1 set
-and the higher-recall calibrated threshold. Its inputs, calibration, threshold,
-and fallback behavior must be frozen. Do not add a large new architecture
-unless this controlled design first shows value.
+- the complete path runs without development data;
+- labels, probabilities, evidence limits, source URLs, and four-class mappings
+  pass regression tests;
+- the verifier reports macro-F1 and every class-wise F1, not accuracy alone;
+- peak runtime/memory fit the declared budget; and
+- the official evaluator completes on training-only examples or is formally
+  marked unavailable.
 
-The primary selector outcome is claim-level complete-gold evidence F1.
-Secondary outcomes are precision, recall, Jaccard, exact match, selected count,
-count error, Brier/NLL/ECE, and review burden. Calibrated thresholding—not fixed
-top-5—is the comparator for any new superiority claim.
+### Gate D: Protocol freeze
 
-### 6.5 Verifier workstream
+Freeze in one immutable manifest:
 
-- Freeze one stronger shared verifier before selector-set evaluation.
-- Give every selector the same verifier, training data, prompt/model revision or
-  checkpoint, decoding settings, and tuning access.
-- Report macro-F1, class-wise F1, calibration if applicable, failure counts,
-  latency, and the paired selector-minus-baseline interval.
-- Use the existing -0.01 non-inferiority margin. A point estimate above zero is
-  insufficient when the lower confidence limit crosses the margin.
+- dataset/store/code/model revisions and hashes;
+- split manifests and overlap audit;
+- candidate ID and URL/image normalization rules;
+- retrieval matrix and packet widths;
+- scorer features, negative sampling, calibrators, thresholds, and switch;
+- verifier architectures and optimization;
+- seeds, trial limits, primary comparisons, bootstrap seeds, Holm family,
+  exclusion rules, and failure policy;
+- official-evaluator version, precision, hardware, and prompt/template hashes;
+- blind-test selection rule; and
+- a statement that no locked development result was inspected.
 
-### 6.6 External or formal-test workstream
+Pass condition: an independent audit reproduces every non-runtime hash and
+rejects development-label access, test-label access, and overwrite of frozen
+outputs.
 
-Preferred order:
+### Gate E: Full training-role execution
 
-1. use the sealed MOCHEG test once, only after G1-G4 and explicit author
-   authorization;
-2. in parallel, re-audit an independent benchmark only if it supplies a
-   research-compatible license, stable evidence identifiers, text and image
-   evidence, an accessible corpus or defensible candidate construction, and an
-   untouched evaluation split;
-3. adapt the protocol only before seeing external outcomes and document every
-   unavoidable change in evidence units or labels.
+Run every declared configuration across all five seeds. Preserve failed and
+dominated configurations.
 
-AVerImaTeC and MMCV are adaptation candidates, not interchangeable replicas of
-MOCHEG. If no independent benchmark passes the access/compatibility audit, do
-not force a misleading cross-dataset comparison. The formal test then becomes
-the only confirmatory route; without it, the paper stays a bounded
-single-benchmark development study.
+Required outputs:
 
-### 6.7 Statistical analysis
+- per-candidate raw and calibrated probabilities;
+- per-claim selected evidence IDs for every policy;
+- calibration reliability data, Brier, NLL, ECE, prevalence Brier, and average
+  precision;
+- completeness-switch predictions and routing decisions;
+- verifier probabilities and predictions by class;
+- runtime and resource manifests; and
+- clean-rerun hashes for non-runtime artifacts.
 
-- Freeze one primary comparison and a finite family of secondary comparisons.
-- Estimate the sample size or attainable interval width from current
-  claim-level paired differences before final evaluation. Target at most a
-  +/-0.005 half-width for the main evidence-F1 effect when the available test
-  population permits it.
-- Use claim-aligned paired bootstrap intervals with 10,000 resamples and Holm
-  correction for the declared family.
-- Report effect sizes and intervals, not only p-values.
-- Prespecify reachability strata: no gold reachable, partially reachable, and
-  complete gold reachable. Treat them as secondary unless powered and declared
-  otherwise.
-- Report all five partition effects and all failed configurations. Do not
-  select the best seed.
-- Preserve raw per-claim probabilities, selections, verifier predictions, and
-  bootstrap inputs so every table can be independently recomputed.
+Pass condition: no missing declared run, no unexplained exclusion, and the
+train-only freeze selects exactly one setting for locked development.
 
-## 7. Manuscript revision plan
+### Gate F: One locked development comparison
 
-All manuscript work remains in `paper/`. Experimental changes are written only
-after their outputs pass the relevant audit.
+Run the frozen matrix once on all 152 official development claims. Do not tune
+after observing results.
 
-### 7.1 Main-paper narrative
+Primary comparisons:
 
-1. **Abstract:** task, retrieval-conditioned gap, protocol, one main result,
-   one failure, and bounded implication. Update last, after results freeze.
-2. **Introduction:** retain one contribution list; make the diagnostic novelty
-   and strongest baseline explicit.
-3. **Related work:** preserve the technical taxonomy and comparison depth, but
-   tie every comparison row to verified sources.
-4. **Problem and data:** make evidence units, complete-gold assumptions,
-   unreachable evidence, and independent data roles unambiguous.
-5. **Method:** describe the actual frozen retrieval, scoring, calibration,
-   selection, and verifier paths. Clearly label reused, adapted, and new parts.
-6. **Experimental setup:** add external-data audit, hardware/runtime settings,
-   trial budget, seeds, selection rule, and statistical family.
-7. **Results:** lead with retrieval reachability, then calibration, matched
-   selectors, verifier, external confirmation, and robustness.
-8. **Discussion:** explain why thresholding is strong, when compact selection is
-   useful, and how incomplete retrieval changes the decision problem.
-9. **Limitations and ethics:** retain unfavorable results, external-validity
-   boundary, dataset/licensing facts, and misuse/automation limits.
-10. **Conclusion:** state only the frozen result and its operational meaning.
+1. calibrated threshold minus strongest train-selected fixed top-k;
+2. expected-F1 minus calibrated threshold; and
+3. calibrated minus uncalibrated expected-F1.
 
-Do not use internal labels such as “phase 1,” “phase 2,” or “phase 3” in the
-paper. Use scientific section names and experiment descriptions.
+Required reporting:
 
-### 7.2 Result tables and figures
+- mean-over-seed then claim-level effect;
+- 10,000 claim-aligned paired bootstrap samples;
+- 95% intervals and Holm-adjusted values;
+- every seed effect;
+- precision, recall, F1, exact match, and selected count;
+- reachability strata and evidence medium;
+- macro-F1, class-wise F1, and confusion matrices for the shared verifier;
+- official semantic evidence score and conditional verdict score when the
+  pinned evaluator is available; and
+- exact-source metrics explicitly labeled diagnostic.
 
-Main paper should contain:
+Decision rules:
 
-- related-work comparison matrix;
-- dataset, split, and information-boundary table;
-- retrieval matrix with operating-depth recall and packet oracle;
-- calibration table and reliability figure;
-- selector main-effects table with intervals and selected count;
-- reachability-stratified table;
-- verifier non-inferiority table;
-- external/formal-test table;
-- end-to-end architecture/information-boundary figure;
-- robustness summary figure.
+- threshold superiority requires at least `+0.010` evidence score with a
+  positive lower interval bound;
+- expected-F1 is a confirmed compact operating point only if its evidence score
+  is non-inferior within `-0.010` and it selects at least 15% fewer items;
+- the completeness switch supports superiority only if its mean gain is at
+  least `+0.010`, the multiplicity-adjusted interval is positive, every seed is
+  positive, and mean set size is no larger than thresholding; and
+- verifier preservation requires the paired macro-F1 lower bound above
+  `-0.010`.
 
-Partition-level results, the full robustness matrix, detailed audit tables,
-hyperparameter grids, and reference-support material belong in the supplement
-when the venue has a tight main-paper limit.
+Failure is a result. Do not search for another decoder after this gate.
 
-### 7.3 IEEE TMM length strategy
+### Gate G: Blind test decision
 
-The present 14-page manuscript cannot be submitted unchanged under the current
-10-page TMM initial limit. If TMM is selected:
+After Gate F, select exactly one pipeline using the frozen decision rule:
 
-- keep motivation, method, main comparisons, negative result, and external
-  evidence in the 10-page main paper;
-- move the reporting appendix, full retrieval matrix, partition results,
-  absolute robustness table, extended implementation settings, and additional
-  source-support details to a maximum four-page double-column supplement;
-- retain the 55-reference-quality literature coverage as eligible and relevant;
-  do not reduce references merely to create visual space;
-- rebuild and visually inspect both artifacts at final submission size.
+1. completeness switch if every switch safeguard passes;
+2. otherwise expected-F1 if it is non-inferior and at least 15% smaller;
+3. otherwise calibrated threshold if its fixed-baseline hypothesis passes;
+4. otherwise strongest train-selected fixed top-k.
 
-## 8. Reference and integrity plan
+Generating and submitting test predictions requires explicit author approval.
+Only one submission is permitted by this project. Preserve the submitted file,
+SHA-256 hash, code commit, configuration, timestamp, and leaderboard receipt.
+No post-test repair may be presented as fresh confirmation.
 
-The number of references is not a readiness metric. Each cited claim must have
-an eligible source and a recorded support location.
+### Gate H: Evidence reconciliation and manuscript revision
 
-1. Review all 55 cited records against the claim-evidence ledger.
-2. Record DOI identity, cited version, publication year, peer-review state,
-   source passage/page, manuscript claim, and correction/retraction check.
-3. Replace or remove the three current strict-policy conflicts:
-   - 2009 reciprocal-rank-fusion citation without an eligible DOI/year;
-   - 2017 calibration citation outside the study's reference policy;
-   - 2025 MMCV record without a verified DOI.
-4. Prefer 2022 onward peer-reviewed sources; retain 2020-2021 only when they are
-   the best eligible support. Do not cite ordinary arXiv versions when a
-   peer-reviewed version exists.
-5. Rerun the automated bibliography audit after the human support review.
-6. Confirm that every visible reference has a correct DOI link and that every
-   bibliography entry is cited for a claim it actually supports.
+Before writing, create a claim-evidence register linking every headline number
+to raw records, aggregation code, configuration, and data identity.
 
-## 9. Reproducibility and release package
+Update only `paper/`:
 
-Every outcome-bearing run records:
+1. abstract and contribution list last;
+2. data/setup with the external evidence unit, split roles, imbalance, and
+   store construction condition;
+3. method with the retrieval, calibration, selector, completeness, verifier,
+   and output paths actually run;
+4. results with reachability first, then calibration, matched selectors,
+   verifier, external transfer, and failures;
+5. discussion with replication and nonreplication separated;
+6. limitations with official-evaluator availability, alternative-source
+   validity, class imbalance, and test status; and
+7. conclusion restricted to checked claims.
 
-- Git commit and resolved configuration;
-- Python, framework, library, CUDA/driver, and OS versions;
-- CPU, GPU, RAM/VRAM, numerical precision, batch size, and seeds;
-- dataset, corpus, media, model, feature, and split hashes;
-- label-blind candidate rankings and gold-joined audit records;
-- checkpoints, calibration maps, per-claim probabilities and selections;
-- verifier predictions, raw metrics, bootstrap inputs, and corrected tests;
-- wall time, peak memory, index/storage size, failures, and deviations.
+The paper must not use internal phase labels. It must retain the MOCHEG
+selector-superiority failure and seed-specific verifier failures.
 
-Final deliverables:
+### Gate I: Venue and submission package
 
-1. editable LaTeX source in `paper/`;
-2. venue-formatted main PDF and supplement;
-3. figure and table sources linked to immutable result files;
-4. environment lock and one-command reproduction instructions;
-5. public-data acquisition script and license notes, without redistributing
-   restricted data;
-6. claim-evidence and reference-support registers;
-7. clean source archive that builds outside the working tree;
-8. anonymized package if required by the venue;
-9. code/data availability statement and archival plan;
-10. cover letter, highlights or graphical abstract only when required.
+Select the venue only after the external result establishes whether the final
+paper is primarily multimedia methodology, information-retrieval evaluation,
+or an applied-system study. Recheck the venue's current official scope, page
+limit, anonymity policy, supplementary rules, AI-disclosure policy, and
+required declarations at that time.
 
-No repository, archive, preprint, or journal submission will be published
-without explicit author authorization.
+Required package:
 
-## 10. Author facts required
+- venue-formatted main paper and supplement;
+- editable LaTeX, bibliography, figure/table sources, and build instructions;
+- environment lock and acquisition scripts;
+- code/data availability and license notes;
+- claim-evidence and reference-support ledgers;
+- clean source archive that builds outside the working tree;
+- anonymized version when required;
+- cover letter, highlights, or graphical abstract only when required; and
+- final visual QA and independent scientific audit.
 
-The authors must supply or approve these facts before G7:
+No preprint, repository release, leaderboard submission, or journal submission
+is authorized by this plan.
 
-- final author order, corresponding author, and affiliations;
-- CRediT contribution statement;
-- funding and grant identifiers, or an explicit no-funding statement;
+## 5. Parallel non-experimental work
+
+These tasks can proceed while data access or compute is pending:
+
+1. audit every manuscript citation for DOI identity and direct claim support;
+2. reconcile method/equation/diagram descriptions with current code;
+3. prepare the external dataset and reproducibility tables with result cells
+   left blank;
+4. prepare a clean-build script and source-package manifest;
+5. draft, but do not invent, the required declaration templates; and
+6. maintain an unresolved-action register.
+
+## 6. Author decisions and resources required
+
+The authors must provide or approve:
+
+- access to the complete official AVerImaTeC training store or an authoritative
+  mirror;
+- suitable official-evaluator compute or acceptance that the official score
+  will remain unavailable;
+- explicit authorization before the one blind-test submission;
+- target venue after the external result;
+- final author order, affiliations, and corresponding author;
+- CRediT roles;
+- funding/grant or no-funding statement;
 - competing-interest statement;
-- data and code availability statement;
-- permission/license constraints for released data and media;
-- target venue and chosen ranking database/category/year if a quartile claim is
-  desired;
-- AI-assisted writing/code disclosure required by the selected venue;
-- authorization before any sealed formal-test access or public release.
+- data/code availability and media-license wording;
+- acknowledgments and ethics wording; and
+- venue-required AI-assistance disclosure.
 
-These facts will not be inferred from code or invented for the manuscript.
+These facts cannot be inferred from the repository.
 
-## 11. Work schedule
+## 7. Dependency-based execution order
 
-The schedule is dependency-based. A typical execution on one RTX 4090-class
-workstation is approximately ten focused work blocks; data access or model
-runtime may extend it.
+| Order | Work | Exit artifact |
+|---:|---|---|
+| 1 | Official store and evaluator access | Updated access audit and hashes |
+| 2 | BM25/BGE-M3 and actual SigLIP2 retrieval | Frozen label-blind rankings and retrieval report |
+| 3 | External switch, verifier, and official exporter | End-to-end training-only pilot audit |
+| 4 | Protocol freeze | Immutable freeze manifest and commit |
+| 5 | Five-seed full training roles | Complete train-only result bundle |
+| 6 | One locked development run | Frozen external comparison report |
+| 7 | Scientific decision | Selected blind policy and claim-boundary report |
+| 8 | Optional one-shot blind test with approval | Submission hash and receipt |
+| 9 | Statistics, tables, figures, and paper revision | Audited canonical manuscript |
+| 10 | Venue conversion, declarations, clean build | Submission-ready archive |
 
-| Block | Work | Exit artifact |
-|---|---|---|
-| 0 | Preserve current state | Commit `321af11` (**done**) |
-| 1 | Venue shortlist, protocol, formal-test lock, author decisions | Signed protocol and decision record |
-| 2 | External-data/license and overlap audit; baseline runtime profile | Data audit and hardware manifest |
-| 3 | Text retrieval matrix | Frozen rankings and retrieval report |
-| 4 | Image and hybrid retrieval matrix | G2 decision |
-| 5 | Scoring, calibration, and completeness estimator | Calibration report and frozen selector inputs |
-| 6 | Matched selector and stronger-verifier evaluation | G3/G4 decision and raw claim records |
-| 7 | One-shot external/formal-test evaluation | G5 report with immutable hashes |
-| 8 | Statistics, error analysis, figures, and tables | Audited result bundle |
-| 9 | Reference ledger and full manuscript revision | Venue-formatted release candidate |
-| 10 | Clean reproduction, visual QA, declarations, cover letter | Submission package and readiness report |
+The main critical path is data access -> faithful retrieval -> train-only pilot
+-> freeze -> locked development -> manuscript. Reference and package work can
+run in parallel.
 
-## 12. Decision rules
+## 8. Publication routes
 
-### Outcome A: strongest route
+### Route A: strong external diagnostic paper
 
-External evidence replicates the diagnostic findings, retrieval improves, the
-new selector beats calibrated thresholding under G3, and verifier
-non-inferiority passes. Submit the method-plus-evaluation paper to the stretch
-venue after current ranking and submission-rule verification.
+Use when the external protocol completes, regardless of whether expected-F1 or
+the switch wins. The central contribution is the cross-benchmark evidence about
+reachability, calibration, compact selection, and failure transfer.
 
-### Outcome B: strong diagnostic route
+### Route B: method-plus-evaluation paper
 
-External evidence confirms that reachability and calibration change selector
-conclusions, but thresholding remains best or verifier non-inferiority remains
-unresolved. Submit an honest retrieval-conditioned evaluation paper to the
-best-fitting information-retrieval or multimedia journal. Remove method
-superiority language.
+Use only if the completeness switch or another prespecified policy clears every
+superiority and verifier safeguard on untouched data. This route is not the
+default expectation.
 
-### Outcome C: bounded single-benchmark route
+### Route C: bounded single-benchmark paper
 
-No external/formal evaluation is available. Retain the current controlled
-development framing, complete the reference and declaration work, and choose a
-less ambitious venue. Do not claim broad generalization or Q1 readiness.
+Use if official training data, evaluator compute, or blind evaluation remains
+unavailable. Preserve the current MOCHEG development framing, include the
+external access failure and reachability audit, remove external-confirmation
+language, and target a venue compatible with a rigorous measurement/negative-
+results contribution. Do not call this Q1-ready external generalization.
 
-### Outcome D: contradictory external result
+### Route D: contradictory external result
 
-Report the contradiction, investigate only predeclared data-quality and
-implementation failures, and do not retune on the external labels. The paper
-may still be valuable as a cross-dataset failure analysis if the protocol and
-artifacts remain defensible.
+Report the contradiction and investigate only prespecified integrity failures.
+Do not retune on external labels. A credible nonreplication may strengthen the
+paper's diagnostic contribution.
 
-## 13. Definition of publication-ready
+## 9. Definition of publication-ready
 
-The manuscript is publication-ready only when all applicable boxes are true:
+### Scientific readiness
 
-- [x] Current study and manuscript preserved in Git.
-- [x] Current implementation tests and clean core reproduction pass.
-- [x] Current PDF compiles and all pages have been visually inspected.
-- [ ] Target venue and current official rules verified.
-- [ ] Confirmatory protocol frozen before external labels are accessed.
-- [ ] Retrieval workstream completed and fully audited.
-- [ ] Strongest calibrated selector retained as comparator.
-- [ ] Verifier safeguard resolved or the claim narrowed.
-- [ ] Untouched external or formal-test evaluation completed, or the paper is
-      explicitly routed as a bounded single-benchmark study.
-- [ ] Every headline number traces to raw per-claim evidence.
-- [ ] All 55 reference claims reviewed; ineligible records replaced or removed.
-- [ ] Funding, conflicts, contributions, availability, and AI-use statements
-      approved by the authors.
-- [ ] Venue-formatted main paper and supplement pass build and visual QA.
-- [ ] Clean extracted package builds without machine-local dependencies.
-- [ ] Independent internal review finds no blocking scientific, reference, or
-      packaging issue.
+- [x] Core MOCHEG study is frozen, reproduced, and honestly reported.
+- [x] Formal MOCHEG test remains sealed.
+- [x] External annotations, access, label distribution, and fallback store are audited.
+- [ ] Complete official training store is hash-verified.
+- [ ] BM25/BGE-M3 and actual SigLIP2 retrieval are implemented and audited.
+- [ ] Completeness switch, shared verifier, and official exporter pass an end-to-end pilot.
+- [ ] Train-only protocol and all decisions are frozen before development outcomes.
+- [ ] Five-seed training-role execution is complete.
+- [ ] One locked external development comparison is complete.
+- [ ] Official semantic score is recorded or its absence is an explicit claim limitation.
+- [ ] Blind test is executed once with authorization or explicitly marked blocked.
+- [ ] Every main claim maps to valid raw evidence and checked aggregation.
 
-## 14. Immediate execution order
+### Manuscript readiness
 
-1. Commit this publication plan separately from the preserved baseline.
-2. Create a concise machine-readable confirmatory protocol and test-lock file.
-3. Re-audit external/formal-test access and dataset compatibility.
-4. Capture the actual hardware/environment/runtime baseline.
-5. Execute the bounded retrieval matrix before changing the selector.
-6. Freeze the completeness-aware selector and stronger verifier only after G2.
-7. Run G3 and G4, then decide whether formal-test access should be requested.
-8. Complete the reference ledger in parallel because it does not depend on
-   experimental outcomes.
-9. Revise `paper/paper.tex` only after the result bundle is frozen.
-10. Produce the venue-specific main paper, supplement, clean archive, and final
-    readiness audit.
+- [x] Canonical source and 14-page reading PDF exist in `paper/`.
+- [x] Current PDF builds without undefined references or overfull boxes.
+- [x] Current negative and inconclusive findings are visible.
+- [ ] External methods and results match the final executed code exactly.
+- [ ] All cited claims pass human support review and automated bibliography audit.
+- [ ] Final abstract, contributions, tables, discussion, limitations, and conclusion are synchronized.
+- [ ] Target venue and current rules are verified.
 
-No step authorizes opening sealed labels, publishing files, or submitting to a
-journal without explicit author approval.
+### Submission readiness
+
+- [ ] Author declarations are approved.
+- [ ] Venue-formatted main paper and supplement pass visual QA.
+- [ ] Clean extracted source package builds without machine-local paths.
+- [ ] Reproduction instructions and availability statements are complete.
+- [ ] Independent final review reports no blocking scientific, reference, or packaging issue.
+
+The study is publication-ready only when the applicable scientific,
+manuscript, and submission boxes are checked. A visually polished PDF alone is
+not completion.
+
+## 10. Immediate next actions
+
+1. resolve the official training-store access route;
+2. implement the missing faithful text and image retrieval modules;
+3. implement the external completeness switch, shared verifier, and official
+   output exporter;
+4. run a training-only end-to-end pilot and resource audit;
+5. freeze the executable protocol before any locked development result;
+6. execute the five-seed training roles and one locked development comparison;
+7. make the blind-test decision under the frozen rule;
+8. update the canonical manuscript from checked results; and
+9. complete venue selection, author declarations, reference support, and the
+   clean submission package.
+
+No action in this plan authorizes paid compute, external contact, opening
+sealed annotations, public release, or submission.
