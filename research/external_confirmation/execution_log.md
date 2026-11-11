@@ -72,6 +72,16 @@ retry of the required train text file failed with Google's ``Too many users
 have viewed or downloaded this file recently'' response. The test archive was
 not opened.
 
+A public Hugging Face registry search found only the official annotation/image
+release, the participant-filled validation/test release, and a claim-image
+reproduction. None contains the organizer's training knowledge store. A final
+authenticated-download attempt could not proceed: Chrome's current Windows
+cookie protection prevented CLI cookie import, no Firefox profile existed, and
+local browser control is disabled in this Work environment. Unblocking Gate A
+therefore requires either a completed manual organizer download placed under
+`experiments/data/public/averimatec/raw/knowledge_store/`, an authoritative
+byte-identical mirror, or a later retry after the Google Drive quota resets.
+
 As an audit-only fallback, the public `humane-lab/AVerImaTeC-Filled` Hugging
 Face release was downloaded. Its validation text archive contains both
 text-related branches (306 members, 5,193,221,644 uncompressed bytes). It is a
