@@ -1,0 +1,56 @@
+{
+  "claims": 793,
+  "claims_without_reachable_gold": 487,
+  "claims_without_store_candidates": 0,
+  "exact_diagnostic_target_identity": "url:<normalized-url> or image:<released-basename>",
+  "gold_join_performed_after_prejoin_write_and_hash": true,
+  "joined_records": {
+    "path": "outputs/external_confirmation/averimatec/prepared_train/candidate_records.jsonl",
+    "rows": 94085,
+    "sha256": "52f218c2b8cc2b7a565ea116a6157501446875e1b628476f3442c0d3f38c2f48"
+  },
+  "official_semantic_evidence_score_computed": false,
+  "prejoin_rankings": {
+    "path": "outputs/external_confirmation/averimatec/prepared_train/rankings.prejoin.jsonl",
+    "rows": 94085,
+    "sha256": "2b4353ba7019926bd4913a47139a7d1a2fc9fe0d4e7cc2362c593056f185a8a2"
+  },
+  "retrieval": {
+    "claims": 793,
+    "config": {
+      "dense_batch_size": 16,
+      "image_depth": 20,
+      "rerank_depth": 100,
+      "reranker_batch_size": 32,
+      "reranker_max_tokens": 512,
+      "reranker_model": "BAAI/bge-reranker-v2-m3",
+      "reranker_revision": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+      "rrf_constant": 60,
+      "text_depth": 100
+    },
+    "cross_encoder_enabled": true,
+    "encoder": {
+      "device": "cuda",
+      "image_batch_size": 64,
+      "max_text_tokens": 512,
+      "text_batch_size": 32,
+      "text_model": "BAAI/bge-m3",
+      "text_revision": "5617a9f61b028005a4858fdac845db406aefb181",
+      "vision_max_text_tokens": 64,
+      "vision_model": "google/siglip2-base-patch16-224",
+      "vision_revision": "75de2d55ec2d0b4efc50b3e9ad70dba96a7b2fa2",
+      "vision_use_fast_processor": false
+    },
+    "gold_questions_used_for_retrieval": false,
+    "input_image_candidates": 81817,
+    "input_text_candidates": 529580,
+    "profile": "averimatec_label_blind_multimodal_retrieval",
+    "retained_image_candidates": 14838,
+    "retained_text_candidates": 79247,
+    "scientific_results_allowed": true,
+    "test_annotations_accessed": false,
+    "verdict_labels_accessed": false
+  },
+  "status": "pass",
+  "test_annotations_accessed": false
+}

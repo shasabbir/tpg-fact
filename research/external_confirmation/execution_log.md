@@ -57,7 +57,8 @@ The five-seed train-only freeze completed without loading development rows.
 Every seed selected a 50-text/10-image packet; fixed budgets, thresholds,
 calibrators, completeness models, and shared verifiers were selected only from
 the declared training roles. The freeze manifest has SHA-256
-`c8d5c50b452dff3823cbe9aa15e1bbfdcbbb5295b3601c3d96b6ff4a6d6f81ec`
+`36e4210a438a9c6c0051d6c4608b9d2fc04709aceaecfe5c9a694518bfa0e314`,
+names clean code revision `218dbf1ac88630a06d5ad3cce3e1cacaeb84ddcc`,
 and records `development_outcomes_accessed: false`. The implementation now
 rejects mixed-split freeze inputs and accepts only validation-only artifacts in
 the locked runner. The full suite contains 162 passing tests.

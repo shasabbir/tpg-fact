@@ -1,0 +1,122 @@
+{
+  "annotations": {
+    "train": {
+      "claim_image_references": 1183,
+      "claims": 793,
+      "claims_without_web_source": 3,
+      "duplicate_gold_source_occurrences": 32,
+      "label_counts": {
+        "Conflicting Evidence/Cherrypicking": 6,
+        "Not Enough Evidence": 18,
+        "Refuted": 756,
+        "Supported": 13
+      },
+      "normalized_gold_sources": 1745,
+      "questions": {
+        "maximum_per_claim": 13,
+        "mean_per_claim": 2.862547288776797,
+        "minimum_per_claim": 1,
+        "total": 2270
+      },
+      "unique_claim_image_references": 1182,
+      "unique_normalized_gold_sources": 1713
+    },
+    "validation": {
+      "claim_image_references": 210,
+      "claims": 152,
+      "claims_without_web_source": 0,
+      "duplicate_gold_source_occurrences": 9,
+      "label_counts": {
+        "Conflicting Evidence/Cherrypicking": 1,
+        "Not Enough Evidence": 6,
+        "Refuted": 141,
+        "Supported": 4
+      },
+      "normalized_gold_sources": 329,
+      "questions": {
+        "maximum_per_claim": 8,
+        "mean_per_claim": 2.8421052631578947,
+        "minimum_per_claim": 1,
+        "total": 432
+      },
+      "unique_claim_image_references": 210,
+      "unique_normalized_gold_sources": 320
+    }
+  },
+  "claim_images": {
+    "missing": 0,
+    "missing_examples": [],
+    "referenced": 1393,
+    "root": "data/public/averimatec/raw/claim_images"
+  },
+  "environment": {
+    "platform": "Windows-11-10.0.26300-SP0",
+    "python": "3.13.14"
+  },
+  "files": [
+    {
+      "bytes": 221520503,
+      "download_complete": true,
+      "exists": true,
+      "path": "data/public/averimatec/raw/images.zip",
+      "sha256": "dadd94e1ff9c6e22dcd7309b77c444c4e63eb3b15439c241fc34b752eb4a375c"
+    },
+    {
+      "bytes": 31712459,
+      "download_complete": true,
+      "exists": true,
+      "path": "data/public/averimatec/raw/test_data.zip",
+      "sha256": "21369f74caf95b2681cf168d540b6ecf1ab81b719523c5fb51b207d7eaa30dab"
+    },
+    {
+      "bytes": 12901641633,
+      "download_complete": true,
+      "exists": true,
+      "path": "data/public/averimatec/raw/knowledge_store/train_image_related.zip",
+      "sha256": "4b4f3dcdc2cf12594403e6c7097674645d4254be06fab44924b1051e32b92d9b"
+    },
+    {
+      "bytes": 6716122829,
+      "download_complete": true,
+      "exists": true,
+      "path": "data/public/averimatec/raw/knowledge_store/train_text_related.zip",
+      "sha256": "6c4e8e2c92e3c352e61c0ae447da0da619e18c8e9c33f269ddfee7310eba6eb9"
+    },
+    {
+      "bytes": 9445438165,
+      "download_complete": true,
+      "exists": true,
+      "path": "data/public/averimatec/raw/knowledge_store/val.zip",
+      "sha256": "80dcf65fc91a586fd8a8ac171dd5e632c2465c207118dd419e29be6e07b5013c"
+    },
+    {
+      "bytes": 1641417825,
+      "download_complete": true,
+      "exists": true,
+      "path": "data/public/averimatec/raw/humane_filled/Knowledge_Store/val/text_related/val_text_related_filled.zip",
+      "sha256": "4cfee92acaae210d9508a942cb1e316d283d7f71bc6a3b89ae6cd70509581b4d"
+    }
+  ],
+  "normalization_policy": {
+    "exact_url_is_diagnostic_not_official_semantic_endpoint": true,
+    "example": "https://example.com/a?b=2"
+  },
+  "official_evaluator": {
+    "local_execution_attempted": false,
+    "model": "google/gemma-3-27b-it",
+    "published_launcher_gpus": 2,
+    "published_launcher_memory_gb": 50,
+    "reason": "deferred until predictions exist; evaluator loading is separately audited"
+  },
+  "repositories": {
+    "official": "5fd2e03763e198eb6ddcea9e41b7210020f37127",
+    "shared_task": "f6f361d2fc5a0ab7d3ea282e2beced56b928e1bd"
+  },
+  "status": "pass",
+  "test_access_boundary": {
+    "test_annotations_accessed": false,
+    "test_archive_exists": true,
+    "test_archive_opened_by_this_audit": false,
+    "test_submission_performed": false
+  }
+}

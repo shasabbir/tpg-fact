@@ -1,0 +1,27 @@
+{
+  "candidate_rows": 94085,
+  "claims_with_web_gold": 792,
+  "condition": "organizer_official_train",
+  "mean_candidate_rows_per_claim": 118.66792929292929,
+  "metric_scope": "exact normalized URL/released-image identity diagnostic; not the official semantic evidence score",
+  "metrics": {
+    "complete_at_10": 0.012626262626262626,
+    "complete_at_100": 0.08333333333333333,
+    "complete_at_20": 0.021464646464646464,
+    "complete_at_50": 0.045454545454545456,
+    "complete_pool_reachability": 0.09217171717171717,
+    "packet_exact": 0.0,
+    "packet_f1": 0.008231437872254962,
+    "packet_precision": 0.004207534571408256,
+    "packet_recall": 0.22467833092833092,
+    "packet_selected_count": 118.18055555555556,
+    "pool_recall": 0.22467833092833092,
+    "recall_at_10": 0.04478415103415104,
+    "recall_at_100": 0.2105369167869168,
+    "recall_at_20": 0.06661706349206349,
+    "recall_at_50": 0.12898027898027897,
+    "zero_pool_reachability": 0.6136363636363636
+  },
+  "status": "checked",
+  "test_annotations_accessed": false
+}
