@@ -10,57 +10,25 @@
 
 \subsection{A Modest Retrieval Repair Raises the Ceiling}
 
-Before repair, the retained packet reaches text Recall@40 of 0.3193, image
-Recall@20 of 0.2663, packet-oracle evidence F1 of 0.3560, and complete-gold
-coverage of 4.39\% over 10,970 eligible claims. A total of 3,086 claims have no
-reachable released-gold item. Training-role selection chooses equal weight for
-the existing fused and cross-encoder text ranks and equal weight for the two
-image ranks.
+The pre-repair packet Recall@40 is 0.3193, packet-oracle evidence F1 is 0.3560 and image Recall@20 is 0.2663, with complete-gold coverage of 4.39\% over 10,970 eligible claims. There are 3,086 claims which have no reachable released-gold item. For training-role selection, the two image ranks are given equal weight, as are the two text ranks (the existing fused and the cross-encoder).
 
-On all eligible claims, the selected fusion raises text Recall@40 to 0.3292,
-packet-oracle F1 to 0.3637, and complete-gold coverage to 4.74\%. The number of
-zero-reachable claims falls by 59 to 3,027. Image Recall@20 remains 0.2663.
-Thus the declared advancement gate passes, but the aspirational engineering
-targets of a $+0.05$ oracle-F1 gain and 8\% complete-gold coverage do not.
+The selected fusion improves text Recall@40, packet-oracle F1 and complete-gold coverage on all eligible claims to 0.3292, 0.3637 and 4.74\%, respectively (Fig.~\ref{fig:publication-summary}). This brings the number of zero-reachable claims down 59 to 3,027. Image Recall@20 remains 0.2663. This means that the declared progress gate passes, but the progress engineering goals ($+0.05$ oracle-F1 gain and 8\% complete-gold coverage) do not.
 
-The locked-validation comparison in Table~\ref{tab:publication-retrieval}
-shows the same direction. Oracle F1 improves by 0.00612 and complete-gold
-coverage by 0.604 percentage points; image recall is exactly unchanged. This is
-a useful packet repair, not a new retrieval state of the art.
+There is a similar trend with the locked-validation comparison in the table (Table~\ref{tab:publication-retrieval}). Oracle F1 sees a gain of 0.00612 points while complete-gold coverage improves by 0.604 percentage points---image recall remains exactly the same. This is a handy packet repair, but not a new retrieval state of the art.
 
 \input{generated/publication_retrieval}
 
-The deeper retrieval audit explains the bounded search. Dense--BM25 rank
-fusion has text Recall@50 of 0.3224. Cross-encoder reranking increases it to
-0.3338 while reducing early Recall@5 from 0.1772 to 0.1335. For images, the
-SigLIP2--filename fusion reaches Recall@50 of 0.3149, compared with 0.2183 for
-SigLIP2 and 0.2227 for filename retrieval. The repair therefore fuses the text
-ranks instead of replacing the stronger early ordering; it does not add an
-outcome-driven image branch after the advancement gate passes.
+The retrieval audit is explained in detail in the deeper (Table~\ref{tab:retrieval-matrix}). Dense-BM25 rank fusion has text Recall@50 of 0.3224. With the use of cross-encoder reranking, it rises to 0.3338 and the while reducing early Recall@5 from 0.1772 to 0.1335. On images, the SigLIP2-filename fusion achieves Recall@50 of 0.3149, whereas SigLIP2 and filename retrieval achieve 0.2183 and 0.2227, respectively. The repair thus skips adding an image branch after the progression gate after the advanced ordering, and merges the text ranks.
 
 \input{generated/retrieval_matrix}
 
-The earlier reachability stratification remains diagnostically useful. In the
-79 validation claims where the original packet contains the complete
-released-gold set, expected-F1 reaches 0.5240 F1, compared with 0.3593 for
-fixed top-5 and 0.4237 for thresholding. Across 1,200 partially reachable
-claims, expected-F1 reaches 0.1839 and does not improve on fixed top-5 at
-0.1841; thresholding is best at 0.1965. All policies score zero on the 211
-zero-reachable claims. This post hoc result motivates a completeness-aware
-decision, but it is not itself a prespecified subgroup claim.
+The previous reachability stratification is still useful for diagnosis (Table~\ref{tab:reachability-strata}). For the 79 validation claims with the full released-gold set in the original packet, 0.5240 F1 are achieved by expected-F1, while for fixed top-5 and thresholding, 0.3593 F1 and 0.4237 F1 are achieved, respectively. On 1,200 partially reachable claims, expected-F1 score 0.1839 is not better than fixed top-5 score 0.1841, and the best score is achieved by thresholding with a score of 0.1965. On the 211 zero-reachable claims, all policies have a score of zero. This is a post hoc finding which is used to support a completeness-aware decision, but not a prespecified subgroup claim.
 
 \input{generated/reachability_strata}
 
 \subsection{Prior-Aware Maps Repair the Main Calibration Error}
 
-Table~\ref{tab:calibration} compares probability maps on locked validation,
-averaged across modalities and deterministic partitions. Identity and
-temperature scaling have Brier scores of 0.0847 and 0.0832. Prior shift,
-Platt, beta, and isotonic mappings reduce the error sharply; isotonic reaches
-about 0.0330 and lowers ECE from 0.1314 to 0.0063 relative to identity. Each
-selected partition has positive Brier skill against a prevalence-only
-predictor. A slope-only temperature does not repair the dominant intercept
-error created by the changed training prior.
+Probability maps on locked validation are compared in the table in the average over modalities and deterministic partitions (Table~\ref{tab:calibration}, Fig.~\ref{fig:calibration}). The Brier scores of identity and temperature scaling are 0.0847 and 0.0832, respectively. The error is reduced by a considerable amount by prior shift, Platt, beta and isotonic mappings, isotonic reaching approximately 0.0330 and reducing ECE from 0.1314 to 0.0063 relative to identity. For each selected partition, Brier skill is positive compared to a predictor that is based on prevalence only. The changed training prior causes the dominant intercept error which cannot be corrected with a slope-only temperature.
 
 \input{generated/calibration_summary}
 
@@ -71,75 +39,31 @@ error created by the changed training prior.
     \label{fig:calibration}
 \end{figure}
 
-Calibration also changes scorer selection. Partitions 13 and 37 choose
-modality-specific balanced models, partition 73 chooses the unweighted
-cross-encoder scorer, and partitions 101 and 137 choose unweighted
-modality-specific models. Text calibration varies across isotonic, Platt, and
-beta maps, while every image branch selects isotonic regression. Scorer
-family, loss weighting, and calibration therefore form one selection problem;
-ranking performance alone does not determine the deployed evidence set.
+In the event of a calibration, scorer selection also will change. Partitions 13 and 37 select modality-specific balanced models, partition 73 selects the unweighted cross-encoder scorer and partitions 101 and 137 select unweighted modality-specific models. For all maps, text calibration is different for isotonic, Platt, and beta maps; and isotonic regression is selected in each image branch. There are thus one selection problem: scorer family, loss weighting or calibration are not a single selection problem; the deployed evidence set is not determined by ranking performance alone.
 
 \subsection{Thresholding Is Confirmed; Completeness Switching Is Inconclusive}
 
-Table~\ref{tab:publication-selectors} reports the matched comparison on the
-repaired packet. Fixed top-5 reaches 0.1712 evidence F1. Calibrated
-thresholding reaches 0.1864 with 5.26 items; its gain over fixed top-5 is
-$+0.01517$ with a claim-aligned 95\% interval of
-$[0.01114,0.01923]$. Expected-F1 reaches 0.1815 with 3.61 items. It improves
-over fixed top-5 by $+0.01034$ $[0.00501,0.01574]$, but remains 0.00484 below
-thresholding $[-0.00938,-0.00020]$ for the expected-F1-minus-threshold
-comparison.
+The table shows a comparison matched on the repaired packet (Table~\ref{tab:publication-selectors}). Fixed top-5 [0.1712 evidence $F_1$]. Calibrated thresholding reaches 0.1864 with 5.26 items; its gain over fixed top-5 is $+0.01517$ with a claim-aligned 95\% interval of $[0.01114,0.01923]$. Expected-F1 reaches 0.1815 with 3.61 items. It improves over fixed top-5 by $+0.01034$ $[0.00501,0.01574]$, but remains 0.00484 below thresholding $[-0.00938,-0.00020]$ for the expected-F1-minus-threshold comparison.
 
 \input{generated/publication_selectors}
 
-The uncalibrated ablation exposes why probability quality matters. It returns
-24.90 items per claim and falls to 0.1288 F1, despite operating on the same
-candidate order. Learned count is similarly diffuse, selecting 31.49 items
-and reaching 0.1122 F1. The gain from expected-F1 is therefore not simply an
-effect of using a variable set size; it depends on probabilities that reflect
-the rare operating membership rate.
+In the uncalibrated ablation, the significance of probability quality is revealed. It achieves 24.90 items/claim and drops to 0.1288 F1 operating on the same order of candidate. The same applies to learned count which selects 31.49 items, and achieves 0.1122 F1. The gain of using expected-F1 is thus not only because of the variable set size, but because of probabilities that are determined by the rare operating membership rate.
 
-The completeness-aware switch uses expected-F1 for 37.8--46.4\% of validation
-claims across partitions and thresholding otherwise. Every partition selects
-the prespecified cutoff 0.50. Its mean point estimate, 0.1877 F1 with 4.70
-items, is the highest tested value. However, its gain over thresholding is only
-$+0.00138$, with a 95\% interval of $[-0.00191,0.00462]$; one of five
-partition effects is negative. It fails the $+0.010$ practical-effect
-requirement, the all-positive requirement, and the positive-lower-bound
-requirement. The switch reduces review-set size without a confirmed loss, but
-it does not establish selector superiority.
+The completeness aware switch is expected F1 for 37.8--46.4\% of the validation claims across the partitions, thresholding otherwise. Each partition chooses the pre-specified cut-off 0.50. This is the highest mean point estimate tested, 0.1877 F1 with 4.70 items. However, it has a gain over thresholding of only $+0.00138$ with a 95\% interval of $[-0.00191,0.00462]$ and one of five partition effects is negative. It fails the $+0.010$ practical-effect requirement, the all-positive requirement, and the positive-lower-bound requirement. The switch reduces review-set size without a confirmed loss, but it does not establish selector superiority.
 
-The earlier size and same-source redundancy penalties remain exact matches to
-plain expected-F1 because all five training-role partitions select zero for
-both penalties. Adding these decoder terms increases complexity without
-changing any selected set on the diagnostic packet.
+The size and same-source redundancy penalties are unchanged from the earlier version, and are still exact matches to plain expected-F1, since all five training-role partitions select zero for both penalties. These decoder terms are added to increase complexity but don't change the selected set on the diagnostic packet.
 
 \subsection{Aggregate Verifier Non-Inferiority Is Not Seed-Stable}
 
-The stronger shared verifier changes the downstream conclusion from a simple
-failure to a qualified safeguard. With calibrated-threshold evidence, the MLP
-reaches mean macro-F1 0.3911; with switch-selected evidence it reaches 0.3954.
-The seed-aligned paired effect is $+0.00434$ with a 95\% interval of
-$[-0.00277,0.01130]$. Its lower bound exceeds the frozen $-0.010$ margin, so
-aggregate non-inferiority passes, but the interval crosses zero and does not
-show superiority.
+The conclusion downstream is moved from a simple failure to a qualified safeguard due to the stronger shared verifier (Table~\ref{tab:publication-verifier}). The MLP achieves a mean macro-F1 of 0.3911 when using calibrated-threshold evidence; and 0.3954 when using switch-selected evidence. The seed-aligned paired effect is $+0.00434$ with a 95\% interval of $[-0.00277,0.01130]$. Its lower bound exceeds the frozen $-0.010$ margin, so aggregate non-inferiority passes, but the interval crosses zero and does not show superiority.
 
 \input{generated/publication_verifier}
 
-Only seeds 37 and 73 individually clear the non-inferiority margin. Seeds 13,
-101, and 137 have lower bounds of $-0.01367$, $-0.02174$, and $-0.01406$,
-respectively. The linear control also reverses the direction: macro-F1 falls
-from 0.3787 under thresholding to 0.3746 under the switch. Verdict preservation
-is therefore supported only after seed aggregation under the stronger model,
-not as an architecture- and seed-stable benefit.
+Only the two seeds 37 and 73 are able to individually clear the non-inferiority margin. Seeds 13, 101, and 137 have lower bounds of $-0.01367$, $-0.02174$, and $-0.01406$, respectively. The directionality of the linear control is also inverted: macro-F1 falls from 0.3787 under thresholding to 0.3746 under the switch. Verdict preservation thus is supported only in the more powerful model, and not as an architecture- and seed-stable benefit.
 
 \subsection{Probability Perturbations Reverse the Adaptive Gain}
 
-On the original diagnostic packet, expected-F1 remains positive relative to
-fixed top-5 under widths 20 and 40, text-only evidence, and deterministic gold
-removal, but falls slightly behind on image-only packets. Promoting five
-distractors creates a large relative gain only because fixed top-5 is forced to
-select those distractors; it is not representative of normal operation.
+The expected-F1 is positive for original diagnostic packet relative to fixed top-5 under widths 20 and 40, text-only evidence and deterministic gold removal, but is slightly below on image-only packets (Fig.~\ref{fig:robustness}). The promotion of five distractors (where fixed top-5 had to make those selections) gives a high relative gain, but is not representative of normal operation.
 
 \begin{figure*}[!t]
     \centering
@@ -148,15 +72,6 @@ select those distractors; it is not representative of normal operation.
     \label{fig:robustness}
 \end{figure*}
 
-Probability scale is the fragile dimension. Sharpening with temperature 0.5
-makes the expected-F1-minus-fixed effect $-0.0193$; flattening with temperature
-2.0 makes it $-0.0221$. Both intervals exclude zero even though candidate
-rankings are unchanged. This rules out a broad robustness claim and reinforces
-the need to report calibration jointly with adaptive set decisions.
+The delicate dimension is the probability scale. These numbers are $-0.0193$ for sharpening with temperature 0.5 and $-0.0221$ for flattening with temperature 2.0. Both intervals do not include 0 although the candidate rankings are the same. This means that it cannot be used to make a general robustness statement and it further provides motivation for reporting calibration along with adaptive set decisions.
 
-Together, the results separate four conclusions that a single end-to-end score
-would obscure. Retrieval repair raises but does not remove the ceiling;
-prior-aware calibration is necessary; expected-F1 offers a compact
-precision-oriented set; and the completeness-aware switch is promising but
-inconclusive against calibrated thresholding. The formal test remains sealed,
-so all four conclusions are limited to controlled MOCHEG development evidence.
+Together, the results separate four conclusions that a single end-to-end score would obscure. Retrieval repair lifts, but doesn't lift the ceiling; prior-aware calibration is required; expected-F1 is compact precision-oriented set; completeness-aware switch looks like a good idea, but isn't compared to calibrated thresholding. The formal test is sealed and the four conclusions are only based on controlled MOCHEG development evidence.

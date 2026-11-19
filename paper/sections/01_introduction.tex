@@ -1,42 +1,13 @@
 \section{Introduction}
 \label{sec:introduction}
 
-A fact-check is auditable only when a reader can inspect the material behind
-its verdict. For an image--text claim, that material can include sentences,
-documents, and images drawn from different sources. A retrieval system may
-return hundreds of plausible candidates, but a reviewer still needs a short
-set that contains enough support or refutation to make a decision. MOCHEG
-formalizes this setting with multimodal claims, separate text and image
-evidence, released evidence identifiers, and three-way verdicts
-\cite{yao2023mocheg}.
+Only a fact-check which allows a reader to review the material behind it, is auditable. That material may consist of sentences, documents and images from various sources, for an image-text claim. While a retrieval system can provide hundreds of potential candidates, a reviewer still requires a concise set of candidates that includes sufficient supporting or refuting details to decide. MOCHEG captures this context with multimodal claims, text and image evidence, released evidence identifiers, and three-way verdicts \cite{yao2023mocheg}.
 
-Evidence selection is often reduced to a fixed top-$k$ rule. It is simple and
-reproducible, but it assumes that every claim needs the same number of items.
-Adaptive policies instead map candidate-level membership scores to a
-claim-specific set. A threshold returns every item above a cutoff, a count
-model predicts the set size, and expected-F1 decoding chooses the probability-
-ranked prefix with the greatest expected set F1. These rules share a dependency
-that rank-only evaluation can hide: the scores must behave like probabilities.
-A monotone transformation preserves candidate order while changing threshold
-and expected-utility decisions.
+Often the evidence selection reduces to a fixed top-$k$ rule. Easy to do, but requires that equal number of items for each claim. However, adaptive policies map candidate-level scores (membership) to a claim specific set. A threshold returns all items greater than a cutoff, count model predicts the size of the set and expected-F1 decoding selects the probability-ranked prefix that has the highest expected set $F_1$. The following rules are dependent upon each other, which can be hidden in rank-only evaluation: These scores must act as probabilities. A monotone transformation leaves the order of the candidates unchanged and alters the threshold and expected-utility decisions.
 
-Class imbalance makes this dependency consequential. Gold evidence is rare in
-a retrieved packet, while balanced logistic training deliberately changes the
-effective class prior. A temperature map can adjust confidence without fixing
-an intercept error produced by that prior mismatch. Modern calibration work
-therefore distinguishes ranking, probability quality, and the decision made
-from those probabilities \cite{silvafilho2023calibration}. In an evidence
-pipeline, an apparently stronger adaptive decoder may otherwise be exploiting
-or amplifying a calibration error.
+This dependency has a real impact in the presence of class imbalance. Gold evidence does not occur in a retrieved packet, and a balanced logistic training is intentionally altered class prior. A temperature map can correct an intercept error caused by that previous mismatch and thus update the confidence. Modern calibration work thus separates ranking, probability quality and the decision based on the probability quality \cite{silvafilho2023calibration}. Apparently stronger adaptive decoder may be exploiting or amplifying a calibration error in evidence pipeline.
 
-Retrieval creates a separate, harder boundary. A selector cannot return an
-item that never enters its packet. If packet reachability is not reported, a
-retrieval miss and a decoding error receive the same final evidence score.
-Figure~\ref{fig:architecture} shows the information boundaries used here. All
-selection policies receive the same 40 text and 20 image candidates. Candidate
-rankings are written before the gold join; scoring, calibration, policy
-selection, and evaluation use disjoint roles; and the released validation set
-is evaluated only after train-role choices are fixed.
+Retrieval forms an extra, more difficult boundary. Any item that does not make it into the packet cannot be returned by a selector. A decoding error and a retrieval miss will be given the same final evidence score if the packet reachability is not reported. The information boundaries followed here are shown in Figure~\ref{fig:architecture}. The same 40 text and 20 images candidates are given to all selection policies. The candidate rankings are recorded prior to the gold join, disjoint roles are used for scoring, calibration, policy selection and evaluation, and the released validation set is evaluated only after the train-role decisions have been made.
 
 \begin{figure*}[t]
   \centering
@@ -45,61 +16,23 @@ is evaluated only after train-role choices are fixed.
   \label{fig:architecture}
 \end{figure*}
 
-The study asks four questions:
+The study has the following four questions to answer:
 \begin{enumerate}
-    \item How much released gold evidence is reachable at the actual packet
-    depths, and can a bounded label-blind rank fusion improve that ceiling?
-    \item Which probability maps correct the prior error induced by imbalanced
-    evidence membership?
-    \item How do fixed top-$k$, calibrated thresholding, learned count,
-    expected-F1, and an uncalibrated ablation compare on identical packets?
-    \item Does a prespecified packet-completeness switch beat calibrated
-    thresholding and preserve verdict quality under a stronger shared verifier?
-    \item Which of these relationships reproduce under a separately frozen
-    AVerImaTeC organizer-store protocol with different evidence units and four
-    verdict classes?
+    \item What is the amount of released gold evidence at the actual depths of the packets and can a ``bounded'' label-blind rank fusion increase that upper bound?
+    \item What are the probabilities that correct the previous mistake caused by imbalanced evidence membership?
+    \item What are the differences between fixed top-$k$, calibrated thresholding, learned count, expected-$F_1$ and an uncalibrated ablation on the same packets?
+    \item Is a fixed ``packet completeness'' switch superior to calibrated thresholding and maintains a high level of verdict quality in the presence of a more powerful shared verifier?
+    \item Which of these relationships reproduce under a separately frozen AVerImaTeC organizer-store protocol with different evidence units and four verdict classes?
 \end{enumerate}
 
-The answers are deliberately mixed. Weighted text fusion improves the
-all-eligible packet oracle from 0.3560 to 0.3637 F1 and complete-gold coverage
-from 4.39\% to 4.74\%, while image Recall@20 does not change. Prior-aware maps
-repair the dominant probability error. On the repaired packet, calibrated
-thresholding reaches 0.1864 evidence F1, expected-F1 reaches 0.1815 with a
-smaller 3.61-item set, and uncalibrated expected-F1 collapses to 0.1288 while
-returning 24.90 items. The completeness-aware switch has the highest point
-estimate, 0.1877 F1, but improves over thresholding by only 0.00138 with an
-interval that crosses zero. Its verifier result passes aggregate
-non-inferiority but not the per-seed safeguard. The independent evaluation is
-more restrictive: its retained validation packet reaches only 25.48\% of exact
-annotated sources and has no reachable target for 59.87\% of claims.
-Calibration remains decisive, improving expected-F1 by 0.0532 over its
-uncalibrated ablation. Threshold superiority, expected-F1 compactness, switch
-superiority, and downstream verifier preservation do not reproduce.
+The answers are deliberately mixed. Weighted text fusion boosts the all-eligible packet oracle from 0.3560 to 0.3637 $F_1$ and complete-gold coverage from 4.39\% to 4.74\%, and does not affect image Recall@20. Maps generated from Prior-aware maps correct the dominant probability error. For the repaired packet, calibrated thresholding gets evidence $F_1=0.1864$, calibrated expected-$F_1$ gets 0.1815 with lower 3.61 item set and uncalibrated expected-$F_1$ gets 0.1288 with 24.90 item set. The completeness-aware switch has the highest point estimate (0.1877 $F_1$), but with an interval that includes zero, and is only slightly better than thresholding by 0.00138. It has a verifier outcome of aggregate non-inferiority and does not meet the per-seed safeguard. The independent assessment is more conservative: For it, the retained validation packet is only 25.48\% of exact annotated sources and the target is not reachable for 59.87\% of assertions. Calibration is key, and is able to increase the expected-$F_1$ by 0.0532 on its uncalibrated ablation. Threshold superiority, expected-$F_1$ compactness, switch superiority, and downstream verifier preservation do not reproduce.
 
 This paper makes four contributions:
 \begin{itemize}
-    \item a retrieval-conditioned evaluation that reports operating-depth
-    recall, packet-oracle F1, complete-gold coverage, and zero-reachable claims
-    before interpreting selector quality;
-    \item a matched calibration and set-decoding study covering six probability
-    maps, fixed and adaptive controls, exact expected-F1, and an uncalibrated
-    failure case;
-    \item a prespecified retrieval repair and packet-completeness-aware switch,
-    evaluated against the strongest calibrated-threshold comparator with
-    claim-aligned intervals and partition-level safeguards; and
-    \item a strictly split-isolated and auditable external evaluation on the
-    organizer's static AVerImaTeC store, preserving label-blind rankings,
-    per-claim records, failed exports, and independent audits while confirming
-    calibration but not selector superiority, compactness, or verifier
-    preservation.
+    \item a retrieval-conditioned evaluation that reports the operating-depth recall, the packet-oracle $F_1$, the complete-gold coverage, and the zero-reachable claims before interpreting selector quality;
+    \item a matched calibration and set-decoding study covering six probability maps, fixed and adaptive controls, exact expected-$F_1$, and an uncalibrated failure case;
+    \item a prespecified retrieval repair and packet-completeness-aware switch, evaluated against the strongest calibrated-threshold comparator with claim-aligned intervals and partition-level safeguards; and
+    \item a strictly split-isolated and auditable external evaluation on the organizer's static AVerImaTeC store, preserving label-blind rankings, per-claim records, failed exports and independent audits, confirming calibration but not selector superiority, compactness, or verifier preservation.
 \end{itemize}
 
-The contribution is empirical rather than a claim of state-of-the-art
-performance. Adaptive evidence sizing is useful only after retrieval and
-calibration are exposed as experimental variables. In this study,
-expected-F1 supplies a precision-oriented MOCHEG operating point and the
-completeness-aware switch supplies a testable design direction, but calibrated
-thresholding is not externally superior to fixed selection and expected-F1 is
-not externally compact. The paper retains these negative boundaries because
-they show that a selector conclusion can reverse when reachability, evidence
-units, and class balance change.
+The contribution is empirical and not state of the art. The adaptive evidence sizing can only be employed after the evidence retrieval and calibration are revealed as experimental variables. In this study, the expected-$F_1$ provides a precision-oriented operating point on MOCHEG and the completeness aware switch provides testable design direction, while calibrated thresholding is not superior externally, and expected-$F_1$ is not compact externally. The paper keeps these negative boundaries due to the fact that they reflect the fact that the selector conclusion can turn negative when reachability, evidence units and class balance alter.

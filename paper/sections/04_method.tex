@@ -3,65 +3,37 @@
 
 \subsection{Label-Blind Retrieval and Weighted Fusion}
 
-The text branch combines BGE-M3 dense sentence retrieval with BM25, then
-records a BGE reranker ordering. The image branch records SigLIP2 image--text
-similarity and dense similarity between the claim and normalized image file
-names. Model repositories and immutable revisions are fixed in the
-configuration; the operational model cards are BGE-M3,\footnote{\url{https://huggingface.co/BAAI/bge-m3}}
-BGE-reranker-v2-m3,\footnote{\url{https://huggingface.co/BAAI/bge-reranker-v2-m3}}
-and SigLIP2.\footnote{\url{https://huggingface.co/google/siglip2-base-patch16-224}}
+The text branch is an integration between BGE-M3 dense sentence retrieval and BM25, and stores a BM25 reranker ordering. The image branch holds SigLIP2 image-text similarity and dense similarity between the claim and normalized image file names. The model repositories and immutable revisions are set in the configuration: BGE-M3,\footnote{\url{https://huggingface.co/BAAI/bge-m3}} BGE-reranker-v2-m3,\footnote{\url{https://huggingface.co/BAAI/bge-reranker-v2-m3}} SigLIP2.\footnote{\url{https://huggingface.co/google/siglip2-base-patch16-224}}
 
-For two label-blind ranks $r_a(c)$ and $r_b(c)$, the bounded repair assigns
-candidate $c$ the score
+Bounded Repair: Assigns candidate $c$ the score
 \begin{equation}
 R_w(c)=\frac{w}{60+r_a(c)}+\frac{1-w}{60+r_b(c)}.
 \label{eq:weighted-rank-fusion}
 \end{equation}
-The text score combines the existing dense--lexical fused rank with the
-cross-encoder rank; the image score combines SigLIP2 and filename ranks.
-Weights $w\in\{0.25,0.50,0.75\}$ are selected separately by training-role
-packet-oracle F1, subject to operating-depth recall guardrails. Both branches
-select $w=0.50$. Rankings and hashes are written before the gold join. The
-retained packet contains the top 40 text and 20 image items, and every selector
-receives exactly that packet.
+The existing dense-lexical fused rank is combined with the cross-encoder rank to calculate the text score, while SigLIP2 and filename ranks are used for the image score. Training-role packet-oracle F1 selects weights $w$ from the set $\{0.25,0.50,0.75\}$ independently (subject to operating-depth recall guardrails). In both branches choose $w = 0.50$. Prior to the gold join, rankings and hashes are written. The top 40 text and 20 images in the retained packet are included, and each selector gets the same retained packet.
 
 \subsection{Organizer-Store Retrieval for External Evaluation}
 
-The external path uses the AVerImaTeC static store rather than adapting the
-MOCHEG packet. Text records are normalized and reduced to a deterministic
-claim-conditioned chunk of at most 1,500 characters. BM25 and BGE-M3 ranks are
-combined by equal-weight reciprocal-rank fusion with constant 60, and the
-first 100 fused candidates are reranked by the pinned BGE cross-encoder. Actual
-candidate images are loaded from the claim-matched store and ranked by
-SigLIP2; a BGE representation of normalized filenames supplies a second image
-rank, also fused with equal-weight RRF. Reverse-image-search webpage text
-remains text evidence rather than being mislabeled as an image.
+The external path does not modify the MOCHEG packet, but utilizes static store from the AVerImaTeC. Text records are normalized and reduced to at most 1,500 characters for a deterministic claim conditioned record. BM25 and BGE-M3 ranks are fused using the equal-weight reciprocal rank method with constant 60 and the top 100 fused candidates are reranked by pinned BGE cross-encoder. The actual candidates' images are loaded from the claim-matched store, and ranked by SigLIP2, a BGE representation of a normalized filename also provides an image rank with equal-weight RRF. The text on a reverse-image-search webpage is still considered to be text evidence, not mis-labeled as an image.
 
-Each candidate identifier is a hash of claim identity, normalized source,
-modality, content hash, and local ordinal. The label-blind preparation retains
-up to 100 text and 20 image candidates, writes and hashes that ranking, and
-only then joins exact-source targets. Training roles choose text width from
-$\{50,100\}$ and image width from $\{10,20\}$; all five seeds select 50 text
-and 10 image items. The organizer store was partly constructed with
-gold-question-derived queries, so the resulting reachability is a benchmark
-condition rather than unrestricted web-search performance.
+Each candidate identifier is a hash over the claim identity, the normalized source, the modality, the content hash and the local ordinal. The label-blind preparation stores up to 100 text and 20 image candidates, writes that ranking and hashes it and only then merges exact-source targets. Training roles select a text width from $\{50,100\}$ and image width from $\{10,20\}$ while all five seeds choose 50 text and 10 image items. The queries used to build the reachability relation in the organizer store were partially based on gold questions, as such the reachability relation is used as a benchmark condition and not as a condition that represents a free web search.
 
 \subsection{Membership Scorers}
 
-The final score and its square, dense and lexical or filename scores, RRF and cross-encoder scores, reciprocal ranks, modality indicators, token count, available-candidate count, and duplicate-group size are stored for each claim-candidate pair. Fitting-role statistics are used for the standardisation of features. A logistic scorer then estimates
+For each claim-candidate the final score, dense and lexical/filename score, RRF and cross-encoder score, reciprocal ranks, modality indicators, number of tokens, number of available-candidates, and number of duplicate groups are stored. Fitting-role statistics are used for the standardisation of features. A logistic scorer then makes an estimate of
 \begin{equation}
 q_{qi}=\sigma\!\left(\mathbf{w}^{\top}
 \frac{\mathbf{x}_{qi}-\boldsymbol{\mu}}{\boldsymbol{s}}+b\right),
 \label{eq:membership-scorer}
 \end{equation}
-where $q_{qi}$ is not an assumed operating probability, but rather a ranking score. Three different setups are compared: a shared text-image model, separate modality models and a shared model with the full feature vector with cross-encoder scores. Each organisation is trained with balanced and unweighted binary cross-entropy variants plus $L_2$ regularisation. Balanced loss is convenient for rare evidence ranking but is not calibrated since it is based on a modified effective class prior.
+where the notations, $q_{qi}$, are not assumed operating probabilities, but are ranking scores. The following three setups are compared: a shared text-image model, separate modality models and a shared model with the full feature vector (with the scores from the cross-encoder). All variants of the binary cross entropy loss (with and without weighting) and $L_2$ regularisation are used and each organisation trained with a balanced weight. There is Balanced loss which is convenient for ranking of rare evidence, but it is not calibrated and is based on a modified effective class prior.
 
 Let $z_{qi}=\operatorname{logit}(q_{qi})$. A map $g_m$ is used to convert it to the membership probability used by the decision policy,
 \begin{equation}
 p_{qi}=g_m(z_{qi})\approx P(c_{qi}\in G_q\mid \mathbf{x}_{qi}),
 \label{eq:calibration-map}
 \end{equation}
-A separate map is fitted for each modality. There are six maps which are compared:
+One map is placed for every modality. There are six maps which are compared:
 \begin{enumerate}
     \item identity, with no effect on the raw sigmoid probability;
     \item temperature scaling, $\sigma(z/T)$;
@@ -70,13 +42,13 @@ A separate map is fitted for each modality. There are six maps which are compare
     \item beta calibration, linear in $\log p$ and $\log(1-p)$; and
     \item isotonic regression, a monotone nonparametric map.
 \end{enumerate}
-Calibration parameters are fitted on the calibration role. The scorer and map are selected based on average precision and Brier score in the different model-selection task. We report the Brier score, the negative log likelihood (NLL), the expected calibration error (ECE), the mean predicted probability, the empirical prevalence and the Brier skill relative to the predictor which forecasts the prevalence only.
+The calibration parameters are adjusted on the calibration roll. The scorer and map are chosen based on the average precision and brier score in the various model-selection task. The Brier score, the negative log likelihood (NLL), the expected calibration error (ECE), the mean predicted probability, the empirical prevalence and the Brier skill relative to the predictor which forecasts the prevalence only are presented.
 
-The separation ensures that a calibrator cannot be picked on the locked-validation result. Average precision screens the ordering of the scorer, while Brier score selects the probability map for threshold and expected-utility decisions. The difference lies in the fact that any monotone map will maintain the rank, but can significantly change the set that is chosen.
+The separation allows the locked validation result to not be selected by a calibrator. Of these, average precision is used to filter the ordering of the scorer, and Brier score is used to select the probability map for the threshold and expected-utility decisions. The difference is that any monotone map will preserve the rank, but can vastly alter the set that is chosen.
 
 \subsection{Evidence-Set Policies}
 
-Figure~\ref{fig:policy-decoding} shows the only operation that changes: how one shared calibrated ranking is translated to an evidence set.
+The only operation that differs is shown in Figure~\ref{fig:policy-decoding}: the mapping from a single shared calibrated ranking to an evidence set.
 
 \begin{figure}[t]
     \centering
@@ -86,46 +58,37 @@ Figure~\ref{fig:policy-decoding} shows the only operation that changes: how one 
 \end{figure}
 
 \paragraph{Fixed top-$k$.}
-We tune $k\in\{1,2,3,5,10,20,40,60\}$ and select the top $k$ candidates. The control that is created is top-5.
+We tune $k \in \{1,2,3,5,10,20,40,60\}$ and select the top $k$ candidates. The control that is created is top-5.
 
 \paragraph{Calibrated threshold.}
-If the threshold $\tau$ is specified, the selector returns all items for which $p_{qi}\geq\tau$, within the usual packet limit. The threshold is selected from $\{0.1,\ldots,0.9\}$.
+The selector can be used to return all items with $p_{qi} \geq \tau$ (in the standard packet size). The threshold is selected from $\{0.1, \ldots, 0.9\}$.
 
 \paragraph{Learned count.}
-The number of evidence items is predicted by a count model and the corresponding probability-ranked prefix is returned.
+A count model is used to predict the number of evidence items and the prefix with the corresponding probability is returned.
 
 \paragraph{Expected-F1 decoding.}
-The candidates are ranked based on calibrated probability. A dynamic program exactly computes the expected F1 for each prefix length $k$, for independent Bernoulli membership variables. The selected size is
+Ranking of the candidates is done by using calibrated probability. A dynamic program exactly computes the expected F1 for each prefix length $k$ under independent Bernoulli membership variables. The selected size is
 \begin{equation}
 k_q^*=\arg\max_{0\leq k\leq 60}
 \mathbb{E}\!\left[F_1(S_{q,k},Y_q)\mid p_{q1:60}\right].
 \label{eq:expected-f1}
 \end{equation}
-For prefix $S_{q,k}$, the utility can be written
+For prefix $S_{q,k}$, the utility can be written:
 \begin{equation}
 U_q(k)=\mathbb{E}\!\left[
 \frac{2T_{q,k}}{k+T_{q,k}+R_{q,k}}
 \;\middle|\;p_{q1:60}\right],
 \label{eq:expected-f1-utility}
 \end{equation}
-with $T_{q,k}$ being the number of relevant items within the prefix and $R_{q,k}$ the number of relevant items outside the prefix. Two Poisson-binomial recurrences are used to compute their distributions as well as the expectation exactly. The shorter prefix is kept for ties. This rule is based on the actual membership distribution, not a single cutoff or a separately predicted number.
+where $T_{q,k}$ is number of relevant items in prefix and $R_{q,k}$ is number of relevant items out of prefix. Their distributions as well as the expectation exactly are computed by two Poisson-binomial recurrences. The shorter prefix is kept for ties. This rule is not related to any particular cut-off or separately predicted number, but rather is based on the membership distribution as it actually is.
 
-We also carry out testing of two extensions. The first subtracts $\lambda k$ from expected utility. The second also subtracts $\gamma R(S_{q,k})$, where $R$ measures same-source redundancy. The size penalties range from 0 to 0.10 and the redundancy penalties range from 0 to 0.005. Extra structure in the decoder is kept as ablations, as the fitted optima indicate whether it provides additional benefit over calibration.
+We also carry out testing of two extensions. The first takes $\lambda k$ away from expected utility. The second also removes $\gamma R(S_{q,k})$ which is a measure of same-source redundancy. The size penalties are in between 0 and 0.10 and the redundancy penalties are in between 0 and 0.005. Additional structure in the decoder is retained as ablations, with the fitted optima indicating if it can offer any extra benefits over calibration.
 
 \subsection{Packet-Completeness-Aware Switching}
 
-The diagnostic results suggest that compact expected-F1 selection is most
-useful when the retrieved packet already contains the complete released-gold
-set. We therefore fit a low-capacity logistic model to the training-role target
-$I(G_q\subseteq C_q)$. Its ten frozen features summarize expected relevant
-mass, top and top-five probabilities, probability entropy and rank gaps,
-threshold and expected-F1 set sizes, modality-specific probability mass, and
-dense--lexical rank agreement. Standardization and $L_2$ logistic fitting use
-only fitting claims; the decision cutoff is selected from
-$\{0.05,0.10,0.20,0.30,0.50\}$ on model-selection claims.
+The diagnostic results indicate that compact expected-F1 selection is most beneficial when the retrieved packet already has the entire released-gold set. So, we use a logistic model with low capacity for the training-role target function $I(G_q \subseteq C_q)$. These ten frozen features include expected relevant mass, top and top-five probability, probability entropy, probability rank gaps, threshold and expected-F1 set sizes, modality-specific probability mass and dense-lexical rank agreement. Standardization and $L_2$ logistic fitting use only fitting claims; the decision cutoff is selected from $\{0.05,0.10,0.20,0.30,0.50\}$ on model-selection claims.
 
-Let $h_q$ be the estimated probability that the packet is complete. The switch
-returns
+Estimate probability of completion of the packet by $h_q$. The switch returns
 \begin{equation}
 S_q^{\mathrm{switch}}=
 \begin{cases}
@@ -134,53 +97,20 @@ S_q^{\mathrm{thr}}, & h_q<\eta,
 \end{cases}
 \label{eq:completeness-switch}
 \end{equation}
-where all five partitions select $\eta=0.50$. The switch neither changes the
-candidate packet nor observes validation reachability. Its purpose is to test
-one prespecified, interpretable response to retrieval incompleteness rather
-than introduce a large additional architecture.
+where all five partitions select $\eta=0.50$. The switch does not change the candidate packet, and does not see the validation reachability. It is not used to add a large additional architecture to test, but to test one specific response to retrieval incompleteness that is interpretable.
 
 \subsection{External Refitting and Decision Caps}
 
-Every fitted component is re-estimated from AVerImaTeC training roles. For
-each seed, 55\% of claims fit a balanced $L_2$ logistic membership scorer,
-15\% fit candidate calibrators, 15\% choose the calibrator, packet width,
-fixed budget, threshold, and switch cutoff, and 15\% form an internal
-holdout. At most 40 deterministic negatives per claim enter scorer fitting.
-Identity, temperature, prior-shift, Platt, beta, and isotonic maps compete by
-model-selection Brier score; no development row is loaded by the freeze.
+All the fitted components are re-estimated from AVerImaTeC training roles. For every seed 55\% of claims are fed to a balanced $L_2$ logistic membership scorer, 15\% to candidate calibators, 15\% are used to choose the calibator, packet width, fixed budget, threshold and switch cutoff, and 15\% to an internal holdout. A maximum of 40 deterministic negatives will be fed into scorer fitting per claim. The freeze does not load a development row, and there is model-selection Brier score competition among identity, temperature, prior-shift, Platt, beta and isotonic maps.
 
-The official ten-item cap changes the external policy grids. Fixed selection
-uses $k\in\{1,3,5,10\}$, thresholding uses $\tau\in\{0.1,\ldots,0.9\}$, and
-expected-F1 searches prefixes from zero through ten. The completeness model is
-fit on calibration-role claims, its cutoff is selected on the model-selection
-role, and it routes to expected-F1 when predicted complete and to thresholding
-otherwise. This reuses algorithm families, not MOCHEG weights or decisions.
+The official ten-item cap provides a change in the external policy grids. The fixed selection searches for $k \in \{1,3,5,10\}$, while thresholding searches for the prefix between 0.1 and 0.9, and the expected-F1 searches for prefixes between zero and ten. The completeness model is applied to calibration-role claims, the cutoff is set on the model-selection role, and it is routed to expected-F1 if completeness is predicted, and to thresholding if not. This is NOT re-using MOCHEG weights or decisions, it is re-using algorithm families.
 
 \subsection{Decision Scope and Assumptions}
 
-The comparison alters just the set decision. The identity of the candidates, their rank, feature values, scorer outputs, and validation claims are shared across policies. Expected-F1 assumes that the memberships are conditionally independent Bernoullis, and that it only operates on prefixes of the frozen ranking, i.e., it does not reorder candidates or retrieve a missing item. The complete-gold mapping released is considered the evaluation target, where Sec.~\ref{sec:limitations} comments on possible incompleteness of the mapping. These boundaries help to differentiate between a decoder error and retrieval error and help to prevent an adaptive policy from being given a more favorable candidate universe.
+The ONLY thing that changes is the set decision. Candidates, their rank, feature values, scorer outputs and validation claims are shared across policies. Expected-F1 assumes conditionally independent Bernoullis, and only acts on prefixes of the frozen ranking, it does not reorder the candidates, or retrieve a missing item. The complete-gold mapping released is considered the evaluation target, where Section 9 comments on possible incompleteness of the mapping. These boundaries help to differentiate between a decoder error and retrieval error and help to prevent an adaptive policy from being given a more favorable candidate universe.
 
 \subsection{Shared Verifier}
 
-Evidence policies can improve set overlap while damaging the downstream
-verdict. We therefore hold verifier architecture, training data, features, and
-optimization constant while changing only the selected evidence. The primary
-verifier is a two-layer multilayer perceptron with one 64-unit ReLU hidden
-layer, inverse-frequency class weighting, 300 full-batch Adam epochs, learning
-rate 0.01, and $L_2$ coefficient 0.001. It is trained on unique fixed,
-threshold, and expected-F1 evidence sets from fitting claims. A logistic linear
-verifier is retained as a capacity control. Both models compare calibrated
-thresholding with the frozen completeness-aware switch on the same 1,490
-validation claims and five deterministic seeds. The declared non-inferiority
-margin is $-0.01$ macro-F1.
+Evidence policies can have a positive impact on set overlap and a negative impact on downstream verdict. We thus fix verifier architecture, training data, features, and optimization and only vary the evidence selected. The primary verifier is a 2-layer multilayer perceptron (MLP) with 64 ReLU hidden units, inverse-frequency class weights, 300 full-batch Adam epochs, a learning rate of 0.01 and $L_2$ coefficient of 0.001. It has been trained on unique fixed, threshold and expected-F1 evidence sets, fitting claims. Logistic linear verifier is kept as capacity control. Both models are calibrated with the same 1,490 validation claims and five deterministic seeds and report a comparison between calibrated thresholding and the frozen completeness-aware switch. The non-inferiority margin used is $-0.01$ macro-F1.
 
-For AVerImaTeC, the same safeguard is refit for four classes. The primary
-model has one 64-unit ReLU layer and is optimized for 400 deterministic
-full-batch steps with learning rate 0.01, inverse-frequency weights, and
-$L_2=0.001$; a balanced multinomial linear model is the capacity control.
-Selected evidence is represented by the mean, maximum, and standard deviation
-of candidate features plus set size, modality fractions, and distinct-domain
-count. The frozen model is shared across policies. When the prespecified blind
-rule selected the fixed family, its verdicts were obtained by deterministic
-inference from this already frozen verifier; no refitting or development
-selection was introduced.
+The same safeguard is refitted for four classes in the case of AVerImaTeC. The main model consists of a single 64-unit ReLU layer and it is trained with 400 deterministic full-batch steps, with learning rate 0.01, inverse-frequency weights and $L_2=0.001$; the capacity control is a balanced multinomial linear model. Selected evidence includes the mean, maximum and standard deviation of candidate features, set size, modality fractions and distinct-domain count. Frozen model is shared between policies. When the prespecified blind rule picked the fixed family, the verdicts of this blind rule were computed by deterministic inference from this already fixed verifier, without any refitting or development selection.

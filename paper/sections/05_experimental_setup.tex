@@ -3,104 +3,37 @@
 
 \subsection{Frozen Protocols and Claim Boundary}
 
-The diagnostic configuration was fixed on 4 November 2026 before its
-outcome-bearing run. It records data and model revisions, five claim-group
-partition seeds, retrieval depths, scorer families, calibration candidates,
-selector grids, evaluation metrics, bootstrap settings, and stopping rules.
-The bounded retrieval repair, completeness-aware switch, and stronger verifier
-were frozen on 9 November 2026 before their respective outcomes were inspected.
-The numeric threshold grid and verifier architecture were recorded before the
-affected models were fitted. All amendments and failed runs remain in an
-append-only experiment ledger.
+The diagnostic configuration was frozen on 4 November 2026 prior to its outcome bearing run. It stores data and model revisions, five claim-group partition seeds, retrieval depths, scorer families, calibration candidates, selector grids, evaluation metrics, bootstrap settings and stopping rules. The bounded retrieval repair, completeness-aware switch and stronger verifier were frozen on 9 November 2026 prior to checking their respective results. Prior to fitting the affected models, the numeric threshold grid and verifier architecture was captured. Any changes to the experiment or runs that fail are stored in an append-only experiment ledger.
 
-The external implementation was committed before development preparation, and
-the five-seed train-only manifest was committed on 11 November 2026. That
-manifest records code, configuration, archive, pre-join ranking, candidate,
-gold-map, and audit hashes and rejects a mixed train--development input. The
-152-claim development matrix was then executed once on 12 November 2026.
+External implementation was committed prior to development preparation and 5-seed train-only manifest was committed on 11th November 2026. That manifest includes hashes for code, configuration, archive, pre-join ranking, candidate, gold-map, and audit, and fails if input is a mix of train-development. The development matrix was then carried out 152 times on 12 November 2026.
 
-The released MOCHEG validation split had been used earlier in the project and
-is therefore controlled development evidence, not fresh confirmation. The
-formal-test annotations are absent from the execution path and remain sealed.
-No validation outcome automatically authorizes a formal-test run.
+The MOCHEG validation split released earlier in the project has been used and is not new validation evidence. The execution path has no formal-test annotations and they are sealed. There is no automatic approval of a formal-test-run based on the validation outcome.
 
 \subsection{Independent External Protocol}
 
-AVerImaTeC training claims are deterministically partitioned for seeds 13, 37,
-73, 101, and 137 into 55\% fit, 15\% calibration, 15\% model selection, and
-15\% internal holdout roles. The locked development run compares train-selected
-fixed top-$k$, calibrated thresholding, calibrated expected-F1, uncalibrated
-expected-F1, and the completeness-aware switch on the same candidates and
-membership scores. No development result changes retrieval, fitting,
-calibration, packet width, or policy parameters.
+For seeds 13, 37, 73, 101 and 137, the claim sizes for AVerImaTeC training are deterministically partitioned as 55\% fit, 15\% calibration, 15\% model selection and 15\% internal holdout. The locked development run is run on the same candidates and membership scores for the train-selected fixed top-$k$, calibrated thresholding, calibrated expected-F1, uncalibrated expected-F1 and the completeness-aware switch. All development results do not affect the retrieval, fitting, calibration, packet width and policy parameters.
 
-Four claim-aligned comparisons form one multiplicity family: threshold minus
-fixed, expected-F1 minus threshold, calibrated minus uncalibrated expected-F1,
-and switch minus threshold. Each uses 10,000 bootstrap draws, Bonferroni
-simultaneous intervals, and Holm-adjusted two-sided values. Threshold
-superiority requires an effect of at least $+0.010$ and a positive adjusted
-lower bound. Expected-F1 must clear a $-0.010$ non-inferiority margin and return
-at least 15\% fewer items. Switch superiority additionally requires every seed
-effect to be positive and no increase in mean set size. Verifier preservation
-uses the same $-0.010$ margin.
+The four comparisons of claim are a multiplicity family: threshold minus fixed, expected-F1 minus threshold, calibrated minus uncalibrated expected-F1 and switch minus threshold. They both utilize 10,000 bootstrap draws, Bonferroni simultaneous intervals and Holm adjusted two-sided values. For an effect to be considered superior, the Threshold value must be $\geq +0.010$ and have a positive Adjusted lower bound. Expected-F1 must return at least 15\% fewer items and be at least $-0.010$ non-inferior. Switch superiority also demands that each of the seed effects is positive and that there is no increase in the mean set size. The margin for verifier preservation is also $-0.010$.
 
-The organizer's semantic evaluator uses Gemma-3-27B in bfloat16. Its 54.86~GB
-of weight files do not fit the single 24.56~GiB RTX~4090 under the prescribed
-condition, and the organizer launcher specifies two GPUs. We therefore report
-exact normalized-source diagnostics and class-wise verifier results, not a
-replacement score labeled as official. The blind test remains outside the
-authorized execution boundary.
+Gemma-3-27B (bfloat16) is used by the organizer's semantic evaluator. The 54.86~GB of weight files will not fit in the single GPU RTX~4090 with 24.56~GiB, and the organizer launcher requires two GPUs. In view of this, we present actual normalized-source diagnostics and class-wise verifier results, rather than a `replacement score' as official. The execution of the blind test is not in the authorized execution boundary.
 
 \subsection{Baselines, Outcomes, and Selection Budgets}
 
-The matched policies are fixed top-5, calibrated thresholding, learned count,
-calibrated expected-F1, uncalibrated expected-F1, and the
-packet-completeness-aware switch. The primary outcome is claim-macro
-complete-gold evidence F1. Precision, recall, Jaccard similarity, exact-set
-match, selected count, calibration metrics, reachability, and verdict macro-F1
-are secondary outcomes.
+Matched policies include fixed top-5, calibrated thresholding, learned count, calibrated expected-F1, uncalibrated expected-F1 and the packet-completeness-aware switch. The main result is that of claim-macro complete-gold evidence F1. Secondary outcomes are precision, recall, Jaccard similarity, exact-set match, selected count, calibration metrics, reachability and verdict macro-F1.
 
-Scorer and calibration selection uses training roles only. The repair examines
-three declared weights per retrieval branch. Thresholding searches
-$\{0.1,\ldots,0.9\}$, and the completeness cutoff searches five declared
-values. No additional retrieval branch is opened because the weighted-fusion
-advancement gate passes. These budgets prevent outcome-driven expansion of the
-search after locked validation is observed.
+Only training roles will be used to select scorer and calibration. The repair will look at three weights per retrieval branch that have been declared. Thresholding searches $\{0.1,\ldots,0.9\}$ and the completeness cutoff searches five values declared. Weighted-fusion advancement gate passes so no other retrieval branch is opened. Once locked validation is seen, these budgets will not support any expansion based on outcomes.
 
-For each comparison, claim-level differences are first averaged within claim
-over the five deterministic partitions. A claim-aligned bootstrap then
-resamples the 1,490 claims 10,000 times. The selector-superiority gate requires
-all of the following against calibrated thresholding: at least $+0.010$
-evidence F1, a positive paired 95\% interval after multiplicity control,
-positive effects in all five partitions, and no increase in mean selected-set
-size. The verifier uses a $-0.010$ non-inferiority margin. We report both the
-aggregate seed-aligned interval and the stricter requirement that every
-seed-specific lower bound clear the margin.
+The claim-level differences are first averaged over the five deterministic partitions in each of the comparisons. Then, a claim-aligned bootstrap resamples the 1,490 claims 10,000 times. Selector-superiority gate: All the following against calibrated thresholding: Evidence F1 $\geq +0.010$, Paired 95\% interval $> 0$, No increase in mean selected-set size, and No negative in any 5 partitions. The verifier's non-inferiority margin is $-0.010$. Both the lower bound for the whole interval aligned with the seed, and the lower bound for each of the seeds clearing the margin are reported.
 
 \subsection{Robustness and Diagnostic Analyses}
 
-The original diagnostic packet is also evaluated under widths 10 and 20,
-text-only and image-only evidence, deterministic removal of 25\% and 50\% of
-reachable gold, promotion of five distractors, duplication of the top three
-items, and probability temperatures of 0.5 and 2.0. Fitted selectors do not
-change under these perturbations. The conditions test dependence on
-reachability, modality, ranking contamination, duplication, and probability
-scale; they are sensitivity analyses rather than estimates of production
-shift.
+The original diagnostic packet is also checked for widths 10 and 20, for text-only evidence and image-only evidence, for removing 25\% and 50\% of reachable gold deterministically, for promoting 5 distractors, for duplication of the top 3 distractors, and for 0.5 and 2.0 probability temperatures. Under these perturbations, fitted selectors remain the same. The conditions are tests of reachability, modality, contamination of ranking, duplication, and probability scale; they are not estimates of production shift.
 
-Following the primary comparison, validation claims are divided into no,
-partial, or complete released-gold reachability. This stratification is post
-hoc and descriptive. It motivates the prespecified completeness-aware switch
-but does not turn the earlier subgroup result into a confirmatory claim.
+After the primary comparison, there are validation claims for no, partial, and complete released-gold reachability. This is a post hoc and descriptive stratification. It encourages the pre-specified completeness-aware switch but doesn't make the previous subgroup finding a confirmatory statement.
 
 \subsection{Implementation, Hardware, and Audit}
 
-Every run stores candidate-level scores, calibrated probabilities, selected
-identifiers, claim-level metrics, fitted parameters, environment metadata, and
-formal-test access flags. Independent audits recompute population counts, set
-metrics, paired effects, and gate conditions from saved records. Label-blind
-rankings are hashed before gold is joined. Partial outputs from four failed
-runs are preserved with the repair reason rather than overwritten.
+Each run is stored with the following pieces of information: candidate-level scores, calibrated probabilities, selected identifiers, claim level metrics, fitted parameters, environment metadata (Table~\ref{tab:environment}), formal-test access flags. Independent audits recompute population counts, set metrics, paired effects, and gate conditions from saved records. The label-blind ranking is performed prior to the gold joining. If the run fails, the partial output of the four runs is saved with the repair reason, instead of being overwritten.
 
 \begin{table}[t]
 \centering
@@ -123,13 +56,4 @@ Uncertainty & 10,000 claim-aligned bootstrap resamples \\
 \end{tabular}
 \end{table}
 
-The weighted retrieval run takes 9.5 seconds, candidate construction 8.4
-seconds, base selector evaluation 158.8 seconds, completeness switching 334.8
-seconds, and the stronger verifier 246.9 seconds on this machine. These are
-wall-clock records for reproducibility, not cross-system efficiency results.
-The faithful organizer-store preparation takes 50.5 minutes for 793 training
-claims and 21.2 minutes for 152 development claims; the locked five-seed
-comparison takes 19 seconds after preparation. These times include text
-encoding, cross-encoder reranking, and actual-image SigLIP2 scoring. One
-144-million-pixel development image triggers a PIL safety warning but is
-processed without exclusion, OOM, or fallback.
+On this machine, the weighted retrieval run time is 9.5 seconds, the candidate construction time is 8.4 seconds, the base selector evaluation time is 158.8 seconds, and the completeness switching time is 334.8 seconds, and the stronger verifier time is 246.9 seconds. These are not cross-system efficiency results, but wall-clock records for reproducing. The faithful organizer-store preparation takes 50.5 minutes for 793 training claims and 21.2 minutes for 152 development claims, while the locked 5-seed comparison takes 19 seconds after preparation. These times involve text encoding, reranking by a cross-encoder, and even scoring the actual images using SigLIP2. One development image of 144 million pixels (MP) results in a PIL safety warning, but is processed without exclusion, OOM or fallback.

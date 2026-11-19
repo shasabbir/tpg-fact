@@ -3,129 +3,42 @@
 
 \subsection{Calibration Changes the Decision, Not the Ranking}
 
-Expected-F1 requires probabilities with operational meaning: among items given
-probability 0.30, roughly 30\% should be evidence members under comparable
-conditions. Balanced logistic training improves rare-positive ranking but
-changes the effective training prior. Temperature scaling changes logit slope,
-whereas prior shift, Platt, beta, and isotonic mappings can also repair the
-location or shape of the reliability curve. The uncalibrated expected-F1
-ablation makes this distinction concrete: it selects nearly 25 items per claim
-and loses more than five evidence-F1 points relative to calibrated
-expected-F1, with no change to the candidate universe.
+Expected-F1 needs an operationally meaningful probability: if we set the probability of an item to be an evidence member to be 0.30, then about 30\% of such items should be evidence members under similar circumstances. Effective training prior is modified by balanced logistic training which enhances the rare-positive ranking. The logit mapping, prior shift, Platt, beta and isotonic mappings can all correct the shape and/or location of the reliability curve, while temperature scaling changes the logit slope. This distinction becomes reality with the uncalibrated expected-F1 ablation which selects almost 25 items per claim and forfeits over 5 evidence-F1 points compared to calibrated expected-F1 and with no change to the candidate universe.
 
-This is the one relationship that reproduces cleanly on AVerImaTeC. There,
-uncalibrated expected-F1 nearly saturates the ten-item cap and loses 0.0532
-exact-source F1 to its calibrated counterpart. The positive simultaneous
-interval survives multiplicity correction despite different candidate units,
-class balance, and independently fitted models. Calibration is therefore not
-an explanation fitted only to the MOCHEG packet.
+This is the only relationship that can be reproduced without troubles on AVerImaTeC. There, uncalibrated expected-F1 almost reaches the maximum of ten and is 0.0532 lower than the corresponding calibrated expected-F1. The positive simultaneous interval remains significant after multiplicity correction, and despite different candidate units, class balance and independently fitted models. So calibration is not necessarily an explanation that is only suitable for the MOCHEG packet.
 
-This also explains why fitted size and redundancy penalties are unnecessary in
-the diagnostic experiment. Once the low membership prevalence is restored,
-the unpenalized expected utility already favors a short prefix. Adaptive
-selector studies should report probability quality, prevalence, and selected
-set size alongside rank metrics; otherwise the decoder can appear to improve
-or fail for the wrong reason.
+This is the reason for not having to include fitted size and Redundancy penalties in the diagnostic experiment. Even if you restore the low membership prevalence, the unpenalized expected utility is already towards the short prefix. To avoid this the probability quality, prevalence, and selected set size should be reported in adaptive selector studies along with the rank metrics.
 
 \subsection{Why Thresholding Remains the Strong Baseline}
 
-Expected-F1 combines all membership probabilities under a conditional-
-independence approximation. A tuned threshold uses the same calibrated
-probabilities with fewer structural assumptions. On the repaired packet,
-thresholding is 0.00484 F1 stronger and recovers more evidence, while
-expected-F1 returns 1.64 fewer items and has higher precision. The latter is a
-valid review-cost operating point, but it is not the strongest selector by the
-primary metric.
+Expected-F1 is a combination of all the membership probabilities using the conditional-independence approximation. A tuned threshold is the same calibrated probabilities, but with a lessened number of structural assumptions. On the repaired packet, thresholding is 0.00484 F1 stronger and recovers more evidence, while expected-F1 returns 1.64 fewer items and has higher precision. The latter is a good review cost operating point, but not the best selector on the primary metric.
 
-The external result narrows this conclusion. AVerImaTeC thresholding returns
-the smallest set but is tied with the train-selected fixed family, whereas
-expected-F1 reaches a higher point estimate by selecting 3.20 rather than 1.17
-items. Expected-F1 clears the non-inferiority margin but fails the required
-size reduction. Thresholding remains a necessary comparator, not a universally
-superior policy, and compactness does not transfer automatically.
+The outside outcome restricts this conclusion. The AVerImaTeC thresholding is the smallest set, and it is tied with the train-selected fixed family, while the expected-F1 is able to reach its higher point estimate by selecting 3.20 rather than 1.17 items. Expected-F1 is not reducing the size enough, but is not inferior to the non-inferiority margin. However thresholding is not an always better policy, and nor does compactness transfer.
 
-The completeness-aware switch tests whether these policies can be combined
-without simply choosing the better one on validation. Its point estimate is
-higher than thresholding and its mean set is smaller, but the improvement is
-too small and unstable to support superiority. This negative result is useful:
-packet completeness is a plausible routing variable, yet the present ten-
-feature logistic estimate is not accurate enough to produce a reliable
-method-level gain. A future model should first improve completeness prediction
-under a frozen protocol, rather than add another decoder penalty.
+The completeness-aware switch is a test to determine if these policies can be merged without merely opting for the better policy on validation. It has a higher point estimate compared to thresholding and a lower mean set compared to thresholding, but this does not provide sufficient support for superiority as the difference is too small and unstable. This negative result is helpful, because the completeness of packets is a reasonable routing variable, but the current ten-feature logistic estimate is not yet sufficiently precise to be used to create a sound method-level gain. The model for the future should start with enhancing the completeness prediction with the same protocol (the same decoder, not another penalty), and not by introducing another penalty.
 
 \subsection{Retrieval Is Still the Dominant Constraint}
 
-Weighted fusion reduces zero-reachable claims and raises the packet oracle, but
-the all-eligible ceiling remains only 0.3637 F1 and complete-gold coverage
-remains below 5\%. The absolute gain is far smaller than the declared
-engineering target. Most selector errors therefore cannot be repaired by a
-different prefix rule alone.
+Weighted fusion brings down the zero-reachable claims and up the packet oracle, but the all-eligible ceiling is only 0.3637 F1 and complete-gold coverage is less than 5\%. The absolute increase in gain is much less than that for the engineering goal. Most of these selector errors can thus not be fixed with another prefix rule.
 
-The organizer-store evaluation is more severe under exact-source identity:
-59.87\% of development claims have no reachable annotated target and only
-12.50\% have the complete annotated set in the retained pool. The static store
-contains many candidates, so the bottleneck is shallow ranking and source
-identity rather than gross data absence. This cross-benchmark agreement on the
-reachability boundary is stronger than agreement on any selector ordering.
+Exact-source identity is the tougher evaluative criteria: Only 12.50\% of development claims have the complete annotated set in the retained pool, while 59.87\% of development claims have no reachable annotated target. The problem with the static store is not that there is no data, but that very few candidates are ranked high and it's difficult to identify the source. This cross-benchmark reachability boundary agreement supersedes any selector ordering agreement.
 
-Text and image branches fail differently. Cross-encoder text ranking helps at
-greater depth while damaging early order; equal rank fusion recovers a small
-part of that tradeoff. Image fusion already combines two complementary signals,
-and changing their weight does not improve Recall@20. OCR, article context, or
-a table-aware external benchmark may help, but each would change the candidate
-construction and requires a separately frozen study. They are not hidden
-extensions of the present result.
+The error behavior of text and image branches is different. To alleviate the tradeoff, cross-encoder text ranking is helpful deeper into the list, but not at the top. Since image fusion is already a fusion of two complimentary signals, changing their respective weights does not have a positive effect on Recall@20. But each would alter the candidate construction, and OCR, article context or table-aware external benchmark might be helpful, but requires a separately frozen study. They are not ``extensions of the present result'' that are concealed.
 
 \subsection{Evidence and Verdict Safeguards Answer Different Questions}
 
-Evidence F1 measures overlap with released evidence identifiers; verdict
-macro-F1 measures whether selected evidence supports the final three-way
-decision. The stronger MLP verifier clears aggregate non-inferiority for the
-switch, but the interval crosses zero, three seed-specific safeguards fail, and
-the linear control moves in the opposite direction. The result is compatible
-with preserved verdict quality on average, but not with a stable end-to-end
-benefit.
+Evidence F1 is the overlap between released evidence identifiers and verdict macro-F1 is about whether there is a support of the final three-way decision using selected evidence. The more powerful MLP verifier shows a positive aggregate non-inferiority for the switchover, while the interval straddles zero, three of the seed specific safeguards are not met and the linear control also moves in the opposite direction. The outcome is on average verdict quality preserved, but not end to end benefit.
 
-The AVerImaTeC safeguard is less favorable. Switch evidence reduces mean
-macro-F1 from 0.1573 to 0.1444, and the seed-aligned lower bound falls below
-the $-0.010$ margin. The single Conflicting claim receives zero F1 under both
-policies across seeds, while Refuted dominates the 152-claim split. This shows
-why an evidence-set improvement cannot be promoted without class-wise
-downstream reporting.
+The AVerImaTeC safeguard isn't as good. Switch evidence reduces mean macro-F1 from 0.1573 to 0.1444, and the lower bound that is aligned with the seed is below the $-0.010$ threshold. The single Conflicting claim is zero F1 in both policies for seeds and Refuted dominates the 152 claim split. This demonstrates the need for class-wise downstream reporting in order to promote an evidence-set improvement.
 
-This distinction matters for system reporting. Evidence precision, evidence
-recall, set size, retrieval reachability, calibration, and verdict performance
-should be shown separately. A single score would hide whether a compact set
-saved reviewer effort, omitted necessary support, or merely interacted
-favorably with one verifier seed.
+This is important when it comes to system reporting. There should be separate numbers for evidence precision, evidence recall, set size, retrieval reachability, calibration and verdict performance. Now it's possible that the single score could tell if a compact set saved reviewer effort, it could not have provided adequate support, or it could just have worked out well with one verifier seed.
 
 \subsection{What Transfers Externally}
 
-The external study does not reproduce a superior adaptive selector. It does
-reproduce two scientific dependencies: selection is bounded by candidate
-reachability, and expected-utility decoding depends on calibrated operating
-probabilities. It contradicts three more specific MOCHEG observations:
-thresholding does not beat the fixed family, expected-F1 is not a smaller
-operating point, and the completeness switch does not preserve verifier
-quality. These contradictions are not reasons to retune the external protocol;
-they define the empirical scope of the method claims.
+The external study does not replicate an adaptive selector that is superior. It nevertheless establishes two scientific relationships: selection is limited by candidate reachability; and expected-utility decoding by calibrated operating probabilities. It goes against three more specific MOCHEG observations: thresholding is not the ``smaller operating point,'' expected-F1 is not a smaller operating point, and completeness switch does not maintain verifier quality. Such contradictions are not to be thought of as reasons to retune what is going on out there, but as the empirical range of the method claims.
 
-Exact URL identity can mark a semantically valid alternative source as wrong,
-so the external result is a controlled diagnostic rather than the official
-shared-task result. The unavailable Gemma-3-27B judge prevents a direct
-semantic-score comparison, and the blind test remains untouched. Even with
-that limitation, the direction of the calibration ablation and the failed
-prespecified gates are valid within the released exact-source target.
+Controlled diagnostic rather than the official shared-task result may be produced, because semantically valid alternatives may be wrongly identified as such due to exact identity of URL. The judge Gemma-3-27B is unavailable and the blind test is untouched, so they can not be compared in semantic-score. Despite this restriction, the direction of the calibration ablation and the gates that were not specified correctly are valid in the target area that has been released as an exact-source.
 
 \subsection{What the Study Supports}
 
-The evidence supports four bounded statements. First, packet reachability must
-be measured before selector performance is interpreted. Second, prior-aware
-calibration is necessary for probability-based set decisions under imbalanced
-membership and is the only relationship confirmed on both benchmarks. Third,
-expected-F1 supplies a compact MOCHEG operating point but not a universally
-compact policy. Fourth, the present completeness-aware switch does not
-establish selector superiority or stable verdict preservation. The study does
-not support a state-of-the-art or deployment-ready claim; its external value is
-the prespecified nonreplication and the stronger boundary it places on adaptive
-selection claims.
+There are four bounded statements for which there is supporting evidence. In order to interpret selector performance, first packet reachability must be measured. Second, prior-aware calibration is required for probability based set decisions with imbalanced membership and is the only relation that holds on both of the benchmarks. Third, expected-F1 provides a ``small'' MOCHEG operating point, but does not provide a universally ``small'' policy. Fourth, the current completeness-aware switch is not able to create selector superiority or stable verdict preservation. The study is not a state of the art or deployment-ready claim, but the external value of the study is a prespecified nonreplication, and a more stringent boundary on adaptive selection claims.

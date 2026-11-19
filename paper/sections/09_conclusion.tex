@@ -1,17 +1,4 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-We evaluated multimodal evidence selection as a decision constrained jointly
-by retrieval and calibration. On MOCHEG, bounded fusion raises packet-oracle F1
-from 0.3560 to 0.3637, calibrated thresholding reaches 0.1864 evidence F1, and
-expected-F1 offers a smaller 3.61-item operating point at 0.1815. The
-completeness switch does not establish superiority. A separately frozen
-AVerImaTeC run confirms the calibration dependency but not the selector
-ordering: 59.87\% of claims have no exact reachable target, expected-F1 is
-larger rather than smaller, thresholding ties fixed selection, and switch
-evidence fails verifier non-inferiority. Evidence-selection studies should
-therefore expose packet reachability, calibration, set size, uncertainty, and
-downstream class-wise behavior before claiming an adaptive improvement. The
-official semantic judge was unavailable locally and both formal tests remain
-sealed; the external contribution is a prespecified diagnostic
-nonreplication, not a shared-task score or deployment claim.
+We evaluated multimodal evidence selection as a decision constrained jointly by retrieval and calibration. On MOCHEG, bounded fusion raises packet-oracle F1 from 0.3560 to 0.3637, calibrated thresholding reaches 0.1864 evidence F1, and expected-F1 offers a smaller 3.61-item operating point at 0.1815. The completeness switch does not establish superiority. A separately frozen AVerImaTeC run confirms the calibration dependency but not the selector ordering: 59.87\% of claims have no exact reachable target, expected-F1 is larger rather than smaller, thresholding ties fixed selection, and switch evidence fails verifier non-inferiority. Evidence-selection studies should therefore expose packet reachability, calibration, set size, uncertainty, and downstream class-wise behavior before claiming an adaptive improvement. The official semantic judge was unavailable locally and both formal tests remain sealed; the external contribution is a prespecified diagnostic nonreplication, not a shared-task score or deployment claim.

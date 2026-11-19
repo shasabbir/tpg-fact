@@ -1,12 +1,7 @@
 \section{Independent External Evaluation}
 \label{sec:external-results}
 
-The AVerImaTeC run tests relationships rather than equality of raw scores: its
-candidate store, evidence unit, output cap, and four-class verdict task differ
-from MOCHEG. All results in this section are from the single locked development
-run after the five train-only seeds were committed. The official semantic
-judge was not executed; evidence values use exact normalized source identity
-and are labeled diagnostic throughout.
+Unlike MOCHEG, the AVerImaTeC candidate store, evidence unit, output cap, and verdict task with four classes are different. Everything in this section is the outcome of 1 single locked development run and was based on the 5 train-only seed (summarized in Fig.~\ref{fig:external-summary}). The evidence values are exact normalized sources, and are marked as diagnostic throughout; the official semantic judge is not executed.
 
 \begin{figure*}[t]
     \centering
@@ -17,11 +12,7 @@ and are labeled diagnostic throughout.
 
 \subsection{The Organizer Store Does Not Remove the Retrieval Ceiling}
 
-The training preparation ranks 529,580 text candidates and 81,817 images for
-793 claims; development ranks 101,289 text candidates and 49,617 images for
-152 claims. Every claim has store candidates, yet exact annotated targets are
-usually absent from the retained packet. Table~\ref{tab:external-reachability}
-shows the distinction between candidate availability and target reachability.
+The figures for the training preparation are: 529,580 text candidates / 81,817 image candidates, for 793 claims. The development figures are 101,289 text candidates and 49,617 image candidates, for 152 claims. There are store candidates for every claim, but the annotated targets are typically not contained in the retained packet. The table (Table~\ref{tab:external-reachability}) indicates the difference between the number of candidates available and the number of candidates that are 'reachable' for the target.
 
 \begin{table}[t]
 \centering
@@ -39,21 +30,11 @@ Development & 0.2548 & 0.1250 & 0.5987 & 0.2378 \\
 \end{tabular}
 \end{table}
 
-Development Recall@10, @20, and @50 is 0.0526, 0.0696, and 0.1143. The
-100-text/20-image retained pool reaches 25.48\% of annotated targets, fully
-reaches only 12.50\% of claims, and has no exact reachable target for 91 of 152
-claims. These values limit every downstream policy and explain why absolute
-exact-source F1 remains low.
+Development Recall@10, @20, and @50 is 0.0526, 0.0696, and 0.1143. The 100-text/20-image retained pool achieves 25.48\% of annotated targets, 12.50\% of claims and has no exact reachable target for 91/152 claims. All downstream policies are constrained by these values and that's why abs\_exact\_source F1 is low.
 
 \subsection{Only the Calibration Relationship Reproduces}
 
-Table~\ref{tab:external-selectors} averages each claim across the five frozen
-seeds before averaging across claims. Calibrated expected-F1 has the highest
-point estimate, 0.1029, but returns 3.20 items. Thresholding returns only 1.17
-items and is effectively tied with the train-selected fixed family. The
-uncalibrated ablation selects 9.93 of the ten allowed items and falls to 0.0497
-F1, reproducing the dependence of expected-utility decoding on probability
-quality.
+The table (Table~\ref{tab:external-selectors}) first takes an average of each claim for the five different frozen seeds and then averages across claims. Calibrated expected-F1 has the highest point estimate 0.1029 with 3.20 items returned. The thresholding method yields only 1.17 items and it is considered to be practically equivalent to the family chosen by the train. The uncalibrated ablation selects 9.93 out of ten allowed items and ends up with 0.0497 F1, which recovers the probability quality dependence of expected-utility decoding.
 
 \begin{table*}[t]
 \centering
@@ -74,14 +55,7 @@ Completeness-aware switch & 0.1208 & 0.1160 & 0.1013 & 0.0145 & 2.71 \\
 \end{tabular}
 \end{table*}
 
-The four comparisons in Table~\ref{tab:external-decisions} use 10,000 aligned
-bootstrap draws. Their bounds are Bonferroni simultaneous 98.75\% intervals;
-the p-values are Holm adjusted. Threshold superiority fails. Expected-F1 is
-non-inferior in exact-source F1 because its adjusted lower bound is above
-$-0.010$, but it returns 173.96\% more items than thresholding instead of at
-least 15\% fewer. Calibration is the only passed selector hypothesis. The
-switch effect is positive in every seed, but the adjusted interval crosses
-zero and its set is larger than thresholding's.
+The four comparisons in the table (Table~\ref{tab:external-decisions}) are with 10,000 aligned bootstrap draws. They are Bonferroni simultaneous 98.75\% intervals, the p-values are Holm adjusted. Threshold superiority fails. However, instead of no less than 15\% fewer items, Expected-F1 returns 173.96\% more items as its adjusted lower bound is not below $-0.010$ in exact-source F1. One hypothesis for the selectors, calibration, passes. The switch effect is positive for all the seeds, but the adjusted interval also crosses the zero and it is bigger than the interval determined by thresholding.
 
 \begin{table*}[t]
 \centering
@@ -103,11 +77,7 @@ Switch $-$ threshold & $+0.01555$ & $[-0.00263,\,0.03621]$ & 0.0714 & \fail \\
 
 \subsection{The Downstream Safeguard Fails Externally}
 
-Mean verifier macro-F1 is 0.1573 with threshold evidence and 0.1444 with
-switch evidence. The seed-aligned switch-minus-threshold effect is $-0.01293$
-with 95\% interval $[-0.03242,0.00687]$; its lower bound does not clear the
-declared $-0.010$ margin. The switch therefore fails verifier
-non-inferiority, unlike the aggregate MOCHEG result.
+The mean verifier macro-F1 is 0.1573 (threshold evidence) and 0.1444 (switch evidence) (Table~\ref{tab:external-verifier}). The seed-aligned switch-minus-threshold effect is $-0.01293$ with 95\% interval $[-0.03242,0.00687]$ which does not exceed the reported $-0.010$. The switch therefore fails verifier non-inferiority, unlike the aggregate MOCHEG result.
 
 \begin{table}[t]
 \centering
@@ -127,20 +97,8 @@ Switch & 0.2842 & 0.1444 & 0.1000 & 0.4300 & 0.0474 & 0.0000 \\
 }
 \end{table}
 
-The class distribution is extreme: 141 Refuted, six Not Enough Evidence, four
-Supported, and one Conflicting claim. Neither policy resolves the single
-conflicting-class case across seeds, and accuracy mostly reflects the majority
-class. This is why macro- and class-wise F1, rather than accuracy alone, define
-the safeguard.
+There are 141 Refuted, six Not Enough Evidence, four Supported and one Conflicting claim in the class distribution. Both of the policies fail to solve the problem of one conflicting class across seeds, and accuracy is largely dependent on the majority class. That is why macro/class level F1 along with accuracy constitutes the safeguard.
 
 \subsection{Frozen Decision}
 
-The blind-selection rule chooses the switch only if its full gate passes,
-otherwise expected-F1 only if it is non-inferior and at least 15\% smaller,
-otherwise thresholding only if it beats fixed selection, and otherwise the
-train-selected fixed family. The first three conditions fail, so the frozen
-decision falls back to fixed selection. Local development exports for all five
-seeds pass the official ten-item and 1,500-character schema after applying the
-already frozen verifier. No test prediction or leaderboard submission is
-performed. The external result is therefore an independent diagnostic
-nonreplication, not an official shared-task score.
+The blind selection rule only selects the switch if the full gate passes, otherwise selects expected-F1 if it is at least 15\% smaller and non-inferior, otherwise the thresholding selection if it beats the fixed selection, otherwise the train-selected fixed family. If all three of the above is false, then the selection is set to fixed and the frozen decision takes precedence. After running the already frozen verifier on the list, local development exports for all five seeds meet the official 10 item and 1,500 character requirements. There is no test prediction, or leaderboard submission. It is therefore an independent diagnostic nonreplication, rather than an official shared-task score, from the outside.

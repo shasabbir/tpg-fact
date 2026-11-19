@@ -3,59 +3,41 @@
 
 \subsection{Task}
 
-Let claim $q$ have a released complete-gold evidence set $G_q$ and let retrieval return an ordered packet
+Consider a released complete-gold evidence set $G_q$, and a retrieval ordered packet
 \begin{equation}
 C_q=(c_{q1},\ldots,c_{q60}),
 \end{equation}
-which can hold a maximum of 40 text candidates and 20 image candidates. A selector returns $S_q\subseteq C_q$. The main claim-level score is
+There are a maximum of 40 text candidates and 20 image candidates in which. A selector returns a subset, $S_q$, of $C_q$. The primary claim score is
 \begin{equation}
 F_1(S_q,G_q)=\frac{2|S_q\cap G_q|}{|S_q|+|G_q|}.
 \label{eq:set-f1}
 \end{equation}
-We macro-average over claims in Eq.~\ref{eq:set-f1}. Other evidence metrics are precision, recall, Jaccard similarity, exact-set match and selected count.
+Macro-average of $F_1$ is done on claims. Precision, Recall, Jaccard similarity, exact-set match and selected count are other evidence metrics.
 
-The primary population includes only claims for which the released annotation defines a nonempty complete-gold set. Claims without such a mapping remain in retrieval construction and do not get a perfect oracle score. If they are given an oracle F1 of one, this will give the false impression of a high apparent packet ceiling.
+Only claims for which a complete-gold set (as specified in the released annotation) has a positive size are part of the primary population. Claims that don't have such a mapping will stay in retrieval construction and not receive an ideal oracle mark. This will be the false impression of a high apparent packet ceiling when they are given an oracle $F_1$ of one.
 
 \subsection{Dataset and Population Flow}
 
-MOCHEG is a dataset that includes image-text claims, separate image and text evidence as well as verdict labels \cite{yao2023mocheg}. By content hash we pin released versions of the train, validation, corpus and sealed-test. The test annotations are not opened in the official test.
+MOCHEG is a dataset that includes image-text claims, separate image and text evidence as well as verdict labels \cite{yao2023mocheg}. Content hash is used to pin out releases of the train, validation, corpus and sealed-test. The test annotations are not started up in the official test.
 
-The 13,159 released train and validation claims are encoded for retrieval. Of these, 10,970 have a nonempty released complete-gold mapping and are the eligible evidence-set population. The primary repaired-packet selector evaluation uses the 1,490 released validation claims. Claim-grouped hashing places the remaining released claims in fitting, calibration, model-selection, and internal-holdout roles. The roles are regenerated separately for deterministic partition seeds 13, 37, 73, 101, and 137.
+The train and validation claims (13,159) released have been encoded for retrieval. These include 10,970 that have a nonempty released complete-gold mapping---the eligible evidence-set population. The evaluation of the primary selector for repaired packets is done using the 1,490 validation claims released. Claim-grouped hashing is used to assign the left over claims to fitting, calibration, model-selection and internal-holdout occupations. For the deterministic partition seeds 13, 37, 73, 101 and 137, the roles are regenerated separately (Table~\ref{tab:population-flow}).
 
 \input{generated/population_flow}
 
 \subsection{Independent AVerImaTeC Population}
 
-AVerImaTeC changes the evidence unit and label space rather than supplying an
-unchanged MOCHEG replication \cite{cao2026averimatecshared}. Each candidate is
-a claim-local organizer-store text chunk or image associated with a source.
-The official output permits at most ten evidence items and one of four labels:
-Supported, Refuted, Not Enough Evidence, or Conflicting
-Evidence/Cherrypicking. Exact normalized source identity is available for an
-auditable diagnostic; the task's primary semantic evidence score requires its
-separate multimodal judge.
+AVerImaTeC alters the evidence unit and label space, but not providing a MOCHEG replication unchanged \cite{cao2026averimatecshared}. Candidates are claim-local organizers-store text chunks or images linked to a source. Maximum 10 evidence items are allowed in the official output along with one of four labels: Supported, Refuted, Not Enough Evidence, or Conflicting Evidence/Cherrypicking. For an auditable diagnostic, an exact normalized source identity is available, which is the primary semantic evidence score of the task, and needs to be judged separately from other evidence in the multimodal pool.
 
-The external protocol uses all 793 released training claims for fitting and
-selection roles and reserves all 152 development claims for one locked run.
-Training contains 756 Refuted, 18 Not Enough Evidence, 13 Supported, and 6
-Conflicting claims; development contains 141, 6, 4, and 1, respectively. The
-organizer archives contain 1,586 training JSON files, 81,817 training images,
-304 development JSON files, and 49,617 development images. No MOCHEG model,
-threshold, calibrator, completeness estimator, or verifier weight is
-transferred.
+The external protocol takes all 793 of the training claims released for fitting and selection jobs and reserves all 152 development claims for one locked run. There are 756 Refuted, 18 Not Enough Evidence, 13 Supported, and 6 Conflicting claims in trainings and 141, 6, 4, and 1 in development. There are 1,586 training JSON files and 81,817 training images, 304 development JSON and 49,617 development images in the organizer archives. No transfer of MOCHEG model, threshold, calibrator or completeness estimator or verifier weight.
 
-For an external claim, $G_q$ denotes normalized annotated source identities
-and $C_q$ the frozen organizer-store packet. Equation~\ref{eq:set-f1} is
-reported as an exact-source diagnostic because an alternative valid webpage
-can be semantically correct without sharing the annotated URL. We therefore do
-not relabel exact-source F1 as the unavailable official semantic score.
+For an external claim, $G_q$ are normalised annotated source identities, and $C_q$ are a frozen organizer-store packet. When a semantically correct alternative valid webpage does not share the annotated URL with the original webpage, then it is reported as an exact-source diagnostic \eqref{eq:set-f1}. For this reason, the exact-source $F_1$ is not renamed the unavailable official semantic score.
 
 \subsection{Reachability}
 
-The retrieval boundary is specified by two oracle summaries. For every eligible claim, the packet oracle returns $C_q\cap G_q$. Its F1 is averaged only for claims with nonempty gold. Complete-gold coverage is the fraction of eligible claims for which $G_q\subseteq C_q$ holds. We count eligible claims for which $C_q\cap G_q=\varnothing$.
+Two oracle summaries are used to define the retrieval boundary. For each claim that is eligible, the packet oracle returns $C_q \cap G_q$. Only claims that have non-empty gold is taken into account for its $F_1$. The fraction of eligible claims for which $G_q \subseteq C_q$ is complete-gold coverage. We consider claims that are eligible such that $C_q \cap G_q= \varnothing$.
 
-These quantities provide answers to different questions. Oracle F1 is the best evidence set that can be achieved from the packet. Complete-gold coverage asks whether exact recovery can be made. The zero-reachable count identifies claims on which every selector must receive zero recall. None of these measures gives credit to a selector for evidence not exposed in the process of retrieval.
+These quantities provide answers to different questions. Oracle $F_1$ is the best evidence set that can be achieved from the packet. Complete-gold coverage -- whether it is possible to achieve full recovery. Zero-reachable count is the number of claims where each selector will get zero recall. All of these measures ignore any credit to be awarded to a selector in respect of evidence that is not revealed by the retrieval process.
 
 \subsection{Leakage Controls}
 
-Candidate ranks are written and hashed before gold identifiers are joined. Only after candidate construction are evidence labels used to fit the membership scorer, calibration map, and selector hyperparameters in their respective training roles. The locked validation set is not part of any fitted component. For AVerImaTeC, the freeze rejects any artifact containing a non-training row; validation preparation starts only after the train-only code and manifest are committed, and the locked runner accepts only validation rows while rechecking every frozen input hash. Formal-test annotations for both benchmarks are absent from the execution path; seal records and access flags are checked before and after outcome-bearing runs.
+The candidate ranks are written then hashed before joining with gold identifiers. Evidence labels are only used once the candidate construction is done, to fit the membership scorer, the calibration map and the selector hyperparameters in their respective training roles. There is no component fitted to the locked validation set. AVerImaTeC rejects any artifact that has a non-training row, and only accepts validation rows to the locked runner while rechecking all frozen input hashes after the train-only code and manifest are committed. No formal-test annotations are present on the execution path; seal records and access flags are verified before and after the outcome-bearing runs, respectively, of both benchmarks.

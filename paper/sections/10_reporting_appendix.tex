@@ -3,7 +3,7 @@
 
 \subsection{Selected Components}
 
-Table~\ref{tab:selected-components} shows the scorer and modality-specific calibration maps selected in the diagnostic study without locked-validation labels. There is one threshold per partition: 0.1. Fixed $k$ is 5. Both decoder penalties are zero throughout.
+The table (Table~\ref{tab:selected-components}) lists the scorer and modality specific calibration maps for the diagnostic study, with no locked-validation labels. All partitions have one threshold defined: 0.1. Fixed $k$ is 5. The decoder penalties are zero all the time.
 
 \begin{table*}[t]
 \centering
@@ -24,7 +24,7 @@ Partition & Scorer & Text map & Image map & Size penalty & Redundancy penalty \\
 
 \subsection{Robustness Effects}
 
-Table~\ref{tab:robustness-detail} shows the aligned expected-F1 minus fixed top-5 effect for each condition. The width 10 and duplicate-top-three intervals intersect zero. The image-only effect is negative. Both probability perturbations flip the baseline sign.
+This table (Table~\ref{tab:robustness-detail}) lists the difference between the expected-F1 for each condition and the actual top-5 effect for that condition. The width 10 and duplicate-top-three intervals intersect zero. The effect with the image is negative. The sign of the baseline is reversed with both probability perturbations.
 
 \begin{table*}[t]
 \centering
@@ -35,11 +35,11 @@ Table~\ref{tab:robustness-detail} shows the aligned expected-F1 minus fixed top-
 
 \input{generated/robustness_absolute}
 
-The relative effects are explained by the absolute scores and the size of the review sets in Table~\ref{tab:robustness-absolute}. The difference obtained for promoting five distractors is $+0.0494$ because the score for fixed top-5 is very close to zero, whereas expected-F1 reaches only 0.0497. The temperature fluctuations also show the operational cost of wrong calibration. Sharpening reduces the expected set to 1.61 items; flattening expands it to 17.44 items. Both modifications are harmful for F1, but do not affect candidate order.
+The absolute scores, and size of the review sets, in the table (Table~\ref{tab:robustness-absolute}) explain the relative effects. The difference of promoting five distractors is $+0.0494$ since the score of fixed top-5 is near to zero and expected-F1 only achieves 0.0497. The temperature variation also illustrates the cost of operation due to incorrect calibration. In the case of sharpening, the expectation value of the set is reduced to 1.61 items, and with flattening, it is increased to 17.44 items. Both changes are detrimental to F1, and have no impact on the ordering of candidates.
 
 \subsection{Decision Audit}
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
 \caption{Prespecified decision audit for the bounded repair and completeness-aware selector.}
 \label{tab:decision-audit}
@@ -57,17 +57,19 @@ Aggregate verifier lower bound above $-0.01$ & \pass \\
 Per-seed verifier non-inferiority & \fail \\
 Independent artifact audits & \pass \\
 Formal test annotations remain unopened & \pass \\
+\midrule
+Final frozen selector decision: & Thresholding \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The conjunction does not hold. The highest selector point estimate and the
-aggregate verifier safeguard are therefore reported as mixed development
-evidence, not as a superior end-to-end method.
+The conjunction does not hold (Table~\ref{tab:decision-audit}). The highest selector point estimate and the aggregate verifier safeguard are therefore reported as mixed development evidence, not as a superior end-to-end method.
 
 \subsection{Verifier Seed Detail}
 
-\begin{table}[H]
+The per-seed stronger-verifier macro-F1 and switch-minus-threshold intervals are listed in Table~\ref{tab:verifier-seeds}.
+
+\begin{table}[t]
 \centering
 \caption{Stronger-verifier macro-F1 and switch-minus-threshold intervals by deterministic seed. The frozen non-inferiority margin is $-0.01$.}
 \label{tab:verifier-seeds}
@@ -88,52 +90,18 @@ Seed & Threshold & Switch & Difference & 95\% interval & Clears margin \\
 
 \subsection{Reproducibility Record}
 
-A repository README specifies the frozen configurations, result directories,
-and reporting bundles. The earlier diagnostic clean rerun places outputs in a
-separate directory; all 20 core selector and verifier artifacts match
-byte-for-byte by SHA-256. The bounded repair adds source hashes for retrieval,
-selector, completeness, and verifier summaries and independent audits for each
-stage. Runtime-bearing summaries are independently recomputed rather than
-expected to match byte-for-byte.
+The "frozen configurations", result directories and reporting bundles are defined in a repository README. The previous diagnostic clean rerun results in the outputs being stored in a different directory and all 20 core selector/verifier artifacts are bitwise identical with respect to their SHA-256 sum. The bounded repair adds source hashes for the retrieval, selector and completeness summaries, as well as independent audits for each stage and the verifier summary. Summary information for a runtime is calculated separately and not guaranteed to be the same as the original summary information, byte for byte.
 
-There are exactly 1,490 locked-validation claim records in each of the five
-selector partitions for each method. The repaired candidate bundle contains
-789,540 rows for 13,159 released train and validation claims before the
-complete-gold eligibility filter. Candidate records store scorer output,
-calibrated probability, rank, modality, gold membership, and selected-set
-decisions. Selector, completeness, verifier, audit, and reporting records all
-contain false formal-test access flags.
+Each method has 1,490 locked-validation claim records in each of its five selector partitions. There are 789,540 rows in the repaired candidate bundle for 13,159 released train and validation claims pre full gold eligibility filter. Results of the scanners, calibrated probability, rank, modality, gold membership and decisions for selection sets are stored in the candidate records. False formal-test access flags in selector, completeness, verifier, audit and reporting records.
 
-The external preparation retains 94,085 training candidates and 18,240
-development candidates after ranking the complete organizer stores. The
-training freeze, development pre-join ranking, locked claim records, and
-independently recomputed report have SHA-256 identifiers beginning
-\texttt{36e4210a}, \texttt{b24739c9}, \texttt{eec62a20}, and
-\texttt{0751ce76}, respectively. The full identifiers and archive hashes are
-preserved with the result bundle. Local fixed-policy development exports for
-all five seeds contain 152 predictions, satisfy the official schema, and were
-not submitted.
+After ranking all the organizer stores, the external preparation still has 94,085 training candidates and 18,240 development candidates. The training freeze, development pre-join ranking, locked claim records and independently recomputed report have SHA-256 identifiers starting \texttt{36e4210a}, \texttt{b24739c9}, \texttt{eec62a20}, and \texttt{0751ce76}, respectively. The result bundle contains the entire identifier and archive hashes. For all five seeds, there are 152 predictions in local fixed-policy development exports, which meet the official schema, but are not submitted.
 
 \subsection{External Evaluation Path}
 \label{sec:external}
 
-AVerImaTeC provides a static multimodal knowledge store and a four-class fact-
-checking task \cite{cao2026averimatecshared}. The completed transfer protocol
-maps each source and 1,500-character text chunk to deterministic identifiers,
-combines BM25 and BGE-M3 ranks by reciprocal-rank fusion, applies a frozen BGE
-reranker, and ranks actual images with SigLIP2 and filename-BGE scores. It fits
-every scorer, calibrator, completeness model, and verifier from scratch on the
-793 released training claims. Gold questions are not retrieval features, and
-gold-source membership is joined only after label-blind rankings are written
-and hashed.
+AVerImaTeC offers a multimodal knowledge store that is static and a four-class fact checking task \cite{cao2026averimatecshared}. The final transfer protocol that is implemented consists of mapping each source and 1,500-character text chunk to deterministic identifiers, using reciprocal-rank fusion of BM25 and BGE-M3 ranks, the frozen BGE reranker, and ranking actual images based on SigLIP2 and filename-BGE scores. It applies to all scorers, calibrators, completeness models and verifiers from scratch on the 793 training claims that were released. The gold questions are not retrieval features and the gold-source membership is joined after label-blind ranking has been written and hashing.
 
-The organizer archives contain 529,580 text and 81,817 image candidates for
-training and 101,289 text and 49,617 image candidates for development. The
-five-seed training protocol was committed before development preparation. A
-single locked run then evaluated all 152 development claims. The retained
-100-text/20-image pool reaches 25.48\% of exact annotated sources, fully
-reaches 12.50\% of claims, and reaches none for 59.87\% of claims. Exact-source
-Recall@10, @20, @50, and @100 is 5.26\%, 6.96\%, 11.43\%, and 23.78\%.
+There are 529,580 text and 81,817 image candidates for training and 101,289 text and 49,617 image candidates for development in the organiser archives. The 5-seed training protocol was agreed prior to preparing for development. All 152 development claims were then evaluated by a single locked run. The retained 100-text/20-image pool reaches 25.48\% of exact annotated sources, fully reaches 12.50\% of claims, and reaches none for 59.87\% of claims. Exact-source Recall@10, @20, @50, and @100 is 5.26\%, 6.96\%, 11.43\%, and 23.78\%.
 
 \begin{table*}[t]
 \centering
@@ -157,18 +125,6 @@ Blind test predictions or leaderboard submission generated & no \\
 \end{tabular}
 \end{table*}
 
-Only the calibration comparison passes: calibrated expected-F1 exceeds its
-uncalibrated counterpart by 0.05316 with simultaneous interval
-$[0.02207,0.08852]$. Thresholding is tied with fixed selection. Expected-F1
-selects 3.20 rather than 1.17 items, so the compactness claim does not transfer.
-The switch interval crosses zero, returns a larger set, and fails the verifier
-safeguard. The frozen decision therefore falls back to the train-selected
-fixed family.
+Only the comparison of the expected-F1 calibrated to its uncalibrated form is passing (Table~\ref{tab:external-decision-audit}) with a difference of 0.05316 with simultaneous interval $[0.02207,0.08852]$. Fixed selection is related to thresholding. The compactness claim does not carry over as the number of items selected by Expected-F1 is 3.20 items and not 1.17 items. The switch interval is touching zero, returns a bigger set and fails the verifier safeguard. The frozen decision thus ends up at the fixed family, selected by the train.
 
-The prescribed Gemma-3-27B judge contains 54.86~GB of weights, whereas the
-available RTX~4090 has 25.76~GB of memory and the organizer launcher requests
-two GPUs. We do not call the exact-source diagnostic an official task score or
-substitute a quantized judge. The blind test and leaderboard remain untouched.
-The completed external study is consequently a prespecified diagnostic
-nonreplication: calibration dependence transfers, while selector superiority,
-compact expected-F1 selection, and verifier preservation do not.
+The prescribed Gemma-3-27B judge has 54.86~GB of weights while the available RTX~4090 has 25.76~GB of memory and the organizer launcher requires two GPUs. The exact-source diagnostic is not an official task score nor is it a quantized judge. The blind test and leader board will not be changed. Thus the completed external study is a prespecified diagnostic nonreplication: calibration dependence transfers, while selector superiority, compact expected-F1 selection, and verifier preservation do not.
