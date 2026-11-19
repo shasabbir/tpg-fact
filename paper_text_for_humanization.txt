@@ -1,4 +1,4 @@
-Calibrated Adaptive Evidence Selection for Multimodal Fact-Checking Under Retrieval Constraints
+Retrieval-Conditioned Calibration and Adaptive Evidence Selection for Multimodal Fact-Checking
 
 Sabbir Hossain
 Department of Computer Science
@@ -15,7 +15,7 @@ fahmed@aiub.edu
 
 ABSTRACT
 
-Fact-checkers need concise evidence sets, but a selector cannot recover evidence that retrieval misses and cannot make reliable set decisions from miscalibrated scores. We separate these failure sources in a retrieval-conditioned study on MOCHEG. Every method receives the same packet of 40 text and 20 image candidates. Six probability maps and four selection policies are evaluated on 1,490 locked validation claims across five deterministic training-role partitions. Retrieval is the dominant boundary: among 10,970 claims with released complete-gold evidence, the packet oracle reaches 0.3560 evidence F1, complete gold is present for 4.39%, and 3,086 claims contain no reachable gold item. Prior-aware calibration reduces mean Brier score from 0.0847 to 0.0330. Expected-F1 then returns 3.50 items per claim and reaches 0.1759 evidence F1, improving on fixed top-5 by 0.0085 with a claim-aligned 95% interval of [0.0030, 0.0140]. A calibrated threshold remains stronger at 0.1807. A post hoc reachability analysis localizes the expected-F1 benefit: it reaches 0.5240 F1 when complete gold is available in the packet, but offers no gain over fixed top-5 when gold is only partially reachable. Size and redundancy penalties select zero throughout, probability perturbations reverse the adaptive gain, and a shared verifier does not establish the declared non-inferiority margin. Calibrated expected-F1 therefore provides a precision-oriented operating point. It does not establish end-to-end superiority; calibrated thresholding performs better overall, and retrieval reachability remains the main limitation.
+An evidence selector cannot recover items missed by retrieval, and probability-based set decisions become unreliable when membership scores are miscalibrated. We evaluate these coupled failures on MOCHEG and under a separately frozen AVerImaTeC organizer-store protocol. On MOCHEG, label-blind rank fusion raises packet-oracle evidence F1 from 0.3560 to 0.3637, while prior-aware calibration reduces mean Brier score from 0.0847 to about 0.033. Calibrated thresholding reaches 0.1864 evidence F1; expected-F1 reaches 0.1815 with 3.61 rather than 5.26 items. A completeness-aware switch reaches 0.1877, but its +0.00138 effect is uncertain. On locked AVerImaTeC development, the frozen packet reaches only 25.48% of exact annotated sources and has no reachable target for 59.87% of claims. Calibration transfers: calibrated expected-F1 exceeds its uncalibrated ablation by 0.0532 F1 with a multiplicity-adjusted interval of [0.0221,0.0885]. The other relationships do not: thresholding and fixed selection are tied, expected-F1 returns 3.20 items versus 1.17 for thresholding, the switch interval crosses zero after correction, and switch-selected evidence fails verifier non-inferiority. The official semantic judge is unavailable locally and both benchmarks' formal tests remain untouched. The cross-benchmark evidence supports reachability-first, calibration-aware evaluation, but not adaptive-selector superiority or a universally compact expected-F1 policy.
 
 KEYWORDS
 
@@ -23,343 +23,388 @@ multimodal fact-checking, evidence retrieval, evidence selection, probability ca
 
 1. INTRODUCTION
 
-An evidence-based verdict is auditable only when a reader can inspect the material behind it. In the multimodal setting, that material may include sentences, documents, and images. Modern systems can retrieve a large candidate pool, but a fact-checker still needs a short set that is relevant enough to inspect and complete enough to support the decision. MOCHEG makes this problem explicit by pairing image-text claims with text evidence, image evidence, and three-way verdicts [CITE: yao2023mocheg].
+A fact-check is auditable only when a reader can inspect the material behind its verdict. For an image-text claim, that material can include sentences, documents, and images drawn from different sources. A retrieval system may return hundreds of plausible candidates, but a reviewer still needs a short set that contains enough support or refutation to make a decision. MOCHEG formalizes this setting with multimodal claims, separate text and image evidence, released evidence identifiers, and three-way verdicts.
 
-Most pipelines choose the final evidence with a fixed top-k rule. This is easy to reproduce, but it assumes every claim needs the same number of items. Adaptive selectors instead use membership scores to choose a claim-specific set. A threshold returns every candidate whose score exceeds a cutoff. A count model predicts a set size. Expected-F1 decoding searches candidate prefixes for the size with the highest expected set F1. These rules share an important dependency: their scores must behave like probabilities. Ranking quality alone is insufficient. A monotone score transformation leaves the ranking unchanged while changing the threshold and expected-F1 decisions.
+Evidence selection is often reduced to a fixed top-k rule. It is simple and reproducible, but it assumes that every claim needs the same number of items. Adaptive policies instead map candidate-level membership scores to a claim-specific set. A threshold returns every item above a cutoff, a count model predicts the set size, and expected-F1 decoding chooses the probability- ranked prefix with the greatest expected set F1. These rules share a dependency that rank-only evaluation can hide: the scores must behave like probabilities. A monotone transformation preserves candidate order while changing threshold and expected-utility decisions.
 
-That dependency is especially risky under class imbalance. Evidence membership is rare within a retrieved packet, and balanced logistic training deliberately changes the effective class prior. Temperature scaling can change confidence but cannot correct a prior-induced intercept error. If this mismatch is overlooked, an expected-utility decoder may select too many candidates even when average precision improves.
+Class imbalance makes this dependency consequential. Gold evidence is rare in a retrieved packet, while balanced logistic training deliberately changes the effective class prior. A temperature map can adjust confidence without fixing an intercept error produced by that prior mismatch. Modern calibration work therefore distinguishes ranking, probability quality, and the decision made from those probabilities. In an evidence pipeline, an apparently stronger adaptive decoder may otherwise be exploiting or amplifying a calibration error.
 
-Retrieval creates a second dependency. A selector cannot recover an item absent from its packet. Reporting selector F1 without the packet oracle can make a decoding error and a retrieval miss look identical. We therefore evaluate selection inside one fixed pipeline, shown in Fig. [REF: fig:architecture]. Every method receives the same 40 text and 20 image candidates, and all evidence-set scores use the released complete-gold mapping.
-
-Figure caption: Study design and information boundaries. Retrieval fixes one packet per claim before gold labels are joined. Scoring, calibration, and policy selection use disjoint training roles. Every evidence policy is then evaluated on the same locked validation claims, followed by a shared-verifier safeguard.
+Retrieval creates a separate, harder boundary. A selector cannot return an item that never enters its packet. If packet reachability is not reported, a retrieval miss and a decoding error receive the same final evidence score. Figure 1 shows the information boundaries used here. All selection policies receive the same 40 text and 20 image candidates. Candidate rankings are written before the gold join; scoring, calibration, policy selection, and evaluation use disjoint roles; and the released validation set is evaluated only after train-role choices are fixed.
 
 The study asks four questions:
 
-1. How much released gold evidence is reachable at the actual packet depths?
-2. Which probability maps correct the imbalance-induced calibration error?
-3. Does calibrated expected-F1 selection improve on a fixed top-k rule and a calibrated threshold?
-4. Do evidence-set gains survive probability, modality, packet-width, and retrieval perturbations, and do they preserve verdict quality under a shared verifier?
+1. How much released gold evidence is reachable at the actual packet depths, and can a bounded label-blind rank fusion improve that ceiling? 2. Which probability maps correct the prior error induced by imbalanced evidence membership? 3. How do fixed top-k, calibrated thresholding, learned count, expected-F1, and an uncalibrated ablation compare on identical packets? 4. Does a prespecified packet-completeness switch beat calibrated thresholding and preserve verdict quality under a stronger shared verifier? 5. Which of these relationships reproduce under a separately frozen AVerImaTeC organizer-store protocol with different evidence units and four verdict classes?
 
-Isotonic, Platt, and prior-shift maps all reduce Brier error sharply. With prior-aware calibration, expected-F1 improves on fixed top-5 by 0.0085 evidence F1 and returns 3.50 items on average. The fitted size and redundancy penalties are zero in every deterministic partition, so neither changes the result. A calibrated threshold performs better, improving on fixed top-5 by 0.0133. Both adaptive rules remain constrained by a packet oracle of only 0.3560 F1.
+The answers are deliberately mixed. Weighted text fusion improves the all-eligible packet oracle from 0.3560 to 0.3637 F1 and complete-gold coverage from 4.39% to 4.74%, while image Recall@20 does not change. Prior-aware maps repair the dominant probability error. On the repaired packet, calibrated thresholding reaches 0.1864 evidence F1, expected-F1 reaches 0.1815 with a smaller 3.61-item set, and uncalibrated expected-F1 collapses to 0.1288 while returning 24.90 items. The completeness-aware switch has the highest point estimate, 0.1877 F1, but improves over thresholding by only 0.00138 with an interval that crosses zero. Its verifier result passes aggregate non-inferiority but not the per-seed safeguard. The independent evaluation is more restrictive: its retained validation packet reaches only 25.48% of exact annotated sources and has no reachable target for 59.87% of claims. Calibration remains decisive, improving expected-F1 by 0.0532 over its uncalibrated ablation. Threshold superiority, expected-F1 compactness, switch superiority, and downstream verifier preservation do not reproduce.
 
 This paper makes four contributions:
 
-- a retrieval-conditioned evaluation that reports operating-depth recall, packet-oracle F1, complete-gold coverage, and unreachable claims;
-- a controlled comparison of six calibration maps across balanced and unweighted multimodal membership scorers;
-- a claim-aligned comparison of fixed, threshold, count, and expected-F1 selection, including a reachability-stratified error analysis, a shared-verifier safeguard, and controlled perturbations; and
-- an auditable implementation with frozen data revisions, saved candidate probabilities, independent metric recomputation, and a clean deterministic rerun.
+- a retrieval-conditioned evaluation that reports operating-depth recall, packet-oracle F1, complete-gold coverage, and zero-reachable claims before interpreting selector quality; - a matched calibration and set-decoding study covering six probability maps, fixed and adaptive controls, exact expected-F1, and an uncalibrated failure case; - a prespecified retrieval repair and packet-completeness-aware switch, evaluated against the strongest calibrated-threshold comparator with claim-aligned intervals and partition-level safeguards; and - a strictly split-isolated and auditable external evaluation on the organizer's static AVerImaTeC store, preserving label-blind rankings, per-claim records, failed exports, and independent audits while confirming calibration but not selector superiority, compactness, or verifier preservation.
 
-Expected-F1 selection can outperform a fixed evidence budget when its inputs are calibrated to the deployment prior. In these experiments, calibrated thresholding performs better, and modest probability distortion removes the expected-F1 gain. Evaluations of adaptive evidence selection therefore need to report calibration and reachability as experimental variables.
+The contribution is empirical rather than a claim of state-of-the-art performance. Adaptive evidence sizing is useful only after retrieval and calibration are exposed as experimental variables. In this study, expected-F1 supplies a precision-oriented MOCHEG operating point and the completeness-aware switch supplies a testable design direction, but calibrated thresholding is not externally superior to fixed selection and expected-F1 is not externally compact. The paper retains these negative boundaries because they show that a selector conclusion can reverse when reachability, evidence units, and class balance change.
 
 2. RELATED WORK
 
-Table caption: Comparison with evidence-aware multimodal verification and retrieval studies. "Adaptive" denotes a variable-size evidence-set output; reranking, filtering, and modality routing alone do not constitute adaptive set decoding.
-
 2.1 Evidence-Based Fact-Checking and Evaluation
 
-Evidence-based verification is commonly decomposed into claim analysis, evidence retrieval, evidence assessment, and verdict prediction [CITE: zeng2021automated,zhou2020survey,islam2020survey]. Dataset surveys show that results depend on domain, label construction, modality coverage, and controls for event or source overlap [CITE: dulizia2021datasets,shah2022systematic,rastogi2022threet]. Cross-domain transfer, incomplete explanations, and inconsistent benchmark protocols remain recurring concerns [CITE: mridha2021review,aimeur2023review,lv2025survey]. Our evaluation therefore follows the retrieval-and-selection chain separately from content-only classification.
+Evidence-based verification can typically be broken down into four components: claim analysis, evidence retrieval, evidence assessment and verdict prediction. The findings vary with the domain, label construction, modality coverage, and controls for event or source overlap, as documented in dataset surveys. Difficulties with cross-domain transfer, deficient explanations, and benchmark protocols remain common. Our assessment therefore follows the retrieval-and-selection chain rather than content-only classification.
 
-Text benchmarks expose complementary evidence requirements. SciFact uses sentence evidence from scientific papers, HoVer requires multi-document reasoning, COVID-Fact follows changing public-health claims, and X-Fact introduces multilingual variation [CITE: wadden2020scifact,jiang2020hover,saakyan2021covidfact,gupta2021xfact]. External-document systems reduce dependence on stylistic shortcuts, but they also introduce retrieval, freshness, and attribution errors [CITE: zhang2023realtime]. We therefore keep evidence-set quality separate from verdict accuracy.
+Evidence requirements are revealed through text benchmarks. SciFact contains sentence evidence from scientific publications, HoVer is multi-document reasoning, COVID-Fact is following evolving claims in the public-health arena, and X-Fact introduces multilingual variation. External-document systems minimize reliance on stylistic shortcuts, while also incurring retrieval, freshness, and attribution errors. So, we separate evidence-set quality and verdict accuracy.
 
 2.2 Multimodal Misinformation Detection
 
-Content-based multimodal detectors model image-text interactions using bilinear pooling, hierarchical attention, topic memory, cross-attention, ambiguity learning, and multi-level fusion [CITE: kumari2021amfb,meel2021han,ying2021topicmemory,ying2021crossattention,chen2022cafe,jing2023mpfn]. Later systems add contrastive, within-modality, stylometric, or semantic-alignment signals [CITE: yan2024fmc,zhu2024ifis,nadeem2023ssm,uppada2022imagetext]. These designs improve post-level classification, but their fused representation does not itself identify which external document or image supports a verdict.
+Content-based multimodal detectors include bilinear pooling, hierarchical attention, topic memory and cross-attention, ambiguity learning and multi-level fusion detectors. Contrastive, in-modality, stylometric or semantic-alignment signals are added in later systems. These designs help to classify at the post level; however, the fused representation does not reveal the source of a verdict, such as an external document or image.
 
-Recent work addresses local-global mismatch, cross-modal knowledge distillation, contextual inconsistency, semantic-space alignment, and conflicting unimodal signals [CITE: wu2023mfir,hu2024matching,peng2024contextual,shang2026semantic,wang2024neutralization]. Out-of-context benchmarks such as NewsCLIPpings, COSMOS, and VERITE test misleading image-caption pairings while controlling unimodal bias [CITE: luo2021newsclippings,aneja2023cosmos,papadopoulos2024verite]. DGM4, SNIFFER, MMDFND, and IMFND broaden localization, explanation, domain coverage, or large vision-language-model use [CITE: shao2023dgm4,qi2024sniffer,tong2024mmdfnd,jiang2025imfnd]. Their main target remains manipulation or veracity rather than an auditable set of external evidence identifiers.
+Recent works focus on local-global mismatch, cross-modal knowledge distillation, contextual inconsistency and conflicting unimodal signals. Out-of-context benchmarks like NewsCLIPpings, COSMOS, and VERITE evaluate pairs of images and captions where they do not match in context but control unimodal bias. DGM4, SNIFFER, MMDFND, and IMFND extend localization, explanation, domain coverage or vision-language model usage. They are not primarily aimed at a set of external evidence identifiers that can be audited, but at manipulation or veracity.
 
 2.3 Multimodal Evidence Retrieval and Verification
 
-MOCHEG provides a shared benchmark for multimodal retrieval, three-way verdict prediction, and explanation generation [CITE: yao2023mocheg]. M-RAV combines dense retrieval, image-text consistency verbalization, relevance estimation, and language-model verification [CITE: luu2027mrav]; MEVER constructs a text-image evidence graph and performs token- and evidence-level fusion [CITE: zhang2026mever]. RED-DOT detects and reranks external multimodal evidence before verdict prediction [CITE: papadopoulos2025reddot]. Related work distinguishes utility from semantic similarity and learns when visual retrieval is necessary [CITE: luo2026utility,tsoneva2026selective]. Fixed retrieval, relevance filtering, modality routing, utility ranking, and adaptive set decoding solve different decision problems.
+MOCHEG offers a common evaluation criterion for multimodal retrieval, three-way verdict prediction and explanation generation. MEVER builds a text-image evidence graph and performs token- and evidence-level fusion, while RED-DOT identifies and reranks external multimodal evidence before prediction. Other recent studies distinguish utility from semantic similarity and learn when visual retrieval is needed. These systems address fixed retrieval, relevance filtering, modality routing, utility ranking, and adaptive set decoding as different decision problems.
 
-AVerImaTeC evaluates real-world image-text claims using open-web or organizer-provided knowledge; its shared task conditions verdict scoring on evidence quality [CITE: cao2026averimatecshared]. REVEAL uses iterative sparse and dense retrieval in that setting [CITE: tariq2026reveal], while MMCV adds multi-hop text, image, and table evidence [CITE: wang2025mmcv]. Their question-answer evidence units and access conditions differ from MOCHEG's stable item corpus, so they require a separate transfer protocol.
+AVerImaTeC assesses real-world image-text claims using open-web or organizer-provided knowledge, and its shared task conditions verdict scoring on evidence quality. In that context, REVEAL combines iterative sparse and dense retrieval. MOCHEG's stable item corpus differs from question-answer evidence and open-web access, so transfer requires a separately frozen unit definition and candidate-construction protocol.
 
 2.4 Scientific and Citation-Grounded Evidence
 
-Scientific verification offers stable evidence locations in passages, tables, and figures. SciVer contains expert-annotated claim-evidence instances from scientific papers; MuSciClaims focuses on figure-grounded claims and controlled reasoning perturbations; and M^2-TabFact covers tables presented across text and images [CITE: wang2025sciver,lal2025musciclaims,zhou2025m2tabfact]. These resources support precise localization analysis, although their evidence and claim distributions do not directly represent political or breaking-news verification.
+Stable evidence locations in passages, tables and figures are provided by scientific verification. SciVer consists of claim-evidence instances extracted from scientific papers and annotated by experts; MuSciClaims focuses on figure-grounded claims and controlled reasoning perturbations; and M^2-TabFact covers tables presented across text and images. These tools can be used to make more precise localization analysis, but they do not explicitly reflect political or breaking-news verification.
 
-An explanation may be fluent while citing the wrong source. Evidence-rationale benchmarks evaluate whether a prediction is tied to a selected span [CITE: deyoung2020eraser], and faithful-by-construction rationalizers restrict predictors to explicit evidence subsets [CITE: jain2020faithful]. Citation-grounded generation measures whether retrieved sources support generated statements [CITE: gao2023alce]; RAGTruth catalogues hallucinations that persist despite retrieval [CITE: niu2024ragtruth]; and citation masking tests whether a fact-checking explanation recovers the correct evidence [CITE: xing2025attribution]. The present study uses released evidence identifiers instead of generated rationales, enabling exact set precision, recall, F1, Jaccard similarity, and exact match.
+An explanation might be expressed effectively, but with the use of the incorrect source. Evidence-rationale benchmarks check whether a prediction is connected to a selected span, and faithful-by-construction rationalizers limit predictors to explicit evidence subsets. Citation-grounded generation assesses whether retrieved sources support generated statements; RAGTruth catalogs hallucinations that persist despite retrieval; and citation masking tests whether a fact-checking explanation recovers the correct evidence. The present study adopts released evidence identifiers rather than generated rationales and allows exact-set precision, recall, F1, Jaccard similarity and exact match.
 
 2.5 Calibration and Adaptive Set Decisions
 
-A score can rank candidates correctly while remaining a poor probability. Temperature scaling, Platt mapping, and nonparametric calibration address different distortion families [CITE: guo2017calibration]. Prior correction is particularly important after class weighting because the optimized training distribution differs from the operating distribution. Expected-utility decoding then relies on the calibrated membership distribution, whereas fixed top-k, thresholding, and learned-count policies use the same scores in structurally different ways.
+A score may rank a candidate correctly while remaining a poor probability. Post-hoc calibration includes temperature and Platt mappings, beta calibration, and nonparametric isotonic regression; each makes different assumptions about the distortion being corrected. After class weighting, prior correction is important because the optimized training distribution differs from the operating distribution. The calibrated membership distribution can then support expected-utility decoding, while structurally different policies such as top-k, thresholding, and learned count use the same scores.
 
-The encoder, retrieval model, evidence graph, and verifier remain fixed in this study. The experiment tests packet reachability, prior-aware probability correction, and exact expected-F1 set decoding under matched candidates, representations, tuning roles, and downstream verification. This design isolates when adaptive evidence sizing helps and when a calibrated threshold is sufficient (Table [REF: tab:related-comparison]).
+In this study, representation models and evidence identities remain fixed while a bounded, label-blind rank fusion changes only the retained ordering. The selector experiment then evaluates packet reachability, prior-aware probability correction, exact expected-F1 decoding, and one prespecified completeness-aware switch under matched candidates, tuning roles, and downstream verification. A separately frozen organizer-store run tests the same relationships on AVerImaTeC without transferring fitted MOCHEG parameters. This design isolates which conclusions are benchmark-specific and which survive a change in evidence units, candidate construction, and class balance (in the summary table).
 
 3. PROBLEM DEFINITION AND DATA
 
 3.1 Task
 
-For claim q, let G_q be its released complete-gold evidence set and let retrieval produce an ordered packet
+Let claim q have a released complete-gold evidence set G_q and let retrieval return an ordered packet
 
-Equation: C_q = (c_q1, ..., c_q60).
+which can hold a maximum of 40 text candidates and 20 image candidates. A selector returns S_q ⊆ C_q. The main claim-level score is
 
-containing at most 40 text and 20 image candidates. A selector returns S_q ⊆ C_q. The primary claim-level score is
+We macro-average set F1 over claims. Other evidence metrics are precision, recall, Jaccard similarity, exact-set match and selected count.
 
-Equation: F1(S_q, G_q) = 2 |S_q ∩ G_q| / (|S_q| + |G_q|).
-
-We macro-average Eq. [REF: eq:set-f1] over claims. Precision, recall, Jaccard similarity, exact-set match, and selected count are secondary evidence metrics.
-
-The primary population includes only claims for which the released annotation defines a nonempty complete-gold set. Claims without such a mapping remain in retrieval construction and receive no perfect oracle score. Assigning them an oracle F1 of one would inflate the apparent packet ceiling.
+The primary population includes only claims for which the released annotation defines a nonempty complete-gold set. Claims without such a mapping remain in retrieval construction and do not get a perfect oracle score. If they are given an oracle F1 of one, this will give the false impression of a high apparent packet ceiling.
 
 3.2 Dataset and Population Flow
 
-MOCHEG contains image-text claims, separate text and image evidence, and verdict labels [CITE: yao2023mocheg]. We pin the released train, validation, corpus, and sealed-test revisions by content hash. The official test annotations remain unopened.
+MOCHEG is a dataset that includes image-text claims, separate image and text evidence as well as verdict labels. By content hash we pin released versions of the train, validation, corpus and sealed-test. The test annotations are not opened in the official test.
 
-All 13,159 released train and validation claims are encoded for retrieval. Of these, 10,970 have a nonempty released complete-gold mapping and define the eligible evidence-set population. The reported selector comparison uses the 1,490 released validation claims as one locked evaluation set. The remaining released claims are assigned to fit, calibration, model-selection, and internal-holdout roles by claim-grouped hashing. Roles are regenerated independently for five deterministic partition seeds: 13, 37, 73, 101, and 137.
+The 13,159 released train and validation claims are encoded for retrieval. Of these, 10,970 have a nonempty released complete-gold mapping and are the eligible evidence-set population. The primary repaired-packet selector evaluation uses the 1,490 released validation claims. Claim-grouped hashing places the remaining released claims in fitting, calibration, model-selection, and internal-holdout roles. The roles are regenerated separately for deterministic partition seeds 13, 37, 73, 101, and 137.
 
-3.3 Reachability
+3.3 Independent AVerImaTeC Population
 
-Two oracle summaries define the retrieval boundary. The packet oracle returns C_q ∩ G_q for each eligible claim. Its F1 is averaged only over claims with nonempty gold. Complete-gold coverage is the fraction of eligible claims satisfying G_q ⊆ C_q. We also count eligible claims for which C_q ∩ G_q=empty set.
+AVerImaTeC changes the evidence unit and label space rather than supplying an unchanged MOCHEG replication. Each candidate is a claim-local organizer-store text chunk or image associated with a source. The official output permits at most ten evidence items and one of four labels: Supported, Refuted, Not Enough Evidence, or Conflicting Evidence/Cherrypicking. Exact normalized source identity is available for an auditable diagnostic; the task's primary semantic evidence score requires its separate multimodal judge.
 
-These quantities answer different questions. Oracle F1 measures the best evidence set attainable from the packet. Complete-gold coverage asks whether exact recovery is possible. The zero-reachable count identifies claims on which every selector must receive zero recall. None of these measures credits a selector for evidence that retrieval did not expose.
+The external protocol uses all 793 released training claims for fitting and selection roles and reserves all 152 development claims for one locked run. Training contains 756 Refuted, 18 Not Enough Evidence, 13 Supported, and 6 Conflicting claims; development contains 141, 6, 4, and 1, respectively. The organizer archives contain 1,586 training JSON files, 81,817 training images, 304 development JSON files, and 49,617 development images. No MOCHEG model, threshold, calibrator, completeness estimator, or verifier weight is transferred.
 
-3.4 Leakage Controls
+For an external claim, G_q denotes normalized annotated source identities and C_q the frozen organizer-store packet. Set F1 is reported as an exact-source diagnostic because an alternative valid webpage can be semantically correct without sharing the annotated URL. We therefore do not relabel exact-source F1 as the unavailable official semantic score.
 
-Candidate rankings are preserved before joining gold identifiers. Evidence labels are used only after candidate construction to fit the membership scorer, calibration map, and selector hyperparameters within their assigned roles. The locked validation set is excluded from every fitted component. The formal test label files are outside the execution path and their hashes are checked before and after each run.
+3.4 Reachability
+
+The retrieval boundary is specified by two oracle summaries. For every eligible claim, the packet oracle returns C_q∩ G_q. Its F1 is averaged only for claims with nonempty gold. Complete-gold coverage is the fraction of eligible claims for which G_q ⊆ C_q holds. We count eligible claims for which C_q∩ G_q=empty set.
+
+These quantities provide answers to different questions. Oracle F1 is the best evidence set that can be achieved from the packet. Complete-gold coverage asks whether exact recovery can be made. The zero-reachable count identifies claims on which every selector must receive zero recall. None of these measures gives credit to a selector for evidence not exposed in the process of retrieval.
+
+3.5 Leakage Controls
+
+Candidate ranks are written and hashed before gold identifiers are joined. Only after candidate construction are evidence labels used to fit the membership scorer, calibration map, and selector hyperparameters in their respective training roles. The locked validation set is not part of any fitted component. For AVerImaTeC, the freeze rejects any artifact containing a non-training row; validation preparation starts only after the train-only code and manifest are committed, and the locked runner accepts only validation rows while rechecking every frozen input hash. Formal-test annotations for both benchmarks are absent from the execution path; seal records and access flags are checked before and after outcome-bearing runs.
 
 4. METHOD
 
-4.1 Fixed Retrieval Packet
+4.1 Label-Blind Retrieval and Weighted Fusion
 
-Text retrieval combines BGE-M3 dense sentence similarity with BM25 using reciprocal-rank fusion (RRF) [CITE: cormack2009rrf]. A pinned BGE reranker scores the fused text candidates. Image retrieval combines SigLIP2 image-text similarity with dense similarity between the claim and normalized image filenames, again using RRF. The exact model repositories and immutable revisions are recorded in the frozen configuration; the operational model cards are BGE-M3, (URL: https://huggingface.co/BAAI/bge-m3) BGE-reranker-v2-m3, (URL: https://huggingface.co/BAAI/bge-reranker-v2-m3) and SigLIP2. (URL: https://huggingface.co/google/siglip2-base-patch16-224) The retained packet contains the highest-ranked 40 text and 20 image items. Every selector receives this identical packet.
+The text branch combines BGE-M3 dense sentence retrieval with BM25, then records a BGE reranker ordering. The image branch records SigLIP2 image-text similarity and dense similarity between the claim and normalized image file names. Model repositories and immutable revisions are fixed in the configuration; the operational model cards are BGE-M3, BGE-reranker-v2-m3, and SigLIP2.
 
-4.2 Membership Scorers
+For two label-blind ranks r_a(c) and r_b(c), the bounded repair assigns candidate c the score
 
-For each claim-candidate pair, the stored feature vector contains the final score and its square, dense and lexical or filename scores, RRF and cross-encoder scores, reciprocal ranks, modality indicators, token-count features, available-candidate count, and duplicate-group size. Features are standardized using fitting-role statistics. A logistic scorer then estimates
+The text score combines the existing dense-lexical fused rank with the cross-encoder rank; the image score combines SigLIP2 and filename ranks. Weights w in {0.25,0.50,0.75} are selected separately by training-role packet-oracle F1, subject to operating-depth recall guardrails. Both branches select w=0.50. Rankings and hashes are written before the gold join. The retained packet contains the top 40 text and 20 image items, and every selector receives exactly that packet.
 
-Equation: q_qi = sigma(w^T ((x_qi - mu) / s) + b).
+4.2 Organizer-Store Retrieval for External Evaluation
 
-where q_qi is a ranking score rather than an assumed operating probability. We compare three organizations: one shared text-image model, separate modality models, and a shared model using the complete feature vector including cross-encoder scores. Each organization is trained with balanced and unweighted binary cross-entropy plus L_2 regularization. Balanced loss is useful for ranking rare evidence, but its output reflects an altered effective class prior and cannot be treated as calibrated.
+The external path uses the AVerImaTeC static store rather than adapting the MOCHEG packet. Text records are normalized and reduced to a deterministic claim-conditioned chunk of at most 1,500 characters. BM25 and BGE-M3 ranks are combined by equal-weight reciprocal-rank fusion with constant 60, and the first 100 fused candidates are reranked by the pinned BGE cross-encoder. Actual candidate images are loaded from the claim-matched store and ranked by SigLIP2; a BGE representation of normalized filenames supplies a second image rank, also fused with equal-weight RRF. Reverse-image-search webpage text remains text evidence rather than being mislabeled as an image.
 
-Let z_qi=logit(q_qi). A calibration map g_m converts it to the membership probability used by the decision policy,
+Each candidate identifier is a hash of claim identity, normalized source, modality, content hash, and local ordinal. The label-blind preparation retains up to 100 text and 20 image candidates, writes and hashes that ranking, and only then joins exact-source targets. Training roles choose text width from {50,100} and image width from {10,20}; all five seeds select 50 text and 10 image items. The organizer store was partly constructed with gold-question-derived queries, so the resulting reachability is a benchmark condition rather than unrestricted web-search performance.
 
-Equation: p_qi = g_m(z_qi) ≈ P(c_qi in G_q | x_qi).
+4.3 Membership Scorers
 
-with a separate fitted map for each modality. Six maps are compared:
+The final score and its square, dense and lexical or filename scores, RRF and cross-encoder scores, reciprocal ranks, modality indicators, token count, available-candidate count, and duplicate-group size are stored for each claim-candidate pair. Fitting-role statistics are used for the standardisation of features. A logistic scorer then estimates
 
-1. identity, which leaves the raw sigmoid probability unchanged;
-2. temperature scaling, sigma(z/T);
-3. prior shift, which fits an intercept correction;
-4. Platt mapping, sigma(az+b);
-5. beta calibration, which is linear in log p and log(1-p); and
-6. isotonic regression, a monotone nonparametric map.
+where q_qi is not an assumed operating probability, but rather a ranking score. Three different setups are compared: a shared text-image model, separate modality models and a shared model with the full feature vector with cross-encoder scores. Each organisation is trained with balanced and unweighted binary cross-entropy variants plus L2 regularisation. Balanced loss is convenient for rare evidence ranking but is not calibrated since it is based on a modified effective class prior.
 
-Calibration parameters are fitted on the calibration role. The scorer and map are chosen by average precision and Brier score on the separate model-selection role. We report Brier score, negative log likelihood (NLL), expected calibration error (ECE), mean predicted probability, empirical prevalence, and Brier skill relative to the prevalence-only predictor.
+Let z_qi=logit(q_qi). A map g_m is used to convert it to the membership probability used by the decision policy,
 
-This separation prevents a calibrator from being selected on the locked-validation outcome. Average precision screens the scorer's ordering, while Brier score selects the probability map used by threshold and expected-utility decisions. The distinction is important: any monotone map preserves ranking but may substantially change the selected set.
+A separate map is fitted for each modality. There are six maps which are compared:
 
-4.3 Evidence-Set Policies
+1. identity, with no effect on the raw sigmoid probability; 2. temperature scaling, sigma(z/T); 3. prior shift, which fits an intercept correction; 4. Platt mapping, sigma(az+b); 5. beta calibration, linear in p and (1-p); and 6. isotonic regression, a monotone nonparametric map.
 
-Figure [REF: fig:policy-decoding] isolates the only changing operation: how one shared calibrated ranking is converted into an evidence set.
+Calibration parameters are fitted on the calibration role. The scorer and map are selected based on average precision and Brier score in the different model-selection task. We report the Brier score, the negative log likelihood (NLL), the expected calibration error (ECE), the mean predicted probability, the empirical prevalence and the Brier skill relative to the predictor which forecasts the prevalence only.
 
-Figure caption: Decision policies applied to the same calibrated ranking. Fixed top-5 uses one global size; thresholding uses an absolute cutoff; learned count predicts the size; expected-F1 evaluates every prefix and returns the shortest utility-maximizing one. The displayed values illustrate the procedure; they are not measurements.
+The separation ensures that a calibrator cannot be picked on the locked-validation result. Average precision screens the ordering of the scorer, while Brier score selects the probability map for threshold and expected-utility decisions. The difference lies in the fact that any monotone map will maintain the rank, but can significantly change the set that is chosen.
+
+4.4 Evidence-Set Policies
+
+Figure 2 shows the only operation that changes: how one shared calibrated ranking is translated to an evidence set.
 
 Fixed top-k.
 
-We tune k in [1, 2, 3, 5, 10, 20, 40, 60] and select the top k candidates. The resulting control is top-5.
+We tune k in {1,2,3,5,10,20,40,60} and select the top k candidates. The control that is created is top-5.
 
 Calibrated threshold.
 
-For threshold tau, the selector returns every item with p_qi>=tau, subject to the common packet limit. The threshold is selected from [0.1, ..., 0.9].
+If the threshold tau is specified, the selector returns all items for which p_qi >= tau, within the usual packet limit. The threshold is selected from {0.1, ..., 0.9}.
 
 Learned count.
 
-A count model predicts the number of evidence items, after which the corresponding probability-ranked prefix is returned.
+The number of evidence items is predicted by a count model and the corresponding probability-ranked prefix is returned.
 
 Expected-F1 decoding.
 
-Candidates are sorted by calibrated probability. For each prefix length k, a dynamic program computes the exact expected F1 under independent Bernoulli membership variables. The selected size is
-
-Equation: k_q* = arg max over 0 <= k <= 60 of E[F1(S_q,k, Y_q) | p_q1:60].
+The candidates are ranked based on calibrated probability. A dynamic program exactly computes the expected F1 for each prefix length k, for independent Bernoulli membership variables. The selected size is
 
 For prefix S_q,k, the utility can be written
 
-Equation: U_q(k) = E[2 T_q,k / (k + T_q,k + R_q,k) | p_q1:60].
+with T_q,k being the number of relevant items within the prefix and R_q,k the number of relevant items outside the prefix. Two Poisson-binomial recurrences are used to compute their distributions as well as the expectation exactly. The shorter prefix is kept for ties. This rule is based on the actual membership distribution, not a single cutoff or a separately predicted number.
 
-where T_q,k is the number of relevant items inside the prefix and R_q,k is the number outside it. Two Poisson-binomial recurrences compute their distributions and the expectation exactly. Ties retain the shorter prefix. This rule uses the full membership distribution rather than a single cutoff or a separately predicted count.
+We also carry out testing of two extensions. The first subtracts lambda k from expected utility. The second also subtracts gamma R(S_q,k), where R measures same-source redundancy. The size penalties range from 0 to 0.10 and the redundancy penalties range from 0 to 0.005. Extra structure in the decoder is kept as ablations, as the fitted optima indicate whether it provides additional benefit over calibration.
 
-We also test two extensions. The first subtracts lambda k from expected utility. The second additionally subtracts gamma R(S_q,k), where R counts same-source redundancy. Size penalties span 0 to 0.10 and redundancy penalties span 0 to 0.005. These terms are retained as ablations because the fitted optima reveal whether extra decoder structure contributes beyond calibration.
+4.5 Packet-Completeness-Aware Switching
 
-4.4 Decision Scope and Assumptions
+The diagnostic results suggest that compact expected-F1 selection is most useful when the retrieved packet already contains the complete released-gold set. We therefore fit a low-capacity logistic model to the training-role target I(G_q ⊆ C_q). Its ten frozen features summarize expected relevant mass, top and top-five probabilities, probability entropy and rank gaps, threshold and expected-F1 set sizes, modality-specific probability mass, and dense-lexical rank agreement. Standardization and L2 logistic fitting use only fitting claims; the decision cutoff is selected from {0.05,0.10,0.20,0.30,0.50} on model-selection claims.
 
-The comparison changes only the set decision. Candidate identities, ranks, feature values, scorer outputs, and validation claims are shared across policies. Expected-F1 assumes conditionally independent Bernoulli memberships and is restricted to prefixes of the frozen ranking; it neither reorders candidates nor retrieves a missing item. The released complete-gold mapping is treated as the evaluation target, although Sec. [REF: sec:limitations] discusses possible annotation incompleteness. These boundaries distinguish a decoder error from a retrieval error and prevent an adaptive policy from receiving a more favorable candidate universe.
+Let h_q be the estimated probability that the packet is complete. The switch returns
 
-4.5 Shared Verifier
+where all five partitions select eta=0.50. The switch neither changes the candidate packet nor observes validation reachability. Its purpose is to test one prespecified, interpretable response to retrieval incompleteness rather than introduce a large additional architecture.
 
-Evidence policies can improve set overlap while harming the downstream verdict. To isolate that possibility, one verifier architecture and training procedure is shared across policies. Only the selected evidence changes. We compare verdict macro-F1 on the same 1,490 claims and use a declared non-inferiority margin of -0.01 for expected-F1 relative to fixed top-5.
+4.6 External Refitting and Decision Caps
+
+Every fitted component is re-estimated from AVerImaTeC training roles. For each seed, 55% of claims fit a balanced L2 logistic membership scorer, 15% fit candidate calibrators, 15% choose the calibrator, packet width, fixed budget, threshold, and switch cutoff, and 15% form an internal holdout. At most 40 deterministic negatives per claim enter scorer fitting. Identity, temperature, prior-shift, Platt, beta, and isotonic maps compete by model-selection Brier score; no development row is loaded by the freeze.
+
+The official ten-item cap changes the external policy grids. Fixed selection uses k in 1,3,5,10,  thresholding uses tau in 0.1,,0.9,  and expected-F1 searches prefixes from zero through ten. The completeness model is fit on calibration-role claims, its cutoff is selected on the model-selection role, and it routes to expected-F1 when predicted complete and to thresholding otherwise. This reuses algorithm families, not MOCHEG weights or decisions.
+
+4.7 Decision Scope and Assumptions
+
+The comparison alters just the set decision. The identity of the candidates, their rank, feature values, scorer outputs, and validation claims are shared across policies. Expected-F1 assumes that the memberships are conditionally independent Bernoullis, and that it only operates on prefixes of the frozen ranking, i.e., it does not reorder candidates or retrieve a missing item. The complete-gold mapping released is considered the evaluation target, where Section 9 comments on possible incompleteness of the mapping. These boundaries help to differentiate between a decoder error and retrieval error and help to prevent an adaptive policy from being given a more favorable candidate universe.
+
+4.8 Shared Verifier
+
+Evidence policies can improve set overlap while damaging the downstream verdict. We therefore hold verifier architecture, training data, features, and optimization constant while changing only the selected evidence. The primary verifier is a two-layer multilayer perceptron with one 64-unit ReLU hidden layer, inverse-frequency class weighting, 300 full-batch Adam epochs, learning rate 0.01, and L2 coefficient 0.001. It is trained on unique fixed, threshold, and expected-F1 evidence sets from fitting claims. A logistic linear verifier is retained as a capacity control. Both models compare calibrated thresholding with the frozen completeness-aware switch on the same 1,490 validation claims and five deterministic seeds. The declared non-inferiority margin is -0.01 macro-F1.
+
+For AVerImaTeC, the same safeguard is refit for four classes. The primary model has one 64-unit ReLU layer and is optimized for 400 deterministic full-batch steps with learning rate 0.01, inverse-frequency weights, and L2=0.001; a balanced multinomial linear model is the capacity control. Selected evidence is represented by the mean, maximum, and standard deviation of candidate features plus set size, modality fractions, and distinct-domain count. The frozen model is shared across policies. When the prespecified blind rule selected the fixed family, its verdicts were obtained by deterministic inference from this already frozen verifier; no refitting or development selection was introduced.
 
 5. EXPERIMENTAL DESIGN
 
-5.1 Frozen Protocol
+5.1 Frozen Protocols and Claim Boundary
 
-The configuration was frozen on 4 November 2026 before the outcome-bearing run. It records data and model revisions, five claim-grouped partition seeds, retrieval depths, scorer families, all calibration candidates, selector grids, evaluation metrics, bootstrap settings, and stopping rules. Prior-aware maps were included because class weighting changes the effective training prior, which a temperature-only map cannot generally repair. No locked-validation outcome was used to choose among the calibration maps.
+The diagnostic configuration was fixed on 4 November 2026 before its outcome-bearing run. It records data and model revisions, five claim-group partition seeds, retrieval depths, scorer families, calibration candidates, selector grids, evaluation metrics, bootstrap settings, and stopping rules. The bounded retrieval repair, completeness-aware switch, and stronger verifier were frozen on 9 November 2026 before their respective outcomes were inspected. The numeric threshold grid and verifier architecture were recorded before the affected models were fitted. All amendments and failed runs remain in an append-only experiment ledger.
 
-The configuration permits 36 scorer-calibrator combinations: three scorer families, two loss weightings, and six calibration maps. Screening results are excluded from scientific evidence. Final model choice uses only the assigned training roles, after which every selected configuration is evaluated once on locked validation.
+The external implementation was committed before development preparation, and the five-seed train-only manifest was committed on 11 November 2026. That manifest records code, configuration, archive, pre-join ranking, candidate, gold-map, and audit hashes and rejects a mixed train-development input. The 152-claim development matrix was then executed once on 12 November 2026.
 
-5.2 Baselines and Outcomes
+The released MOCHEG validation split had been used earlier in the project and is therefore controlled development evidence, not fresh confirmation. The formal-test annotations are absent from the execution path and remain sealed. No validation outcome automatically authorizes a formal-test run.
 
-The selector controls are fixed top-5, calibrated thresholding, and learned count prediction. Expected-F1, size-penalized expected-F1, and size-plus-redundancy expected-F1 are the adaptive set-utility variants. The primary outcome is claim-macro complete-gold evidence F1. We also report precision, recall, Jaccard similarity, exact-set match, selected count, calibration metrics, and verdict macro-F1.
+5.2 Independent External Protocol
 
-For each method comparison, claim-level differences are first averaged over the five deterministic partitions for a given validation claim. A claim-aligned bootstrap then resamples the 1,490 claims. Reported selector intervals use 10,000 samples. Familywise comparisons against fixed top-5 use Holm correction. Robustness intervals use 5,000 samples and are descriptive.
+AVerImaTeC training claims are deterministically partitioned for seeds 13, 37, 73, 101, and 137 into 55% fit, 15% calibration, 15% model selection, and 15% internal holdout roles. The locked development run compares train-selected fixed top-k, calibrated thresholding, calibrated expected-F1, uncalibrated expected-F1, and the completeness-aware switch on the same candidates and membership scores. No development result changes retrieval, fitting, calibration, packet width, or policy parameters.
 
-After the primary comparison, we stratify validation claims by packet reachability: no released gold item reachable, some but not all reachable, or complete gold reachable. This diagnostic is explicitly post hoc and descriptive. It localizes the source of aggregate gains without changing the fitted models or the declared decision rule.
+Four claim-aligned comparisons form one multiplicity family: threshold minus fixed, expected-F1 minus threshold, calibrated minus uncalibrated expected-F1, and switch minus threshold. Each uses 10,000 bootstrap draws, Bonferroni simultaneous intervals, and Holm-adjusted two-sided values. Threshold superiority requires an effect of at least +0.010 and a positive adjusted lower bound. Expected-F1 must clear a -0.010 non-inferiority margin and return at least 15% fewer items. Switch superiority additionally requires every seed effect to be positive and no increase in mean set size. Verifier preservation uses the same -0.010 margin.
 
-The declared superiority condition requires a mean evidence-F1 gain of at least 0.015 over the best fixed rule, a positive effect in every partition, a corrected interval lower bound above zero, calibrated Brier performance better than the prevalence predictor, a reasonable selected-to-gold size ratio, verdict non-inferiority, and exact clean reproduction. All conditions must hold before the selector can be considered superior at the system level.
+The organizer's semantic evaluator uses Gemma-3-27B in bfloat16. Its 54.86 GB of weight files do not fit the single 24.56 GiB RTX 4090 under the prescribed condition, and the organizer launcher specifies two GPUs. We therefore report exact normalized-source diagnostics and class-wise verifier results, not a replacement score labeled as official. The blind test remains outside the authorized execution boundary.
 
-5.3 Robustness Matrix
+5.3 Baselines, Outcomes, and Selection Budgets
 
-We rerun selection under narrower packets of 10 and 20 items, the full retained width, text-only and image-only packets, deterministic removal of 25% and 50% of reachable gold, promotion of five distractors, duplication of the top three items, and probability-temperature perturbations of 0.5 and 2.0. Perturbations leave the fitted selector unchanged. They measure dependence on reachability, modality, ranking contamination, duplication, and probability scale.
+The matched policies are fixed top-5, calibrated thresholding, learned count, calibrated expected-F1, uncalibrated expected-F1, and the packet-completeness-aware switch. The primary outcome is claim-macro complete-gold evidence F1. Precision, recall, Jaccard similarity, exact-set match, selected count, calibration metrics, reachability, and verdict macro-F1 are secondary outcomes.
 
-5.4 Audit and Reproduction
+Scorer and calibration selection uses training roles only. The repair examines three declared weights per retrieval branch. Thresholding searches 0.1,,0.9,  and the completeness cutoff searches five declared values. No additional retrieval branch is opened because the weighted-fusion advancement gate passes. These budgets prevent outcome-driven expansion of the search after locked validation is observed.
 
-Every run saves candidate-level scores, calibrated probabilities, selected identifiers, claim-level metrics, selected hyperparameters, environment metadata, and formal-test access flags. An independent audit recomputes population sizes, calibration summaries, set metrics, paired effects, and guard conditions from saved records. A clean rerun writes to a new directory and compares core artifacts by SHA-256 rather than relying only on aggregate agreement.
+For each comparison, claim-level differences are first averaged within claim over the five deterministic partitions. A claim-aligned bootstrap then resamples the 1,490 claims 10,000 times. The selector-superiority gate requires all of the following against calibrated thresholding: at least +0.010 evidence F1, a positive paired 95% interval after multiplicity control, positive effects in all five partitions, and no increase in mean selected-set size. The verifier uses a -0.010 non-inferiority margin. We report both the aggregate seed-aligned interval and the stricter requirement that every seed-specific lower bound clear the margin.
 
-The reporting and selector analyses use Python 3.13.14 and NumPy 2.5.4 on Windows 11. The lightweight scorers and verifier are implemented with deterministic numerical routines; the five partition seeds govern claim-role assignment rather than stochastic neural training. Pretrained retrieval revisions, packet depths, and all decoding grids are pinned in the recorded configuration.
+5.4 Robustness and Diagnostic Analyses
+
+The original diagnostic packet is also evaluated under widths 10 and 20, text-only and image-only evidence, deterministic removal of 25% and 50% of reachable gold, promotion of five distractors, duplication of the top three items, and probability temperatures of 0.5 and 2.0. Fitted selectors do not change under these perturbations. The conditions test dependence on reachability, modality, ranking contamination, duplication, and probability scale; they are sensitivity analyses rather than estimates of production shift.
+
+Following the primary comparison, validation claims are divided into no, partial, or complete released-gold reachability. This stratification is post hoc and descriptive. It motivates the prespecified completeness-aware switch but does not turn the earlier subgroup result into a confirmatory claim.
+
+5.5 Implementation, Hardware, and Audit
+
+Every run stores candidate-level scores, calibrated probabilities, selected identifiers, claim-level metrics, fitted parameters, environment metadata, and formal-test access flags. Independent audits recompute population counts, set metrics, paired effects, and gate conditions from saved records. Label-blind rankings are hashed before gold is joined. Partial outputs from four failed runs are preserved with the repair reason rather than overwritten.
+
+The weighted retrieval run takes 9.5 seconds, candidate construction 8.4 seconds, base selector evaluation 158.8 seconds, completeness switching 334.8 seconds, and the stronger verifier 246.9 seconds on this machine. These are wall-clock records for reproducibility, not cross-system efficiency results. The faithful organizer-store preparation takes 50.5 minutes for 793 training claims and 21.2 minutes for 152 development claims; the locked five-seed comparison takes 19 seconds after preparation. These times include text encoding, cross-encoder reranking, and actual-image SigLIP2 scoring. One 144-million-pixel development image triggers a PIL safety warning but is processed without exclusion, OOM, or fallback.
 
 6. RESULTS
 
-Figure caption: Study at a glance. (A) Reachability over all 10,970 eligible claims; partial means that at least one, but not all, released-gold items are present. (B) Locked-validation evidence F1 for the main policies, with the packet oracle shown as a dashed boundary. (C) The precision and review-set-size tradeoff.
+6.1 A Modest Retrieval Repair Raises the Ceiling
 
-6.1 Retrieval Defines a Low Ceiling
+Before repair, the retained packet reaches text Recall@40 of 0.3193, image Recall@20 of 0.2663, packet-oracle evidence F1 of 0.3560, and complete-gold coverage of 4.39% over 10,970 eligible claims. A total of 3,086 claims have no reachable released-gold item. Training-role selection chooses equal weight for the existing fused and cross-encoder text ranks and equal weight for the two image ranks.
 
-At the selector's actual operating depths, complete-gold recall is 0.3193 for text at 40 candidates and 0.2663 for images at 20 candidates (Table [REF: tab:operating-retrieval]). The combined packet has an oracle evidence F1 of 0.3560. Only 4.39% of the 10,970 eligible claims have every released gold item in the packet, and 3,086 have no reachable gold item. Exact recovery is therefore impossible for most claims before set decoding begins.
+On all eligible claims, the selected fusion raises text Recall@40 to 0.3292, packet-oracle F1 to 0.3637, and complete-gold coverage to 4.74%. The number of zero-reachable claims falls by 59 to 3,027. Image Recall@20 remains 0.2663. Thus the declared advancement gate passes, but the aspirational engineering targets of a +0.05 oracle-F1 gain and 8% complete-gold coverage do not.
 
-The wider retrieval audit also clarifies which components help. Dense-BM25 RRF reaches text Recall@50 of 0.3224. Cross-encoder reranking raises it to 0.3338 but lowers early Recall@5 from 0.1772 to 0.1335. For images, SigLIP2-filename RRF reaches Recall@50 of 0.3149, compared with 0.2183 for SigLIP2 alone and 0.2227 for filename retrieval alone. Image fusion improves retrieval, while the text reranker trades early ordering for deeper recall.
+The locked-validation comparison in the table shows the same direction. Oracle F1 improves by 0.00612 and complete-gold coverage by 0.604 percentage points; image recall is exactly unchanged. This is a useful packet repair, not a new retrieval state of the art.
 
-Table [REF: tab:retrieval-matrix] shows that the text and image branches fail differently. Text RRF improves both MAP and nDCG over either first-stage component, but the cross-encoder gains deeper Recall@50 at the cost of early precision-sensitive ordering. Image fusion improves every reported cutoff and both ranking metrics, yet its Recall@50 remains below the text branch. Consequently, a larger packet alone would recover some missing evidence, but it would also expose the selector to a harder distractor distribution.
+The deeper retrieval audit explains the bounded search. Dense-BM25 rank fusion has text Recall@50 of 0.3224. Cross-encoder reranking increases it to 0.3338 while reducing early Recall@5 from 0.1772 to 0.1335. For images, the SigLIP2-filename fusion reaches Recall@50 of 0.3149, compared with 0.2183 for SigLIP2 and 0.2227 for filename retrieval. The repair therefore fuses the text ranks instead of replacing the stronger early ordering; it does not add an outcome-driven image branch after the advancement gate passes.
 
-The post hoc validation stratification in Table [REF: tab:reachability-strata] exposes where adaptive selection helps. On the 79 claims whose complete released-gold set is present, expected-F1 reaches 0.5240 F1, compared with 0.3593 for fixed top-5 and 0.4237 for thresholding. On the 1,200 partially reachable claims, expected-F1 reaches 0.1839 and does not improve on fixed top-5 at 0.1841; thresholding is strongest at 0.1965. All methods score zero on the 211 claims with no reachable gold. The aggregate expected-F1 gain is therefore concentrated in the small complete-reachability stratum, while thresholding handles incomplete packets better.
+The earlier reachability stratification remains diagnostically useful. In the 79 validation claims where the original packet contains the complete released-gold set, expected-F1 reaches 0.5240 F1, compared with 0.3593 for fixed top-5 and 0.4237 for thresholding. Across 1,200 partially reachable claims, expected-F1 reaches 0.1839 and does not improve on fixed top-5 at 0.1841; thresholding is best at 0.1965. All policies score zero on the 211 zero-reachable claims. This post hoc result motivates a completeness-aware decision, but it is not itself a prespecified subgroup claim.
 
-6.2 Prior-Aware Maps Repair Calibration
+6.2 Prior-Aware Maps Repair the Main Calibration Error
 
-Table [REF: tab:calibration] compares maps on locked validation, averaged across modalities and deterministic partitions. Identity and temperature scaling produce Brier scores of 0.0847 and 0.0832. Their small difference is consistent with a prior error that a slope-only temperature cannot fix. Isotonic, Platt, and prior-shift calibration reduce Brier score to approximately 0.033 while also improving NLL and ECE. Relative to identity, isotonic calibration reduces Brier error by about 61% and ECE from 0.1314 to 0.0063. The selected scorer-map pair beats the prevalence-only Brier reference in all five partitions, with partition-level Brier skill of roughly 14%.
+The table compares probability maps on locked validation, averaged across modalities and deterministic partitions. Identity and temperature scaling have Brier scores of 0.0847 and 0.0832. Prior shift, Platt, beta, and isotonic mappings reduce the error sharply; isotonic reaches about 0.0330 and lowers ECE from 0.1314 to 0.0063 relative to identity. Each selected partition has positive Brier skill against a prevalence-only predictor. A slope-only temperature does not repair the dominant intercept error created by the changed training prior.
 
-Figure caption: Reliability on locked validation. Temperature scaling remains overconfident because it cannot repair the class-prior shift. Prior-shift, Platt, and isotonic maps track the observed membership rate much more closely.
+Calibration also changes scorer selection. Partitions 13 and 37 choose modality-specific balanced models, partition 73 chooses the unweighted cross-encoder scorer, and partitions 101 and 137 choose unweighted modality-specific models. Text calibration varies across isotonic, Platt, and beta maps, while every image branch selects isotonic regression. Scorer family, loss weighting, and calibration therefore form one selection problem; ranking performance alone does not determine the deployed evidence set.
 
-Scorer choice also changes after absolute calibration is enforced. Modality-specific balanced models are selected for partitions 13 and 37; an unweighted cross-encoder model is selected for 73; and unweighted modality-specific models are selected for 101 and 137. Text maps vary among isotonic, Platt, and beta, whereas image scoring selects isotonic in all five partitions. This variation supports treating scorer family, loss weighting, and calibration as one selection problem.
+6.3 Thresholding Is Confirmed; Completeness Switching Is Inconclusive
 
-6.3 Adaptive Selection Helps, but Thresholding Wins
+The table reports the matched comparison on the repaired packet. Fixed top-5 reaches 0.1712 evidence F1. Calibrated thresholding reaches 0.1864 with 5.26 items; its gain over fixed top-5 is +0.01517 with a claim-aligned 95% interval of [0.01114,0.01923]. Expected-F1 reaches 0.1815 with 3.61 items. It improves over fixed top-5 by +0.01034 [0.00501,0.01574], but remains 0.00484 below thresholding [-0.00938,-0.00020] for the expected-F1-minus-threshold comparison.
 
-Table [REF: tab:selector-means] gives the main locked-validation results. Fixed top-5 reaches 0.1673 evidence F1. Expected-F1 reaches 0.1759 while selecting only 3.50 items per claim. Its precision rises from 0.2511 to 0.3725, while recall falls from 0.1753 to 0.1483. Expected-F1 trades recall for higher precision and a smaller review set.
+The uncalibrated ablation exposes why probability quality matters. It returns 24.90 items per claim and falls to 0.1288 F1, despite operating on the same candidate order. Learned count is similarly diffuse, selecting 31.49 items and reaching 0.1122 F1. The gain from expected-F1 is therefore not simply an effect of using a variable set size; it depends on probabilities that reflect the rare operating membership rate.
 
-Calibrated thresholding reaches the highest F1, 0.1807, and selects 5.51 items. Learned count prediction selects 31.90 items and drops to 0.1100 F1. Predicting size without a well-matched set objective is not competitive here.
+The completeness-aware switch uses expected-F1 for 37.8-46.4% of validation claims across partitions and thresholding otherwise. Every partition selects the prespecified cutoff 0.50. Its mean point estimate, 0.1877 F1 with 4.70 items, is the highest tested value. However, its gain over thresholding is only +0.00138, with a 95% interval of [-0.00191,0.00462]; one of five partition effects is negative. It fails the +0.010 practical-effect requirement, the all-positive requirement, and the positive-lower-bound requirement. The switch reduces review-set size without a confirmed loss, but it does not establish selector superiority.
 
-The expected-F1 effect is consistent across the partition-level results in Table [REF: tab:partition-selector-results]. Its gain over fixed top-5 ranges from +0.0076 to +0.0101, selected size ranges from 3.43 to 3.59, and the precision-recall profile is stable. Averaged over partitions, the method returns about 30% fewer items than fixed top-5 and improves F1 by about 5.1% relative. Thresholding still wins every partition, so stability does not overturn the baseline ordering.
+The earlier size and same-source redundancy penalties remain exact matches to plain expected-F1 because all five training-role partitions select zero for both penalties. Adding these decoder terms increases complexity without changing any selected set on the diagnostic packet.
 
-The claim-aligned effects in Table [REF: tab:selector-effects-detail] and Fig. [REF: fig:selector-effects] confirm these differences. Expected-F1 improves on fixed top-5 by 0.00851 with a 95% interval of [0.00302,0.01400] and Holm-adjusted p=0.0078. Thresholding improves by 0.01334 [0.00931,0.01744]. Its direct advantage over expected-F1 is 0.00483 [0.00003,0.00957].
+6.4 Aggregate Verifier Non-Inferiority Is Not Seed-Stable
 
-Figure caption: Claim-aligned evidence-F1 effects relative to fixed top-5. Points are mean differences and bars are 95% intervals.
+The stronger shared verifier changes the downstream conclusion from a simple failure to a qualified safeguard. With calibrated-threshold evidence, the MLP reaches mean macro-F1 0.3911; with switch-selected evidence it reaches 0.3954. The seed-aligned paired effect is +0.00434 with a 95% interval of [-0.00277,0.01130]. Its lower bound exceeds the frozen -0.010 margin, so aggregate non-inferiority passes, but the interval crosses zero and does not show superiority.
 
-Both penalty extensions exactly match plain expected-F1. The selected size penalty is zero and the selected redundancy penalty is zero in every partition. Their identical claim-level outputs show that the extra terms add complexity without changing the result on this packet. The measurable improvement comes from calibrated probabilities.
+Only seeds 37 and 73 individually clear the non-inferiority margin. Seeds 13, 101, and 137 have lower bounds of -0.01367, -0.02174, and -0.01406, respectively. The linear control also reverses the direction: macro-F1 falls from 0.3787 under thresholding to 0.3746 under the switch. Verdict preservation is therefore supported only after seed aggregation under the stronger model, not as an architecture- and seed-stable benefit.
 
-The evidence superiority condition is not met. Although expected-F1 has a positive effect in every partition and its corrected interval excludes zero, its mean gain of 0.00851 is below the declared 0.015 target. The experiment therefore establishes a small positive development effect without meeting the superiority threshold.
+6.5 Probability Perturbations Reverse the Adaptive Gain
 
-Figure caption: Expected-F1 minus fixed top-5 under controlled perturbations. Probability-temperature changes reverse the baseline gain without changing the candidate ranking.
+On the original diagnostic packet, expected-F1 remains positive relative to fixed top-5 under widths 20 and 40, text-only evidence, and deterministic gold removal, but falls slightly behind on image-only packets. Promoting five distractors creates a large relative gain only because fixed top-5 is forced to select those distractors; it is not representative of normal operation.
 
-6.4 The Verifier Safeguard Remains Unresolved
+Probability scale is the fragile dimension. Sharpening with temperature 0.5 makes the expected-F1-minus-fixed effect -0.0193; flattening with temperature 2.0 makes it -0.0221. Both intervals exclude zero even though candidate rankings are unchanged. This rules out a broad robustness claim and reinforces the need to report calibration jointly with adaptive set decisions.
 
-Under the shared verifier, expected-F1 minus fixed top-5 has a mean verdict macro-F1 difference of +0.00099, with a 95% interval of [-0.01053,0.01279]. The lower endpoint falls just below the declared -0.01 non-inferiority margin. The point estimate is close to zero, but the interval does not establish preservation of verdict quality. Threshold-selected evidence has the highest verifier macro-F1 in every deterministic partition (Table [REF: tab:verifier-effects]).
+Together, the results separate four conclusions that a single end-to-end score would obscure. Retrieval repair raises but does not remove the ceiling; prior-aware calibration is necessary; expected-F1 offers a compact precision-oriented set; and the completeness-aware switch is promising but inconclusive against calibrated thresholding. The formal test remains sealed, so all four conclusions are limited to controlled MOCHEG development evidence.
 
-Figure caption: Shared-verifier effect of expected-F1 evidence relative to fixed top-5. The dashed line marks the -0.01 non-inferiority margin.
+7. INDEPENDENT EXTERNAL EVALUATION
 
-6.5 Robustness Exposes Calibration Sensitivity
+The AVerImaTeC run tests relationships rather than equality of raw scores: its candidate store, evidence unit, output cap, and four-class verdict task differ from MOCHEG. All results in this section are from the single locked development run after the five train-only seeds were committed. The official semantic judge was not executed; evidence values use exact normalized source identity and are labeled diagnostic throughout.
 
-Expected-F1 retains a positive effect under width 20 and 40, text-only evidence, and deterministic gold removal. It loses slightly to fixed top-5 on image-only packets. Promoting five distractors produces a large apparent gain because fixed top-5 collapses when all five leading positions are contaminated; this stress test should not be read as a typical operating estimate.
+7.1 The Organizer Store Does Not Remove the Retrieval Ceiling
 
-Probability perturbations change the result most clearly. Sharpening probabilities with temperature 0.5 changes the effect to -0.0193, and flattening them with temperature 2.0 changes it to -0.0221. Both intervals exclude zero. Expected-F1 is therefore sensitive to probability scale even though candidate order is unchanged.
+The training preparation ranks 529,580 text candidates and 81,817 images for 793 claims; development ranks 101,289 text candidates and 49,617 images for 152 claims. Every claim has store candidates, yet exact annotated targets are usually absent from the retained packet. The table shows the distinction between candidate availability and target reachability.
 
-Retrieval sharply limits attainable performance, and prior-aware maps correct the dominant calibration error. Calibrated expected-F1 provides a small precision-oriented gain over fixed top-5, driven primarily by claims with complete reachable gold. Calibrated thresholding is stronger overall. The adaptive advantage depends on probability quality and does not yet satisfy the verifier safeguard.
+Development Recall@10, @20, and @50 is 0.0526, 0.0696, and 0.1143. The 100-text/20-image retained pool reaches 25.48% of annotated targets, fully reaches only 12.50% of claims, and has no exact reachable target for 91 of 152 claims. These values limit every downstream policy and explain why absolute exact-source F1 remains low.
 
-7. DISCUSSION
+7.2 Only the Calibration Relationship Reproduces
 
-7.1 Calibration Changes the Scientific Conclusion
+The table averages each claim across the five frozen seeds before averaging across claims. Calibrated expected-F1 has the highest point estimate, 0.1029, but returns 3.20 items. Thresholding returns only 1.17 items and is effectively tied with the train-selected fixed family. The uncalibrated ablation selects 9.93 of the ten allowed items and falls to 0.0497 F1, reproducing the dependence of expected-utility decoding on probability quality.
 
-Expected-F1 decoding requires probabilities with an operational meaning: an input of 0.30 should correspond to approximately a 30% chance of membership. Balanced logistic training improves attention to rare positives, but its intercept reflects the reweighted training distribution. Temperature scaling changes the slope of the logits and leaves this intercept problem largely intact. Prior-shift, Platt, and isotonic maps restore the low deployment prevalence and substantially change the selected set size.
+The four comparisons in the table use 10,000 aligned bootstrap draws. Their bounds are Bonferroni simultaneous 98.75% intervals; the p-values are Holm adjusted. Threshold superiority fails. Expected-F1 is non-inferior in exact-source F1 because its adjusted lower bound is above -0.010, but it returns 173.96% more items than thresholding instead of at least 15% fewer. Calibration is the only passed selector hypothesis. The switch effect is positive in every seed, but the adjusted interval crosses zero and its set is larger than thresholding's.
 
-Calibration changes the direction of the evidence-F1 comparison. It also explains why the learned size and redundancy penalties become unnecessary: once probabilities reflect the rare membership rate, the unpenalized utility already prefers short prefixes. Evaluations of adaptive selection should report absolute calibration against a prevalence reference and the change from the model's uncalibrated score.
+7.3 The Downstream Safeguard Fails Externally
 
-7.2 Why Thresholding Is the Strong Baseline
+Mean verifier macro-F1 is 0.1573 with threshold evidence and 0.1444 with switch evidence. The seed-aligned switch-minus-threshold effect is -0.01293 with 95% interval [-0.03242,0.00687]; its lower bound does not clear the declared -0.010 margin. The switch therefore fails verifier non-inferiority, unlike the aggregate MOCHEG result.
 
-Expected-F1 uses the joint distribution of all candidate memberships, but its independence approximation and complete-gold objective need not match the empirical data. A tuned threshold directly exploits the same calibrated probabilities with fewer assumptions. Here it obtains more recall with moderate set growth and beats expected-F1 by 0.00483 F1.
+The class distribution is extreme: 141 Refuted, six Not Enough Evidence, four Supported, and one Conflicting claim. Neither policy resolves the single conflicting-class case across seeds, and accuracy mostly reflects the majority class. This is why macro- and class-wise F1, rather than accuracy alone, define the safeguard.
 
-Future evaluations need a calibrated-threshold baseline. Beating a fixed budget is insufficient when the same probabilities support a stronger threshold rule. An adaptive decoder should exceed that rule, provide a different precision-cost operating point, or improve a downstream outcome. Expected-F1 provides the second: it returns about two fewer items than thresholding and has substantially higher precision, which may matter when human review time is scarce.
+7.4 Frozen Decision
 
-The reachability strata sharpen this interpretation. Expected-F1 is strongest when the packet already contains the complete released-gold set, where pruning a coherent short prefix is feasible. Its advantage disappears when the packet contains only part of the gold set. Thresholding is better in that larger stratum because it tolerates a modestly larger output and recovers more of the available evidence. Because this stratification was post hoc, it diagnoses a possible mechanism but cannot support a prespecified subgroup claim. It does suggest a concrete design target: selection should account for the probability that retrieval is incomplete.
+The blind-selection rule chooses the switch only if its full gate passes, otherwise expected-F1 only if it is non-inferior and at least 15% smaller, otherwise thresholding only if it beats fixed selection, and otherwise the train-selected fixed family. The first three conditions fail, so the frozen decision falls back to fixed selection. Local development exports for all five seeds pass the official ten-item and 1,500-character schema after applying the already frozen verifier. No test prediction or leaderboard submission is performed. The external result is therefore an independent diagnostic nonreplication, not an official shared-task score.
 
-7.3 Retrieval Is the Larger Bottleneck
+8. DISCUSSION
 
-The packet oracle of 0.3560 places the observed selector scores in context. More than one quarter of eligible claims have no reachable released gold item, and complete-gold coverage is below 5%. Decoder improvements operate within a narrow attainable range. Image-only results are especially weak, and the image-only expected-F1 effect is slightly negative.
+8.1 Calibration Changes the Decision, Not the Ranking
 
-The retrieval audit suggests several next steps. Image fusion performs better than either image signal alone. Text cross-encoder reranking improves deeper recall but harms the first few ranks. A ranker trained to optimize early complete-gold coverage, a claim-adaptive retrieval budget, or a selector that explicitly models packet completeness may produce more value than another selection penalty. The fixed packet supports this diagnosis because retrieval and decoding are measured separately.
+Expected-F1 requires probabilities with operational meaning: among items given probability 0.30, roughly 30% should be evidence members under comparable conditions. Balanced logistic training improves rare-positive ranking but changes the effective training prior. Temperature scaling changes logit slope, whereas prior shift, Platt, beta, and isotonic mappings can also repair the location or shape of the reliability curve. The uncalibrated expected-F1 ablation makes this distinction concrete: it selects nearly 25 items per claim and loses more than five evidence-F1 points relative to calibrated expected-F1, with no change to the candidate universe.
 
-7.4 Evidence Metrics and Verdict Metrics Differ
+This is the one relationship that reproduces cleanly on AVerImaTeC. There, uncalibrated expected-F1 nearly saturates the ten-item cap and loses 0.0532 exact-source F1 to its calibrated counterpart. The positive simultaneous interval survives multiplicity correction despite different candidate units, class balance, and independently fitted models. Calibration is therefore not an explanation fitted only to the MOCHEG packet.
 
-Evidence F1 and verdict macro-F1 answer related but distinct questions. The positive evidence effect does not establish verifier non-inferiority. The interval misses the margin narrowly, which may reflect limited validation size, a weak shared verifier, or genuinely different information content in the shorter sets. A larger or stronger verifier study is needed before claiming an end-to-end improvement.
+This also explains why fitted size and redundancy penalties are unnecessary in the diagnostic experiment. Once the low membership prevalence is restored, the unpenalized expected utility already favors a short prefix. Adaptive selector studies should report probability quality, prevalence, and selected set size alongside rank metrics; otherwise the decoder can appear to improve or fail for the wrong reason.
 
-For deployed fact-checking, a useful operating report should include evidence precision and recall, review-set size, retrieval reachability, calibration, and verdict performance. A single aggregate score hides the tradeoff between concise evidence and downstream sufficiency.
+8.2 Why Thresholding Remains the Strong Baseline
 
-7.5 What the Study Supports
+Expected-F1 combines all membership probabilities under a conditional- independence approximation. A tuned threshold uses the same calibrated probabilities with fewer structural assumptions. On the repaired packet, thresholding is 0.00484 F1 stronger and recovers more evidence, while expected-F1 returns 1.64 fewer items and has higher precision. The latter is a valid review-cost operating point, but it is not the strongest selector by the primary metric.
 
-The evidence supports three claims. Prior-aware calibration is necessary for adaptive probability-based evidence selection under imbalance. Calibrated expected-F1 can improve complete-gold evidence F1 over a fixed top-5 rule while returning fewer items, mainly when the retrieved packet contains the full released-gold set. Calibrated thresholding is the best tested policy on this development population. The evidence does not support a claim of end-to-end superiority, a benefit from size or redundancy penalties, or generalization beyond the evaluated MOCHEG setting.
+The external result narrows this conclusion. AVerImaTeC thresholding returns the smallest set but is tied with the train-selected fixed family, whereas expected-F1 reaches a higher point estimate by selecting 3.20 rather than 1.17 items. Expected-F1 clears the non-inferiority margin but fails the required size reduction. Thresholding remains a necessary comparator, not a universally superior policy, and compactness does not transfer automatically.
 
-8. LIMITATIONS AND ETHICS
+The completeness-aware switch tests whether these policies can be combined without simply choosing the better one on validation. Its point estimate is higher than thresholding and its mean set is smaller, but the improvement is too small and unstable to support superiority. This negative result is useful: packet completeness is a plausible routing variable, yet the present ten- feature logistic estimate is not accurate enough to produce a reliable method-level gain. A future model should first improve completeness prediction under a frozen protocol, rather than add another decoder penalty.
 
-8.1 Limitations
+8.3 Retrieval Is Still the Dominant Constraint
 
-First, the reported selector study uses released MOCHEG validation claims. The set was locked for this run, but earlier analysis in the broader project had already used the same development resource. The result is a controlled reanalysis; fresh external confirmation remains pending. The official MOCHEG test annotations remain sealed.
+Weighted fusion reduces zero-reachable claims and raises the packet oracle, but the all-eligible ceiling remains only 0.3637 F1 and complete-gold coverage remains below 5%. The absolute gain is far smaller than the declared engineering target. Most selector errors therefore cannot be repaired by a different prefix rule alone.
 
-Second, complete-gold annotations may be incomplete with respect to all valid web evidence. Exact-set metrics reward agreement with the released mapping and can mark a plausible alternative as wrong. The reachability-stratified analysis is post hoc, and its complete-reachability result is based on 79 validation claims. It provides a mechanism diagnosis that requires prespecified replication and cannot support a population-level subgroup guarantee.
+The organizer-store evaluation is more severe under exact-source identity: 59.87% of development claims have no reachable annotated target and only 12.50% have the complete annotated set in the retained pool. The static store contains many candidates, so the bottleneck is shallow ranking and source identity rather than gross data absence. This cross-benchmark agreement on the reachability boundary is stronger than agreement on any selector ordering.
 
-Third, the membership scorers are deliberately lightweight to preserve experimental control and reproducibility. They are not intended as state-of-the-art representation learners. Better multimodal rerankers could change both ranking and calibration. Isotonic regression can also be data-hungry; its repeated selection for images should be tested on another corpus.
+Text and image branches fail differently. Cross-encoder text ranking helps at greater depth while damaging early order; equal rank fusion recovers a small part of that tradeoff. Image fusion already combines two complementary signals, and changing their weight does not improve Recall@20. OCR, article context, or a table-aware external benchmark may help, but each would change the candidate construction and requires a separately frozen study. They are not hidden extensions of the present result.
 
-The saved records identify the software environment and deterministic analysis runtime, but they do not provide a complete end-to-end compute, latency, or energy profile for embedding and retrieval. The study therefore makes no efficiency claim beyond the number of evidence items returned to a reviewer.
+8.4 Evidence and Verdict Safeguards Answer Different Questions
 
-Fourth, the expected-F1 calculation assumes conditionally independent candidate memberships. Evidence items from the same source, duplicate images, and complementary sentences violate this assumption. The tested redundancy penalty did not help, but that does not rule out a learned structured model.
+Evidence F1 measures overlap with released evidence identifiers; verdict macro-F1 measures whether selected evidence supports the final three-way decision. The stronger MLP verifier clears aggregate non-inferiority for the switch, but the interval crosses zero, three seed-specific safeguards fail, and the linear control moves in the opposite direction. The result is compatible with preserved verdict quality on average, but not with a stable end-to-end benefit.
 
-Fifth, the robustness conditions are controlled diagnostics and cover only a small part of possible production drift. The temperature perturbations demonstrate sensitivity to probability scale; they do not estimate how often such distortion occurs in a deployed system.
+The AVerImaTeC safeguard is less favorable. Switch evidence reduces mean macro-F1 from 0.1573 to 0.1444, and the seed-aligned lower bound falls below the -0.010 margin. The single Conflicting claim receives zero F1 under both policies across seeds, while Refuted dominates the 152-claim split. This shows why an evidence-set improvement cannot be promoted without class-wise downstream reporting.
 
-Finally, external datasets differ materially. AVerImaTeC uses web or curated question-answer evidence, while MMCV includes tables and multi-hop support. Porting the selector requires a new definition of evidence units, a new calibration study, and an evaluation that respects each resource's access conditions.
+This distinction matters for system reporting. Evidence precision, evidence recall, set size, retrieval reachability, calibration, and verdict performance should be shown separately. A single score would hide whether a compact set saved reviewer effort, omitted necessary support, or merely interacted favorably with one verifier seed.
 
-8.2 Ethical Considerations
+8.5 What Transfers Externally
 
-Automated fact-checking can create unwarranted confidence, particularly when retrieval misses relevant evidence. The interface for any deployment should expose source identifiers, retrieval limitations, probability calibration status, and uncertainty. The system should assist trained reviewers rather than silently replace them.
+The external study does not reproduce a superior adaptive selector. It does reproduce two scientific dependencies: selection is bounded by candidate reachability, and expected-utility decoding depends on calibrated operating probabilities. It contradicts three more specific MOCHEG observations: thresholding does not beat the fixed family, expected-F1 is not a smaller operating point, and the completeness switch does not preserve verifier quality. These contradictions are not reasons to retune the external protocol; they define the empirical scope of the method claims.
 
-Data and model artifacts may inherit geographic, linguistic, and source-selection biases. MOCHEG is not a representative sample of all claims or communities. Performance should not be generalized to low-resource languages or sensitive domains without targeted evaluation. Web evidence may also contain personal, disturbing, or copyrighted material; access and display should follow the source terms and minimize unnecessary reproduction.
+Exact URL identity can mark a semantically valid alternative source as wrong, so the external result is a controlled diagnostic rather than the official shared-task result. The unavailable Gemma-3-27B judge prevents a direct semantic-score comparison, and the blind test remains untouched. Even with that limitation, the direction of the calibration ablation and the failed prespecified gates are valid within the released exact-source target.
 
-The formal test remains sealed, failed or unfavorable outcomes are retained, and all reported comparisons include uncertainty. These controls reduce selective reporting and make it easier to distinguish a useful development finding from a deployment claim.
+8.6 What the Study Supports
 
-9. CONCLUSION
+The evidence supports four bounded statements. First, packet reachability must be measured before selector performance is interpreted. Second, prior-aware calibration is necessary for probability-based set decisions under imbalanced membership and is the only relationship confirmed on both benchmarks. Third, expected-F1 supplies a compact MOCHEG operating point but not a universally compact policy. Fourth, the present completeness-aware switch does not establish selector superiority or stable verdict preservation. The study does not support a state-of-the-art or deployment-ready claim; its external value is the prespecified nonreplication and the stronger boundary it places on adaptive selection claims.
 
-We evaluated adaptive multimodal evidence selection as a probability-dependent decision inside a fixed retrieval pipeline. Prior-aware calibration reduces the dominant probability error and allows expected-F1 to reach 0.1759 evidence F1 while returning 3.50 items per claim, a gain of 0.0085 over fixed top-5. The gain is concentrated in claims whose complete released-gold set is reachable. Calibrated thresholding remains stronger overall at 0.1807, while size and redundancy penalties add no measurable value. The shared verifier does not establish non-inferiority, and probability perturbations reverse the adaptive gain. Evidence-selector studies should therefore report three boundaries together: what retrieval makes reachable, whether membership scores are calibrated to the operating prior, and whether a structured decision rule improves on a calibrated threshold. In this setting, calibration adds value, extra decoder penalties do not, and retrieval remains the dominant limitation.
+9. LIMITATIONS AND ETHICS
+
+9.1 Limitations
+
+The main MOCHEG validity constraint is evaluation reuse. Its 1,490 validation claims are locked within each run, and every new choice is fitted on training roles, but the broader project had inspected this resource before the present protocol. AVerImaTeC supplies an independently frozen evaluation, but changes the evidence unit, label space, candidate store, and output cap; it confirms relationships rather than reproducing raw scores. Formal-test annotations for both benchmarks remain unopened.
+
+The external evidence endpoint is also incomplete. Exact normalized source identity can penalize semantically valid alternative pages, while the official Gemma-3-27B evidence judge cannot run on the single local GPU under the organizer's prescribed condition. The development split is extremely imbalanced (141 of 152 claims are Refuted), with one Conflicting claim, and the static store was partly constructed with gold-question-derived queries. We therefore report the external result as a locked exact-source diagnostic, not an official shared-task score or unrestricted web-search estimate.
+
+Released complete-gold sets can omit other valid web evidence. Exact-set metrics measure agreement with those identifiers and may penalize a defensible alternative source. The original complete-reachability subgroup contains only 79 validation claims and was identified post hoc. It motivates the frozen completeness switch but cannot establish a population subgroup guarantee. The repair raises validation complete-gold coverage to only 88 claims, so completeness modeling remains data-limited.
+
+The membership scorer and completeness estimator are deliberately low capacity to preserve experimental control. Better content-aware multimodal scoring may change ranking, calibration, and the apparent value of the switch. Conversely, the stronger verifier is still a compact MLP over stored features rather than a modern generative fact-checker. Aggregate non-inferiority depends on that architecture and fails in three seed-specific intervals; the linear control reverses the mean direction.
+
+Expected-F1 assumes conditionally independent candidate memberships and restricts decisions to prefixes of a fixed ranking. Sentences from one source, duplicate images, and complementary cross-modal evidence violate that assumption. A zero-valued redundancy penalty in this experiment does not show that dependencies are absent; it shows only that the tested penalty does not improve model-selection utility.
+
+The robustness matrix is diagnostic rather than exhaustive. Temperature perturbations expose sensitivity to probability scale but do not estimate how often such drift occurs in practice. Runtime is recorded on one workstation without standardized warm-up, energy instrumentation, or competing-system measurements. We therefore make no throughput, energy, or deployment-efficiency claim beyond observed selected-set size.
+
+9.2 Ethical Considerations
+
+Automated fact-checking can create false confidence when relevant evidence is missing. A deployed interface should expose source identifiers, retrieval limits, calibration status, and the distinction between "no evidence retrieved" and "evidence supports no conclusion." The system should assist trained reviewers, not replace them.
+
+Web evidence can contain personal, disturbing, copyrighted, geographically skewed, or politically sensitive material. Retrieval and display should follow source terms, minimize unnecessary reproduction, and provide safeguards for reviewers. MOCHEG is not representative of all languages, communities, claim types, or media ecosystems; results should not be generalized to low-resource or high-stakes domains without direct evaluation.
+
+The study preserves unfavorable and incomplete runs, keeps both formal tests sealed, and reports uncertainty and failed gates. These controls reduce selective reporting and make the difference between a useful development finding and a deployment claim explicit.
+
+10. CONCLUSION
+
+We evaluated multimodal evidence selection as a decision constrained jointly by retrieval and calibration. On MOCHEG, bounded fusion raises packet-oracle F1 from 0.3560 to 0.3637, calibrated thresholding reaches 0.1864 evidence F1, and expected-F1 offers a smaller 3.61-item operating point at 0.1815. The completeness switch does not establish superiority. A separately frozen AVerImaTeC run confirms the calibration dependency but not the selector ordering: 59.87% of claims have no exact reachable target, expected-F1 is larger rather than smaller, thresholding ties fixed selection, and switch evidence fails verifier non-inferiority. Evidence-selection studies should therefore expose packet reachability, calibration, set size, uncertainty, and downstream class-wise behavior before claiming an adaptive improvement. The official semantic judge was unavailable locally and both formal tests remain sealed; the external contribution is a prespecified diagnostic nonreplication, not a shared-task score or deployment claim.
 
 APPENDIX A. DETAILED REPORTING
 
 A.1 Selected Components
 
-Table [REF: tab:selected-components] lists the scorer and modality-specific calibration maps chosen without locked-validation labels. The threshold is 0.1 in every partition. Fixed k is 5. Both decoder penalties are zero throughout.
-
-Table caption: Selected scorer and calibration map by deterministic training-role partition.
+The table shows the scorer and modality-specific calibration maps selected in the diagnostic study without locked-validation labels. There is one threshold per partition: 0.1. Fixed k is 5. Both decoder penalties are zero throughout.
 
 A.2 Robustness Effects
 
-Table [REF: tab:robustness-detail] reports the aligned expected-F1 minus fixed top-5 effect for every condition. Width 10 and duplicate-top-three intervals cross zero. The image-only effect is negative. Both probability perturbations reverse the baseline sign.
+The table shows the aligned expected-F1 minus fixed top-5 effect for each condition. The width 10 and duplicate-top-three intervals intersect zero. The image-only effect is negative. Both probability perturbations flip the baseline sign.
 
-Table caption: Expected-F1 minus fixed top-5 under controlled perturbations. Intervals are claim-aligned and descriptive.
-
-The absolute scores and review-set sizes in Table [REF: tab:robustness-absolute] clarify the relative effects. Promoting five distractors creates a +0.0494 difference because fixed top-5 falls almost to zero, while expected-F1 itself reaches only 0.0497. The temperature perturbations also show the operational cost of miscalibration. Sharpening reduces the expected set to 1.61 items; flattening expands it to 17.44 items. Both changes damage F1 despite leaving candidate order unchanged.
+The relative effects are explained by the absolute scores and the size of the review sets in the table. The difference obtained for promoting five distractors is +0.0494 because the score for fixed top-5 is very close to zero, whereas expected-F1 reaches only 0.0497. The temperature fluctuations also show the operational cost of wrong calibration. Sharpening reduces the expected set to 1.61 items; flattening expands it to 17.44 items. Both modifications are harmful for F1, but do not affect candidate order.
 
 A.3 Decision Audit
 
-Table caption: Outcome of the declared conditions for expected-F1 selection.
+The conjunction does not hold. The highest selector point estimate and the aggregate verifier safeguard are therefore reported as mixed development evidence, not as a superior end-to-end method.
 
-The conjunction fails on the prespecified minimum effect and verifier safeguard. The positive selector result is therefore limited to evidence selection on released development data.
+A.4 Verifier Seed Detail
 
-A.4 Reproducibility Record
+A.5 Reproducibility Record
 
-The frozen configuration, result directories, and reporting bundle are named in the repository README. The clean rerun uses a separate output directory. All 20 core selector and verifier artifacts match byte-for-byte by SHA-256. Runtime-bearing summaries are excluded from the byte comparison and are checked by independent metric audits instead.
+A repository README specifies the frozen configurations, result directories, and reporting bundles. The earlier diagnostic clean rerun places outputs in a separate directory; all 20 core selector and verifier artifacts match byte-for-byte by SHA-256. The bounded repair adds source hashes for retrieval, selector, completeness, and verifier summaries and independent audits for each stage. Runtime-bearing summaries are independently recomputed rather than expected to match byte-for-byte.
 
-All five selector partitions contain exactly 1,490 locked-validation claim records for each method. Candidate records preserve the scorer output, calibrated probability, rank, modality, gold membership, and selected-set decisions. Formal-test access flags are false in selector, verifier, robustness, audit, and reporting records.
+There are exactly 1,490 locked-validation claim records in each of the five selector partitions for each method. The repaired candidate bundle contains 789,540 rows for 13,159 released train and validation claims before the complete-gold eligibility filter. Candidate records store scorer output, calibrated probability, rank, modality, gold membership, and selected-set decisions. Selector, completeness, verifier, audit, and reporting records all contain false formal-test access flags.
 
-A.5 External Evaluation Path
+The external preparation retains 94,085 training candidates and 18,240 development candidates after ranking the complete organizer stores. The training freeze, development pre-join ranking, locked claim records, and independently recomputed report have SHA-256 identifiers beginning 36e4210a, b24739c9, eec62a20, and 0751ce76, respectively. The full identifiers and archive hashes are preserved with the result bundle. Local fixed-policy development exports for all five seeds contain 152 predictions, satisfy the official schema, and were not submitted.
 
-AVerImaTeC now provides an evaluated test setting and a public task report [CITE: cao2026averimatecshared]. A useful transfer study would map its question-answer evidence into stable selectable units, fit calibration only on its released training resources, and report the official conditional evidence-verdict score alongside set size and reliability. MMCV would require a three-modality scorer and a multi-hop set objective. Neither transfer should reuse MOCHEG calibration parameters.
+A.6 External Evaluation Path
+
+AVerImaTeC provides a static multimodal knowledge store and a four-class fact- checking task. The completed transfer protocol maps each source and 1,500-character text chunk to deterministic identifiers, combines BM25 and BGE-M3 ranks by reciprocal-rank fusion, applies a frozen BGE reranker, and ranks actual images with SigLIP2 and filename-BGE scores. It fits every scorer, calibrator, completeness model, and verifier from scratch on the 793 released training claims. Gold questions are not retrieval features, and gold-source membership is joined only after label-blind rankings are written and hashed.
+
+The organizer archives contain 529,580 text and 81,817 image candidates for training and 101,289 text and 49,617 image candidates for development. The five-seed training protocol was committed before development preparation. A single locked run then evaluated all 152 development claims. The retained 100-text/20-image pool reaches 25.48% of exact annotated sources, fully reaches 12.50% of claims, and reaches none for 59.87% of claims. Exact-source Recall@10, @20, @50, and @100 is 5.26%, 6.96%, 11.43%, and 23.78%.
+
+Only the calibration comparison passes: calibrated expected-F1 exceeds its uncalibrated counterpart by 0.05316 with simultaneous interval [0.02207,0.08852]. Thresholding is tied with fixed selection. Expected-F1 selects 3.20 rather than 1.17 items, so the compactness claim does not transfer. The switch interval crosses zero, returns a larger set, and fails the verifier safeguard. The frozen decision therefore falls back to the train-selected fixed family.
+
+The prescribed Gemma-3-27B judge contains 54.86 GB of weights, whereas the available RTX 4090 has 25.76 GB of memory and the organizer launcher requests two GPUs. We do not call the exact-source diagnostic an official task score or substitute a quantized judge. The blind test and leaderboard remain untouched. The completed external study is consequently a prespecified diagnostic nonreplication: calibration dependence transfers, while selector superiority, compact expected-F1 selection, and verifier preservation do not.
