@@ -1,5 +1,10 @@
 # Publication-Ready Execution Plan
 
+> Historical execution record. The active, bounded final-revision plan is
+> [`publication_one_shot_plan.md`](publication_one_shot_plan.md). Completed
+> protocol decisions and evidence in this file remain valid; its older
+> multi-gate action sequence is no longer the working checklist.
+
 Last updated: 2026-11-12
 Active manuscript: `paper/paper.tex`  
 Current execution checkpoint: `b2075d0` plus one locked development run
