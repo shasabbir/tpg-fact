@@ -1,6 +1,9 @@
 # Main paper
 
 The canonical manuscript is `paper.tex`; the compiled reading copy is `output.pdf`.
+The archived v1 build is `publication-v1-source.zip`. See `v1.md` for the release scope.
+The current manuscript uses the Springer Nature double-column template for
+the *International Journal of Multimedia Information Retrieval* (IJMIR).
 It reports a retrieval-conditioned, calibration-aware evidence-selection study
 on a locked MOCHEG population and in one independently frozen AVerImaTeC
 organizer-store evaluation. Both formal-test annotation sets remain sealed.
@@ -16,10 +19,28 @@ pdflatex -interaction=nonstopmode -halt-on-error paper.tex
 pdflatex -interaction=nonstopmode -halt-on-error paper.tex
 ```
 
-The build expects generated tables in `generated/`, PDF figures in `figures/`,
-and the 51-entry cited bibliography in `references_used.bib`. The larger
+Use an up-to-date LaTeX distribution with the AMS, appendix, and sttools
+packages available. The build uses the included Springer Nature `sn-jnl.cls`
+and `sn-basic.bst`, generated tables in `generated/`, PDF figures in `figures/`,
+and the 52-entry cited bibliography in `references_used.bib`. The diagrams
+are made with LaTeX and TikZ. The results plots are made with Matplotlib. The larger
 `references.bib` remains the literature catalog. The final rendered-reference
-audit is under `../research/publication_confirmation/reference_audit/`.
+audit for v1 is under `../research/external_confirmation/v1_reference_audit/`.
+
+## IJMIR source bundle
+
+`ijmir-source.zip` contains one editable manuscript, the cited bibliography,
+the publisher class and bibliography style, and seven figures as `Fig1.pdf`
+through `Fig7.pdf`. Build the extracted bundle with the commands above.
+To recreate the bundle, export to a new or empty folder and archive its contents.
+
+```powershell
+python build_ijmir_source.py --out ../tmp/ijmir-upload
+Compress-Archive -Path ../tmp/ijmir-upload/* -DestinationPath ijmir-source.zip -Force
+```
+
+Confirm both authors' contributions and the reviewer access arrangement
+for the study code and supporting result files before submission.
 
 ## Source of reported results
 
@@ -40,8 +61,9 @@ audit is under `../research/publication_confirmation/reference_audit/`.
 - Locked external records: `../experiments/outputs/external_confirmation/averimatec/locked_development/claim_records.jsonl`
 - Independently recomputed external report: `../experiments/outputs/external_confirmation/averimatec/reporting/external_results.json`
 - External result narrative and artifact hashes: `../research/external_confirmation/results.md`
+- External calibration, target loss, and policy disagreement: `../research/external_confirmation/one_shot_diagnostics.json`
+- Regeneration instructions, evidence map, and venue checklist: `../research/external_confirmation/one_shot_delivery.md`
 
-The paper describes controlled development evaluations and does not present a
-formal-test, state-of-the-art, deployment-ready, or universal-generalization
-claim. AVerImaTeC values based on exact normalized source identity are
-diagnostic; they are not the unavailable official semantic score.
+The claims are scoped to the reported development populations and frozen
+evidence-selection protocols. AVerImaTeC reports exact-source diagnostics
+and class-wise verifier results. Full Gemma semantic evaluation is deferred.

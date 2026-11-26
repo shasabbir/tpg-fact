@@ -114,7 +114,7 @@ Packet & Text R@40 & Image R@20 & Oracle F1 & Complete (\\%) & Zero reachable \\
 \\label{tab:publication-selectors}
 \\small
 \\setlength{\\tabcolsep}{3.5pt}
-\\begin{tabular}{lrrrr}
+\\begin{tabular}{@{}>{\\raggedright\\arraybackslash}p{0.37\\columnwidth}rrrr@{}}
 \\toprule
 Policy & Prec. & Recall & F1 & Items \\\\
 \\midrule
@@ -203,7 +203,7 @@ def _write_summary_figure(
     axes[0].set_xticks(x, metric_names, rotation=22, ha="right")
     axes[0].set_ylim(0, 0.5)
     axes[0].set_ylabel("Proportion / macro-F1")
-    axes[0].set_title("A  Retrieval repair")
+    axes[0].set_title("(a) Retrieval repair")
     axes[0].legend(frameon=False, fontsize=7, loc="upper right")
     axes[0].grid(axis="y", alpha=0.2)
 
@@ -225,7 +225,7 @@ def _write_summary_figure(
     )
     axes[1].set_ylim(0.15, 0.195)
     axes[1].set_ylabel("Evidence macro-F1")
-    axes[1].set_title("B  Matched selection")
+    axes[1].set_title("(b) Matched selection")
     axes[1].grid(axis="y", alpha=0.2)
     for bar, row in zip(bars, selector_plot):
         axes[1].text(
@@ -255,7 +255,7 @@ def _write_summary_figure(
     axes[2].set_xlim(-0.025, 0.02)
     axes[2].set_yticks([])
     axes[2].set_xlabel("Switch minus threshold macro-F1")
-    axes[2].set_title("C  Shared-verifier safeguard")
+    axes[2].set_title("(c) Shared-verifier safeguard")
     axes[2].grid(axis="x", alpha=0.2)
     axes[2].text(-0.0095, 0.17, "NI margin", color=colors["red"], fontsize=7)
     axes[2].text(

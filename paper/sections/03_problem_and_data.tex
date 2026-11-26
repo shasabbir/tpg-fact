@@ -26,11 +26,11 @@ The train and validation claims (13,159) released have been encoded for retrieva
 
 \subsection{Independent AVerImaTeC Population}
 
-AVerImaTeC alters the evidence unit and label space, but not providing a MOCHEG replication unchanged \cite{cao2026averimatecshared}. Candidates are claim-local organizers-store text chunks or images linked to a source. Maximum 10 evidence items are allowed in the official output along with one of four labels: Supported, Refuted, Not Enough Evidence, or Conflicting Evidence/Cherrypicking. For an auditable diagnostic, an exact normalized source identity is available, which is the primary semantic evidence score of the task, and needs to be judged separately from other evidence in the multimodal pool.
+AVerImaTeC uses claim-local text chunks and images from the organizer store. The official output permits up to ten evidence items and one of four labels (Supported, Refuted, Not Enough Evidence, or Conflicting Evidence/Cherrypicking) \cite{cao2026averimatecshared}. We use exact normalized URLs and released image basenames for the external diagnostics. The shared task defines a separate semantic endpoint based on reference-evidence judgments.
 
 The external protocol takes all 793 of the training claims released for fitting and selection jobs and reserves all 152 development claims for one locked run. There are 756 Refuted, 18 Not Enough Evidence, 13 Supported, and 6 Conflicting claims in trainings and 141, 6, 4, and 1 in development. There are 1,586 training JSON files and 81,817 training images, 304 development JSON and 49,617 development images in the organizer archives. No transfer of MOCHEG model, threshold, calibrator or completeness estimator or verifier weight.
 
-For an external claim, $G_q$ are normalised annotated source identities, and $C_q$ are a frozen organizer-store packet. When a semantically correct alternative valid webpage does not share the annotated URL with the original webpage, then it is reported as an exact-source diagnostic \eqref{eq:set-f1}. For this reason, the exact-source $F_1$ is not renamed the unavailable official semantic score.
+For an external claim, $G_q$ contains annotated evidence identities and $C_q$ contains candidates from the frozen organizer store. We compute \eqref{eq:set-f1} on source identities. An alternative page with valid evidence and a different normalized URL receives zero credit under exact matching.
 
 \subsection{Reachability}
 

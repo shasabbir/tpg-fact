@@ -1,8 +1,20 @@
 # One-Shot Q1-Primary / Q2-Fallback Publication Plan
 
-Last updated: 2026-11-25  
+Last updated: 2026-11-26
+
 Canonical manuscript: `paper/paper.tex`  
 Study status: MOCHEG study complete; five-seed, train-only AVerImaTeC study complete; locked 152-claim development evaluation executed once; formal tests remain sealed.
+
+Execution update (2026-11-25): the frozen-output analyses and manuscript
+revision are complete. The official evaluator remains unavailable in the
+current environment. The [delivery notes](research/external_confirmation/one_shot_delivery.md)
+record the exact-source submission route and remaining author actions.
+
+Execution update (2026-11-26): the pinned Gemma BF16 checkpoint downloaded
+and the two-claim CPU-offload pilot finished in about 21 minutes of
+generation. The full development run is deferred by author choice. V1
+freezes the exact-source manuscript and reproducible source package under
+`paper/`. See [the v1 record](paper/v1.md) for evidence scope and open items.
 
 ## 1. Clear goal
 
@@ -213,19 +225,20 @@ claim. Do not delay it for speculative model additions.
 
 The one-shot revision is complete when:
 
-- [ ] current results are frozen in a checkpoint and manifest;
-- [ ] the official semantic endpoint is either completed or formally recorded
-      as unavailable;
-- [ ] external calibration metrics and reliability data are generated;
-- [ ] the deterministic failure decomposition and transfer synthesis are
+- [x] current results are frozen in a checkpoint and manifest;
+- [x] the BF16 feasibility pilot finished and the cost of the full run was
+      documented. Full semantic scoring is deferred beyond v1;
+- [x] external calibration metrics and reliability data are generated;
+- [x] the deterministic failure decomposition and transfer synthesis are
       generated;
-- [ ] every new number is independently regenerated from preserved outputs;
-- [ ] `paper/paper.tex` and the supplement contain the final evidence and no
+- [x] the new results were regenerated from preserved outputs with two
+      inventory implementations and matching report hashes;
+- [x] `paper/paper.tex` and the supplement contain the final evidence and no
       unsupported claims;
-- [ ] tests, compilation, reference audit, clean-package build, and full-page
+- [x] tests, compilation, reference audit, clean-package build, and full-page
       PDF visual inspection pass;
-- [ ] venue requirements and ranking status are verified for the submission
-      year and category; and
+- [x] the fallback venue's current author guide and SJR 2025 category ranks
+      are recorded. Final submission formatting and author declarations remain;
 - [ ] an independent final read finds no blocking scientific, reporting, or
       packaging issue.
 

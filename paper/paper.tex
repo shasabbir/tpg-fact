@@ -1,22 +1,17 @@
-\documentclass[10pt,journal]{IEEEtran}
+\documentclass[pdflatex,iicol,sn-basic,Numbered]{sn-jnl}
 
 \usepackage{amsmath,amssymb}
+\usepackage[title]{appendix}
 \usepackage{array}
 \usepackage{booktabs}
-\usepackage{float}
+\usepackage{capt-of}
 \usepackage{graphicx}
 \usepackage{microtype}
 \usepackage{multirow}
+\usepackage{placeins}
 \usepackage{url}
 \usepackage{xcolor}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta,fit,positioning}
 
-\definecolor{accentblue}{HTML}{24557A}
-\definecolor{accentteal}{HTML}{2A7F78}
-\definecolor{accentorange}{HTML}{C56A2D}
-\definecolor{softblue}{HTML}{EAF1F7}
-\definecolor{softgray}{HTML}{F2F3F5}
 \definecolor{passgreen}{HTML}{26734D}
 \definecolor{failred}{HTML}{A23B3B}
 
@@ -25,39 +20,30 @@
 \newcommand{\fail}{\textcolor{failred}{\textbf{Fail}}}
 \newcommand{\theadrow}{}
 \graphicspath{{figures/}}
+\hypersetup{
+  hypertexnames=false,
+  bookmarksdepth=3,
+  pdftitle={Retrieval and Calibration Constraints on Adaptive Evidence Selection in Multimodal Fact-Checking},
+  pdfauthor={Sabbir Hossain and Firoz Ahmed}
+}
 \interdisplaylinepenalty=2500
 \hyphenation{multi-modal fact-check-ing re-triev-al cal-i-bra-tion}
 
-\title{Retrieval-Conditioned Calibration and Adaptive Evidence Selection for Multimodal Fact-Checking}
-
-\author{%
-\parbox[t]{0.46\textwidth}{\centering
-Sabbir Hossain\\[0.3ex]
-{\normalsize
-Department of Computer Science\\
-American International University-Bangladesh\\
-Dhaka, Bangladesh\\
-26-94030-1@student.aiub.edu}}
-\hspace{0.02\textwidth}%
-\parbox[t]{0.46\textwidth}{\centering
-Dr.~Firoz Ahmed\\[0.3ex]
-{\normalsize
-Professor, Faculty\\
-Department of Computer Science\\
-American International University-Bangladesh\\
-Dhaka, Bangladesh\\
-fahmed@aiub.edu}}}
-
 \begin{document}
+
+\title[Retrieval and calibration in adaptive evidence selection]{Retrieval and Calibration Constraints on Adaptive Evidence Selection in Multimodal Fact-Checking}
+
+\author[1]{\fnm{Sabbir} \sur{Hossain}}\email{26-94030-1@student.aiub.edu}
+\author*[1]{\fnm{Firoz} \sur{Ahmed}}\email{fahmed@aiub.edu}
+\affil*[1]{\orgdiv{Department of Computer Science},
+  \orgname{American International University-Bangladesh},
+  \orgaddress{\city{Dhaka}, \country{Bangladesh}}}
+
+\abstract{Adaptive evidence selection in multimodal fact-checking depends on which evidence retrieval makes available and how the system scores it. We hold candidates and scorers fixed across policies and compare development results on two benchmarks: Multimodal Fact Checking and Explanation Generation (MOCHEG) and Automatic Verification of Image-Text Claims (AVerImaTeC). On MOCHEG, calibrated thresholding reaches 0.1864 evidence F1. Expected-F1 reaches 0.1815 with 3.61 items per claim versus 5.26 for thresholding. In the separately frozen AVerImaTeC comparison, 91 of 152 claims have no exact annotated target in the ranked pool. Calibration improves expected-F1 by 0.0532 exact-source F1 over its uncalibrated counterpart, with a multiplicity-adjusted interval from 0.0221 to 0.0885. Expected-F1 returns more items than thresholding on AVerImaTeC, and completeness-based switching misses the downstream non-inferiority margin. A stage-by-stage audit locates exact-target losses before and after ranking. The external policies selected only text evidence. These results support reporting retrieval reachability, probability quality, selected-set size, and verdict performance together.}
+
+\keywords{Multimedia information retrieval, multimodal fact-checking, evidence selection, probability calibration, expected F1}
+
 \maketitle
-
-\begin{abstract}
-However, it is impossible for an evidence selector to retrieve things that were not retrieved, and evidence selection based on probability is unreliable if the membership scores are not calibrated. We assess these coupled failures on MOCHEG and based on an organizer-store protocol that is separately frozen in AVerImaTeC. Label-blind rank fusion achieves F1 score of 0.3637 on MOCHEG compared to 0.3560 without it, and prior-aware calibration achieves mean Brier score of around 0.033 compared to 0.0847 without it. Calibrated thresholding is 0.1864 evidence F1, expected-F1 is 0.1815 with 3.61 instead of 5.26 items. The completeness-aware switch is at 0.1877, while the effect of its $+0.00138$ is not clear. Frozen packet has only 25.48\% exact annotated sources and 59.87\% of claims have no reachable target when it comes to locked AVerImaTeC development. Calibration transfers: the actual difference between a calibrated expected-F1 and an uncalibrated ablation is 0.0532 F1 and the multiplicity-adjusted interval is $[0.0221,0.0885]$. The other relationships fail: thresholding and fixed selection are tied, expected-F1 returns 3.20 items versus 1.17 for thresholding, the switch interval crosses zero after correction, and switch-selected evidence fails verifier non-inferiority. We do not have any local official semantic judge, and formal tests on both benchmarks have not been changed. The cross-benchmark evidence supports reachability-first, calibration-aware evaluation, but not adaptive-selector superiority or a universally compact expected-F1 policy.
-\end{abstract}
-
-\begin{IEEEkeywords}
-multimodal fact-checking, evidence retrieval, evidence selection, probability calibration, expected F1, reproducibility
-\end{IEEEkeywords}
 
 \input{sections/01_introduction}
 \input{sections/02_related_work}
@@ -70,10 +56,17 @@ multimodal fact-checking, evidence retrieval, evidence selection, probability ca
 \input{sections/08_limitations_ethics}
 \input{sections/09_conclusion}
 
-\appendices
+\edef\mainTableCount{\arabic{table}}
+\begin{appendices}
+\setcounter{table}{\mainTableCount}
+\renewcommand{\thetable}{\arabic{table}}
 \input{sections/10_reporting_appendix}
+\end{appendices}
 
-\bibliographystyle{IEEEtran}
-\bibliography{references_used}
+\FloatBarrier
+\backmatter
+\input{sections/11_statements_and_declarations}
+{\interlinepenalty=10000
+\bibliography{references_used}}
 
 \end{document}

@@ -3,9 +3,9 @@
 
 \subsection{Frozen Protocols and Claim Boundary}
 
-The diagnostic configuration was frozen on 4 November 2026 prior to its outcome bearing run. It stores data and model revisions, five claim-group partition seeds, retrieval depths, scorer families, calibration candidates, selector grids, evaluation metrics, bootstrap settings and stopping rules. The bounded retrieval repair, completeness-aware switch and stronger verifier were frozen on 9 November 2026 prior to checking their respective results. Prior to fitting the affected models, the numeric threshold grid and verifier architecture was captured. Any changes to the experiment or runs that fail are stored in an append-only experiment ledger.
+We froze the diagnostic configuration on 4 November 2026. It records the data and model revisions, claim-group seeds, retrieval depths, scorer and calibration candidates, selector grids, and statistical procedures. We froze the bounded retrieval repair, completeness-aware switch, and stronger verifier on 9 November 2026 before examining their results. The experiment ledger records changes and failed runs.
 
-External implementation was committed prior to development preparation and 5-seed train-only manifest was committed on 11th November 2026. That manifest includes hashes for code, configuration, archive, pre-join ranking, candidate, gold-map, and audit, and fails if input is a mix of train-development. The development matrix was then carried out 152 times on 12 November 2026.
+The AVerImaTeC implementation and five-seed train-only manifest were committed before preparing development data. The manifest records hashes for the code, configuration, and training inputs. The runner checks the split and artifact identities. On 12 November 2026, one locked evaluation compared the frozen policies across all 152 development claims.
 
 The MOCHEG validation split released earlier in the project has been used and is not new validation evidence. The execution path has no formal-test annotations and they are sealed. There is no automatic approval of a formal-test-run based on the validation outcome.
 
@@ -15,7 +15,7 @@ For seeds 13, 37, 73, 101 and 137, the claim sizes for AVerImaTeC training are d
 
 The four comparisons of claim are a multiplicity family: threshold minus fixed, expected-F1 minus threshold, calibrated minus uncalibrated expected-F1 and switch minus threshold. They both utilize 10,000 bootstrap draws, Bonferroni simultaneous intervals and Holm adjusted two-sided values. For an effect to be considered superior, the Threshold value must be $\geq +0.010$ and have a positive Adjusted lower bound. Expected-F1 must return at least 15\% fewer items and be at least $-0.010$ non-inferior. Switch superiority also demands that each of the seed effects is positive and that there is no increase in the mean set size. The margin for verifier preservation is also $-0.010$.
 
-Gemma-3-27B (bfloat16) is used by the organizer's semantic evaluator. The 54.86~GB of weight files will not fit in the single GPU RTX~4090 with 24.56~GiB, and the organizer launcher requires two GPUs. In view of this, we present actual normalized-source diagnostics and class-wise verifier results, rather than a `replacement score' as official. The execution of the blind test is not in the authorized execution boundary.
+The external endpoints are exact-source evidence overlap and class-wise verdict performance. A two-claim pilot verified that the organizer's Gemma-3-27B evaluator can run locally in bfloat16 with CPU offload. Full development semantic scoring was deferred because of the measured runtime. The blind test remains sealed.
 
 \subsection{Baselines, Outcomes, and Selection Budgets}
 

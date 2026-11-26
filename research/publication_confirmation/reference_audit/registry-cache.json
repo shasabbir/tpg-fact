@@ -1375,5 +1375,28 @@
       "notices": [],
       "published_relations": []
     }
+  },
+  "10.18653/v1/2026.fever-1.11": {
+    "retrieved_at": "2026-11-25",
+    "source": "crossref",
+    "record": {
+      "doi": "10.18653/v1/2026.fever-1.11",
+      "title": "AIC CTU@AVerImaTeC: dual-retriever RAG for image-text fact checking",
+      "authors": [
+        "Ullrich",
+        "Drchal"
+      ],
+      "years": [
+        2026
+      ],
+      "venues": [
+        "Proceedings of the Ninth Fact Extraction and VERification Workshop (FEVER)"
+      ],
+      "type": "proceedings-article",
+      "url": "https://doi.org/10.18653/v1/2026.fever-1.11",
+      "preprint": false,
+      "notices": [],
+      "published_relations": []
+    }
   }
 }

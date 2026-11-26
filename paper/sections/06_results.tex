@@ -4,7 +4,7 @@
 \begin{figure*}[t]
     \centering
     \includegraphics[width=\textwidth]{publication_confirmation_summary.pdf}
-    \caption{Main findings. (A) The bounded rank fusion modestly improves text retrieval, packet-oracle F1, and complete-gold coverage on locked validation while image Recall@20 is unchanged. (B) Calibrated thresholding is the strongest confirmed selector; the completeness-aware switch has the highest point estimate but fails its superiority gate. Labels above bars show F1 and mean set size. (C) The stronger verifier clears the aggregate $-0.01$ non-inferiority margin, but its interval crosses zero and the seed-specific safeguard fails.}
+    \caption{MOCHEG development results. (a) Bounded rank fusion improves text retrieval, packet-oracle F1, and complete-gold coverage. Image Recall@20 is unchanged. (b) The completeness-aware switch has the highest point estimate and fails its superiority gate. Labels above bars show F1 and mean set size. (c) The stronger verifier clears the aggregate $-0.01$ non-inferiority margin. Its interval crosses zero, and the seed-specific safeguard fails}
     \label{fig:publication-summary}
 \end{figure*}
 
@@ -35,7 +35,7 @@ Probability maps on locked validation are compared in the table in the average o
 \begin{figure}[t]
     \centering
     \includegraphics[width=\columnwidth]{calibration_reliability.pdf}
-    \caption{Reliability on locked validation in the diagnostic study. Temperature scaling remains overconfident because it does not correct the class-prior shift; prior-aware and nonparametric maps approach the observed membership rate.}
+    \caption{Reliability on locked validation in the diagnostic study. Temperature scaling remains overconfident because it leaves the class-prior shift intact. Prior-aware and nonparametric maps approach the observed membership rate}
     \label{fig:calibration}
 \end{figure}
 
@@ -68,10 +68,10 @@ The expected-F1 is positive for original diagnostic packet relative to fixed top
 \begin{figure*}[!t]
     \centering
     \includegraphics[width=\textwidth]{robustness_effects.pdf}
-    \caption{Expected-F1 minus fixed top-5 under controlled perturbations of the diagnostic packet. Temperature changes reverse the baseline gain without changing candidate order.}
+    \caption{Expected-F1 minus fixed top-5 under controlled perturbations of the diagnostic packet. Temperature changes reverse the baseline gain without changing candidate order}
     \label{fig:robustness}
 \end{figure*}
 
 The delicate dimension is the probability scale. These numbers are $-0.0193$ for sharpening with temperature 0.5 and $-0.0221$ for flattening with temperature 2.0. Both intervals do not include 0 although the candidate rankings are the same. This means that it cannot be used to make a general robustness statement and it further provides motivation for reporting calibration along with adaptive set decisions.
 
-Together, the results separate four conclusions that a single end-to-end score would obscure. Retrieval repair lifts, but doesn't lift the ceiling; prior-aware calibration is required; expected-F1 is compact precision-oriented set; completeness-aware switch looks like a good idea, but isn't compared to calibrated thresholding. The formal test is sealed and the four conclusions are only based on controlled MOCHEG development evidence.
+On MOCHEG development, the repair raises the retrieval ceiling modestly. Prior-aware maps improve membership probabilities, and calibrated expected-F1 offers a precision-oriented operating point with a smaller set. The direct comparison with calibrated thresholding leaves the completeness switch's superiority unresolved. The formal test remains sealed.

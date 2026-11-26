@@ -5,10 +5,11 @@
 
 The table (Table~\ref{tab:selected-components}) lists the scorer and modality specific calibration maps for the diagnostic study, with no locked-validation labels. All partitions have one threshold defined: 0.1. Fixed $k$ is 5. The decoder penalties are zero all the time.
 
-\begin{table*}[t]
+\begin{table*}[!t]
 \centering
 \caption{Selected scorer and calibration map by deterministic training-role partition.}
 \label{tab:selected-components}
+\small
 \begin{tabular}{rlllrr}
 \toprule
 Partition & Scorer & Text map & Image map & Size penalty & Redundancy penalty \\
@@ -26,7 +27,7 @@ Partition & Scorer & Text map & Image map & Size penalty & Redundancy penalty \\
 
 This table (Table~\ref{tab:robustness-detail}) lists the difference between the expected-F1 for each condition and the actual top-5 effect for that condition. The width 10 and duplicate-top-three intervals intersect zero. The effect with the image is negative. The sign of the baseline is reversed with both probability perturbations.
 
-\begin{table*}[t]
+\begin{table*}[!t]
 \centering
 \caption{Expected-F1 minus fixed top-5 under controlled perturbations. Intervals are claim-aligned and descriptive.}
 \label{tab:robustness-detail}
@@ -39,11 +40,11 @@ The absolute scores, and size of the review sets, in the table (Table~\ref{tab:r
 
 \subsection{Decision Audit}
 
-\begin{table}[t]
+\begin{table*}[!tp]
 \centering
 \caption{Prespecified decision audit for the bounded repair and completeness-aware selector.}
 \label{tab:decision-audit}
-\begin{tabular}{p{0.69\columnwidth}c}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.72\textwidth}c@{}}
 \toprule
 Condition & Result \\
 \midrule
@@ -61,7 +62,7 @@ Formal test annotations remain unopened & \pass \\
 Final frozen selector decision: & Thresholding \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 The conjunction does not hold (Table~\ref{tab:decision-audit}). The highest selector point estimate and the aggregate verifier safeguard are therefore reported as mixed development evidence, not as a superior end-to-end method.
 
@@ -69,11 +70,10 @@ The conjunction does not hold (Table~\ref{tab:decision-audit}). The highest sele
 
 The per-seed stronger-verifier macro-F1 and switch-minus-threshold intervals are listed in Table~\ref{tab:verifier-seeds}.
 
-\begin{table}[t]
+\begin{table*}[!tp]
 \centering
 \caption{Stronger-verifier macro-F1 and switch-minus-threshold intervals by deterministic seed. The frozen non-inferiority margin is $-0.01$.}
 \label{tab:verifier-seeds}
-\resizebox{\columnwidth}{!}{%
 \begin{tabular}{rrrrrc}
 \toprule
 Seed & Threshold & Switch & Difference & 95\% interval & Clears margin \\
@@ -85,8 +85,7 @@ Seed & Threshold & Switch & Difference & 95\% interval & Clears margin \\
 137 & 0.3883 & 0.3877 & $-0.0006$ & $[-0.0141, 0.0128]$ & no \\
 \bottomrule
 \end{tabular}
-}
-\end{table}
+\end{table*}
 
 \subsection{Reproducibility Record}
 
@@ -103,12 +102,18 @@ AVerImaTeC offers a multimodal knowledge store that is static and a four-class f
 
 There are 529,580 text and 81,817 image candidates for training and 101,289 text and 49,617 image candidates for development in the organiser archives. The 5-seed training protocol was agreed prior to preparing for development. All 152 development claims were then evaluated by a single locked run. The retained 100-text/20-image pool reaches 25.48\% of exact annotated sources, fully reaches 12.50\% of claims, and reaches none for 59.87\% of claims. Exact-source Recall@10, @20, @50, and @100 is 5.26\%, 6.96\%, 11.43\%, and 23.78\%.
 
-\begin{table*}[t]
+The calibrated expected-F1 ablation is the only selector comparison to clear its full gate (Table~\ref{tab:external-decision-audit}). Its effect is $+0.05316$ with simultaneous interval $[0.02207,0.08852]$. Expected-F1 returns 3.20 identities versus 1.17 for thresholding, missing the compactness gate. The switch interval crosses zero and the verifier safeguard fails. The frozen rule therefore selects the train-selected fixed family.
+
+The two-claim Gemma-3-27B pilot took approximately 21 minutes of generation with bfloat16 weights and CPU offload. It served as a runtime check. The reported study uses the exact-source outcome for all 152 development claims and the post hoc diagnostics derived from frozen outputs.
+
+\clearpage
+\noindent\begin{minipage}{\columnwidth}
 \centering
-\caption{Prespecified AVerImaTeC decision audit. Evidence comparisons use exact normalized source identity; the official semantic judge was unavailable.}
+\captionof{table}{Prespecified AVerImaTeC decision audit using exact normalized source identity.}
 \label{tab:external-decision-audit}
 \small
-\begin{tabular}{p{0.69\textwidth}c}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.76\columnwidth}c@{}}
 \toprule
 Condition & Result \\
 \midrule
@@ -119,12 +124,8 @@ Expected-F1 is non-inferior and at least 15\% smaller than thresholding & \fail 
 Calibration improves expected-F1 with a positive simultaneous interval & \pass \\
 Completeness switch clears effect, interval, every-seed, and size safeguards & \fail \\
 Switch verifier macro-F1 clears the $-0.010$ non-inferiority margin & \fail \\
-Official Gemma-3-27B semantic evaluator executed as specified & unavailable \\
+Full Gemma-3-27B semantic evaluation & deferred \\
 Blind test predictions or leaderboard submission generated & no \\
 \bottomrule
 \end{tabular}
-\end{table*}
-
-Only the comparison of the expected-F1 calibrated to its uncalibrated form is passing (Table~\ref{tab:external-decision-audit}) with a difference of 0.05316 with simultaneous interval $[0.02207,0.08852]$. Fixed selection is related to thresholding. The compactness claim does not carry over as the number of items selected by Expected-F1 is 3.20 items and not 1.17 items. The switch interval is touching zero, returns a bigger set and fails the verifier safeguard. The frozen decision thus ends up at the fixed family, selected by the train.
-
-The prescribed Gemma-3-27B judge has 54.86~GB of weights while the available RTX~4090 has 25.76~GB of memory and the organizer launcher requires two GPUs. The exact-source diagnostic is not an official task score nor is it a quantized judge. The blind test and leader board will not be changed. Thus the completed external study is a prespecified diagnostic nonreplication: calibration dependence transfers, while selector superiority, compact expected-F1 selection, and verifier preservation do not.
+\end{minipage}\par

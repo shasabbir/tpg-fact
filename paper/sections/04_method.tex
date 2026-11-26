@@ -50,23 +50,23 @@ The separation allows the locked validation result to not be selected by a calib
 
 The only operation that differs is shown in Figure~\ref{fig:policy-decoding}: the mapping from a single shared calibrated ranking to an evidence set.
 
-\begin{figure}[t]
+\begin{figure*}[t]
     \centering
-    \resizebox{\columnwidth}{!}{\input{figures/policy_decoding}}
-    \caption{Decision policies for the same calibrated ranking. Fixed top-5 uses one global size; thresholding uses an absolute cutoff; learned count predicts the size; expected-F1 evaluates all prefixes and returns the shortest utility-maximizing prefix. The numbers shown are not measurements, but represent the process.}
+    \includegraphics[width=0.76\textwidth]{policy_decoding.pdf}
+    \caption{Decision policies for the same calibrated ranking. Fixed top-5 uses one global size; thresholding uses an absolute cutoff; learned count predicts the size; expected-F1 evaluates all prefixes and returns the shortest utility-maximizing prefix. Values are illustrative}
     \label{fig:policy-decoding}
-\end{figure}
+\end{figure*}
 
-\paragraph{Fixed top-$k$.}
+\subsubsection{\texorpdfstring{Fixed top-$k$}{Fixed top-k}}
 We tune $k \in \{1,2,3,5,10,20,40,60\}$ and select the top $k$ candidates. The control that is created is top-5.
 
-\paragraph{Calibrated threshold.}
+\subsubsection{Calibrated threshold}
 The selector can be used to return all items with $p_{qi} \geq \tau$ (in the standard packet size). The threshold is selected from $\{0.1, \ldots, 0.9\}$.
 
-\paragraph{Learned count.}
+\subsubsection{Learned count}
 A count model is used to predict the number of evidence items and the prefix with the corresponding probability is returned.
 
-\paragraph{Expected-F1 decoding.}
+\subsubsection{Expected-F1 decoding}
 Ranking of the candidates is done by using calibrated probability. A dynamic program exactly computes the expected F1 for each prefix length $k$ under independent Bernoulli membership variables. The selected size is
 \begin{equation}
 k_q^*=\arg\max_{0\leq k\leq 60}

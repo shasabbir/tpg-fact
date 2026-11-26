@@ -44,6 +44,7 @@ def main() -> None:
             "ytick.labelsize": 8,
             "axes.spines.top": False,
             "axes.spines.right": False,
+            "pdf.fonttype": 42,
         }
     )
     figure, axes = plt.subplots(1, 3, figsize=(11.2, 3.25), constrained_layout=True)
@@ -68,7 +69,7 @@ def main() -> None:
     axes[0].set_ylim(0, 30)
     axes[0].grid(axis="y", alpha=0.22, linewidth=0.6)
     axes[0].legend(frameon=False, loc="upper left")
-    axes[0].set_title("A  Reachability before selection", loc="left", fontweight="bold")
+    axes[0].set_title("(a) Reachability before selection", loc="left", fontweight="bold")
 
     # B: evidence F1 versus review-set size.
     policy_style = {
@@ -109,7 +110,7 @@ def main() -> None:
     axes[1].set_xlim(0.4, 10.5)
     axes[1].set_ylim(0.04, 0.112)
     axes[1].grid(alpha=0.22, linewidth=0.6)
-    axes[1].set_title("B  Quality--size trade-off", loc="left", fontweight="bold")
+    axes[1].set_title("(b) Quality–size trade-off", loc="left", fontweight="bold")
 
     # C: selector and verifier paired effects.
     comparison_rows = [
@@ -151,7 +152,7 @@ def main() -> None:
     axes[2].set_xlabel("Paired effect")
     axes[2].set_xlim(-0.045, 0.095)
     axes[2].grid(axis="x", alpha=0.22, linewidth=0.6)
-    axes[2].set_title("C  Prespecified effects", loc="left", fontweight="bold")
+    axes[2].set_title("(c) Prespecified effects", loc="left", fontweight="bold")
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     figure.savefig(args.output, bbox_inches="tight")
